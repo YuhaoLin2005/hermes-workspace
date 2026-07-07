@@ -34,7 +34,7 @@ causal feedback      ← growth-log → quality-gate → flag → regenerate sel
     ↑_____________________________________________________________↓
 ```
 
-**Four layers. Five-step closed loop. 4/5 steps mechanized.**
+**Four layers. Five-step closed loop. 4/5 steps automated.**
 
 ---
 
