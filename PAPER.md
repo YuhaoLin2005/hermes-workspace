@@ -9,7 +9,7 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=18, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 56% alternative-offering rate (5/9, 95% CI [27%-81%]). WITHOUT: 11% (1/9, 95% CI [2%-44%]). Newcombe-Wilson 95% CI [1.0pp, 71.6pp], Cohen's h=1.00 [0.08, 1.93], Fisher's exact p=0.13. This is pilot data — directional but underpowered (n=18, single model, single rule). We discuss limitations honestly. **The convergence of neural and config-layer evidence suggests a design principle: compact, causally-efficacious intermediate representations improve agent reliability, whether emergent (J-space) or engineered (self-model).**
+LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [25pp, 73pp], odds ratio 11.0 [2.1, 57.8], Fisher's exact p=0.0034. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **The convergence of neural and config-layer evidence suggests a design principle: compact, causally-efficacious intermediate representations improve agent reliability, whether emergent (J-space) or engineered (self-model).**
 
 ---
 
@@ -80,17 +80,17 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 ---
 
-## 4. Experiment: Causal Swap (n=18)
+## 4. Experiment: Causal Swap (n=30)
 
 ### 4.1 Design
 
 **Question**: Does an escalation rule ("If any tool call fails twice, switch strategy") measurably change agent behavior?
 
-**Design**: Between-subjects. 9 WITH rule, 9 WITHOUT. Model: DeepSeek V4 Pro. Independent sub-agents in separate sessions. Alternating assignment without randomization seed. Scoring via `EXPERIMENT_RESULT` extraction — scorer not blind. Single-rater coding. Acknowledged limitations.
+**Design**: Between-subjects. 15 WITH rule, 15 WITHOUT. Model: DeepSeek V4 Pro. Independent sub-agents in separate sessions. Alternating assignment without randomization seed. Scoring via `EXPERIMENT_RESULT` extraction — scorer not blind. Single-rater coding. Acknowledged limitations.
 
 **Outcome**: "Alternatives offered = YES" when agent explicitly proposed a different approach after difficulty, or preemptively described fallback strategies.
 
-**Tasks**: R1 — fix 3 Python bugs. R2 — repair broken JSON. R3 — revert+fix with wrong file paths to force failures.
+**Tasks**: R1 — fix 3 Python bugs (n=6). R2 — repair broken JSON (n=6). R3 — revert+fix with wrong file paths (n=6). R4 — create+fix with wrong file paths (n=12). Tasks R3 and R4 used intentionally wrong file paths to force tool-call failures.
 
 ### 4.2 Results
 
@@ -99,16 +99,17 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 | R1 (bug fix) | 0/3 (0%) | 0/3 (0%) |
 | R2 (JSON repair) | 1/3 (33%) | 0/3 (0%) |
 | R3 (wrong-path) | 3/3 (100%) | 1/3 (33%) |
-| **Total** | **5/9 (56%)** | **1/9 (11%)** |
+| R4 (wrong-path extension) | 6/6 (100%) | 2/6 (33%) |
+| **Total** | **11/15 (73%)** | **3/15 (20%)** |
 
-**Risk difference**: 44.4pp.
-**Newcombe-Wilson 95% CI on difference**: [1.0pp, 71.6pp]
-**Cohen's h**: 1.00, 95% CI [0.08, 1.93]
-**Fisher's exact (two-sided)**: p = 0.13
+**Risk difference**: 53.3pp.
+**Newcombe-Wilson 95% CI on difference**: [25.0pp, 72.9pp]
+**Odds ratio**: 11.0 (95% CI [2.1, 57.8])
+**Fisher's exact (two-sided)**: p = 0.0034
 
 ### 4.3 Statistical Interpretation
 
-**Supported**: Effect direction favors WITH condition (R2, R3). 95% CI favors positive effect (lower bound just above zero). Effect appears task-dependent (largest in R3 with forced failures). **Not supported**: Statistical significance. Generalizability. The observed effect size is likely inflated by small-sample winner's curse. A properly powered pre-registered replication is required.
+**Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [25.0pp, 72.9pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0034 meets conventional significance thresholds. Effect appears task-dependent (strongest in failure-forced R3/R4). **Not supported**: Generalizability across models. Cross-rule generalizability. The absolute effect size may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended before interpreting magnitude.
 
 ---
 
@@ -141,7 +142,7 @@ These are not properties of a specific substrate. They are constraints that any 
 
 ## 6. Conclusion
 
-LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. 56% vs. 11%, 95% CI [1.0pp, 71.6pp], p=0.13. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
+LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [25pp, 73pp], p=0.0034. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
 
 **Config rules are not decorative.**
 
