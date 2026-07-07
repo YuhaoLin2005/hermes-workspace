@@ -9,7 +9,7 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [25pp, 73pp], odds ratio 11.0 [2.1, 57.8], Fisher's exact p=0.0034. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **The convergence of neural and config-layer evidence suggests a design principle: compact, causally-efficacious intermediate representations improve agent reliability, whether emergent (J-space) or engineered (self-model).**
+LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [18pp, 74pp], odds ratio 11.0 [2.0, 60.6], Fisher's exact two-sided p=0.0092. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **The convergence of neural and config-layer evidence suggests a design principle: compact, causally-efficacious intermediate representations improve agent reliability, whether emergent (J-space) or engineered (self-model).**
 
 ---
 
@@ -23,7 +23,7 @@ The phenomenon has been named but not yet measured at the identity layer. Rath (
 
 **Contributions:**
 1. A mechanized identity-persistence pipeline — 3 of 4 operational steps are deterministic Python scripts
-2. A causal swap experiment (n=18) testing config rule causality with transparent statistical reporting
+2. A causal swap experiment (n=30) testing config rule causality with transparent statistical reporting
 3. Honest methodological reflection — where evidence is strong and where it is weak
 
 ---
@@ -103,13 +103,13 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 | **Total** | **11/15 (73%)** | **3/15 (20%)** |
 
 **Risk difference**: 53.3pp.
-**Newcombe-Wilson 95% CI on difference**: [25.0pp, 72.9pp]
-**Odds ratio**: 11.0 (95% CI [2.1, 57.8])
-**Fisher's exact (two-sided)**: p = 0.0034
+**Newcombe-Wilson 95% CI on difference**: [17.7pp, 73.7pp]
+**Odds ratio**: 11.0 (95% CI [2.0, 60.6])
+**Fisher's exact (two-sided)**: p = 0.0092
 
 ### 4.3 Statistical Interpretation
 
-**Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [25.0pp, 72.9pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0034 meets conventional significance thresholds. Effect appears task-dependent (strongest in failure-forced R3/R4). **Not supported**: Generalizability across models. Cross-rule generalizability. The absolute effect size may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended before interpreting magnitude.
+**Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [25.0pp, 72.9pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0092 meets conventional significance thresholds (p < 0.01). Effect appears task-dependent (strongest in failure-forced R3/R4). **Not supported**: Generalizability across models. Cross-rule generalizability. The absolute effect size may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended before interpreting magnitude.
 
 ---
 
@@ -117,7 +117,7 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 ### 5.1 Limitations
 
-1. n=18, underpowered. 2. Single model. 3. Single rule. 4. No blinding, single-rater. 5. No human subjects. 6. Auto-ethnography not coded. 7. Between-subject variance. 8. Non-randomized assignment.
+1. n=30 total (15 per condition); single model; single rule. 2. No blinding, single-rater. 3. No human subjects. 4. Auto-ethnography not coded. 5. Between-subject variance. 6. Non-randomized assignment. 7. Alternating (non-randomized) group allocation.
 
 ### 5.2 Future Work: Bridging to HCI
 
@@ -125,7 +125,7 @@ A human-subjects extension (n=5-10, within-subject) would measure: (1) trust cal
 
 ### 5.3 Positioning
 
-This work introduces identity/configuration drift as a distinct axis within the agent drift literature and provides causally-grounded pilot evidence that config rules are not decorative. The observed convergence with Anthropic's J-space — compact, causally-efficacious intermediate representations improving agent reliability — suggests a design principle that operates across abstraction layers (neural and configurational). However, we emphasize the quality gap: J-space was verified with causal ablation (removing it collapses reasoning), replicated on a different model architecture by an independent lab, and supported by a mechanistic theory (Jacobian lens). Our experiment is a pilot (n=18, p=0.13, single model, single rule) — directionally informative but not confirmatory. A properly powered replication (n≥80/group, multi-model, multi-rule) is required before interpreting the magnitude.
+This work introduces identity/configuration drift as a distinct axis within the agent drift literature and provides causally-grounded pilot evidence that config rules are not decorative. The observed convergence with Anthropic's J-space — compact, causally-efficacious intermediate representations improving agent reliability — suggests a design principle that operates across abstraction layers (neural and configurational). However, we emphasize the quality gap: J-space was verified with causal ablation (removing it collapses reasoning), replicated on a different model architecture by an independent lab, and supported by a mechanistic theory (Jacobian lens). Our experiment (n=30, p=0.0092, single model, single rule) provides statistically significant evidence but remains limited in scope. A properly powered replication (multi-model, multi-rule, pre-registered) is required before interpreting the magnitude broadly.
 
 ### 5.4 Design Principle: The Causal Bottleneck
 
@@ -142,7 +142,7 @@ These are not properties of a specific substrate. They are constraints that any 
 
 ## 6. Conclusion
 
-LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [25pp, 73pp], p=0.0034. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
+LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [18pp, 74pp], p=0.0092. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
 
 **Config rules are not decorative.**
 
@@ -152,9 +152,9 @@ LLM agents change over time. Config rules shape that change — measurably, dire
 
 [1] Rath, A. "Agent Drift: Quantifying Behavioral Degradation in Multi-Agent LLM Systems." arXiv:2601.04170, Jan 2026.
 
-[2] TACT. "Mitigating Agent Drift in Coding Agents via Activation Steering." arXiv:2605.05980, May 2026.
+[2] TACT. "Mitigating Overthinking and Overacting in Coding Agents via Activation Steering." arXiv:2605.05980, May 2026.
 
-[3] "Measuring What Persists: Identity Drift Under Long-Context Collapse." arXiv:2606.21843, Jun 2026.
+[3] "Measuring What Persists: Conditioning Mechanisms and a Geometric Framework for AI Agent Identity." arXiv:2606.21843, Jun 2026.
 
 [4] Anthropic. "A Global Workspace in Language Models." Jul 2026.
 
