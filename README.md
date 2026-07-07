@@ -121,7 +121,7 @@ Python + markdown + API access. No ML training. No weight access. No research la
 
 林宇浩，FAFU空间信息与数字技术大三学生。独立构建此系统，早于J-space论文发表。2026暑期实习寻找中。
 
-**Contact:** [GitHub Issues](https://github.com/YuhaoLin2005/hermes-workspace/issues)
+**Contact:** lin_yuhao2005@163.com
 
 ---
 
