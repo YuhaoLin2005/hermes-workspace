@@ -1,11 +1,8 @@
 # Hermes Workspace
 
-## 基于全局工作空间理论的AI自指配置系统 —— 在提示词工程中实现，而非神经网络权重
-
-> 与Anthropic 2026年7月发布的J-space论文结构平行收敛（独立发现，非衍生）。
-> 运行于DeepSeek V4 Pro。因果干预实验已验证（n=4）。
-
-⚠️ 本项目由一名大三学生独立构建，非研究实验室产出。架构设计早于J-space论文发表。
+> I ran 50 AI coding sessions and noticed: after ~20 turns, the model starts drifting. So I built a system that detects staleness, triggers regeneration, and keeps behavior consistent — then tested whether it actually works.
+>
+> Causal swap experiment verified (n=4). Independently converged on the same architecture as Anthropic's J-space paper (July 2026). Runs on DeepSeek V4 Pro. MIT.
 
 ---
 
