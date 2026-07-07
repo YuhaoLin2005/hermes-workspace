@@ -11,7 +11,7 @@ from datetime import date, timedelta, datetime, timezone
 
 HOME = os.path.expanduser("~")
 CLAUDE = os.path.join(HOME, ".claude")
-MEMORY = os.path.join(CLAUDE, "projects", "C--Users-86131", "memory")
+MEMORY = os.path.join(CLAUDE, "projects", "hermes-workspace", "memory")
 STALE_FLAG = os.path.join(MEMORY, ".self-model-stale")
 SELF_MODEL = os.path.join(MEMORY, "self-model.md")
 GROWTH_LOG_DIR = os.path.join(MEMORY, "growth-log")

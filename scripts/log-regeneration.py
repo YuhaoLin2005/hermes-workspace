@@ -24,7 +24,7 @@ import os, sys, json, argparse, re
 from datetime import datetime, timezone
 
 HOME = os.path.expanduser("~")
-MEMORY = os.path.join(HOME, ".claude", "projects", "C--Users-86131", "memory")
+MEMORY = os.path.join(HOME, ".claude", "projects", "hermes-workspace", "memory")
 REGENERATION_LOG = os.path.join(MEMORY, ".self-model-regeneration.jsonl")
 STALE_FLAG = os.path.join(MEMORY, ".self-model-stale")
 SELF_MODEL = os.path.join(MEMORY, "self-model.md")
