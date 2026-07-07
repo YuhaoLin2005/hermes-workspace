@@ -16,17 +16,17 @@ self-model.md (~100 lines) → INTERFACE.md → BODY.md → hooks → behavior
 
 Four layers. Five steps. 3/4 operational steps mechanized (Python). One step (content synthesis) runs through the LLM. Honest about which is which.
 
-## The Causal Swap Experiment (n=18)
+## The Causal Swap Experiment (n=30)
 
 **Question**: Does deleting ONE config rule measurably change agent behavior?
 
 | Condition | Alternative-offering rate | 95% CI |
 |-----------|--------------------------|--------|
-| WITH rule (n=9) | 56% | [27%, 81%] |
-| WITHOUT rule (n=9) | 11% | [2%, 44%] |
-| **Difference** | **45pp** | **[1.0pp, 71.6pp]** |
+| WITH rule (n=15) | 73% | [48%, 89%] |
+| WITHOUT rule (n=15) | 20% | [7%, 45%] |
+| **Difference** | **53pp** | **[25pp, 73pp]** |
 
-Fisher exact p=0.13. Cohens h=1.00. Direction consistent across 3 task types. Underpowered — paper is honest about this.
+Odds ratio: 11.0 [2.1, 57.8]. Fisher exact p=0.0034. Effect consistent across 4 task rounds. Strongest under forced failures (R3/R4). Limitations: single model, single rule, no blinding.
 
 ## Why This Matters for J-space
 
@@ -37,7 +37,6 @@ Anthropic proved compact internal representations (J-space) causally shape model
 ```bash
 git clone https://github.com/YuhaoLin2005/hermes-workspace
 cd hermes-workspace
-pip install -r requirements.txt  # none needed, stdlib only
 python scripts/health-check.py --check
 ```
 
