@@ -117,9 +117,9 @@ Python + markdown + API access. No ML training. No weight access. No research la
 
 ---
 
-## 关于作者 / About the Author
+## About the Author
 
-林宇浩，FAFU空间信息与数字技术大三学生。独立构建此系统，早于J-space论文发表。2026暑期实习寻找中。
+Lin Yuhao, third-year student at FAFU (Spatial Information & Digital Technology). Built this system independently before the J-space paper was published. Seeking summer 2026 internship.
 
 **Contact:** lin_yuhao2005@163.com
 
