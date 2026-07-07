@@ -114,13 +114,18 @@ Python + markdown + API access. No ML training. No weight access. No research la
 
 ---
 
+## Writing & Media
+
+- **DEV.to** — [18 posts on AI agents, config engineering, prompt architecture](https://dev.to/yuhaolin2005)
+- **掘金 (Chinese)** — [J-space 复现](https://juejin.cn/post/7659251094817341490) · [因果实验方法论](https://juejin.cn/spost/7659671273129705522) · [奇异环架构](https://juejin.cn/spost/7659252393879748617)
+- **Reddit** — [r/ClaudeAI: config causality test](https://reddit.com/r/ClaudeAI/comments/1upy87x/) · [r/DeepSeek: same experiment, DeepSeek angle](https://reddit.com/r/DeepSeek/)
+- **GitHub Profile** — [github.com/YuhaoLin2005](https://github.com/YuhaoLin2005)
+
 ## About the Author
 
 Lin Yuhao, third-year student at FAFU (Spatial Information & Digital Technology). Built this system independently before the J-space paper was published. Seeking summer 2026 internship.
 
 **Contact:** lin_yuhao2005@163.com
-
----
 
 ## License
 
