@@ -67,6 +67,19 @@ Detailed experiment breakdown: [EXPERIMENT.md](EXPERIMENT.md)
 
 ---
 
+## Open Source Impact
+
+Core modules from this system have been validated through open-source contribution:
+
+| Project | Contribution | Status |
+|---------|-------------|--------|
+| **ECC** (200K+★) | `delivery-gate` quality gating module | ✅ Merged via [PR #2377](https://github.com/affaan-m/ECC/pull/2377) & [#2378](https://github.com/affaan-m/ECC/pull/2378) by maintainer **affaan-m** |
+| **ECC** (200K+★) | Zero-config plugin loading proposal | 📝 [PR #2365](https://github.com/affaan-m/ECC/pull/2365) — reviewed by core maintainer |
+| **claude-skills** | Adversarial self-audit system | ✅ Co-author credit — concept merged, implementation rewritten by maintainer |
+| **Anthropic Skills** | Agent identity drift detection | 📝 [PR submitted](https://github.com/anthropics/skills) — maintainer: "fills a real gap", "The PR is solid"
+
+---
+
 ## J-space: Convergent Evolution
 
 After Anthropic published "A Global Workspace in Language Models" (July 2026), I mapped my architecture onto their findings:
@@ -102,6 +115,29 @@ cp workspace/settings.example.json ~/.claude/settings.json
 ```
 
 **Requirements:** Python 3.10+, any LLM with API access. Tested on DeepSeek V4 Pro.
+
+Example: wire the hooks into your Claude Code config
+```bash
+cp workspace/settings.example.json ~/.claude/settings.json
+# Edit INTERFACE.md to match your workflow
+# Run health-check to verify the pipeline
+python scripts/health-check.py --check
+```
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for full design rationale and component details.
+
+---
+
+## Related Reading
+
+**English (DEV.to):**
+- [I Built a Self-Referential AI System. Then Anthropic Discovered the Same Architecture in Claude.](https://dev.to/yuhaolin2005/i-built-a-self-referential-ai-system-then-anthropic-discovered-the-same-architecture-in-claude-3m73)
+- [How I Built a File-Timestamp-Based Feedback Loop to Enforce AI Output Quality](https://dev.to/yuhaolin2005/how-i-built-a-file-timestamp-based-feedback-loop-to-enforce-ai-output-quality-1ibc)
+
+**中文（掘金）:**
+- [我删掉了一行配置，AI 的行为变了——n=30 因果实验全记录](https://juejin.cn/post/7659671273129705522)
+- [在DeepSeek上复现了Anthropic的J-space架构](https://juejin.cn/post/7659251094817341490)
+- [我用三个 Python 脚本，让 AI 学会了"记得自己是谁"](https://juejin.cn/post/7659252393879748617)
 
 ---
 
