@@ -1,4 +1,4 @@
-# Agent Identity Drift: Causal Evidence That Config Rules Shape LLM Agent Behavior
+# Agent Identity Drift: Preliminary Evidence That Config Rules Shape LLM Agent Behavior
 
 **Authors**: Yuhao Lin (FAFU)
 **Status**: Pre-print, July 2026
@@ -113,13 +113,11 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 **Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [17.7pp, 73.7pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0092 meets p < 0.01 threshold. Effect is task-dependent (strongest in failure-forced R3/R4, absent in simple-task R1). **Not supported**: Generalizability across models. Cross-rule generalizability. Effect magnitude may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended.
 
-### 4.4 Power Analysis and Sample Size
+### 4.4 Statistical Power and Sample Size Recommendations
 
-**Post-hoc power**: With n=15 per group and observed effect size (53pp risk difference), two-sided Fisher's exact test achieves approximately 72% power at α=0.05. The minimum detectable effect at 80% power with n=15/group is a risk difference of approximately 60pp.
+**For a confirmatory study** (80% power, α=0.05, two-sided Fisher's exact): if the observed 53pp effect is real, n≥22 per group suffices. For a more conservative 35pp effect: n≥49 per group. A future pre-registered replication should target n≥50/group for adequate power across plausible effect sizes.
 
-**For a confirmatory study** (80% power, α=0.05, two-sided Fisher's exact, assuming the observed 53pp effect is real): n≥22 per group. To detect a more conservative 35pp difference: n≥49 per group. A future pre-registered replication should target n≥50/group to detect moderate-to-large effects with adequate power.
-
-**Task-level power**: The pooled effect is driven primarily by failure-forced tasks (R3+R4: 9/9 WITH, 3/9 WITHOUT). Post-hoc power for the R3+R4 stratum alone exceeds 95%. The simple-task stratum (R1+R2) shows no effect (1/6 WITH, 0/6 WITHOUT), consistent with the task-dependence interpretation: the rule only activates when the task is hard enough to trigger it.
+**Task-dependence**: The effect is concentrated in failure-forced tasks (R3+R4: 9/9 WITH vs 3/9 WITHOUT). Simple tasks (R1+R2: 1/6 WITH vs 0/6 WITHOUT) show negligible effect, consistent with the interpretation that the rule only activates when the task is hard enough to trigger it. A confirmatory study should stratify by task difficulty and pre-specify the R3+R4 stratum as the primary analysis population.
 
 ---
 
@@ -127,7 +125,7 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 ### 5.1 Limitations
 
-1. n=30 total (15 per condition); single model; single rule. 2. No blinding, single-rater. 3. No human subjects. 4. Auto-ethnography not coded. 5. Between-subject variance. 6. Non-randomized assignment. 7. Alternating (non-randomized) group allocation.
+1. n=30 total (15 per condition); single model; single rule. 2. **Critical**: single-rater, unblinded scoring by the first author. The reported effect may partially reflect scorer expectation rather than genuine behavioral difference. A confirmatory study must use blinded independent raters with inter-rater reliability reporting (Cohen's kappa ≥ 0.7). 3. No human subjects. 4. Auto-ethnography not systematically coded. 5. Between-subject variance. 6. Alternating (non-randomized) group allocation. 7. Post-hoc, not pre-registered.
 
 ### 5.2 Future Work: Bridging to HCI
 
@@ -139,14 +137,14 @@ This work introduces identity/configuration drift as a distinct axis within the 
 
 ### 5.4 Design Principle: The Causal Bottleneck
 
-Despite the rigor gap, the convergence is structurally informative. Four properties appear necessary for an intermediate representation to causally shape agent behavior:
+Four properties are associated with causally-efficacious intermediate representations in both the neural and config layers (observed, not proven necessary):
 
 1. **Compactness** — J-space uses <10% of activations; self-model.md is ~100 lines. Small control surfaces are inspectable and modifiable.
 2. **Causal placement** — Both sit on the information path between input and output (J-space: downstream layers read from it; self-model: concatenated into context before inference).
 3. **Structure** — J-space has metric geometry (concepts as directions); self-model has explicit graph structure (files → sections → rules).
 4. **Attended to** — J-space is causally efficacious because downstream layers actually read from it; self-model works because the LLM attends to context-window tokens.
 
-These are not properties of a specific substrate. They are constraints that any agent identity system — neural, file-system, or otherwise — must satisfy to be causally effective. The independent convergence of Anthropic's emergent solution and our engineered solution on these four constraints suggests they may be necessary (though not sufficient) conditions for agent identity persistence.
+These are not properties of a specific substrate. They are patterns observed in two independent systems at different abstraction layers. Whether they represent necessary conditions for agent identity persistence, or merely correlated features, requires formal testing beyond the scope of this paper.
 
 ---
 
