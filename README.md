@@ -1,8 +1,10 @@
 # Hermes Workspace
 
-> **Causal swap experiment (n=30): config rules measurably shape LLM agent behavior.**
-> WITH rule: 73% alternative-offering rate vs. WITHOUT: 20%. Δ=53pp, OR=11.0, Fisher exact p=0.0092.
-> Independently converged on same functional pattern as Anthropic's J-space (July 2026). DeepSeek V4 Pro. MIT.
+> **LLMs drift in long sessions.** They forget rules, relax quality standards, lose track of who they are.
+> This project gives them a cognitive architecture — so they remember.
+>
+> Independently converged on same functional pattern as Anthropic's J-space (July 2026).
+> n=30 causal experiment: p=0.0092, OR=11.0. DeepSeek V4 Pro. MIT.
 
 [![J-space Convergent Evolution](https://img.shields.io/badge/J--space-convergent_evolution-blue)](https://transformer-circuits.pub/2026/j-space)
 [![Experiment](https://img.shields.io/badge/experiment-n%3D30%20p%3D0.0092-green)](PAPER.md)
