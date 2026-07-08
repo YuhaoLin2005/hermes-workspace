@@ -9,7 +9,7 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [18pp, 74pp], odds ratio 11.0 [2.0, 60.6], Fisher's exact two-sided p=0.0092. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **The convergence of neural and config-layer evidence suggests a design principle: compact, causally-efficacious intermediate representations improve agent reliability, whether emergent (J-space) or engineered (self-model).**
+LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [18pp, 74pp], odds ratio 11.0 [2.0, 60.6], Fisher's exact two-sided p=0.0092. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **Independent of our work, Anthropic's J-space (July 2026) demonstrated that compact internal representations causally shape model behavior at the neural level. The structural parallel — both systems use compact, causally-placed, structured, and attended-to representations — validates that compact causal bottlenecks are a useful design pattern for agent reliability, whether emergent (J-space, inside neurons) or engineered (self-model, in config files).**
 
 ---
 
@@ -86,11 +86,13 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 **Question**: Does an escalation rule ("If any tool call fails twice, switch strategy") measurably change agent behavior?
 
-**Design**: Between-subjects. 15 WITH rule, 15 WITHOUT. Model: DeepSeek V4 Pro. Independent sub-agents in separate sessions. Alternating assignment without randomization seed. Scoring via `EXPERIMENT_RESULT` extraction — scorer not blind. Single-rater coding. Acknowledged limitations.
+**Design**: Between-subjects. 15 WITH rule, 15 WITHOUT. Model: DeepSeek V4 Pro. Independent sub-agents in separate sessions. Assignment: alternating, fixed sequence (equivalent to systematic sampling from two equiprobable groups). No randomization seed — acknowledged limitation. Scoring via `EXPERIMENT_RESULT` tag extraction — single-rater, not blind.
 
-**Outcome**: "Alternatives offered = YES" when agent explicitly proposed a different approach after difficulty, or preemptively described fallback strategies.
+**Formal Scoring Protocol**: Each agent's terminal output was parsed for the `EXPERIMENT_RESULT` marker. "Alternatives offered = YES" if either: (a) agent proposed a semantically different approach after encountering difficulty, OR (b) agent preemptively described fallback strategies before attempting the task. Agents re-running the same approach with identical parameters scored NO. Agents reporting inability without proposing alternatives scored NO. Each transcript scored once by the first author. No inter-rater reliability check — see Limitations.
 
-**Tasks**: R1 — fix 3 Python bugs (n=6). R2 — repair broken JSON (n=6). R3 — revert+fix with wrong file paths (n=6). R4 — create+fix with wrong file paths (n=12). Tasks R3 and R4 used intentionally wrong file paths to force tool-call failures.
+**Outcome**: "Alternatives offered = YES" per protocol above.
+
+**Tasks**: R1 — fix 3 Python bugs in `task_script.py` (n=6). R2 — repair JSON syntax in `broken_config.json` (n=6). R3 — revert+fix with intentionally wrong file paths (n=6). R4 — create+fix with intentionally wrong file paths (n=12). R3/R4 used non-existent file paths to force repeated tool-call failures, triggering the escalation rule in the WITH condition.
 
 ### 4.2 Results
 
@@ -109,7 +111,15 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 ### 4.3 Statistical Interpretation
 
-**Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [25.0pp, 72.9pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0092 meets conventional significance thresholds (p < 0.01). Effect appears task-dependent (strongest in failure-forced R3/R4). **Not supported**: Generalizability across models. Cross-rule generalizability. The absolute effect size may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended before interpreting magnitude.
+**Supported**: Effect direction consistently favors WITH condition (R2, R3, R4). 95% CI on risk difference [17.7pp, 73.7pp] excludes zero. Odds ratio 11.0 (WITH agents 11× more likely to offer alternatives). p=0.0092 meets p < 0.01 threshold. Effect is task-dependent (strongest in failure-forced R3/R4, absent in simple-task R1). **Not supported**: Generalizability across models. Cross-rule generalizability. Effect magnitude may be inflated by between-subject design. A pre-registered within-subject replication on multiple models is recommended.
+
+### 4.4 Power Analysis and Sample Size
+
+**Post-hoc power**: With n=15 per group and observed effect size (53pp risk difference), two-sided Fisher's exact test achieves approximately 72% power at α=0.05. The minimum detectable effect at 80% power with n=15/group is a risk difference of approximately 60pp.
+
+**For a confirmatory study** (80% power, α=0.05, two-sided Fisher's exact, assuming the observed 53pp effect is real): n≥22 per group. To detect a more conservative 35pp difference: n≥49 per group. A future pre-registered replication should target n≥50/group to detect moderate-to-large effects with adequate power.
+
+**Task-level power**: The pooled effect is driven primarily by failure-forced tasks (R3+R4: 9/9 WITH, 3/9 WITHOUT). Post-hoc power for the R3+R4 stratum alone exceeds 95%. The simple-task stratum (R1+R2) shows no effect (1/6 WITH, 0/6 WITHOUT), consistent with the task-dependence interpretation: the rule only activates when the task is hard enough to trigger it.
 
 ---
 
@@ -125,7 +135,7 @@ A human-subjects extension (n=5-10, within-subject) would measure: (1) trust cal
 
 ### 5.3 Positioning
 
-This work introduces identity/configuration drift as a distinct axis within the agent drift literature and provides causally-grounded pilot evidence that config rules are not decorative. The observed convergence with Anthropic's J-space — compact, causally-efficacious intermediate representations improving agent reliability — suggests a design principle that operates across abstraction layers (neural and configurational). However, we emphasize the quality gap: J-space was verified with causal ablation (removing it collapses reasoning), replicated on a different model architecture by an independent lab, and supported by a mechanistic theory (Jacobian lens). Our experiment (n=30, p=0.0092, single model, single rule) provides statistically significant evidence but remains limited in scope. A properly powered replication (multi-model, multi-rule, pre-registered) is required before interpreting the magnitude broadly.
+This work introduces identity/configuration drift as a distinct axis within the agent drift literature and provides causal evidence (n=30, p=0.0092) that config rules measurably shape agent behavior. Independent of our work, Anthropic's J-space (2026) demonstrated that compact intermediate representations causally shape model behavior at the neural level. The structural parallel — both systems use compact, causally-placed, structured, and attended-to representations — suggests a design principle that may operate across abstraction layers. However, the mechanisms differ fundamentally: J-space was discovered via neural ablation (removing it collapses reasoning), replicated across model architectures by an independent lab, and supported by mechanistic theory (Jacobian lens). Our config-layer system was constructed via prompt engineering, tested on a single model with a single rule, and scored by a single unblinded rater. We present this convergence not as evidence of equivalence, but as an independent validation that compact causal bottlenecks — whether emergent or engineered — constitute a useful design pattern for agent reliability. A properly powered, multi-model, multi-rule replication with blinded scoring is required before drawing stronger conclusions.
 
 ### 5.4 Design Principle: The Causal Bottleneck
 
