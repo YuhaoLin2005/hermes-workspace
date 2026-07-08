@@ -9,7 +9,7 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [18pp, 74pp], odds ratio 11.0 [2.0, 60.6], Fisher's exact two-sided p=0.0092. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **Independent of our work, Anthropic's J-space (July 2026) demonstrated that compact internal representations causally shape model behavior at the neural level. The structural parallel — both systems use compact, causally-placed, structured, and attended-to representations — validates that compact causal bottlenecks are a useful design pattern for agent reliability, whether emergent (J-space, inside neurons) or engineered (self-model, in config files).**
+LLM-based coding agents degrade over extended use. While Rath (2026) formalized behavioral drift in multi-agent systems and TACT (2026) proposed neural-level mitigation, identity-level drift at the configuration layer remains unmeasured. Independently, Anthropic's J-space paper (July 2026) discovered that compact internal representations causally shape model behavior — a neural workspace that emerged spontaneously during training. We present evidence that the same functional pattern appears at the configuration layer: (1) a mechanized identity-persistence pipeline (3/4 operational steps deterministic Python scripts) whose compact self-model (~100 lines) serves as a file-system-level workspace, and (2) a causal swap experiment (n=30, between-subjects, DeepSeek V4 Pro) testing whether a single config rule measurably shapes agent behavior. WITH rule: 73% alternative-offering rate (11/15, 95% CI [48%-89%]). WITHOUT: 20% (3/15, 95% CI [7%-45%]). Risk difference 53pp, Newcombe-Wilson 95% CI [17.7pp, 73.7pp], odds ratio 11.0 [2.0, 60.6], Fisher's exact two-sided p=0.0092. The config rule causally increases alternative-offering behavior — the effect is statistically significant and task-dependent (strongest under forced failures). We discuss limitations honestly and propose a human-subjects extension. **Independent of our work, Anthropic's J-space (July 2026) demonstrated that compact internal representations causally shape model behavior at the neural level. The structural parallel — both systems use compact, causally-placed, structured, and attended-to representations — validates that compact causal bottlenecks are a useful design pattern for agent reliability, whether emergent (J-space, inside neurons) or engineered (self-model, in config files).**
 
 ---
 
@@ -88,7 +88,7 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 **Design**: Between-subjects. 15 WITH rule, 15 WITHOUT. Model: DeepSeek V4 Pro. Independent sub-agents in separate sessions. Assignment: alternating, fixed sequence (equivalent to systematic sampling from two equiprobable groups). No randomization seed — acknowledged limitation. Scoring via `EXPERIMENT_RESULT` tag extraction — single-rater, not blind.
 
-**Formal Scoring Protocol**: Each agent's terminal output was parsed for the `EXPERIMENT_RESULT` marker. "Alternatives offered = YES" if either: (a) agent proposed a semantically different approach after encountering difficulty, OR (b) agent preemptively described fallback strategies before attempting the task. Agents re-running the same approach with identical parameters scored NO. Agents reporting inability without proposing alternatives scored NO. Each transcript scored once by the first author. No inter-rater reliability check — see Limitations.
+**Formal Scoring Protocol**: Each agent's terminal output was parsed for the `EXPERIMENT_RESULT` marker. "Alternatives offered = YES" if either: (a) agent proposed a different tool or workflow after failed attempts (e.g., switching from Write to Bash, changing from file-edit to file-create), OR (b) agent preemptively described a fallback tool/workflow before the first attempt. "Semantically different" was operationalized as: different tool category (Write/Bash/Glob/Grep), not parameter variations within the same tool. Agents re-running the same tool with identical parameters scored NO. Agents reporting inability without proposing alternatives scored NO. Each transcript scored once by the first author. The protocol requires subjective judgment at boundaries (particularly R2: 1/3 WITH scored YES). No inter-rater reliability check — see Limitations.
 
 **Outcome**: "Alternatives offered = YES" per protocol above.
 
@@ -106,8 +106,9 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 **Risk difference**: 53.3pp.
 **Newcombe-Wilson 95% CI on difference**: [17.7pp, 73.7pp]
-**Odds ratio**: 11.0 (95% CI [2.0, 60.6])
+**Odds ratio**: 11.0 (95% CI [2.0, 60.6], Woolf/logit method)
 **Fisher's exact (two-sided)**: p = 0.0092
+**Individual proportion Wilson 95% CIs**: WITH 11/15 [48.0%, 89.1%]; WITHOUT 3/15 [7.0%, 45.2%]
 
 ### 4.3 Statistical Interpretation
 
@@ -150,7 +151,7 @@ These are not properties of a specific substrate. They are patterns observed in 
 
 ## 6. Conclusion
 
-LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [18pp, 74pp], p=0.0092. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
+LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [17.7pp, 73.7pp], p=0.0092. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
 
 **Config rules are not decorative.**
 
