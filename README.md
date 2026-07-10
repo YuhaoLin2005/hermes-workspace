@@ -17,16 +17,17 @@ Five-layer self-configuration system:
 
 Dual-layer gate: soft process monitoring (never blocks) + hard output blocking (exit 2).
 
-## Key Results
+## What I Observed (preliminary, single-rater, unblinded)
 
-- 30 controlled trials: Fisher exact p=0.0092, OR=11.0
-- Cross-domain generalization: null (informative negative)
-- QLoRA fine-tuning: loss↓ but behavior↓ (catastrophic forgetting)
-- 8 additional treatment trials: 8/8 Cat 5
+- 30 programming tasks across 5 domains, with and without the gate system
+- Treatment group consistently produced more verifiable deliverables than baseline (same person scored both — take with salt)
+- Cross-domain tasks: no clear difference (underpowered to detect)
+- QLoRA fine-tuning experiment: loss decreased but behavioral quality collapsed — loss alone doesn't tell you if the system is working
+- 12 additional treatment trials: pattern held, but no control comparison (adding treatment-only data biases the comparison — acknowledged)
 
-## Structural Convergence
+## Research Question
 
-After 50+ refinement sessions, architecture converged to a 5-layer topology mapping onto cross-layer convergence patterns in Anthropic's J-space — independently discovered, different implementation layer.
+**Under what conditions can a self-referential AI agent system maintain configuration integrity, and what is the minimum set of mechanical checks required?** Currently exploring: file-system layer (4 gates) + neural layer (3-stage progression). Preliminary. No p-values until someone other than me scores the outputs.
 
 ## Related
 
