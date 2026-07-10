@@ -11,7 +11,7 @@
 - **ETH Zurich (arXiv 2604)**: validates "mechanical over semantic."
 - **Our niche**: self-model regeneration + claimed-vs-evidenced cognition + creation-wiring gap. No existing framework does these.
 
-## Title (Proposed v2 — post professor review)
+## Title (Proposed v2 — revised 2026-07-10)
 
 > **Mechanical Before Semantic: Self-Verifying Configuration Integrity for AI Coding Agents**
 

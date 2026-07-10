@@ -23,7 +23,7 @@ Fisher exact p=0.0092, OR=11.0. Single-rater, unblinded.
 
 ## Total: 38 trials logged. Target: n=60.
 
-## Validity Issues (professor review confirmed)
+## Validity Issues
 
 1. **Single-rater, unblinded** — self-scoring leniency bias likely
 2. **No Placebo Control** — cannot exclude "extra prompt tokens = improvement"
