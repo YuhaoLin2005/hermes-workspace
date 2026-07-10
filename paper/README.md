@@ -68,6 +68,8 @@
 
 → **[paper-experiment-expansion.md](paper-experiment-expansion.md)** — 统计效力分析、六十样本量目标、双盲方案设计
 
+→ **[../scripts/](../scripts/)** — 核心脚本源码：执行门、挂载审计、质量门、声明门、神经门第二阶段
+
 ---
 
 ## 研究现存瓶颈
