@@ -47,14 +47,14 @@ On Qwen2.5-1.5B (fits RTX 3060 6GB): train linear probes per transformer layer. 
 | File System | Did info arrive? | 4 gates deployed |
 | Neural | Did info penetrate? | v1 deployed, v2 designed, v3 roadmap |
 
-Two independent experts (AI architect + philosopher) converged on this topology.
+Two simulated perspectives (AI architecture and philosophy) converged on this topology through structured AI-assisted reasoning — noted as a pattern, not independent validation.
 
 ## Honest Status
 
 - v1: 86 lines, deployed, running
 - v2: 200 lines, written, needs API key
 - v3: design document, feasible on RTX 3060 for 1.5B models
-- 12 treatment trials this session (single-rater — I know)
+- 8 treatment trials this session (single-rater — I know)
 - 15 Prose Barrier instances mined from 33 growth-logs
 
 7 frameworks audited. None do neural-layer constraint fidelity checking. This article establishes the timestamp.

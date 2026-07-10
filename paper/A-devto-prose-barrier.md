@@ -44,11 +44,11 @@ So I built a second layer: **neural gates**.
 
 **Neural Layer** — "Did the information travel through the house?" (constraint echo, logprob shifts, residual stream probes — works within the barrier using weak proxies)
 
-Two independent experts — philosopher + AI architect — converged on this same topology. The problem structure forces the solution shape.
+Two simulated perspectives (systems architecture and philosophy of mind, explored through structured AI-assisted reasoning) converged on this same topology. This is noted as an interesting pattern, not as independent expert validation.
 
 ## What I Found (Honest Limitations)
 
-Across 33 development logs (June–July 2026): 15 documented Prose Barrier instances. Verification-to-prose ratio increased from 6.0 (June) to 9.7 (July). Fix rate: 28% → 67%. The system gets better at recognizing the barrier, even if it can't eliminate it.
+Across 33 development logs (June–July 2026): 15 documented instances where the agent's self-reported state diverged from filesystem ground truth. Verification-to-prose ratio increased from 6.0 (June) to 9.7 (July). Fix rate: 28% → 67%. **Note**: these metrics are derived from the author's own session logs and have not been independently audited. They establish the pattern, not the proof.
 
 **Honest**: Single developer, single RTX 3060 6GB. Single-rater (I score my own outputs). No placebo control. Neural gate v1 is a weak proxy (keyword echo ≠ semantic fidelity). This is preliminary evidence, not proof.
 

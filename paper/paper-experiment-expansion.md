@@ -24,7 +24,7 @@ metadata:
 
 **Conclusion**: n=60 target. At observed effect power=96.3%, even at conservative 25% delta power=83.9% ≥ 80%.
 
-## 2. Expanded Task Design (30 new tasks)
+## 2. Task Design (30 tasks from paper-task-specs.md, re-listed for expansion planning)
 
 ### Domain A: Software Engineering (10 tasks) — core domain
 1. Parse CSV and compute summary statistics in Python
