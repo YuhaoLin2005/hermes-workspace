@@ -62,7 +62,7 @@
 ### 背景材料
 
 → **[self-model.md](self-model.md)** — 系统自我认知文档 v0.10，记录 50+轮架构演进。⚠️ 此文档为 AI 辅助写成的内省记录，非客观研究报告
-→ **[paper-revision-plan-v2.md](paper-revision-plan-v2.md)** — 多轮专家审查后完整修订方案
+→ **[paper-revision-plan-v2.md](paper-revision-plan-v2.md)** — AI 模拟多领域视角交叉审查后修订方案（非独立人类专家审查）
 → **[paper-experiment-expansion.md](paper-experiment-expansion.md)** — 统计效力分析、n=60 目标、双盲方案设计
 
 ---
