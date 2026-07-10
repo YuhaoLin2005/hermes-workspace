@@ -1,55 +1,40 @@
 # Paper Materials — AI Agent Self-Verifying Configuration Integrity
 
-> 林宇浩, 大三, FAFU 空间信息. 2026-07-10.
-> For professor review.
+> 林宇浩, FAFU 空间信息 23级. 2026-07-10.
+> 给凯斌老师的补充材料——邮件里说了做了什么、卡在哪，这里是可以深入看的内容。
 
-## 给老师的阅读指引
+## 阅读指引（按你想了解的深度）
 
-**如果您只有 5 分钟** → 读这篇：
-→ **[professor-meeting-onepager.md](professor-meeting-onepager.md)** — 做了什么、发现了什么、局限在哪、想问什么
+### 5分钟：了解核心想法
+→ **[professor-meeting-onepager.md](professor-meeting-onepager.md)**
+里面是：遇到了什么问题（agent配置漂移）、做了什么（4个机械门+双层检查）、30个任务的趋势、诚实的局限（单人评分/无安慰剂/RTX3060）、想请教什么。一页纸，不展开。
 
-**如果您想了解理论框架** → 接着读：
-→ **[paper-outline-part1.md](paper-outline-part1.md)** — 论文大纲 + Part 1（文件系统层）+ Part 2（神经层）+ 竞品分析
+### 15分钟：看论文框架
+→ **[paper-outline-part1.md](paper-outline-part1.md)**
+里面是：论文大纲（Introduction→Related Work→Architecture→Experiments→Discussion→Conclusion）、Part1文件系统层的完整设计、Part2神经层的三阶段方案（v1关键词回响/v2 logprob差异/v3残差流探针）、竞品对比（HyperAgents/Ouro Loop等）、实验数据说明、已知局限和待办清单。
 
-**如果您想看数据和方法** → 再深入：
-→ [paper-methods-draft.md](paper-methods-draft.md) — 实验设计、架构、统计方法
-→ [paper-trial-results.md](paper-trial-results.md) — 12 次 treatment trial 原始数据
-→ [paper-task-specs.md](paper-task-specs.md) — 30 个任务规格（5 领域）
-→ [paper-scoring-template.md](paper-scoring-template.md) — 评分模板（5 分类 + 3 门）
+### 30分钟：看实验细节
+→ **[paper-methods-draft.md](paper-methods-draft.md)** — 架构细节、实验设计、统计方法怎么选的
+→ **[paper-trial-results.md](paper-trial-results.md)** — 12次treatment trial的原始记录，每次的任务、结果、validity caveats
+→ **[paper-task-specs.md](paper-task-specs.md)** — 30个任务的具体规格，分5个领域
+→ **[paper-scoring-template.md](paper-scoring-template.md)** — 5分类+3门评分标准
 
-**如果您想了解突破点** → 最近两篇：
-→ [A-devto-prose-barrier.md](A-devto-prose-barrier.md) — Prose Barrier：为什么 AI agent 无法自验证（EN, 已发 DEV.to）
-→ [B-devto-neural-gate.md](B-devto-neural-gate.md) — 神经门：验证的第二层（EN, 已发 DEV.to）
+### 想了解最新进展
+→ **[A-devto-prose-barrier.md](A-devto-prose-barrier.md)** — 英文，已发DEV.to。为什么AI agent无法自我验证是结构性约束而非bug
+→ **[B-devto-neural-gate.md](B-devto-neural-gate.md)** — 英文，已发DEV.to。双层验证的第二层：怎么用logprob和残差流检测规则是否真的被"听见"
 
-**背景材料**：
-→ [self-model.md](self-model.md) — 系统自我模型 v0.10（经过 5 位专家多轮审查）
-→ [paper-revision-plan-v2.md](paper-revision-plan-v2.md) — 专家团完整修订方案
-→ [paper-experiment-expansion.md](paper-experiment-expansion.md) — 统计效力分析、n=60 目标、双盲方案
+### 背景
+→ **[self-model.md](self-model.md)** — 系统自我认知文档（v0.10），记录架构演进过程。⚠️ 这是AI辅助写成的内省文档，不是客观研究报告
+→ **[paper-revision-plan-v2.md](paper-revision-plan-v2.md)** — 专家审查后完整修订方案
+→ **[paper-experiment-expansion.md](paper-experiment-expansion.md)** — 统计效力分析、要多少样本、双盲怎么做
 
-## 核心贡献（一句话）
+## 一句话总结
 
-机械检查（mtime、regex、exit code、hook wiring）能检测和防止 AI agent 配置漂移，不依赖 AI 自我评估——因为 agent 无法可靠判断自身配置完整性。
-
-## 突破：双层架构
-
-| 层 | 检查什么 | 状态 |
-|---|---------|:--:|
-| 文件系统层 | 信息到达了吗？ | 4 gate 部署 |
-| 神经层 | 信息穿透了吗？ | v1 部署, v2 设计, v3 路线图 |
-
-哲学家和 AI 架构师从不同前提独立收敛到同一拓扑。
+不让AI自己判断自己有没有出问题——用文件时间戳、正则、exit code做机械检查，绕过AI自我评估和代码生成共享同一decoder的结构性约束。
 
 ## 诚实状态
 
-- 系统：可用，4 机械检查 + 1 神经检查运行中
-- 数据：初步（单人评分、非盲法、无安慰剂对照——我知道）
-- 声称：值得做更严格的对照实验，**不是**"已被证明有效"
-- 需求：方向判断 + 投稿建议 + 可能的话，指导
-
-## 仓库链接
-
-- [hermes-workspace](https://github.com/YuhaoLin2005/hermes-workspace) — 主仓库（架构 + 论文材料）
-- [digital-twin-trainer](https://github.com/YuhaoLin2005/digital-twin-trainer) — QLoRA 行为内化实验
-- [compact-counter](https://github.com/YuhaoLin2005/compact-counter) — 上下文压缩计数追踪
-- DEV.to: [dev.to/yuhaolin2005](https://dev.to/yuhaolin2005)
-- 掘金: [juejin.cn/user/4250072430682412](https://juejin.cn/user/4250072430682412)
+- 做了什么：4个机械门部署运行 + 1个神经检查（关键词回响）+ 30任务对比 + 12追加
+- 没做到什么：没有第二评分者、没有双盲、没有安慰剂对照、没有大模型对比
+- 能声称什么："值得做更严格的实验"，不是"已经被证明有效"
+- 需要什么帮助：方向判断 + 投稿建议
