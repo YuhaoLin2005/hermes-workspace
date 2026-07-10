@@ -63,6 +63,46 @@ The dual-layer mechanical gate is an architecture for AI agent configuration tha
 
 ### 6. Conclusion
 
+## Part 2: Neural-Layer Gates — Beyond File System Verification
+
+> Added 2026-07-10. AI Architect + Philosopher cross-review. Extends Part 1's file-system gates with neural-layer constraint fidelity detection.
+
+### Motivation: The Prose Barrier
+
+File-system gates (Part 1) check whether information ARRIVED — scripts exist, hooks are wired, files are updated. But they don't check whether constraints actually PENETRATED the generation process. The Prose Barrier (formalized in Part 1 §Discussion) implies that verification must operate at the level where information flows: the model's output distribution.
+
+### Neural Gate v1: Constraint Echo Detection (deployed)
+
+**Principle**: If a behavioral constraint defined in BODY.md is actively influencing the agent, its key concepts should appear as patterns in the agent's outputs.
+
+**Implementation**: `neural-gate.py` — extracts 8 constraint themes from BODY.md, scans today's output files for keyword echoes. Silent constraint = may be decaying. 100% echo rate observed in initial deployment (2026-07-10).
+
+### Neural Gate v2: Logprob Differential Detection (designed)
+
+**Principle**: For a constraint to be neurally "active," it must shift the probability distribution over action-tokens in constraint-relevant contexts.
+
+**Method**: For each constraint, a minimal completion prompt forcing binary choice (compliant vs violating). Call DeepSeek API with `logprobs=True`. Compute `delta = mean_logprob(compliant | constrained) - mean_logprob(compliant | baseline)`. Active threshold: delta > 0.3 logprob units.
+
+**Status**: Script written (`neural-gate-v2.py`). Requires DEEPSEEK_API_KEY.
+
+### Neural Gate v3: Residual Stream Probes (roadmap)
+
+**Method**: On Qwen2.5-1.5B (fits RTX 3060 6GB), extract residual stream activations at last token position for constraint-bearing vs neutral prompts. Train logistic regression probes per layer. Deploy best-layer probe for real-time constraint presence detection.
+
+**Feasibility**: RTX 3060 6GB sufficient for 1.5B model (~4GB VRAM). Extraction + training: ~2-4 hours. Not feasible for 7B+ locally — needs cloud GPU.
+
+### Dual-Layer Completeness
+
+| Failure Mode | File Gates | Neural v1 | Neural v2 | Neural v3 |
+|------|:--:|:--:|:--:|:--:|
+| Script not wired | ✅ | — | — | — |
+| Constraint never echoed in output | — | ✅ | — | — |
+| Constraint echoed, no prob shift | — | — | ✅ | — |
+| Constraint encoded, no causal effect | — | — | — | ✅ |
+| Constraint conflict (two rules clash) | — | — | — | — |
+
+**Known gap**: Constraint conflict resolution — when "自动执行" and "不逆操作前确认" conflict, neither layer detects which constraint dominated. Future work.
+
 ## Pre-Professor Checklist
 
 ### Blockers (do not schedule meeting without)
