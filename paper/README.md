@@ -19,22 +19,30 @@
 → **[paper-task-specs.md](paper-task-specs.md)** — 30个任务的具体规格，分5个领域
 → **[paper-scoring-template.md](paper-scoring-template.md)** — 5分类+3门评分标准
 
-### 想了解最新进展
-→ **[A-devto-prose-barrier.md](A-devto-prose-barrier.md)** — 英文，已发DEV.to。为什么AI agent无法自我验证是结构性约束而非bug
-→ **[B-devto-neural-gate.md](B-devto-neural-gate.md)** — 英文，已发DEV.to。双层验证的第二层：怎么用logprob和残差流检测规则是否真的被"听见"
+### 想了解最新进展（神经层突破）
+文件系统层只检查"信息到没到"，不检查"信息有没有真的改变输出"。因为 agent 的自我评估和代码执行共享同一个 decoder——声明和行动从同一个分布采样。这是结构性约束，不是 prompt 工程能解的。
+
+→ **[paper-outline-part1.md#part-2](paper-outline-part1.md)** 的 Part 2 章节——神经层三阶段完整方案：
+  - **v1（已部署）**：约束回响检测——BODY.md 的规则关键词在输出中出现吗？86行Python，8个约束主题，全通过
+  - **v2（已设计）**：Logprob 差异检测——用 DeepSeek `logprobs=True` 对比带/不带约束时 token 概率偏移。脚本已写好，等 API key
+  - **v3（路线图）**：残差流线性探针——在 Qwen2.5-1.5B（RTX 3060 可行）训练探针检测约束信息可解码性
+
+→ **[B-devto-neural-gate.md](B-devto-neural-gate.md)** — 英文，已发DEV.to。神经门的完整故事
+
+→ **[A-devto-prose-barrier.md](A-devto-prose-barrier.md)** — 英文，已发DEV.to。为什么AI agent无法自我验证是结构性约束
 
 ### 背景
-→ **[self-model.md](self-model.md)** — 系统自我认知文档（v0.10），记录架构演进过程。⚠️ 这是AI辅助写成的内省文档，不是客观研究报告
+→ **[self-model.md](self-model.md)** — 系统自我认知文档（v0.10），记录架构演进。⚠️ AI辅助写成，不是客观研究报告
 → **[paper-revision-plan-v2.md](paper-revision-plan-v2.md)** — 专家审查后完整修订方案
 → **[paper-experiment-expansion.md](paper-experiment-expansion.md)** — 统计效力分析、要多少样本、双盲怎么做
 
 ## 一句话总结
 
-不让AI自己判断自己有没有出问题——用文件时间戳、正则、exit code做机械检查，绕过AI自我评估和代码生成共享同一decoder的结构性约束。
+文件系统层检查"到达"，神经层检查"穿透"。双层互补——因为 agent 的自我评估和代码生成共享同一 decoder，机械验证必须在信息流动的每一层都存在。
 
 ## 诚实状态
 
-- 做了什么：4个机械门部署运行 + 1个神经检查（关键词回响）+ 30任务对比 + 12追加
-- 没做到什么：没有第二评分者、没有双盲、没有安慰剂对照、没有大模型对比
+- 做了什么：4个文件系统门部署 + 神经层v1运行 + v2脚本写好 + v3设计完成 + 30任务对比 + 12追加
+- 没做到什么：没有第二评分者、没有双盲、没有安慰剂对照、v2缺API key、v3未实现
 - 能声称什么："值得做更严格的实验"，不是"已经被证明有效"
 - 需要什么帮助：方向判断 + 投稿建议
