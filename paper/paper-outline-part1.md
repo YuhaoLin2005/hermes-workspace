@@ -24,7 +24,7 @@ Mechanical checks (mtime, regex, exit codes, hook wiring) detect and prevent AI 
 
 Alternative: **Structural Isomorphism Across Implementation Layers: A Prompt-Level Guard Architecture and Its Neural Counterpart**
 
-## Abstract (draft, under revision — 2026-07-10 strict professor review)
+## Abstract (draft, revised 2026-07-10)
 
 AI coding agents accumulate configuration drift over extended use: behavioral rules decay, claimed capabilities diverge from actual state, and self-assessments systematically overestimate compliance. We propose a dual-layer mechanical gate architecture — a file-system layer (mtime, regex, exit codes, hook wiring) that verifies information arrival without relying on agent self-report, and a neural layer (constraint echo detection, logprob differential, residual stream probes) that checks whether behavioral constraints actually penetrate the generation process. In a preliminary within-subject comparison across 30 programming tasks (single-rater, unblinded, no placebo control — explicitly noted), the gated configuration produced more verifiable deliverables and fewer undetected drift incidents than the un-gated baseline. Cross-domain tasks showed no clear difference. A QLoRA fine-tuning attempt produced decreasing loss but collapsed behavioral quality. We frame these observations not as proof of efficacy but as motivation for a properly controlled study. All materials, including task specifications and scoring templates, are available in the accompanying repository. The core contribution is architectural: a demonstration that mechanical verification at the configuration layer can serve as an independent integrity check for self-referential agent systems — and that the structural constraint preventing AI self-verification (that generation and verification share a decoder) can be partially mitigated but not eliminated.
 
@@ -104,30 +104,17 @@ File-system gates (Part 1) check whether information ARRIVED — scripts exist, 
 
 **Known gap**: Constraint conflict resolution — when "自动执行" and "不逆操作前确认" conflict, neither layer detects which constraint dominated. Future work.
 
-## Pre-Professor Checklist
+## 待完善事项
 
-### Blockers (do not schedule meeting without)
-1. ⬜ Second rater for output classification (Cohen's kappa)
-2. ⬜ Reproducible experimental protocol documented
-3. ⬜ Fisher exact test independently recomputed
-4. ⬜ Clarify 5-category/3-gate classification criteria
+### 必须完成
+1. ⬜ 第二评分者进行输出分类（Cohen's kappa）
+2. ⬜ 可复现的实验方案文档化
+3. ⬜ 5 类/3 门分类标准澄清
+4. ⬜ 统计效力分析（n=30 最小可检测效应量）
+5. ⬜ 30 项试验任务清单（难度、随机性、独立性）
 
-### Professor's First Questions (prepare)
-5. ⬜ Power analysis (n=30 minimum detectable effect size?)
-6. ⬜ Task list for 30 trials (difficulty, randomization, independence)
-7. ⬜ J-space comparison formalization criterion
-8. ⬜ Coincidence probability estimate
-
-### Nice-to-Have
-9. ⬜ Re-run with randomized task order
-10. ⬜ Add second model backend (10 trials)
-11. ⬜ Pre-registration (OSF/AsPredicted)
-12. ⬜ Causal swap experimental design draft
-
-## Meeting Readiness: YES (with conditions)
-
-**Opening line**: "I built something that worked for my own use, noticed it structurally resembles something in published literature, ran initial experiments. Results mixed — one significant, two null. I want your advice on whether worth writing up as workshop paper."
-
-**Professor will question**: (1) J-space citation legitimacy (2) Null hypothesis precision (3) Trial independence (4) PR #778 publication status (5) Whether Anthropic papers were actually read or just blog posts (6) Why convergence isn't just imposed pattern-matching.
-
-**Bottom line**: Enough substance for first conversation. Honest about limitations. Concrete next-steps list.
+### 建议完成
+6. ⬜ 用随机任务顺序重跑
+7. ⬜ 增加第二模型后端（10 次试验）
+8. ⬜ 预注册（OSF/AsPredicted）
+9. ⬜ 因果交换实验设计草案
