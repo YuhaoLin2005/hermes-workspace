@@ -24,18 +24,19 @@ Mechanical checks (mtime, regex, exit codes, hook wiring) detect and prevent AI 
 
 Alternative: **Structural Isomorphism Across Implementation Layers: A Prompt-Level Guard Architecture and Its Neural Counterpart**
 
-## Abstract (draft, ~150 words)
+## Abstract (draft, under revision — 2026-07-10 strict professor review)
 
-The dual-layer mechanical gate is an architecture for AI agent configuration that combines soft process monitoring with hard output blocking, deployed entirely at the prompt-engineering layer. We report an independently designed five-layer agent configuration system (identity, calibration, execution, memory, feedback) whose topology exhibits structural isomorphism with cross-layer convergence patterns observed in neural activation spaces. Across 30 controlled trials, Fisher's exact test yields p=0.0092 (odds ratio=11.0) for output quality improvement. Cross-domain behavioral generalization showed no significant result. QLoRA fine-tuning produced catastrophic forgetting—all behavioral metrics degraded despite decreasing loss. We interpret these results not as replication of neural-layer findings but as evidence for structural inevitability: the optimization target may determine architectural topology regardless of implementation substrate.
+AI coding agents accumulate configuration drift over extended use: behavioral rules decay, claimed capabilities diverge from actual state, and self-assessments systematically overestimate compliance. We propose a dual-layer mechanical gate architecture — a file-system layer (mtime, regex, exit codes, hook wiring) that verifies information arrival without relying on agent self-report, and a neural layer (constraint echo detection, logprob differential, residual stream probes) that checks whether behavioral constraints actually penetrate the generation process. In a preliminary within-subject comparison across 30 programming tasks (single-rater, unblinded, no placebo control — explicitly noted), the gated configuration produced more verifiable deliverables and fewer undetected drift incidents than the un-gated baseline. Cross-domain tasks showed no clear difference. A QLoRA fine-tuning attempt produced decreasing loss but collapsed behavioral quality. We frame these observations not as proof of efficacy but as motivation for a properly controlled study. All materials, including task specifications and scoring templates, are available in the accompanying repository. The core contribution is architectural: a demonstration that mechanical verification at the configuration layer can serve as an independent integrity check for self-referential agent systems — and that the structural constraint preventing AI self-verification (that generation and verification share a decoder) can be partially mitigated but not eliminated.
 
 ## Section Outline
 
 ### 1. Introduction
 - Problem: single-developer AI agent reliability (no review/CI/QA infrastructure)
 - Approach: dual-layer mechanical gate (soft process + hard output blocking)
-- Surprise: independent convergence to five-layer topology mapping onto J-space
-- Hypothesis: structural inevitability — same problem → same architectural shape
-- Outline: related work → architecture → experiments → discussion
+- Observation: the system's 5-layer topology (identity/calibration/execution/memory/feedback) emerged iteratively from 50+ sessions of refinement, not from top-down design
+- Key constraint: AI agent self-assessment and code generation share the same decoder — no independent verification channel exists within the model
+- Implication: verification must operate outside the agent's generation loop (mechanical, not semantic)
+- Outline: related work → architecture → observations → discussion
 
 ### 2. Related Work
 - 2.1 Global Workspace Theory (Baars 1988, Goyal & Bengio 2022)
@@ -65,7 +66,7 @@ The dual-layer mechanical gate is an architecture for AI agent configuration tha
 
 ## Part 2: Neural-Layer Gates — Beyond File System Verification
 
-> Added 2026-07-10. AI Architect + Philosopher cross-review. Extends Part 1's file-system gates with neural-layer constraint fidelity detection.
+> Added 2026-07-10. Extends Part 1's file-system gates with neural-layer constraint fidelity detection. Note: the architectural analysis in this section was developed through structured AI-assisted reasoning (multi-perspective simulation), not through independent human expert review. The convergence of two simulated perspectives (systems architecture + philosophy of mind) on the same dual-layer topology is noted as an interesting pattern, not as independent validation.
 
 ### Motivation: The Prose Barrier
 
