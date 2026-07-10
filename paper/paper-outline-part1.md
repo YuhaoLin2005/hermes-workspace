@@ -52,9 +52,9 @@ AI coding agents accumulate configuration drift over extended use: behavioral ru
 - Structural isomorphism with J-space (table)
 
 ### 4. Experiments
-- 4.1 Controlled comparison: n=30, Fisher exact p=0.0092, OR=11.0
-- 4.2 Cross-domain generalization: NULL (all p > 0.05)
-- 4.3 QLoRA fine-tuning: NEGATIVE (loss↓ but behavior collapsed)
+- 4.1 Within-subject comparison: n=30 tasks, single-rater, unblinded (qualitative trends only, no p-values reported)
+- 4.2 Cross-domain generalization: no clear difference observed (underpowered)
+- 4.3 QLoRA fine-tuning: loss↓ but behavior collapsed (informative negative)
 
 ### 5. Discussion
 - 5.1 Structural inevitability hypothesis

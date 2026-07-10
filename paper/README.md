@@ -17,14 +17,14 @@
 
 ### 30分钟：看实验细节
 → **[paper-methods-draft.md](paper-methods-draft.md)** — 架构细节、实验设计、统计方法怎么选的
-→ **[paper-trial-results.md](paper-trial-results.md)** — 12次treatment trial的原始记录，每次的任务、结果、validity caveats
+→ **[paper-trial-results.md](paper-trial-results.md)** — 8次treatment trial的原始记录，每次的任务、结果、validity caveats
 → **[paper-task-specs.md](paper-task-specs.md)** — 30个任务的具体规格，分5个领域
 → **[paper-scoring-template.md](paper-scoring-template.md)** — 5分类+3门评分标准
 
 ### 想了解最新进展（神经层突破）
 文件系统层只检查"信息到没到"，不检查"信息有没有真的改变输出"。因为 agent 的自我评估和代码执行共享同一个 decoder——声明和行动从同一个分布采样。这是结构性约束，不是 prompt 工程能解的。
 
-→ **[paper-outline-part1.md#part-2](paper-outline-part1.md)** 的 Part 2 章节——神经层三阶段完整方案：
+→ **[paper-outline-part1.md](paper-outline-part1.md)** 的 Part 2 章节（滚动到文件后半部分）——神经层三阶段完整方案：
   - **v1（已部署）**：约束回响检测——BODY.md 的规则关键词在输出中出现吗？86行Python，8个约束主题，全通过
   - **v2（已设计）**：Logprob 差异检测——用 DeepSeek `logprobs=True` 对比带/不带约束时 token 概率偏移。脚本已写好，等 API key
   - **v3（路线图）**：残差流线性探针——在 Qwen2.5-1.5B（RTX 3060 可行）训练探针检测约束信息可解码性

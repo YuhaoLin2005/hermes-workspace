@@ -32,16 +32,16 @@ Output Layer (HARD, blocks when degraded):
 
 Design: mechanical over semantic, soft-on-process/hard-on-output, zero-token normal path, self-referential closure.
 
-### Structural Isomorphism with J-space
+### Architectural Pattern (Note: not formal isomorphism)
 
-| Dimension | J-space (Anthropic) | Our Architecture |
-|-----------|-------------------|------------------|
-| Monitoring | Cross-layer activation propagation | config-health across 5 layers |
-| Constraint | Feature-level inhibition circuits | quality-gate exit 2 |
-| Feedback | Activation re-entrant pathways | stale flag → regeneration |
-| Convergence | Cross-layer feature superposition | 50+ session rule convergence |
+> ⚠️ The following comparison was written early in the project. The five-layer topology (identity/calibration/execution/memory/feedback) emerged iteratively from 50+ sessions of practical refinement, not from top-down design. Any resemblance to neural-network activation patterns is an interesting parallel, not a formal claim of structural isomorphism. No model internals were accessed. This section is retained for design context only.
 
-Isomorphism is topological, not mechanistic. Independent convergence, not replication.
+| Dimension | Our Architecture |
+|-----------|-----------------|
+| Monitoring | config-health across 5 layers (SOUL→INTERFACE→BODY→MEMORY→quality-gate) |
+| Constraint | quality-gate exit 2 (hard output blocking at filesystem level) |
+| Feedback | stale flag → self-model regeneration (file-timestamp-based loop) |
+| Convergence | 50+ session iterative refinement, not formal optimization |
 
 ## Experimental Design
 
