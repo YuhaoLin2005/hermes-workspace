@@ -121,6 +121,21 @@ L3 因果编码: 三段论格式改变注意力路由 → 影响推理深度
 
 审计 7 个主流 Agent 框架，0 个做神经层约束检测。
 
+## 研究基础设施
+
+### DeepSeek V4 Pro 成本优化（2026-07-11）
+
+实验基础设施从 Claude API 迁移至 DeepSeek V4 Pro 后，针对 1M 上下文 + 自动前缀缓存特性进行了系统参数调优。详见 [experiment/DEEPSEEK_OPTIMIZATION.md](experiment/DEEPSEEK_OPTIMIZATION.md)
+
+| 关键优化 | 效果 |
+|------|------|
+| ToolSearch → false | 消除每次工具加载后的缓存摧毁 (GitHub Issue #53132) |
+| autoCompactWindow: 600K→400K | 利用 1M 窗口, 稳定前缀→提高缓存命中 |
+| subagent → flash | 子任务成本 3x 降低 |
+| 实验配置快照 | `experiment-config-snapshot.json` 确保补充实验可复现 |
+
+---
+
 ## 已发布技术博文
 
 **DEV.to（3篇）**：
