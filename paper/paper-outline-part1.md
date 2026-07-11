@@ -1,8 +1,9 @@
 # Short Paper: Self-Referential Gate Architecture for Agent Configuration Integrity
 
-> Revised 2026-07-10: Academic Researcher + Systems Engineer + Digital Twin + Web Search landscape.
-> Target: arXiv → CHI LBW → ACL SRW.
-> **Key shift**: Core contribution is NOT "dual-layer gate" — it's the **self-referential closure (strange loop)**.
+> ⚠️ **历史大纲，以 PAPER.md 为准。** 当前论文已升级为三部曲 + 150-task 6-session 对照实验。
+> → [../../PAPER.md](../../PAPER.md) · [README.md](README.md)
+>
+> Revised 2026-07-10. Target: arXiv → CHI LBW → ACL SRW.
 
 ## Competitive Landscape
 

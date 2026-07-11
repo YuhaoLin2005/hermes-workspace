@@ -15,7 +15,7 @@ LLM-based coding agents degrade over extended use. We present a three-part inves
 
 ## 1. Introduction: 50 Sessions of Watching an Agent Drift
 
-Over approximately 50 coding sessions with DeepSeek V4 Pro inside Claude Code, I observed a recurring pattern: the agent would start each session coherent, but after extended interaction, it would forget negotiated conventions, relax quality-review enforcement, and drift from its configured identity. In 15 of those 50 sessions (~30%), a specific protocol was forgotten by the session midpoint. In 8 sessions, the agent re-litigated a decision settled in a previous growth-log entry.
+Over approximately 50 coding sessions with DeepSeek V4 Pro inside Claude Code, I observed a recurring pattern: the agent would start each session coherent, but after extended interaction, it would forget negotiated conventions, relax quality-review enforcement, and drift from its configured identity. In 15 of those 50 sessions (~30%, informal observation), a specific protocol was forgotten by the session midpoint. Subsequent systematic retrospective coding of 34 growth-log sessions confirmed a higher violation rate of 55.9% (19/34; see §6.2), suggesting that informal observation underestimates true drift rates. In 8 sessions, the agent re-litigated a decision settled in a previous growth-log entry.
 
 This auto-ethnographic observation is not systematic — the sessions were not formally coded (see Section 5: Limitations). But it forms the ecological ground for the experiment that follows: if config rules matter, removing one should measurably change behavior.
 
@@ -158,36 +158,6 @@ These are not properties of a specific substrate. They are patterns observed in 
 
 ---
 
-## 7. Conclusion
-
-LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [17.7pp, 73.7pp], p=0.0092. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
-
-**Config rules are not decorative.**
-
----
-
-## References
-
-[1] Rath, A. "Agent Drift: Quantifying Behavioral Degradation in Multi-Agent LLM Systems." arXiv:2601.04170, Jan 2026.
-
-[2] TACT. "Mitigating Overthinking and Overacting in Coding Agents via Activation Steering." arXiv:2605.05980, May 2026.
-
-[3] "Measuring What Persists: Conditioning Mechanisms and a Geometric Framework for AI Agent Identity." arXiv:2606.21843, Jun 2026.
-
-[4] Anthropic. "A Global Workspace in Language Models." Jul 2026.
-
-[5] Kambhampati, S. et al. "LLMs Can't Plan, But Can Help Planning in LLM-Modulo Frameworks." ICML, 2024.
-
-[6] Lee, J.D. & See, K.A. "Trust in Automation: Designing for Appropriate Reliance." Human Factors, 2004.
-
-[7] Sarter, N.B., Woods, D.D. & Billings, C.E. "Automation Surprises." 1997.
-
-[8] Hofstadter, D.R. "Godel, Escher, Bach." Basic Books, 1979.
-
-[9] Jian, J.Y. et al. "Foundations for an Empirically Determined Scale of Trust in Automated Systems." 2000.
-
----
-
 ## 6. Causal Structure Encoding — How Rule Format Changes Attention Routing
 
 ### 6.1 The Format Hypothesis
@@ -282,3 +252,27 @@ Syllogism-form rules produced systematically deeper causal reasoning than impera
 
 ---
 *Code, data, transcripts: https://github.com/YuhaoLin2005/hermes-workspace*
+
+---
+
+## 7. Conclusion
+
+LLM agents change over time. Config rules shape that change — measurably. This paper presented a three-layer architecture: mechanical gates that enforce compliance via filesystem checks (Layer 1, validated: 55.9%→0.7% violation rate in 150 controlled tasks), neural gates that detect constraint penetration (Layer 2, v1 deployed), and causal encoding that changes how rules are processed internally (Layer 3, preliminary evidence of reasoning depth effects). The dominant experimental finding is that mechanical enforcement is the primary factor in agent compliance — it determines whether rules are followed; rule format determines how deeply they are understood.
+
+**Config rules are not decorative. But without mechanical enforcement, they are not effective either.**
+
+---
+
+## References
+
+[1] Rath, A. "Agent Drift: Quantifying Behavioral Degradation in Multi-Agent LLM Systems." arXiv:2601.04170, Jan 2026.
+[2] TACT. "Mitigating Overthinking and Overacting in Coding Agents via Activation Steering." arXiv:2605.05980, May 2026.
+[3] "Measuring What Persists: Conditioning Mechanisms and a Geometric Framework for AI Agent Identity." arXiv:2606.21843, Jun 2026.
+[4] Anthropic. "A Global Workspace in Language Models." Jul 2026.
+[5] Kambhampati, S. et al. "LLMs Can't Plan, But Can Help Planning in LLM-Modulo Frameworks." ICML, 2024.
+[6] Lee, J.D. & See, K.A. "Trust in Automation: Designing for Appropriate Reliance." Human Factors, 2004.
+[7] Sarter, N.B., Woods, D.D. & Billings, C.E. "Automation Surprises." 1997.
+[8] Hofstadter, D.R. "Godel, Escher, Bach." Basic Books, 1979.
+[9] Jian, J.Y. et al. "Foundations for an Empirically Determined Scale of Trust in Automated Systems." 2000.
+[10] Pender, M.A. "Formal Constraint and Routing Reorganization." Zenodo, 2026. DOI: 10.5281/zenodo.19363505.
+[11] Heris, M.K. "Prompt Decorators: A Declarative and Composable Syntax." arXiv:2510.19850, 2025.
