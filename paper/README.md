@@ -15,18 +15,19 @@
 
 ### 15 min · 读论文
 
-→ **[../../PAPER.md](../../PAPER.md)** （仓库根目录）
-三部曲完整论文：Part 1 机械门 → Part 2 神经门 → Part 3 因果编码。
+→ **[../PAPER.md](../PAPER.md)** （仓库根目录）
+三部曲完整论文：Part 1 机械门 → Part 2 神经门 → Part 3 因果编码。含 §4 Causal Swap 实验 (n=30, p=0.0092) + §6.5 Format A/B 实验 (n=150)。
 
 ### 30 min · 对竞品 + 查实验
 
 → **[paper-outline-part1.md](paper-outline-part1.md)** — 文献定位（HyperAgents / Prompt Decorators / Constitutional AI / Pender 2026）
 
-实验数据在本地 memory 目录：
-→ `C:\Users\86131\.claude\projects\C--Users-86131\memory\experiments\`
-- `experiment-results-2026-07-11.md` — 150 task, 6 session 对照实验
-- `systematic-baseline-coding.md` — 34 growth-log 回溯编码
-- `reviewer-priority-4-5-protocol.md` — 实验方法学家独立审查
+实验数据与协议文件：
+→ **[experiment/](experiment/)** 目录
+- `experiment-results-2026-07-11.md` — 150 task, 6 session 对照实验原始数据
+- `systematic-baseline-coding.md` — 34 growth-log 回溯编码方法与结果
+- `reviewer-priority-4-5-protocol.md` — 独立实验方法学家审查意见与修订
+- `experiment-execution-guide.md` — 实验执行指南 v2.0（含操作定义手册）
 
 ---
 
@@ -47,6 +48,21 @@
 | Causal Swap (§4) | Between-subjects | 30 | 有规则 73% vs 无规则 20%, p=0.0092 | 单评分者 |
 | Format A/B (§6.5) | Between-subjects | 150 | 机械门主导, 天花板效应 | 自评 |
 | Growth-log 回溯 (§6.2) | 纵向编码 | 34 | 55.9%→0.7% (接线前/后) | 单编码者 |
+
+### 竞品定位
+
+当前 LLM Agent 可靠性研究均未覆盖配置层外部客观校验：
+
+| 技术路线 | 代表工作 | 核心局限 |
+|---------|---------|---------|
+| 提示词工程优化 | 记忆池注入、上下文压缩 | 规则依赖 Agent 自我理解执行，无法强制校验 |
+| 独立评估 Agent | RIVA、GLOVE | 新增 LLM 做校验，成本高、二次漂移风险 |
+| 记忆增强方案 | Mem0、Letta、ASF | 仅注入记忆，不验证行为合规性 |
+| 代码层自修改 | HyperAgents (Meta, ICLR 2026) | 操作代码层，不解决配置层漂移 |
+| 格式效应 | Prompt Decorators (Heris 2025) | 声明式标签，不改变内部处理路径 |
+| 注意力路由 | Pender (2026, Zenodo) | 证明格式→路由机制，未做工程转化 |
+
+**本工作差异化**：无模型参与、可量化、可复现的外部机械校验。三层架构覆盖信息管线全程（到达→穿透→路由）。
 
 ### 独立学术审查
 
@@ -83,6 +99,16 @@ L3 因果编码: 三段论格式改变注意力路由 → 影响推理深度
 ```
 
 ---
+
+## 神经门：从文件校验到模型内部
+
+文件系统层（L1）校验信息到达性，不解决规则穿透率。L2 神经门检测规则是否真实作用于模型输出：
+
+- **v1 关键词回响检测**（已部署，86行 Python）：从 BODY.md 提取 8 个约束主题，扫描输出关键词回响。沉默约束=可能失效。经 150 任务实验验证。
+- **v2 Logprob 差分**（已设计）：DeepSeek `logprobs=True` 对比带/不带约束时 token 概率偏移。delta>0.3=约束活跃。脚本已完成，待 API key。
+- **v3 残差流探针**（路线图）：Qwen2.5-1.5B 上训练线性探针（RTX 3060 6GB 可行），按层检测约束信息可解码性，追踪跨 session 层位移→预警衰减。
+
+审计 7 个主流 Agent 框架，0 个做神经层约束检测。
 
 ## 已发布技术博文
 
