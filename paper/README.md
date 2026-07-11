@@ -34,8 +34,9 @@
 
 ### 开源社区 PR（2026-07）
 
-工程组件（delivery-gate、config-health）已向上游提交并获认可：
-- **ECC 仓库**：2 个 PR 已合并，1 个已通过维护者审批待合并，合并 PR 含共同作者署名
+工程组件（delivery-gate、config-health、aeo-box）已向上游提交并获认可：
+- **ECC 仓库**（affaan-m/ECC）：2 个 PR 已合并，1 个已通过维护者审批待合并
+- **alirezarezvani/claude-skills**：维护者主动给予 Co-authored-by 署名（PR #866 建议 → 维护者创建 #867 合并）
 - **anthropics/skills**：多个 PR 在审查中，与维护者持续讨论
 - 方向从社区获得初步外部验证（独立于自评）
 
