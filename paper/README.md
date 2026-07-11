@@ -78,8 +78,12 @@ L3 因果编码: 三段论格式改变注意力路由 → 影响推理深度
 
 ## 已发布技术博文
 
-- DEV.to: [The Prose Barrier](https://dev.to/yuhaolin2005) · [Neural Gate](https://dev.to/yuhaolin2005)
-- 掘金: Prose Barrier 中文版 · Neural Gate 中文版
+**DEV.to（3篇）**：
+- [AI Agents Can't Self-Verify — A Structural Constraint](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier 理论
+- [I Built a Neural Gate — Layer 2 of Self-Verification](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — 神经门三阶段方案
+- [I Ran 150 Tasks to Test If AI Agents Follow Rules](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — 150任务对照实验报告
+
+**掘金（中文版 3篇对应）**：juejin.cn/user/4250072430682412
 
 ---
 
