@@ -247,10 +247,8 @@ Retrospective baseline coding of 34 growth-log sessions under imperative format 
 
 Syllogism-form rules produced systematically deeper causal reasoning than imperative-form rules, particularly in open-ended design tasks where GateGuard did not intervene. Our behavioral findings converge with Pender's (2026) independent mechanistic evidence that logical prompts induce distinct attention routing regimes. GateGuard-disabled replication, cross-model validation, and independent blind scoring remain as future work.
 
-[10] Pender, M. A. (2026). Formal Constraint and Routing Reorganization: A Constrained-Transport View of Transformer Attention. Zenodo. DOI: 10.5281/zenodo.19363505
-[11] Heris, M. K. (2025). Prompt Decorators: A Declarative and Composable Syntax. arXiv:2510.19850
-
 ---
+
 *Code, data, transcripts: https://github.com/YuhaoLin2005/hermes-workspace*
 
 ---
