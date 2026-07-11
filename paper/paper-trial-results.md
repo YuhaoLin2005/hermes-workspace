@@ -16,12 +16,14 @@
 | T-07 | 24 — A/B Test Design | Strategy | 5 | Y |
 | T-08 | 26 — Design Doc + Estimate | Mixed | 5 | Y |
 
-## Prior Experiment (original)
+## Prior Experiment (original, superseded by PAPER.md §4)
 
-n=30 tasks, alternating assignment. Baseline 18/12 acc/unacc, Framework 27/3.
-Fisher exact p=0.0092, OR=11.0. Single-rater, unblinded.
+> ⚠️ **数据已过时，以 PAPER.md §4 为准。** 以下为早期 accuracy-based scoring 记录（18/30 acceptable baseline, 27/30 acceptable framework），与 PAPER.md §4 的 "Alternatives offered" scoring（WITH 11/15 vs WITHOUT 3/15, OR=11.0, p=0.0092）使用不同因变量，不可直接比较。本文件保留作历史记录；引用实验数据请使用 PAPER.md。
 
-## Total: 38 trials logged. Target: n=60.
+n=30 tasks (早期 accuracy 评分，已废弃). Baseline 18/12 acc/unacc, Framework 27/3.
+Fisher exact p=0.0092, OR=11.0 — **注意：此 p/OR 对应 PAPER.md §4 Causal Swap 的 "Alternatives offered" 评分，非本文件的 accuracy 评分。** 单评分者，无双盲。
+
+## Total trials logged: 38 (30 original Causal Swap + 8 new treatment, 2026-07-10). Target: n=60 for future confirmatory study.
 
 ## Validity Issues
 

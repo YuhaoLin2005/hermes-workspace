@@ -9,7 +9,34 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. We present a three-part investigation spanning mechanical defense, causal evidence, and format-driven routing: (1) a mechanized identity-persistence pipeline (3/4 steps deterministic) whose compact self-model serves as a file-system-level workspace; (2) a causal swap experiment (n=30, DeepSeek V4 Pro) — WITH rule 73% vs WITHOUT 20%, odds ratio 11.0, Fisher exact p=0.0092; and (3) the discovery that encoding behavioral rules as syllogistic causal structures rather than imperative commands produces measurably different agent behavior — 5/5 rules triggered across 4 blind cross-validation sessions with zero violations and emergent proactive auditing. This third finding converges with independent mechanistic evidence (Pender 2026) that logical prompts induce distinct attention routing regimes. We propose **causal structure encoding** as a candidate approach: preliminary evidence suggests the format of a behavioral constraint may influence which internal processing pathway it activates. Three complementary layers — mechanical gates (filesystem checks), neural gates (constraint echo), and causal encoding (format → routing) — cover the full information pipeline, pending controlled validation.
+LLM-based coding agents degrade over extended use. This paper investigates whether the configuration rules surrounding an agent — its system prompts, behavioral protocols, and self-model — measurably shape its behavior, or are merely decorative text consuming context tokens. We present a three-part investigation: (1) a mechanized identity-persistence pipeline (3/4 steps deterministic) that detects configuration staleness via filesystem checks and triggers self-model regeneration, deployed across 50+ coding sessions; (2) a between-subjects manipulation (n=30, DeepSeek V4 Pro, single-rater unblinded — explicitly noted) in which removing a behavioral rule reduced alternative-seeking behavior from 73% to 20% (risk difference 53pp, OR=11.0, p=0.0092), providing preliminary evidence that config rules causally shape agent behavior; and (3) a controlled A/B experiment (n=150 tasks, 6 sessions) comparing syllogistic-causal vs. imperative rule formats, which found that mechanical enforcement — not rule format — dominates compliance rate (99.3% with hooks active), while format systematically affected reasoning depth in un-gated design tasks. We propose a three-layer architecture for configuration integrity: mechanical gates (filesystem checks, bypassing AI self-assessment), neural gates (constraint echo detection within the generation process), and causal encoding (format → attention routing). All experimental results are scored by the first author (unblinded); independent blind verification is pending. The core contribution is architectural: a demonstration that mechanical verification at the configuration layer can serve as an independent integrity check that does not rely on the agent's compromised self-assessment capability.
+
+---
+
+## Experiment Overview
+
+| Experiment | N | Design | Main Finding | Status |
+|------|:--:|------|------|:--:|
+| Growth-log Retrospective (§6.2) | 34 sessions | Longitudinal coding, single coder | 55.9%→0.7% violation rate with mechanical gate | ✅ Complete |
+| Causal Swap (§4) | 30 tasks | Between-subjects (15+15), DeepSeek V4 Pro | WITH rule 73% vs WITHOUT 20%, OR=11.0, p=0.0092 | ⚠️ Single-rater, unblinded |
+| Format A/B (§6.5) | 150 tasks | Between-subjects (75+75), 6 sessions, DeepSeek V4 Pro | Ceiling effect (99.3% compliance); format affects reasoning depth, not compliance | ⚠️ Needs GateGuard-OFF replication |
+| Syllogism Blind CV (§6.4) | 4 sessions | 5/5 rules triggered, zero violations + emergent auditing | Preliminary format→reasoning causal chain evidence | ⚠️ Small n, uncontrolled |
+
+> **n-count reconciliation**: Five numbers appear across the repository — 30 (Causal Swap tasks), 34 (growth-log sessions), 38 (cumulative trials in paper-trial-results.md = 30 original + 8 new), 60 (future target sample size), 150 (Format A/B tasks). Each corresponds to a different experiment; they are not conflicting reports of the same data.
+
+---
+
+## Reader's Guide
+
+This paper reports a three-part investigation developed iteratively over 50+ coding sessions. The reader may find it helpful to understand the structure before diving in:
+
+- **Part 1 — Mechanical Gate (§3):** System architecture. A self-model regeneration pipeline with filesystem-level verification. *Note: Part 1 describes the system but does not include a direct A/B experiment of the gate itself; gate effectiveness is demonstrated in Part 3's experiment (§6.5).*
+- **Part 2 — Causal Swap (§4):** A between-subjects manipulation (n=30) testing whether removing a config rule changes behavior. The paper's methodologically strongest evidence, with the caveats of single-rater unblinded scoring and non-randomized assignment.
+- **Part 3 — Causal Structure Encoding (§6):** The longest section, built on the weakest evidence. Includes a retrospective baseline (§6.2, n=34 sessions, single coder), a small-N syllogism pilot (§6.4, n=4, uncontrolled), and a controlled A/B experiment (§6.5, n=150 tasks) whose primary outcome was confounded by active mechanical hooks. *The A/B experiment validates Layer 1 (mechanical gate effectiveness), not Layer 3 (format effects on compliance).*
+
+**Reading paths**: For a quick scan, read the Experiment Overview table above, then §4 (Causal Swap), then §6.10 (Conclusion). For a full read, follow section order. **Important**: §5 (Discussion) appears before §6 because it primarily discusses the Causal Swap experiment (§4); §6 was developed later in the research timeline and its discussion is integrated within the section itself.
+
+All experimental results are scored by the first author (unblinded, no independent raters). Cohen's κ from the one attempted blind check was -0.14 (§5.2). The quantitative results should be interpreted as preliminary evidence requiring independent verification. See §5.1 and §6.9 for comprehensive limitations.
 
 ---
 
@@ -41,13 +68,23 @@ The phenomenon has been named but not yet measured at the identity layer. Rath (
 
 Our self-model (~100 lines) and J-space share a functional pattern but differ fundamentally in mechanism. J-space is a learned representational bottleneck — vectors in activation space, operated on by linear algebra during the forward pass. Our self-model is an engineered routing table — a directed graph of markdown files concatenated into the context window before the forward pass. Both are compact, causally on the information path, and attended to by downstream processes. Both admit surgical modification (concept-swap in J-space, rule-deletion in self-model). Both were not designed top-down — J-space emerged from gradient descent; our architecture emerged from iterating on session failures.
 
-We interpret this not as homology (shared ancestry) but as **convergent evolution at the functional level**: systems that route information through compact, causally-efficacious intermediate representations — whether emergent or engineered — exhibit measurably better behavioral control. The shared functional constraint (bounded bottleneck × causal placement) produces analogous solutions at different substrate layers (neural activations vs. file-system configurations). This suggests a design principle rather than a specific implementation: **separate identity from mechanism, make the identity representation compact, and place it on the causal path.** J-space is one implementation inside a neural network. Our self-model is one implementation outside [4].
+We note this as a **functional analogy** rather than a formal equivalence: both systems route information through compact, causally-placed intermediate representations, and both exhibit measurable behavioral effects. This shared pattern — bounded bottleneck × causal placement — may reflect a more general design principle: **separate identity from mechanism, make the identity representation compact, and place it on the causal path.** However, the evidential gap between the two systems is substantial. J-space is a neural subspace validated through causal ablation, cross-model replication, and mechanistic theory (Jacobian lens). Our self-model is a markdown file concatenated into the context window, tested on one model with one rule by one unblinded rater. We present the analogy as a conceptual bridge — an observation that similar functional constraints may produce structurally similar solutions at different abstraction layers — not as a claim of equivalent mechanisms or equivalent evidentiary support.
+
+**Self-Verification and Reliability.** Several lines of work address the challenge of LLM output reliability. Self-consistency (Wang et al., 2022) improves accuracy through multiple sampling and majority voting [14] — a complementary strategy that increases compute cost. Reflexion (Shinn et al., 2023) enables agents to self-correct using environmental feedback and episodic memory [15], demonstrating that external grounding can partially compensate for the self-assessment problem. ReAct (Yao et al., 2022) interleaves reasoning traces with tool-use actions [16], establishing the action-reasoning loop pattern that our mechanical gate monitors. DSPy (Khattab et al., 2023) provides programmatic prompt optimization [17] — configuration-layer engineering at scale — but targets task performance rather than persistent identity integrity. Our work differs from all of these in targeting **configuration drift over extended sessions** rather than single-task accuracy.
 
 **Trust in Automation.** Lee & See (2004) established that human trust depends on appropriate calibration between perceived and actual system capability [6]. Agent identity drift directly undermines this calibration. Sarter, Woods & Billings (1997) named this "automation surprise" — the gap between expected and actual system behavior [7]. Our pipeline addresses this mechanically rather than through human vigilance.
 
 ---
 
 ## 3. System Design
+
+### 3.0 The Prose Barrier: Why Mechanical Verification Is Necessary
+
+A structural constraint makes AI self-verification unreliable: an LLM's generation pathway and its evaluation pathway share the same decoder distribution *P(token | context; θ)*. When an agent generates an output and then assesses whether that output complies with a behavioral rule, both the generation and the assessment are samples from the same distribution. There is no independent verification channel — the model cannot step outside its own decoder to obtain an uncorrelated judgment of its own output.
+
+This constraint, which we term the **Prose Barrier**, implies that any verification mechanism that operates through natural language generation (prose) inherits the same biases and blind spots as the generation it is meant to verify. The implication for agent configuration is direct: an agent cannot reliably judge whether it is following its own configuration rules, because the judgment and the potential violation are produced by the same underlying process.
+
+The Prose Barrier motivates the three-layer architecture below. Layer 1 (mechanical gates) bypasses the Barrier entirely by operating at the filesystem level. Layer 2 (neural gates) works within the Barrier by measuring traces of constraint penetration in the output distribution. Layer 3 (causal encoding) operates on the Barrier's input side by changing how rules are encoded before they enter the generation process.
 
 ### 3.1 Architecture
 
@@ -198,7 +235,7 @@ Five rules were converted: dual-pool enforcement, Read-after-Write verification,
 
 A between-subjects experiment (25 tasks × 6 sessions = 150 total) compared syllogism (Condition A, 3 sessions) vs. imperative (Condition B, 3 sessions) on DeepSeek V4 Pro, with mechanical enforcement hooks (GateGuard) active. Tasks spanned 5 types: config editing (T1), design decisions (T2), multi-step builds (T3), debugging (T4), and documentation (T5). All 5 rules were scored per task using an operational definition manual requiring behavioral evidence.
 
-**Primary Result — Ceiling Effect**: 149/150 tasks (99.3%) showed zero violations. The single violation (S6, syllogism, T4.4: 3 sequential edits with only 1 Read-back) was self-detected and honestly reported by the agent. GateGuard mechanical hooks blocked all unverified Edit/Write operations regardless of rule format, creating a near-perfect ceiling. This is **direct experimental evidence for Layer 1's effectiveness**: mechanical gates guarantee compliance without relying on AI sensitivity to rule phrasing.
+**Primary Result — Ceiling Effect (Layer 1 Validation)**: 149/150 tasks (99.3%) showed zero violations. The single violation (S6, syllogism, T4.4: 3 sequential edits with only 1 Read-back) was self-detected and honestly reported by the agent. GateGuard mechanical hooks blocked all unverified Edit/Write operations regardless of rule format, creating a near-perfect ceiling. **This experiment validates Layer 1 (mechanical gate effectiveness), not Layer 3 (causal encoding).** The ceiling effect prevents isolation of format effects on compliance rate — a confound the experiment was not designed to avoid. The 99.3% result is direct evidence that mechanical hooks guarantee compliance; it provides zero information about whether syllogistic format independently reduces violations.
 
 **Secondary Result — Reasoning Style**: Despite identical compliance rates, reasoning depth differed systematically. Syllogism-form outputs anchored actions in causal premises ("大前提: Write不可逆…我需要判断…") and introduced cross-review dimensions (scale-perspective, failure-mode-perspective) in design tasks. Imperative-form outputs used procedural tagging ("Q1/Q2/Q3") without causal elaboration. T2 design tasks (no Edit/Write → GateGuard not triggered) provided the cleanest window: syllogism sessions consistently produced multi-perspective cross-reviews absent from imperative sessions.
 
@@ -219,19 +256,24 @@ Pender (2026, Zenodo) independently demonstrated that logical/relational prompts
 ```
 Layer 1 (Part 1): Mechanical Gate — "Did information arrive?"
   Filesystem checks (mtime, exit codes, hook wiring). Bypasses Prose Barrier.
+  Status: ✅ Deployed and validated (150-task experiment, §6.5).
 Layer 2 (Part 2): Neural Gate — "Did information leave traces?"
-  Constraint echo detection (keyphrase presence in output). Works within Barrier.
+  v1 Constraint echo detection (keyword presence in output, 86 lines Python) — ✅ Deployed.
+  v2 Logprob differential (compare token probabilities with/without constraint) — 📐 Designed, script written, needs API key.
+  v3 Residual stream probes (train linear classifiers on Qwen2.5-1.5B) — 🗺️ Roadmap, needs local model access.
+  All versions operate within the Prose Barrier; only v1 has been empirically tested.
 Layer 3 (Part 3): Causal Encoding — "Does format determine pathway?"
   Format changes attention routing topology within Barrier.
+  Status: ⚠️ Preliminary behavioral evidence (n=4 syllogism pilot, n=150 GateGuard-confounded A/B); direct attention measurement pending.
 ```
 
-Three layers, one information pipeline: **arrival → penetration → routing.** None replaces the others.
+Three layers, one information pipeline: **arrival → penetration → routing.** None replaces the others. Layers 1 and 2 have working implementations; Layer 3 is a research hypothesis with preliminary behavioral support.
 
 ### 6.8 Related Work on Format Effects
 
-Pender (2026) provided the mechanistic evidence linking prompt format to attention routing. Heris (2025) proposed Prompt Decorators — declarative tags for LLM control — but tags remain external commands. SemEval-2026 systems achieved 100.0 on syllogistic reasoning via neuro-symbolic approaches, but these delegate logic externally rather than embedding it in prompt structure. "The Magic of IF" showed code-LLMs outperform on causal reasoning with conditional structures — directly supporting our finding that structure matters more than format. Constitutional AI (Bai 2022) operates at training time; we operate at prompt time.
+Pender (2026) provided the mechanistic evidence linking prompt format to attention routing [10]. Heris (2025) proposed Prompt Decorators — declarative tags for LLM control [11] — but tags remain external commands; the current work tests whether format changes behavior when rules are embedded in the agent's operational context. Chain-of-Thought prompting (Wei et al., 2022) demonstrated that reasoning format substantially affects output quality [12], but CoT studies format as a task-solving scaffold rather than as a persistent behavioral constraint. Constitutional AI (Bai et al., 2022) operates at training time through RL from AI feedback [13]; we operate at prompt time through configuration files loaded at session start. Self-consistency (Wang et al., 2022) improves reliability through multiple sampling [14] — a complementary strategy that increases compute cost rather than restructuring the configuration layer.
 
-**Our distinct contribution**: engineering the format→routing→behavior causal chain for agent configuration, grounded in both behavioral evidence and independent mechanistic research.
+**Our distinct contribution**: engineering the format→routing→behavior causal chain for agent configuration, grounded in behavioral evidence with independent mechanistic support from Pender (2026). The contribution is the application of format-effect findings to the under-studied problem of persistent agent configuration integrity, not the discovery of format effects themselves.
 
 ### 6.9 Limitations and Future Work
 
@@ -241,7 +283,7 @@ Pender (2026) provided the mechanistic evidence linking prompt format to attenti
 
 ### 6.10 Conclusion
 
-We present controlled experimental evidence (n=6 sessions, 150 tasks, between-subjects) that **mechanical gates guarantee agent configuration compliance** regardless of rule format — 149/150 tasks (99.3%) showed zero violations when GateGuard hooks enforced pre-action checks. The single violation was self-detected through Honesty self-audit. This is direct evidence for the thesis's core claim: mechanical enforcement is both necessary and sufficient for rule compliance; format effects operate on reasoning depth rather than adherence rate.
+We present controlled experimental evidence (n=6 sessions, 150 tasks, between-subjects) that **mechanical gates guarantee agent configuration compliance** regardless of rule format — 149/150 tasks (99.3%) showed zero violations when GateGuard hooks enforced pre-action checks. The single violation was self-detected through Honesty self-audit. This is direct evidence for Layer 1 (mechanical gate) effectiveness: when filesystem-level hooks block unverified operations, compliance approaches 100% irrespective of rule format. **The experiment was designed to test Layer 3 (format effects on behavior), but the GateGuard ceiling prevents isolating format effects on compliance rate.** The secondary finding — that format affects reasoning depth in un-gated tasks — is qualitative and unscored. A GateGuard-disabled replication with independent blind raters is required to test the format-effect hypothesis.
 
 Retrospective baseline coding of 34 growth-log sessions under imperative format (pre-GateGuard era) documented violations in 55.9% of sessions, establishing that rules without mechanical enforcement are routinely violated. The contrast — 55.9% without GateGuard vs. 0.7% with GateGuard — quantifies the gap between purely textual rules and mechanically enforced ones.
 
@@ -255,9 +297,9 @@ Syllogism-form rules produced systematically deeper causal reasoning than impera
 
 ## 7. Conclusion
 
-LLM agents change over time. Config rules shape that change — measurably. This paper presented a three-layer architecture: mechanical gates that enforce compliance via filesystem checks (Layer 1, validated: 55.9%→0.7% violation rate in 150 controlled tasks), neural gates that detect constraint penetration (Layer 2, v1 deployed), and causal encoding that changes how rules are processed internally (Layer 3, preliminary evidence of reasoning depth effects). The dominant experimental finding is that mechanical enforcement is the primary factor in agent compliance — it determines whether rules are followed; rule format determines how deeply they are understood.
+LLM agents change over time. Config rules shape that change — measurably, though the current evidence is preliminary (single-rater, unblinded; independent verification pending). This paper presented a three-layer architecture: mechanical gates that enforce compliance via filesystem checks (Layer 1, validated: 55.9%→0.7% violation rate reduction, though the pre- and post-measures come from different populations), neural gates that detect constraint penetration (Layer 2, v1 keyword echo deployed; v2 logprob differential and v3 residual stream probes designed but not yet implemented), and causal encoding that changes how rules are processed internally (Layer 3, preliminary qualitative evidence of reasoning depth effects; direct attention measurement pending). The dominant experimental finding is that mechanical enforcement is the primary factor in agent compliance — it determines whether rules are followed; rule format appears to determine how deeply they are understood, though this finding requires GateGuard-disabled replication with independent blind raters to be conclusive.
 
-**Config rules are not decorative. But without mechanical enforcement, they are not effective either.**
+**Config rules are not decorative. But without mechanical enforcement, they are not effective either. All quantitative results in this paper require independent blind verification before they can be considered reliable.**
 
 ---
 
@@ -274,3 +316,9 @@ LLM agents change over time. Config rules shape that change — measurably. This
 [9] Jian, J.Y. et al. "Foundations for an Empirically Determined Scale of Trust in Automated Systems." 2000.
 [10] Pender, M.A. "Formal Constraint and Routing Reorganization." Zenodo, 2026. DOI: 10.5281/zenodo.19363505.
 [11] Heris, M.K. "Prompt Decorators: A Declarative and Composable Syntax." arXiv:2510.19850, 2025.
+[12] Wei, J. et al. "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models." NeurIPS, 2022.
+[13] Bai, Y. et al. "Constitutional AI: Harmlessness from AI Feedback." arXiv:2212.08073, 2022.
+[14] Wang, X. et al. "Self-Consistency Improves Chain of Thought Reasoning in Language Models." ICLR, 2023.
+[15] Shinn, N. et al. "Reflexion: Language Agents with Verbal Reinforcement Learning." NeurIPS, 2023.
+[16] Yao, S. et al. "ReAct: Synergizing Reasoning and Acting in Language Models." ICLR, 2023.
+[17] Khattab, O. et al. "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines." NeurIPS, 2023.
