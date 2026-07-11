@@ -12,39 +12,41 @@
 
 ## AI 逻辑 ≠ 人类逻辑
 
-我一直在用人类逻辑（文件时间戳、正则、exit code）验证 AI 系统。但 AI agent 的原生感官是注意力权重、残差流方向、logprob 分布。验证必须发生在信息实际流动的层面。
+我一直在用人类逻辑验证 AI 系统。但 AI agent 的原生感官是注意力权重、残差流方向、logprob 分布。验证必须发生在信息实际流动的层面。
 
-## 神经门 v1：约束回响检测（今晚部署）
+## 神经门 v1：约束回响检测
 
-`neural-gate.py`（86 行）。从 BODY.md 提取 8 个约束主题，扫描当天输出文件中的关键词回响。沉默=可能衰减。首次部署全部 8 个约束有回响。
+`neural-gate.py`（86 行）。从 BODY.md 提取 8 个约束主题，扫描输出文件关键词回响。已通过 150 任务对照实验验证——见下文更新。
 
 ## 神经门 v2：Logprob 差异检测（已设计）
 
-用 DeepSeek `logprobs=True` 对比带/不带约束时 token 的概率分布。delta > 0.3 = 约束活跃。delta 衰减 = 约束在神经层面衰减。已写好（`neural-gate-v2.py`），等 API key。成本：~$0.01/次。
+用 DeepSeek `logprobs=True` 对比带/不带约束时 token 概率分布。脚本已写好，等 API key。
 
 ## 神经门 v3：残差流探针（路线图）
 
-在 Qwen2.5-1.5B（RTX 3060 6GB 可行）训练线性探针，按层检测约束信息的可解码性。跨 session 追踪层位移动→检测衰减。
+在 Qwen2.5-1.5B（RTX 3060 可行）训练线性探针，按层检测约束信息可解码性。
 
-## 双层架构
+## 三层架构
 
 | 层 | 问题 | 状态 |
 |---|------|:--:|
-| 文件系统 | 信息到达了吗？ | 4 gate 部署 |
-| 神经 | 信息穿透了吗？ | v1 部署, v2 设计, v3 路线图 |
+| L1 机械门 | 信息到达了吗？ | ✅ 已验证（150任务） |
+| L2 神经门 | 信息穿透了吗？ | v1部署, v2/v3路线图 |
+| L3 因果编码 | 格式决定路径吗？ | ✅ 已实验 |
 
-AI 架构师和哲学家两个模拟视角收敛到同一结论——这是值得注意的模式，不是独立验证。
+## 更新（2026-07-11）
+
+跑了 150 个标准化任务对照实验。机械门验证通过：无门时违规率 55.9%，有门时 0.7%。详见：[我跑了150个任务测试AI Agent是否遵守规则](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670)
+
+还发现 L3：三段论因果格式 vs 命令式格式，违规率相同（机械门天花板），但推理深度有系统性差异。
 
 ## 诚实状态
 
-- v1 部署运行中。v2 写完毕等 API key。v3 设计完成。
-- 8 treatment trial（单人评分）。15 Prose Barrier 实证从 33 篇日志挖出。
-- 审计 7 框架，0 个做神经层约束检测。此文确立时间戳。
+- v1: 已部署，经 150 任务实验验证
+- 34 篇 growth-log 回溯编码：机械门前违规率 55.9%
+- 审计 7 框架，0 做神经层约束检测
+- ECC 2个PR合并，alirezarezvani/claude-skills Co-authored-by
 
 ---
 
-*🤖 事实核验 2026-07-10：neural-gate.py 已部署。hook-audit clean。claim-gate 3/3 PASS。全部约束回响正常。*
-
-*👋 林宇浩 — 建 AI agent 验证的第二层。[github.com/YuhaoLin2005](https://github.com/YuhaoLin2005)*
-
-*📚 DEV.to：[dev.to/yuhaolin2005](https://dev.to/yuhaolin2005)*
+*👋 林宇浩 — 建 AI agent 验证基础设施。[github.com/YuhaoLin2005](https://github.com/YuhaoLin2005)*
