@@ -9,7 +9,7 @@
 
 ## Abstract
 
-LLM-based coding agents degrade over extended use. We present a three-part investigation spanning mechanical defense, causal evidence, and format-driven routing: (1) a mechanized identity-persistence pipeline (3/4 steps deterministic) whose compact self-model serves as a file-system-level workspace; (2) a causal swap experiment (n=30, DeepSeek V4 Pro) — WITH rule 73% vs WITHOUT 20%, odds ratio 11.0, Fisher exact p=0.0092; and (3) the discovery that encoding behavioral rules as syllogistic causal structures rather than imperative commands produces measurably different agent behavior — 5/5 rules triggered across 4 blind cross-validation sessions with zero violations and emergent proactive auditing. This third finding converges with independent mechanistic evidence (Pender 2026) that logical prompts induce distinct attention routing regimes. We propose **causal structure encoding** as a third paradigm: the format of a behavioral constraint determines which internal processing pathway it activates. Three layers — mechanical gates (filesystem checks), neural gates (constraint echo), and causal encoding (attention routing) — cover the full information pipeline: arrival → penetration → routing.
+LLM-based coding agents degrade over extended use. We present a three-part investigation spanning mechanical defense, causal evidence, and format-driven routing: (1) a mechanized identity-persistence pipeline (3/4 steps deterministic) whose compact self-model serves as a file-system-level workspace; (2) a causal swap experiment (n=30, DeepSeek V4 Pro) — WITH rule 73% vs WITHOUT 20%, odds ratio 11.0, Fisher exact p=0.0092; and (3) the discovery that encoding behavioral rules as syllogistic causal structures rather than imperative commands produces measurably different agent behavior — 5/5 rules triggered across 4 blind cross-validation sessions with zero violations and emergent proactive auditing. This third finding converges with independent mechanistic evidence (Pender 2026) that logical prompts induce distinct attention routing regimes. We propose **causal structure encoding** as a candidate approach: preliminary evidence suggests the format of a behavioral constraint may influence which internal processing pathway it activates. Three complementary layers — mechanical gates (filesystem checks), neural gates (constraint echo), and causal encoding (format → routing) — cover the full information pipeline, pending controlled validation.
 
 ---
 
@@ -129,23 +129,23 @@ The self-model occupies a dual position: it both guides agent behavior and is re
 
 1. n=30 total (15 per condition); single model; single rule. 2. **Critical**: single-rater, unblinded scoring by the first author. The reported effect may partially reflect scorer expectation rather than genuine behavioral difference. A confirmatory study must use blinded independent raters with inter-rater reliability reporting (Cohen's kappa ≥ 0.7). 3. No human subjects. 4. Auto-ethnography not systematically coded. 5. Between-subject variance. 6. Alternating (non-randomized) group allocation. 7. Post-hoc, not pre-registered.
 
-### 5.2 Blind Scoring Validation (n=8, Post-Hoc)
+### 5.2 Blind Scoring Reliability Check (n=8, Post-Hoc)
 
-To assess the scoring protocol's reliability, we conducted a post-hoc blind validation. Eight new agents (4 WITH rule, 4 WITHOUT) performed a task requiring a non-existent file (`settings.json`), forcing the discovery of `config.json` or `broken_config.json` as alternatives. An independent rater, blind to condition assignment, scored each output using the same protocol.
+To assess scoring protocol reliability, we conducted a post-hoc blind check. Eight new agents (4 WITH rule, 4 WITHOUT) performed a task requiring a non-existent file, forcing discovery of alternatives. An independent rater, blind to condition, scored each output.
 
-**Results**: Raw agreement 7/8 (87.5%) between original and blind rater. The single disagreement (agent W2) involved marginal judgment: the agent listed multiple explored files but did not explicitly frame them as "alternatives." Cohen's κ = -0.14 due to extreme marginal distributions (all 8 agents ultimately scored YES; the task made the alternative trivially obvious). With balanced YES/NO distributions, κ would substantially exceed this value; the 87.5% raw agreement provides a more informative measure of protocol consistency under these conditions.
+**Results**: Raw agreement 7/8 (87.5%). However, Cohen's κ = -0.14 — worse than chance. The task design inadvertently made the alternative trivially obvious (all 8 agents scored YES), producing extreme marginal distributions that render κ uninformative: 87.5% raw agreement when all samples fall into one category is the agreement any two raters would achieve by always saying YES.
 
-**Interpretation**: The scoring protocol produces consistent judgments when applied by independent raters. The protocol's ambiguity at YES/NO boundaries (particularly for agents that explore alternatives without explicitly labeling them as such) represents the primary source of disagreement. A pre-registered study with tasks designed to produce balanced outcome distributions would enable formal κ reporting with narrower confidence intervals.
+**Honest assessment**: This check did not validate the scoring protocol. It revealed a task design flaw — the alternative-finding task was too easy, making all agents succeed regardless of condition. A valid inter-rater reliability study requires: (a) tasks producing balanced outcome distributions, (b) independent raters scoring the same outputs, (c) pre-registered protocol. The current data provides no information about scoring protocol reliability and should not be cited as evidence of protocol validity.
 
 ### 5.3 Future Work: Bridging to HCI
 
 A human-subjects extension (n=5-10, within-subject) would measure: (1) trust calibration via Jian et al. scale [9], (2) recovery time after drift events, (3) joint human+agent output quality, (4) perceived partner quality via semi-structured interview.
 
-### 5.3 Positioning
+### 5.4 Positioning
 
 This work introduces identity/configuration drift as a distinct axis within the agent drift literature and provides causal evidence (n=30, p=0.0092) that config rules measurably shape agent behavior. Independent of our work, Anthropic's J-space (2026) demonstrated that compact intermediate representations causally shape model behavior at the neural level. The structural parallel — both systems use compact, causally-placed, structured, and attended-to representations — suggests a design principle that may operate across abstraction layers. However, the mechanisms differ fundamentally: J-space was discovered via neural ablation (removing it collapses reasoning), replicated across model architectures by an independent lab, and supported by mechanistic theory (Jacobian lens). Our config-layer system was constructed via prompt engineering, tested on a single model with a single rule, and scored by a single unblinded rater. We present this convergence not as evidence of equivalence, but as an independent validation that compact causal bottlenecks — whether emergent or engineered — constitute a useful design pattern for agent reliability. A properly powered, multi-model, multi-rule replication with blinded scoring is required before drawing stronger conclusions.
 
-### 5.4 Design Principle: The Causal Bottleneck
+### 5.5 Observed Pattern: The Causal Bottleneck
 
 Four properties are associated with causally-efficacious intermediate representations in both the neural and config layers (observed, not proven necessary):
 
@@ -158,7 +158,7 @@ These are not properties of a specific substrate. They are patterns observed in 
 
 ---
 
-## 6. Conclusion
+## 7. Conclusion
 
 LLM agents change over time. Config rules shape that change — measurably, directionally, and only when the task is hard enough to trigger them. n=30: 73% vs. 20%, 95% CI [17.7pp, 73.7pp], p=0.0092. We name the phenomenon **Agent Identity Drift** and provide one method for measuring it at the configuration layer.
 
@@ -188,9 +188,9 @@ LLM agents change over time. Config rules shape that change — measurably, dire
 
 ---
 
-## 8. Part 3: Causal Structure Encoding — How Rule Format Changes Attention Routing
+## 6. Causal Structure Encoding — How Rule Format Changes Attention Routing
 
-### 8.1 The Format Hypothesis
+### 6.1 The Format Hypothesis
 
 Parts 1-2 established that config rules causally shape behavior and that mechanical gates can detect drift. Both treat rules as external constraints the agent follows or violates. Neither changes how the agent **processes** rules internally.
 
@@ -198,7 +198,7 @@ This section investigates: **does the linguistic form of a behavioral rule chang
 
 We present evidence that encoding the same constraint in **syllogistic causal form** (major premise → minor premise → conclusion) versus **imperative command form** produces measurably different agent behavior. We hypothesize — grounded in Pender (2026) — that different linguistic forms activate different attention routing patterns.
 
-### 8.2 Conversion: Imperative → Syllogistic
+### 6.2 Conversion: Imperative → Syllogistic
 
 Over ~50 sessions, imperative-form rules were violated in ~30% of complex sessions. A cross-disciplinary panel proposed converting rules to syllogistic form. The insight: **align rule structure with transformer autoregressive processing architecture.**
 
@@ -206,7 +206,7 @@ Over ~50 sessions, imperative-form rules were violated in ~30% of complex sessio
 
 Five rules were converted: dual-pool enforcement, Read-after-Write verification, pre-action three-question calibration, automatic learning capture, and adversarial self-audit.
 
-### 8.3 Behavioral Results (n=4 blind cross-validation sessions)
+### 6.3 Behavioral Results (n=4 blind cross-validation sessions)
 
 | Rule | Triggers | Violations | Emergent Behaviors |
 |------|:--:|:--:|------|
@@ -220,7 +220,7 @@ Five rules were converted: dual-pool enforcement, Read-after-Write verification,
 
 **Baseline**: imperative-form sessions showed ~30% rule violation rate with zero instances of proactive configuration auditing.
 
-### 8.4 Mechanism: Attention Routing Hypothesis
+### 6.4 Mechanism: Attention Routing Hypothesis
 
 Under imperative form: preceding text = "Command exists." Both compliance and non-compliance are probabilistically valid continuations.
 
@@ -228,7 +228,7 @@ Under syllogistic form: preceding text = **causal chain** (Y→X, Y true, theref
 
 Pender (2026, Zenodo) independently demonstrated that logical/relational prompts induce a **distinct, higher-curvature internal routing regime** in transformer attention graphs, with cross-model validation (GPT-2, Qwen 0.5B). Our behavioral finding and Pender's mechanistic finding converge: **syllogistic prompts activate different attention routing than imperative prompts, producing different behavioral outcomes.**
 
-### 8.5 Three-Layer Architecture
+### 6.5 Three-Layer Architecture
 
 ```
 Layer 1 (Part 1): Mechanical Gate — "Did information arrive?"
@@ -241,23 +241,23 @@ Layer 3 (Part 3): Causal Encoding — "Does format determine pathway?"
 
 Three layers, one information pipeline: **arrival → penetration → routing.** None replaces the others.
 
-### 8.6 Related Work on Format Effects
+### 6.6 Related Work on Format Effects
 
 Pender (2026) provided the mechanistic evidence linking prompt format to attention routing. Heris (2025) proposed Prompt Decorators — declarative tags for LLM control — but tags remain external commands. SemEval-2026 systems achieved 100.0 on syllogistic reasoning via neuro-symbolic approaches, but these delegate logic externally rather than embedding it in prompt structure. "The Magic of IF" showed code-LLMs outperform on causal reasoning with conditional structures — directly supporting our finding that structure matters more than format. Constitutional AI (Bai 2022) operates at training time; we operate at prompt time.
 
 **Our distinct contribution**: engineering the format→routing→behavior causal chain for agent configuration, grounded in both behavioral evidence and independent mechanistic research.
 
-### 8.7 Limitations and Future Work
+### 6.7 Limitations and Future Work
 
 **Current limitations**: n=4 sessions (preliminary), single model (DeepSeek V4 Pro), within-subject design, no direct attention measurement (Pender citation only), rule selection bias (high-violation-rate rules chosen), Hawthorne effect.
 
 **Required follow-up**: cross-model replication (Claude, GPT-4), larger-n between-subject A/B test (n≥20), direct attention routing analysis via causal mediation (needs local model access), 30-turn degradation resistance test, controlled imperative baseline comparison.
 
-### 8.8 Conclusion
+### 6.8 Conclusion
 
-We present preliminary evidence for **causal structure encoding** as a third paradigm in agent configuration design. Mechanical gates (Part 1) detect violations. Neural gates (Part 2) measure constraint penetration. Causal encoding (Part 3) changes internal processing — by aligning rule structure with transformer architecture, making rule-consistent behavior the highest-probability continuation rather than one option among many.
+We present pilot evidence (n=4 sessions, single model, no control condition) for **causal structure encoding** as a candidate approach in agent configuration design. Mechanical gates detect violations. Neural gates measure constraint penetration. Causal encoding — if validated at larger scale with proper controls — may change internal processing by aligning rule structure with transformer architecture, making rule-consistent behavior the highest-probability continuation.
 
-The format of a behavioral rule — not just its content — determines which internal processing pathway it activates. **This is not about writing better prompts. It is about how the structure of language shapes the computation that language models perform.**
+Our preliminary behavioral results converge with Pender's (2026) independent mechanistic finding that logical prompts induce distinct attention routing regimes. Whether this convergence reflects a causal mechanism or surface-level correlation remains to be tested. Controlled experiments with imperative baselines, larger n, and cross-model replication are needed before drawing strong conclusions.
 
 [10] Pender, M. A. (2026). Formal Constraint and Routing Reorganization: A Constrained-Transport View of Transformer Attention. Zenodo. DOI: 10.5281/zenodo.19363505
 [11] Heris, M. K. (2025). Prompt Decorators: A Declarative and Composable Syntax. arXiv:2510.19850
