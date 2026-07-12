@@ -225,10 +225,11 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 
 ## 已发布技术博文
 
-**DEV.to**（4 篇）：
+**DEV.to**（5 篇）：
 - [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier
 - [I Built a Neural Gate — Layer 2](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — L2 神经门
 - [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — L1+L3 合规
 - [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) — L2 Logprob V3
+- [Psychological Safety for AI — L0](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986) — L0 心理安全
 
-**掘金**（中文，4 篇对应）：juejin.cn/user/4250072430682412
+**掘金**（中文，5 篇对应）：juejin.cn/user/4250072430682412
