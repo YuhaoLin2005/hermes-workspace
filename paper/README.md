@@ -38,6 +38,9 @@
 ### 想审查（30 min）
 → 完整 PAPER.md + 实验数据 + [reviewer-report-2026-07-11.md](reviewer-report-2026-07-11.md)。**注意：reviewer-report 中的"审稿人"是 AI 模拟的，用途是自诊而非替代真人评审。**
 
+### 想深入（45 min）
+→ 以上全部 + [supplementary/](supplementary/) 补充分析（logprob↔behavior 桥接、NO RULES 基线完整分析、五层独立性论证）。
+
 ---
 
 ## 五层架构总览
@@ -92,7 +95,7 @@ L0 心理安全           L1 机械门            L2 神经门            L3 因
 | Causal Swap | 30 tasks | Between-subjects (15+15) | 备选方案寻求率 | WITH 73% vs WITHOUT 20% | OR=11.0, p=0.009 | L3 | 作者本人 |
 | **Logprob 探针 V3** | **40 probes** | **Within-probe, 3-condition** | **logprob(A)−logprob(B)** | **三段论 > 祈使句** | **d=+0.578, BF=282k** | **L2, L3** | **API 直接返回** |
 | Format A/B 合规 | 150 tasks | Between-subjects (75+75) | 合规率 | 天花板 99.3%，机械钩子主导 | — | L1, L3 | 作者本人 |
-| **GateGuard-OFF** | **21 probes** | **Within-probe, 2-format** | **行为合规** | **IMP≈SYL (delta=−0.02)** | — | **L3** | **作者本人** |
+| **GateGuard-OFF** | **21 probes × 3 cond** | **Within-probe, 3-condition (NO RULES / IMP / SYL)** | **行为合规** | **Rules work (+0.38 above NO RULES baseline 0.48); IMP≈SYL (delta=−0.02)** | — | **L3** | **作者本人** |
 | Syllogism 盲交叉验证 | 4 sessions | 5 规则全触发 | 违规率 | 0 违规 + 涌现主动审计 | — | L3 | 作者本人 |
 | 行为测试套件 | 19 tests | 自动化回归 | pass/fail | 19/19 全通过 (CORE-01~08 + BEH-01~11) | — | L1, L4 | **脚本自动** |
 
@@ -214,7 +217,7 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 
 **我做到了**（一个人、一台笔记本、一个 API key）：
 - 五层架构设计（L0 心理安全 + Prose Barrier + 每层独立验证机制）
-- 7 项实验（L0 安全提示词、回溯编码、Causal Swap、Logprob 探针、Format A/B、GateGuard-OFF、盲交叉验证、行为测试）
+- 8 项实验（L0 安全提示词、回溯编码、Causal Swap、Logprob 探针、Format A/B、GateGuard-OFF、盲交叉验证、行为测试）
 - 5000+ 行 Python 脚本，7 项实验，19/19 行为测试全通过
 - 开源社区真实认可（PR merged + Co-authored-by）
 
