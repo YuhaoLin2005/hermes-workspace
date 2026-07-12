@@ -177,8 +177,9 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 - **模拟教授审计**（2026-07-11）：诚实度（κ=−0.14 不隐瞒）比 p<0.001 值钱
 - **模拟 ACL/CHI 审稿人**（2026-07-11）：创新 6/10, 实验 Rigor 2/10, 理论 5/10, 写作 3/10。当前 Reject → 修后 Weak Accept
 - **模拟博士后冷读 ×2**（2026-07-11）：HCI (UCL) + ML/Agent (CMU)。当前适合 workshop 级
+- **重评估**（2026-07-12，含 Logprob V3 证据）：实验 Rigor 2→5(+3), 写作 3→6(+3)。Weak Accept → 补跨模型复制可达 Findings/Short Paper。三人共识：跨模型复制是下一个最重要改进。
 
-完整报告：`reviewer-report-2026-07-11.md`
+完整报告：[初评](reviewer-report-2026-07-11.md) · [重评估](reviewer-report-2026-07-12-reevaluation.md)
 
 ---
 
