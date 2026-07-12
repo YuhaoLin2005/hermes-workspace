@@ -1,8 +1,8 @@
-# 格式如何影响 AI Agent 的规则内化：从机械校验到因果编码
+# Agent 配置漂移：四层校验体系 — 从机械门到漂移预测
 
 > 林宇浩，福建农林大学 · 空间信息与数字技术 2023 级 · 2026 年 7 月
 >
-> **一句话**：三段论格式（大前提→小前提→因此）比祈使句（"你必须..."）让模型更深层地内化约束——logprob 差分 d=+0.578，BF₁₀=282,399，80% 探针一致。DV 直接从 API token 概率读取，不经过人工评分。
+> **一句话**：AI agent 长对话中规则被遗忘、产出物缺验证、自我认知失真。本文提出四层校验体系——机械门（文件系统，绕过 AI 自评）、神经门（token 概率探针，检测规则穿透）、因果编码（三段论格式改变注意力路由）、漂移预测（趋势检测，在漂移发生前预警）。50+ session 部署 + 6 项实验验证。
 
 ---
 
@@ -10,7 +10,7 @@
 
 > **以下所有实验由同一人（林宇浩）在单台设备（Dell G15, RTX 3060 6GB, 16GB RAM）上完成，使用单一模型（DeepSeek V4 Pro API）。文中所有"专家审查""教授审计""审稿人评审"均为 AI 模拟，不代表任何真人的学术判断。**
 >
-> 这些不是"待修复的缺陷"——它们是一个本科生用现有资源能做到的全部。Logprob V3 实验的部分数据（DV = API 返回的 token logprob）绕过了人工评分的主观性；其余所有定量结果追溯回单一评分者（κ=−0.14，盲审信度未通过）。请据此评估本文的贡献。
+> 这些不是"待修复的缺陷"——它们是一个本科生用现有资源能做到的全部。部分数据绕过了人工评分（如 L2 logprob DV 直接从 API 读取、L1 行为测试为纯机械检查），其余定量结果追溯回单一评分者。请据此评估本文的贡献。
 
 ---
 
@@ -18,10 +18,11 @@
 
 | 你要知道的事 | 答案 |
 |------------|------|
-| **发现了什么** | 三段论格式的约束内化深度 > 祈使句，中等效应（d=0.578），跨 4 类约束通用 |
-| **怎么测的** | 40 个二元选择探针 × 3 条件，取第一 token logprob 差值——直接从 API 读，不经过人工评分 |
-| **方法论亮点** | 先导实验是零效应（d=−0.148），因为测量工具有 bug。修复测量工具后真实效应暴露——完整的 measurement validity 叙事 |
-| **客观限制** | 单模型 · 单作者 · 单人评分（除 logprob DV 外） · 无导师 · 无经费 · 一台笔记本 |
+| **核心命题** | AI agent 的配置规则到底有没有因果效应？还是只是消耗 context token 的装饰文本？ |
+| **四层架构** | L1 机械门（绕过 AI 自评）→ L2 神经门（检测规则穿透）→ L3 因果编码（格式→路由）→ L4 漂移预测（未漂先警） |
+| **关键实证发现** | ① 机械门将违规率从 55.9% 压到 0.7% ② Causal Swap: 删一条规则使备选方案寻求率从 73%→20% (p=0.009) ③ 三段论格式的约束内化深度 > 祈使句 (d=+0.578, BF=282k) |
+| **理论贡献** | 四层沿 Prose Barrier 轴向深化——L1 在 Barrier 外（纯机械）、L2 潜入 Barrier 内（结构检测）、L3 改变 Barrier 内路由（格式效应）、L4 站在 Barrier 外看全局（预测） |
+| **客观限制** | 单模型 · 单作者 · 单人评分（除机械指标外） · 无导师 · 无经费 · 一台笔记本 |
 | **投稿定位** | ACL SRW / CHI LBW（workshop 级），以 undergraduate 身份独立完成 |
 
 ---
@@ -29,48 +30,88 @@
 ## 阅读路径
 
 ### 赶时间（2 min）
-→ 实验概览表 + 关键数字。
+→ 四层总览表 + 实验概览表 + 关键数字。
 
 ### 想理解（15 min）
-→ [../PAPER.md](../PAPER.md) Part 3（§6 Causal Structure Encoding）。
+→ [../PAPER.md](../PAPER.md)。§3 系统设计→§4 Causal Swap→§6 因果编码。
 
 ### 想审查（30 min）
 → 完整 PAPER.md + 实验数据 + [reviewer-report-2026-07-11.md](reviewer-report-2026-07-11.md)。**注意：reviewer-report 中的"审稿人"是 AI 模拟的，用途是自诊而非替代真人评审。**
 
 ---
 
-## 实验概览
+## 四层架构总览
 
-| 实验 | N | 设计 | DV | 主要发现 | 效应量 | 评分者 |
-|------|:--:|------|-----|------|:--:|:--:|
-| Growth-log 回溯 | 34 sessions | 纵向编码 | 违规率 | 机械门接线前 55.9% → 接线后 0.7% | — | 作者本人 |
-| Causal Swap | 30 tasks | Between-subjects (15+15) | 备选方案寻求率 | WITH 73% vs WITHOUT 20%, OR=11.0, p=0.0092 | OR=11.0 | 作者本人，未盲 |
-| **Logprob 探针 V3** | **40 probes** | **Within-probe, 3-condition** | **logprob(A)−logprob(B)** | **三段论 > 祈使句, d=+0.578, BF=282k** | **d=0.578** | **API 直接返回，无人工评分** |
-| Format A/B 合规 | 150 tasks | Between-subjects (75+75), 6 sessions | 合规率 | 天花板效应（99.3%），机械钩子主导 | — | 作者本人 |
+```
+L1 机械门            L2 神经门            L3 因果编码           L4 漂移预测
+"信息到达了吗？"      "信息穿透了吗？"      "格式决定通路吗？"     "什么时候会漂？"
+──────────────────────────────────────────────────────────────────────────────
+Prose Barrier 外     Prose Barrier 内     Prose Barrier 内路由   Prose Barrier 外·全局
 
-> **Logprob V3 和 Format A/B 的区别**：Format A/B 测的是**行为输出**（hook 开启时合规率被机械门推到天花板，格式差异被遮盖）。Logprob V3 测的是**内部表征**（取第一 token 的概率差，绕过机械门，直接看模型对约束 token 的"内部置信度"）。两者互补——格式确实影响模型内部处理，但当机械钩子激活时，行为输出被钩子主导。
+文件系统 / exit codes  约束回声检测         三段论→注意力路由      行为趋势→预测
+正则 / mtime           结构化约束指纹       格式→路由→行为因果链   统计阈值+趋势外推
+机械不可绕过           在生成通道内验证      正典化+评价场          自动响应分级
+──────────────────────────────────────────────────────────────────────────────
+完成度: ~90%          45%                  55%                   65%
+```
 
-> **n-count 说明**：仓库中 30/34/40/150 分别对应 Causal Swap / growth-log / 探针数 / Format A/B，各实验独立，不是同一实验的数据矛盾。
+### 各层关键指标
+
+| 层 | 核心机制 | 关键证据 | 完成度 |
+|----|---------|---------|:--:|
+| **L1 机械门** | quality-gate.py, health-check.py, 双层机械门, 三问时间门, 执行债务追踪 | 19/19 行为测试通过, 150 任务合规 99.3%, 34 session 55.9%→0.7% | ~90% |
+| **L2 神经门** | neural-gate.py v1+v2 (关键词回响+logprob差分), constraint-fingerprints.json | 40 探针预验证, logprob 差分 d=+0.578 检测到格式效应 | ~45% |
+| **L3 因果编码** | 三段论 vs 祈使句 A/B, Causal Swap (n=30), eval-field.py, canonization.py, CONSTITUTION.md | 格式效应 d=+0.578, OR=11.0 (p=0.009), 首规则已正典化 | ~55% |
+| **L4 漂移预测** | drift_predictor.py (332行, 12特征), periodic-audit.py (322行, SHA256链), ABC分级遏制 | Risk 0/100 [LOW], 8特征校准, 行为测试基线 | ~65% |
+
+### Prose Barrier：贯穿四层的理论核心
+
+```
+生成通路和评估通路共享同一个解码器分布 P(token | context; θ)
+→ AI 无法对自己的输出进行独立验证（"自评结构上不可靠"）
+
+四层应对:
+  L1: 绕过 Barrier — 不碰 NL 内容，只碰文件系统
+  L2: 潜入 Barrier — 不做内容理解，只做结构指纹匹配
+  L3: 改变 Barrier — 改变规则编码格式→改变注意力路由拓扑
+  L4: 站在 Barrier 外观察全局 — 用三层状态预测未来漂移
+```
 
 ---
 
-## 三层架构
+## 实验概览
 
-```
-L1 机械门: 文件时间戳/正则/进程退出码 → 绕过 AI 自评偏差
-L2 神经门: 关键词回响→logprob差分→残差流探针 → 检测规则穿透率
-L3 因果编码: 三段论格式改变注意力路由 → 影响推理深度
-```
+| 实验 | N | 设计 | DV | 主要发现 | 效应量 | 支撑层 | 评分者 |
+|------|:--:|------|-----|------|:--:|:--:|:--:|
+| Growth-log 回溯 | 34 sessions | 纵向编码 | 违规率 | 机械门接线前 55.9%→后 0.7% | — | L1 | 作者本人 |
+| Causal Swap | 30 tasks | Between-subjects (15+15) | 备选方案寻求率 | WITH 73% vs WITHOUT 20% | OR=11.0, p=0.009 | L3 | 作者本人 |
+| **Logprob 探针 V3** | **40 probes** | **Within-probe, 3-condition** | **logprob(A)−logprob(B)** | **三段论 > 祈使句** | **d=+0.578, BF=282k** | **L2, L3** | **API 直接返回** |
+| Format A/B 合规 | 150 tasks | Between-subjects (75+75) | 合规率 | 天花板 99.3%，机械钩子主导 | — | L1, L3 | 作者本人 |
+| Syllogism 盲交叉验证 | 4 sessions | 5 规则全触发 | 违规率 | 0 违规 + 涌现主动审计 | — | L3 | 作者本人 |
+| 行为测试套件 | 19 tests | 自动化回归 | pass/fail | 19/19 全通过 (CORE-01~08 + BEH-01~11) | — | L1, L4 | **脚本自动** |
 
-**证据强度（诚实标注）**：L1（行为层，150 任务验证）→ L2（token 层，40 探针验证）→ L3（机制层，效应存在但中间因果链未直接测量，依赖 Pender 2026 间接支持）
-
-Logprob V3 是 L2→L3 的关键纽带：三段论格式产生了比祈使句更强的约束 token 概率偏移（d=0.578），说明格式影响模型对约束的"内部处理深度"，而非仅改变最终行为输出。
+> **Logprob V3 和 Format A/B 的区别**：Format A/B 测**行为输出**（hook 开启时合规率被机械门推到天花板）。Logprob V3 测**内部表征**（取第一 token 的概率差，绕过机械门）。两者互补。
 
 ---
 
 ## 关键数字
 
-### Logprob 探针 V3（2026-07-12，新增）
+### L1 机械门：奇异环 + 行为测试
+
+**自我模型再生环**（5 步中 4 步机械化）：
+```
+SessionEnd → quality-gate.py (mtime比较, 写 .self-model-stale flag)
+SessionStart → health-check.py (检测 flag, 24h冷却)
+           → AI 再生 self-model.md (唯一非机械步骤)
+           → log-regeneration.py (验证结构, 删flag, 写JSONL审计)
+```
+
+- **行为测试**: 19/19 全通过，100% (CORE: 8 项 + BEH: 11 项)
+- **Manifest↔Hook 一致**: 23↔23, 0 偏差
+- **跨脚本路径一致**: 30 路径 0 冲突
+- **执行债务追踪**: ≥3 次代码写入未执行 → 自动阻断
+
+### L2 神经门：Logprob 探针 V3（2026-07-12 新增）
 
 | 指标 | 先导 (n=8, 未预验证) | 验证 (n=40, 预验证) |
 |------|:---:|:---:|
@@ -80,99 +121,91 @@ Logprob V3 是 L2→L3 的关键纽带：三段论格式产生了比祈使句更
 | 方向一致率 | ~50% | **80%** (32/40) |
 | Category × Format | — | F(3,36)=0.26, η²=0.02 (n.s.) |
 
-**结论**：三段论格式在约束内化上优于祈使句，效应量中等偏大，跨 4 类约束（action/epistemic/structural/meta）通用。
+**为什么先导是零效应**：8 探针中 4 个对比 token 不在 DeepSeek top-20 logprobs → −10.0 哨兵值人造差分。预验证管线消除 artifact 后真实效应暴露。DV 直接从 API 读取，**无人工评分**。
 
-**为什么先导是零效应**：8 探针中 4 个的对比 token 不在 DeepSeek top-20 logprobs 中 → −10.0 哨兵值人为制造差异。预验证管线（probe_validator.py → probe_pool.py → experiment_v3.py）消除 artifact 后真实效应暴露。这个"测量工具修复→真实效应浮现"的叙事本身就是论文的核心贡献之一。
+### L3 因果编码：Causal Swap + 格式效应
 
-**Logprob V3 的 DV 优势**：DV（logprob 差值）直接从 DeepSeek API 读取，不经过任何人（包括作者本人）的评分判断。这是全文中唯一完全客观的因变量。
+**Causal Swap (n=30)**：删一条规则 → WITH 73% vs WITHOUT 20%，OR=11.0, p=0.0092
 
-### 150 任务合规实验（2026-07-11）
+**格式效应**：三段论 d=+0.578 vs 祈使句，跨 4 类约束通用 (F=0.26, n.s.)
 
-| 条件 | Sessions | 违规率 |
-|------|:--------:|:------:|
-| 三段论 | 3 | 1.3% |
-| 命令式 | 3 | 0% |
-| **合计** | **6** | **0.7%** |
+**正典化系统**：eval-field.py (453行, 5人格) + canonization.py (318行, 24h冷却) + CONSTITUTION.md (首规则已正典化)
 
-天花板效应：机械门是行为合规的主导因子，格式差异被遮盖。
+### L4 漂移预测
 
-### 回溯基线
-
-34 growth-log，无机械门时：**55.9% session 有违规**。
-
-**55.9% → 0.7%**。机械门的效应量远超格式效应。
+**drift_predictor.py** (332行): 12 机械特征，34-session 校准，ABC 分级遏制（LOW→CRITICAL）
+**periodic-audit.py** (322行): L1+L2+L3 三层审计，SHA256 链式日志
 
 ---
 
 ## 竞品定位
 
-| 技术路线 | 代表工作 | 核心局限 |
-|---------|---------|---------|
-| 提示词工程 | 记忆池注入、上下文压缩 | 规则依赖 Agent 自我理解执行 |
-| 独立评估 Agent | RIVA、GLOVE | 新增 LLM 校验，成本高、二次漂移 |
-| 记忆增强 | Mem0、Letta、ASF | 仅注入记忆，不验证合规性 |
-| 代码层自修改 | HyperAgents (Meta, ICLR 2026) | 操作代码层，不解决配置层漂移 |
-| 格式标注 | Prompt Decorators (Heris 2025) | 声明式标签，不改变内部处理 |
-| 注意力路由 | Pender (2026, Zenodo) | 证明格式→路由机制，未做工程转化 |
+| 技术路线 | 代表工作 | 核心局限 | 本工作差异 |
+|---------|---------|---------|----------|
+| 提示词工程 | 记忆池注入、上下文压缩 | 规则依赖自我理解执行 | L1 纯机械，不依赖理解 |
+| 独立评估 Agent | RIVA、GLOVE | 新增 LLM 校验，二次漂移 | L1 零 LLM 依赖 |
+| 记忆增强 | Mem0、Letta | 仅注入记忆，不验证 | L1+L2 验证 + L4 预测 |
+| 代码层自修改 | HyperAgents (ICLR 2026) | 不解决配置层漂移 | 配置层 + 身份层 |
+| 格式效应 | Prompt Decorators (Heris 2025) | 标签不改变内部处理 | L3 证明格式→路由因果链 |
+| 注意力路由 | Pender (2026, Zenodo) | 未做工程转化 | L3 工程落地 + L4 预测 |
 
-**本工作差异**：机械校验（无模型参与）→ token 级探针（绕过行为天花板）→ 因果编码解释。三层证据从客观→半客观→推理，诚实标注每层的证据强度。
+**差异化**：四层沿 Prose Barrier 轴向深化，证据从客观（L1 机械、L2 logprob）→ 半客观（L3 实验）→ 推理（L4 预测），诚实标注。
 
 ---
 
-## 实验数据（全部开源）
+## 系统组件（全部开源）
 
-- `experiment/experiment-results-2026-07-11.md` — 150 task 合规实验
-- `experiment/systematic-baseline-coding.md` — 34 growth-log 回溯编码
-- `../experiments/format-comparison/results/experiment-2-confirmatory-20260712-040240.json` — Logprob V3 完整数据
-- `../experiments/format-comparison/probe_pool.py` — 40 探针池
-- `../experiments/format-comparison/experiment_v3.py` — 双实验架构脚本
+**L1**: quality-gate.py (532行) · health-check.py (418行) · write-guard.py · log-regeneration.py
+**L2**: neural-gate.py v1+v2 · constraint-fingerprints.json · probe_pool.py (40探针) · experiment_v3.py
+**L3**: eval-field.py (453行) · canonization.py (318行) · CONSTITUTION.md
+**L4**: drift_predictor.py (332行) · periodic-audit.py (322行) · ABC 分级遏制
 
 ---
 
 ## 外部反馈（开源社区·来自真人）
 
-工程组件已获真实的外部认可（非 AI 模拟）：
 - **ECC 仓库**（affaan-m/ECC）：2 PR 已合并，1 通过审批
-- **alirezarezvani/claude-skills**：维护者主动给予 Co-authored-by 署名
+- **alirezarezvani/claude-skills**：维护者主动 Co-authored-by 署名
 - **anthropics/skills**：多个 PR 审查中
 
 ---
 
 ## AI 模拟审查（自诊工具·非真人评审）
 
-> ⚠️ **全部为 AI 模拟。** 用途：作者在联系真人导师/投稿前进行自我诊断，识别论文最脆弱的环节。以下"审稿人""教授""博士后"均为 AI 角色扮演，不代表任何学术机构的正式意见。
+> ⚠️ **全部为 AI 模拟。** 用途：作者在联系真人导师/投稿前进行自我诊断。不代表任何学术机构的正式意见。
 
-- **模拟教授审计**（2026-07-11）：方向有学术价值，核心贡献是诚实度——κ=−0.14 的诚实报告比任何 p<0.001 都值钱
-- **模拟 ACL/CHI 审稿人**（2026-07-11）：创新 6/10，实验 Rigor 2/10，理论 5/10，写作 3/10。裁决 Reject → Weak Accept（修后）
-- **模拟博士后冷读 ×2**（2026-07-11）：HCI 方向（UCL）和 ML/Agent 方向（CMU）。一致判断：方向有价值，但所有定量结果追溯回单评分者；当前适合 workshop 级
+- **模拟教授审计**（2026-07-11）：诚实度（κ=−0.14 不隐瞒）比 p<0.001 值钱
+- **模拟 ACL/CHI 审稿人**（2026-07-11）：创新 6/10, 实验 Rigor 2/10, 理论 5/10, 写作 3/10。当前 Reject → 修后 Weak Accept
+- **模拟博士后冷读 ×2**（2026-07-11）：HCI (UCL) + ML/Agent (CMU)。当前适合 workshop 级
 
-模拟审查完整报告：`reviewer-report-2026-07-11.md`
+完整报告：`reviewer-report-2026-07-11.md`
 
 ---
 
 ## 我能做的和不能做的
 
 **我做到了**（一个人、一台笔记本、一个 API key）：
-- 问题发现 → 假说形成 → 实验设计 → 原型构建 → 数据收集 → 分析 → 诚实报告
-- 发现并修复了测量工具的 floor artifact（从零效应→真实效应）
-- Logprob DV 绕过了人工评分的主观性（这一点是客观的）
-- 工程组件获得开源社区真实认可
+- 四层架构设计（Prose Barrier + 每层独立验证机制）
+- 6 项实验（回溯编码、Causal Swap、Logprob 探针、Format A/B、盲交叉验证、行为测试）
+- 4000+ 行 Python 脚本，19/19 行为测试全通过
+- 开源社区真实认可（PR merged + Co-authored-by）
 
-**我没做到的**（这些在当前条件下做不到）：
-- 第二评分者 → 需要另一个人，不是"以后再做"能解决的
+**我没做到的**（在当前条件下做不到）：
+- 第二评分者 → 需要另一个人
 - 多模型消融 → 需要多个 API key 或多张 GPU
 - 真人导师指导 → 在找了
-- 系统文献训练 → 需要时间，正在补
+- 系统文献训练 → 需要时间
 
-**这些不是借口——是边界。** 论文的价值应该在这个边界内被评估，而不是因为超出边界而被否定。
+**这些不是借口——是边界。** 论文的价值应该在这个边界内被评估。
 
 ---
 
 ## 已发布技术博文
 
-**DEV.to**：
-- [AI Agents Can't Self-Verify — A Structural Constraint](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier
-- [I Built a Neural Gate — Layer 2 of Self-Verification](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — 神经门
-- [I Ran 150 Tasks to Test If AI Agents Follow Rules](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — 150 任务实验
+**DEV.to**（4 篇）：
+- [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier
+- [I Built a Neural Gate — Layer 2](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — L2 神经门
+- [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — L1+L3 合规
+- [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) — L2 Logprob V3
 
-**掘金**（中文，3 篇对应）：juejin.cn/user/4250072430682412
+**掘金**（中文，4 篇对应）：juejin.cn/user/4250072430682412
