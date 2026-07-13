@@ -171,9 +171,7 @@ drift_predictor.py (332 lines) tracks 12 mechanical features across sessions, ca
 
 ### Open Source
 
-- **affaan-m/ECC**: 2 PRs merged, 1 approved
-- **alirezarezvani/claude-skills**: Co-authored-by attribution from maintainer
-- **anthropics/skills**: Multiple PRs under review
+Contributions merged to ECC and claude-skills. See commit history for details.
 
 ### DEV.to Comments → Experiments (July 2026)
 
@@ -219,7 +217,7 @@ DEV.to (6 articles):
 - [Psychological Safety for AI](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986)
 - [Follow-Up: What Changed](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo)
 
-Chinese (5 articles): juejin.cn/user/4250072430682412
+Chinese (2 articles): [掘金/juejin.cn](https://juejin.cn/user/4250072430682412) — 平行发明故事 + 预注册假设被数据打脸
 
 ---
 
