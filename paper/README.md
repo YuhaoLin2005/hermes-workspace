@@ -1,252 +1,226 @@
 # Agent Configuration Drift: A Five-Layer Verification Architecture
 
-> **Yuhao Lin** · FAFU, Spatial Information & Digital Technology · July 2026
->
-> **In one line**: AI agents forget rules, skip verification, and drift from their configured identity over long sessions. This work presents a five-layer verification architecture — L0 psychological safety through L4 drift prediction — backed by 13 experiments across 440+ API calls and 50+ deployment sessions.
+Yuhao Lin, FAFU · July 2026
+
+AI agents forget things. Rules get dropped mid-session. Output goes unchecked. Self-model drifts. After 50 sessions of watching this happen, I built a five-layer system to catch it — and ran experiments to see if it actually works. It mostly does, in ways I didn't expect, with limitations I'm not hiding.
 
 ---
 
-## What This Is (And Isn't)
+## Before You Read
 
-> **All experiments below were conducted by a single author (Yuhao Lin) on a single machine (Dell G15, RTX 3060 6GB, 16GB RAM), primarily using the DeepSeek V4 Pro API. Cross-model behavioral replication extends to Qwen3-8B and GLM-4-9B. All "professor audits" and "reviewer assessments" referenced are AI-simulated self-diagnosis tools — they do not represent human academic judgment.**
->
-> These are not flaws to hide. They are the honest boundary conditions of what one undergraduate can do with one laptop and one API key. L2 logprob DV is read directly from the API (objective), L1 behavioral tests are pure mechanical checks (objective), and cross-model behavioral observations are API-read. All other quantitative results trace back to a single unblinded rater. Please evaluate the contribution within this boundary.
+All experiments here were run by one person (me) on one laptop (Dell G15, RTX 3060, 16GB RAM) using the DeepSeek V4 Pro API. Cross-model checks extend to Qwen3-8B and GLM-4-9B. The "reviewer reports" and "professor audits" are AI simulations — self-diagnosis tools, not human judgment.
 
----
+Some measurements are objective: L2 logprob data comes straight from the API, L1 behavioral tests are pure mechanical checks, cross-model observations are API-read. Everything else was scored by me, unblinded. Keep this in mind when you judge the evidence.
 
-## 30-Second Scan
-
-| Question | Answer |
-|----------|--------|
-| **Core claim** | Config rules measurably shape AI agent behavior — they are not decorative context tokens |
-| **Five layers** | L0 Psychological Safety → L1 Mechanical Gates → L2 Neural Gates → L3 Causal Encoding → L4 Drift Prediction |
-| **Key empirical findings** | ① Mechanical gates reduce violations from 55.9% → 0.7% ② Causal Swap: removing one rule drops alternative-seeking from 73% → 20% (OR=11.0, p=0.009) ③ Syllogistic format produces deeper internal representations than imperative (d=+0.578, BF=282k, objective API-read DV) ④ Format effect concentrates on mechanically-gatable rules (d_z=+0.71) vs diligence-class (d_z=+0.40) ⑤ Prose rules produce better reasoning than code rules regardless of gate status (~0.25 SD, n=240) |
-| **Theory** | The Prose Barrier: generation and verification share P(token\|context;θ) → self-verification is structurally unreliable. Each layer responds differently: L0 pre-processes, L1 bypasses, L2 probes inside, L3 reroutes inside, L4 observes from outside |
-| **Limitations** | Single author · single-rater (except L2/cross-model) · L2 logprob DeepSeek-only · no advisor · no funding · one laptop |
-| **Target venue** | Workshop-competitive (ACL SRW / CHI LBW / NeurIPS R0-FoMo); Findings/Short Paper reachable with blind scoring + restructuring |
+I'm an undergraduate with one laptop and no advisor. These aren't things to apologize for. They're the conditions this work was done under. Read accordingly.
 
 ---
 
-## Reading Paths
+## At a Glance
 
-### Quick scan (2 min)
-→ Experiment Overview table + Key Numbers section below.
-
-### Understand the system (15 min)
-→ [../PAPER.md](../PAPER.md): §3 System Design → §4 Causal Swap → §6 Causal Encoding. ~12,000 words.
-
-### Review the evidence (30 min)
-→ Full PAPER.md + [reviewer-report-2026-07-11.md](reviewer-report-2026-07-11.md). **Note: the reviewer report is AI-simulated self-diagnosis, not human peer review.**
-
-### Deep dive (45 min)
-→ All of the above + [supplementary/](supplementary/): logprob↔behavior bridge, NO RULES baseline, layer independence argument, and P1 community-driven verification experiments.
+| What to know | Answer |
+|-------------|--------|
+| The problem | AI agents in long sessions forget negotiated conventions, skip verification, and drift from configured identity |
+| The approach | Five layers, each responding differently to the same structural constraint — that LLMs can't independently verify their own output |
+| Does it work? | L1 (mechanical): yes, 99.3% compliance. L2 (neural): yes, d=+0.578 from API-read data. L3 (causal): yes, but format affects internal processing, not behavioral output. L4 (prediction): built, not yet validated. L0 (safety): accuracy preserved, uncertainty improves where room exists |
+| Key number | Mechanical gates: 55.9% → 0.7% violation rate. Causal swap: removing one rule drops alternative-seeking from 73% to 20% (OR=11.0, p=0.009). Format effect: d=+0.578, BF=282k |
+| What it can't do | Cross-model logprob verification (API-limited), semantic quality checking (Prose Barrier wall), real-time intervention, run on anyone else's machine without setup |
+| Who this is for | Researchers interested in agent verification, engineers building AI tooling, anyone who's watched their agent drift and wondered if it can be measured |
 
 ---
 
-## Five-Layer Architecture
+## How to Read This
+
+**2 minutes**: The experiment table below + the key numbers per layer.
+
+**15 minutes**: [PAPER.md](../PAPER.md) — System design (§3), Causal Swap (§4), Causal Encoding (§6).
+
+**30 minutes**: PAPER.md + [reviewer reports](reviewer-report-2026-07-11.md) (AI-simulated self-diagnosis, not peer review).
+
+**45 minutes**: All of the above + [supplementary analyses](supplementary/): logprob↔behavior bridge, NO RULES baseline, layer independence, and P1 community-driven experiments.
+
+---
+
+## The Five Layers
 
 ```
 L0 Safety            L1 Mechanical        L2 Neural           L3 Causal            L4 Drift
-"Is the agent        "Did information     "Did it penetrate   "Does format          "When will it
- safe to speak?"     actually arrive?"    the model?"         route attention?"    start drifting?"
-───────────────────────────────────────────────────────────────────────────────────────────────
+"safe to speak?"     "did info arrive?"   "did it penetrate?" "does format route?" "when will it drift?"
+──────────────────────────────────────────────────────────────────────────────────────────────────
 Pre-processes        Outside Prose        Inside Prose        Inside Prose         Outside Prose
- generation          Barrier              Barrier             Barrier routing      Barrier · global
+ generation          Barrier              Barrier             Barrier routing      Barrier · time
 
-System prompt        Filesystem checks    Constraint echo     Syllogism→attention  Behavioral trends→
-permission           exit codes / regex   detection           routing topology     prediction
-
-"Uncertainty =       Mechanically         Structured          Format→route→        Statistical thresholds
- correct behavior"   unbypassable         constraint probe    behavior chain       + trend extrapolation
-───────────────────────────────────────────────────────────────────────────────────────────────
-Maturity: Verified      ~90%                45%                 60%                  65%
+Permit uncertainty   Filesystem checks    Token-probability   Format→attention     Trend→prediction
+as valid output      exit codes / regex   fingerprint         routing topology     from multi-layer state
+──────────────────────────────────────────────────────────────────────────────────────────────────
+Verified                ~90%                45%                 60%                  65%
 ```
 
-> **Why five?** The Prose Barrier defines three spatial positions (outside/inside/pre-process) × two temporal directions (current snapshot / future prediction). L0 pre-processes. L1 stays outside (filesystem). L2 probes inside (token probability). L3 reroutes inside (format engineering). L4 observes from outside on the time axis (trends). Without the Barrier axis, any layer count is arbitrary — five is a structural consequence, not a heuristic.
+### The Core Idea
 
-### Per-Layer Evidence
+LLMs generate text by sampling from P(token | context; θ). When you ask an LLM to verify its own output, it samples from the *same distribution*. There's no independent channel. This means self-verification is structurally unreliable — I call this the Prose Barrier.
 
-| Layer | Mechanism | Key Evidence | Maturity |
-|-------|-----------|-------------|:--------:|
-| **L0 Safety** | 5-principle safety prompt, 40 within-probe probes, logprob DV | Accuracy preserved (+0.01); 3/5 non-ceiling probes improved; r=+0.949 | Verified |
-| **L1 Mechanical** | quality-gate, health-check, dual-layer gates, execution debt tracking | 19/19 behavioral tests pass; 150-task compliance 99.3%; 34-session 55.9%→0.7% | ~90% |
-| **L2 Neural** | neural-gate v1+v2, constraint fingerprints | Logprob V3: d=+0.578, BF=282k, 95% CI [+3.39,+11.17]; objective API-read DV | ~45% |
-| **L3 Causal** | Syllogism vs imperative A/B, Causal Swap, constraint gradient, cross-model | Format effect d=+0.578; OR=11.0 (p=0.009); three-regime non-monotonic model; cross-model behavioral zero-effect on 8B/9B | ~60% |
-| **L4 Drift** | drift_predictor (332 lines, 12 features), periodic-audit (322 lines, SHA256 chain) | Risk 0/100 [LOW], 8 features calibrated, behavioral baseline established | ~65% |
+Each layer responds to this constraint differently:
 
-### The Prose Barrier
+- **L0** pre-processes the generation itself. If the model is rewarded for sounding confident, uncertainty gets suppressed. An explicit safety prompt ("you won't be penalized for saying 'I don't know'") changes the preconditions before generation starts.
+- **L1** bypasses the Barrier entirely. It doesn't read what the model wrote. It checks files exist, timestamps are recent, exit codes are zero, hooks are wired. These checks are mechanically unbypassable — the model can't talk its way out of them.
+- **L2** probes inside the Barrier without interpreting content. It measures token probabilities, not meaning. A constraint that shifts the distribution at decision tokens leaves a trace in logprobs, even if the output text looks the same.
+- **L3** reroutes attention inside the Barrier. The same rule encoded as syllogism (IF-THEN-THEREFORE) vs imperative (MUST DO) changes how the model processes it. Format is causal structure encoding — it shapes the attention routing topology.
+- **L4** steps outside the Barrier and looks at the timeline. Aggregating signals from L0-L3 plus session metadata, it tries to predict drift before behavioral degradation is visible.
 
-```
-Generation and evaluation share the same decoder: P(token | context; θ)
-→ AI cannot independently verify its own output
-→ Self-verification is structurally unreliable
+### Per-Layer Status
 
-Five-layer response:
-  L0: Pre-process — "uncertainty = correct behavior", reduce RLHF reward asymmetry
-  L1: Bypass — touch filesystem, not NL content. Mechanically unbypassable.
-  L2: Probe inside — match structure, don't interpret content. Token-probability fingerprints.
-  L3: Reroute inside — change rule encoding format → change attention routing topology
-  L4: Observe from outside — multi-layer state → future drift prediction
-```
+| Layer | What it does | Best evidence | How sure |
+|-------|-------------|---------------|:--------:|
+| L0 Safety | 5-principle prompt: accuracy>completeness, bounded capability, "I don't know" is valid, truth>confidence, no penalty for uncertainty | 40 probes, accuracy preserved (+0.01), 3/5 non-ceiling improved, r=+0.949 | High |
+| L1 Mechanical | quality-gate, health-check, write-guard, execution debt tracker, self-model regeneration loop | 19/19 behavioral tests pass, 150-task 99.3% compliance, 34-session 55.9%→0.7% | High |
+| L2 Neural | Token-probability probes for constraint penetration detection | Logprob V3: d=+0.578, BF=282k, 95% CI [+3.39,+11.17], API-read DV | Moderate |
+| L3 Causal | Format engineering, Causal Swap, constraint gradient, cross-model behavioral | Format effect d=+0.578 (objective DV), Causal Swap OR=11.0, three-regime non-monotonic gradient | Moderate |
+| L4 Drift | 12-feature predictor, periodic audit with SHA256 chain, ABC containment | 8 features calibrated, behavioral baseline set. Predictive validation pending | Low |
 
 ---
 
-## Experiment Overview
+## Experiments
 
-| Experiment | N | Design | DV | Main Finding | Effect | Layer | Scoring |
-|------------|:-:|--------|-----|--------------|:------:|:-----:|:------:|
-| **L0 Safety Prompt** | 40 probes | Within-probe, 2-cond, logprob | Accuracy + uncertainty + logprob | Accuracy preserved; uncertainty↑ where room exists (r=+0.949) | 3/5 non-ceiling improved | L0 | Author |
-| Growth-log Retrospective | 34 sessions | Longitudinal coding | Violation rate | 55.9%→0.7% with mechanical gate | — | L1 | Author |
-| Causal Swap | 30 tasks | Alternating (15+15), non-random | Alternative-seeking rate | WITH 73% vs WITHOUT 20% | OR=11.0, p=0.009 | L3 | Author |
-| **Logprob Probe V3** | 40 probes | Within-probe, 3-cond, pre-validated | logprob(A)−logprob(B) | Syllogistic > Imperative | d=+0.578, BF=282k | L2,L3 | **API-read** |
-| Format A/B | 150 tasks | Between-subjects (75+75) | Compliance rate | Ceiling at 99.3%; mechanical hooks dominate | — | L1,L3 | Author |
-| **GateGuard-OFF** | 21p × 3 cond | Within-probe, 3-condition | Behavioral compliance | Rules work (+0.38); IMP≈SYL (Δ=−0.02) | — | L3 | Author |
-| **Cross-Model** | 12p × 3c × 3M | 3 architectures (MoE/Dense/GLM) | Behavioral compliance | SYL−IMP ≤ \|0.025\| across all 3 | — | L3 | **API-observed** |
-| **Constraint Gradient** | 12p × 2f × 4L (96) | 4 constraint levels, DSv4 Pro | logprob d_z | Non-monotonic: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091) | Three regimes | L3 | **API-read** |
-| **Cross-Model Gradient** | 12p×4L×2f×2M (192) | Qwen3-8B + GLM-4-9B, SiliconFlow | Behavioral compliance | No format effect on 8B/9B (GLM d_z=0) | — | L3 | **API-observed** |
-| **P1-1 Residual Cluster** | 200 trials | 5 types × 40, pre-registered, regex | Violation classification | L1 100% compliant 0 violations; violations cluster in semantic space | — | L1,L3 | **Auto** |
-| **P1-2 Format×Gate** | 240 trials | 2×2 factorial, pre-registered, regex | Mech + reasoning depth | H1 NOT CONFIRMED; prose > code (~0.25 SD); code+gate = "checklist mentality" | d=−0.26 | L1,L3 | **Auto** |
-| Syllogism Blind CV | 4 sessions | 5/5 rules triggered | Violation rate | 0 violations + emergent auditing | — | L3 | Author |
-| Behavioral Test Suite | 19 tests | Automated regression | pass/fail | 19/19 pass (CORE-01~08 + BEH-01~11) | — | L1,L4 | **Auto** |
+| Experiment | N | What we changed | What we measured | Main result | Scoring |
+|------------|:-:|-----------------|------------------|-------------|---------|
+| L0 Safety Prompt | 40 probes | Safety prompt vs baseline | Accuracy, uncertainty, logprob | +0.01 accuracy, uncertainty↑ where room exists (r=+0.949) | Author |
+| Growth-log Retrospective | 34 sessions | Mechanical gates on vs off | Session violation rate | 55.9% → 0.7% | Author |
+| Causal Swap | 30 tasks | One rule present vs removed | Alternative-seeking rate | 73% → 20%, OR=11.0, p=0.009 | Author (unblinded) |
+| Logprob Probe V3 | 40 probes | Syllogistic vs imperative format | logprob(A)−logprob(B) | d=+0.578, BF=282k, CI [+3.39,+11.17] | API-read |
+| Format A/B | 150 tasks | Code-format vs prose-format rules | Behavioral compliance | Ceiling 99.3%, gate dominates | Author |
+| GateGuard-OFF | 21p × 3 cond | NO RULES / IMP / SYL | Behavioral compliance | Rules +0.38, IMP≈SYL (Δ=−0.02) | Author |
+| Cross-Model | 12p × 3c × 3M | DSv4 MoE / Qwen3-8B / GLM-4-9B | Behavioral compliance | SYL−IMP ≤ \|0.025\| across all three | API-observed |
+| Constraint Gradient | 12p × 2f × 4L (96) | 4 output-constraint levels | logprob d_z | Non-monotonic: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091) | API-read |
+| Cross-Model Gradient | 12p×4L×2f×2M (192) | Qwen3-8B, GLM-4-9B | Behavioral compliance | No format effect on 8B/9B (GLM d_z=0) | API-observed |
+| **P1-1 Residual Cluster** | 200 trials | 5 task types × 40, pre-registered | Violation type (mech/sem) | L1: 100% compliant 0 violations. Violations cluster in semantic space | Auto (regex) |
+| **P1-2 Format×Gate** | 240 trials | 2×2 factorial, pre-registered | Mech + reasoning depth | H1 NOT CONFIRMED. Prose > code for reasoning (~0.25 SD). Code+gate = checklist mentality | Auto (regex) |
+| Syllogism Blind CV | 4 sessions | All 5 syllogistic rules active | Violation rate | 0 violations, emergent self-audit | Author |
+| Behavioral Tests | 19 tests | Automated regression | pass/fail | 19/19 pass | Auto |
 
-> **Logprob V3 d=−0.148→+0.578 is not p-hacking.** Pilot: 4/8 probes had tokens outside DeepSeek top-20 logprobs → −10.0 sentinel artifact. V3 = new experiment with fixed instrument: probe_validator.py mechanical filtering + unified format + pre-registered confirmatory design. The measurement tool got fixed.
+A note on the Logprob V3 numbers: the pilot (n=8) found d=−0.148. V3 found d=+0.578. This isn't p-hacking. The pilot had 4/8 probes with contrast tokens outside DeepSeek's top-20 logprobs, so those got −10.0 sentinel values that drowned the real signal. V3 fixed the measurement instrument — probe_validator.py filtered mechanically, unified the format, and pre-registered the probes. The tool got better, not the sample size.
 
 ---
 
-## Key Numbers by Layer
+## Key Numbers, by Layer
 
-### L0 Psychological Safety
+### L1: The Mechanical Gate
 
-Five-principle safety prompt: accuracy > completeness · bounded capability · "I don't know" is valid · truth is highest value · won't be penalized for uncertainty.
+The self-model regeneration loop — 4 of 5 steps are deterministic Python scripts:
 
-| Hypothesis | Baseline | Safety | Δ | Verdict |
-|-----------|:--------:|:------:|:---:|---------|
-| H1 — Known-question accuracy | 0.98 | 0.99 | +0.01 | PASS |
-| H2 — Boundary-question uncertainty | 0.90 | 0.97 | +0.07 | Ceiling-limited |
-| H3 — Logprob B−A | — | — | — | See P0 |
-
-**P0 diagnostic**: 15/20 boundary probes at ceiling at baseline. Of 5 non-ceiling probes: 3 improved (H3 Δ=+2.26), 2 did not (−1.85). r(H2_Δ, H3_Δ) non-ceiling: +0.949, 95% CI [0.57, 0.996] (n=5, wide CI). Behavioral gains accompanied by increased logprob confidence.
-
-### L1 Mechanical Gates
-
-**Self-model regeneration loop** (4/5 steps mechanized):
 ```
-SessionEnd → quality-gate.py (mtime, writes .self-model-stale flag)
-SessionStart → health-check.py (detects flag, 24h cooldown)
-            → AI regenerates self-model.md (sole non-mechanical step)
-            → log-regeneration.py (validates, deletes flag, writes JSONL audit)
+Session ends  → quality-gate.py checks if self-model.md is older than latest growth-log
+              → writes .self-model-stale flag if true
+Session starts → health-check.py detects flag, enforces 24h cooldown
+              → AI regenerates self-model.md (the one non-mechanical step)
+              → log-regeneration.py validates structure, deletes flag, writes JSONL audit trail
 ```
 
-- **Behavioral tests**: 19/19 pass · Manifest↔Hook: 23↔23 · Cross-script: 30 paths 0 conflicts
-- **Execution debt**: ≥3 code writes without execution → auto-block
-- **P1-1 Residual Clustering** (n=200, 2026-07-13): Mechanizable tasks = 100% compliant 0 violations. L1/L2 boundary = 100% semantic violations (gate catches format, misses content). Unmechanizable = 57% semantic. **Violations cluster where gates cannot instrument.**
-- **Design philosophy**: Shell scripts, file mtime, exit codes are deliberate — per the Prose Barrier, anything passing through an NL channel is unreliable. L1 uses only mechanisms the AI cannot reach. Single-machine currently; K8s/distributed scaling needs a state persistence layer (engineering, not architecture).
+19/19 behavioral tests passing. 23/23 hooks matched to manifest. 30 cross-script paths, 0 conflicts. Execution debt tracking: if you write code 3+ times without running it, operations block until you execute.
 
-### L2 Neural Gates: Logprob Probe V3
+**P1-1 finding** (200 trials, July 2026): When Mike Czerwinski asked whether the ~0.7% residual violations cluster on what the gate can't instrument, the answer was clear. On purely mechanizable tasks, compliance is 100% — zero violations of any kind. At the boundary between mechanical and semantic (e.g., "write a checklist relevant to the question"), the mechanical check passes 100% of the time but the semantic check fails 100% of the time. The model makes checkboxes. It just doesn't make useful ones. Where the gate reaches, violations are zero. Where it can't reach, they dominate.
 
-| Metric | Pilot (n=8, unvalidated) | Validation (n=40, pre-validated) |
-|--------|:-------------------------:|:---------------------------------:|
-| Cohen's d_z | −0.148 | **+0.578** |
-| BF₁₀ | < 1 (favors H₀) | **282,399** (extreme H₁) |
-| Bootstrap 95% CI | Crosses zero | **[+3.39, +11.17]** |
-| Direction consistency | ~50% | **80%** (32/40) |
+The design choice to use shell scripts, file mtime, and exit codes is deliberate — per the Prose Barrier, any check passing through natural language is unreliable. L1 uses mechanisms the AI can't touch. The tradeoff: this implementation is single-machine. Scaling to K8s or distributed systems needs a state persistence layer. That's engineering, not architecture.
 
-Pilot null because 4/8 probe tokens weren't in DeepSeek top-20 → −10.0 sentinel artifact. Pre-validation eliminated the artifact. DV read directly from API — zero human scoring.
+### L2: Neural Gate
 
-### L3 Causal Encoding
+The neural gate measures whether a constraint actually changed the model's internal processing, not just whether the output text looks compliant. Logprob Probe V3 (40 pre-validated probes, syllogistic vs imperative):
 
-**Causal Swap** (n=30): Removing one rule → WITH 73% vs WITHOUT 20%, OR=11.0, p=0.009. ⚠️ Alternating assignment, single-rater unblinded.
+| Metric | Before fix | After fix |
+|--------|:----------:|:---------:|
+| Cohen's d | −0.148 | +0.578 |
+| Bayes Factor | <1 (H₀) | 282,399 (extreme H₁) |
+| 95% CI | crosses zero | [+3.39, +11.17] |
+| Direction agreement | ~50% | 80% (32/40) |
 
-**Format effect**: Syllogistic > imperative internally (d=+0.578, BF=282k, API-read). But behavioral IMP≈SYL (Δ=−0.02) — format affects processing, not output. Cross-architecture: SYL−IMP ≤ |0.025| (MoE/Dense/GLM).
+Category × Format interaction: F(3,36)=0.26, η²=0.02 — the format effect is consistent across task categories. The effect is real and stable, but measured on one model family (DeepSeek). Cross-model logprob replication (Claude, GPT-4o) needs API access I don't currently have.
 
-**Constraint gradient** (96 calls): Non-monotonic — d_z: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091). Three regimes: optimization→suppression→rebound. Cross-model (192 calls): No effect on 8B/9B (GLM d_z=0), though behavioral ceiling limits interpretation.
+### L3: Causal Encoding
 
-**P1-2 Format×GateGuard** (n=240, 2026-07-13): 2×2 factorial. H1 NOT CONFIRMED — format effect on reasoning is constant (~0.25 SD prose advantage) regardless of gate. **Counter-finding**: prose consistently better for reasoning; code+gate = "checklist mentality" (5.0/5 mechanical, worst 4.20/5 reasoning). [Full analysis](supplementary/p1-followup-experiments.md).
+**Causal Swap**: 30 tasks, alternating assignment. With a behavioral rule present, 73% of responses sought alternatives. With it removed, 20%. OR=11.0, p=0.009. Caveat: not randomized, single-rater unblinded.
 
-**L3 model**: `format effect = f(causal chain length, processing regime)` where regime ∈ {optimization, suppression, rebound}. Boundary: processing depth + model capacity.
+**Format effect**: Syllogistic rules (IF condition THEN action BECAUSE reason THEREFORE decision) produce deeper internal representations than imperative rules (MUST DO X). d=+0.578 at the logprob level. But this doesn't translate to behavioral compliance — with GateGuard on, IMP and SYL produce identical compliance rates (ceiling effect). Format changes processing, not output.
 
-### L4 Drift Prediction
+**Constraint gradient**: Increasing output constraints doesn't monotonically increase format effects. At L1 (light constraint: "output A or B"), the effect is strongest (d_z=0.596). At L2 (moderate: "don't explain"), it collapses (0.091). At L3 (heavy: "only A or B, no other characters"), it rebounds (0.297). Three regimes: optimization → suppression → rebound. This pattern is consistent across two independent manipulations (multi-scene cognitive load and output constraint severity).
 
-drift_predictor.py (332 lines, 12 features, 34-session calibration, ABC containment) + periodic-audit.py (322 lines, L1+L2+L3 audit, SHA256 chain).
+**Cross-model**: On Qwen3-8B and GLM-4-9B, behavioral format effects are zero across all constraint levels. But behavioral measurement already shows IMP≈SYL even on DeepSeek, so ceiling effects prevent definitive interpretation. Logprob-level cross-model data would resolve this but isn't available on those APIs.
 
----
+**P1-2 finding** (240 trials, July 2026): I pre-registered the hypothesis that format effects on reasoning would be larger when GateGuard is off. The data said no — d=−0.277 (gate on) vs d=−0.250 (gate off), nearly identical. Wrong hypothesis, but interesting result: prose-format rules consistently produce better reasoning than code-format rules (~0.25 SD), independent of gate status. Code-format rules with GateGuard on create a "checklist mentality" — perfect mechanical compliance (5.0/5) but the shallowest reasoning (4.20/5). Prose + gate on gives the best reasoning (4.42/5). Mike's framing holds: code/syllogistic format buys you mechanical compliance in a world where the gate already provides it.
 
-## Competitive Positioning
+### L4: Drift Prediction
 
-| Approach | Representative Work | Core Limitation | Our Difference |
-|----------|-------------------|-----------------|----------------|
-| Prompt engineering | Memory pool injection, context compression | Rules rely on self-interpretation | L1 purely mechanical, no interpretation needed |
-| Independent evaluators | RIVA, GLOVE | Adds LLM → second-order drift | L1 zero LLM dependency |
-| Memory augmentation | Mem0, Letta | Inject only, don't verify | L1+L2 verification + L4 prediction |
-| Code-layer self-modification | HyperAgents (ICLR 2026) | Not config-layer drift | Config + identity layer |
-| Format effects | Prompt Decorators (Heris 2025) | Tags don't change processing | L3: format→routing causal chain |
-| Attention routing | Pender (2026, Zenodo) | No engineering translation | L3 engineering + L4 prediction |
-| Deterministic gates | **skillgate** (Rene Zander, 2026) | Static gate, no self-modification | **Independent convergence** from Prose Barrier constraint. Our additions: strange loop, L2/L3/L4 |
+drift_predictor.py (332 lines) tracks 12 mechanical features across sessions, calibrated on 34 sessions. ABC containment: LOW (ignore), MEDIUM (flag), HIGH (warn), CRITICAL (block). periodic-audit.py (322 lines) runs L1+L2+L3 checks with SHA256-chained logging for audit trail. Current risk: 0/100. Predictive validation — does the predictor actually forecast degradation before it happens — is pending.
 
 ---
 
-## Community Feedback (Real People, Not Simulated)
+## Compared to What Else Is Out There
 
-- **ECC repo** (affaan-m/ECC): 2 PRs merged, 1 approved
-- **alirezarezvani/claude-skills**: Maintainer added Co-authored-by
+| Approach | Example | The problem | Our difference |
+|----------|---------|-------------|----------------|
+| Better prompting | Context compression, memory injection | Rules still depend on model self-interpretation | L1 is mechanical — no interpretation needed |
+| Separate evaluator LLM | RIVA, GLOVE | Adds another LLM → second-order drift | L1 has zero LLM dependency |
+| Memory augmentation | Mem0, Letta | Injects memory, doesn't verify it | L1+L2 verify, L4 predicts |
+| Code-layer modification | HyperAgents (ICLR 2026) | Doesn't address config/identity drift | Config layer + identity persistence |
+| Format effects | Prompt Decorators (Heris 2025) | Tags change surface, not processing | L3 demonstrates format→attention routing causality |
+| Attention routing theory | Pender (2026) | No engineering implementation | L3 engineering + L4 prediction integration |
+| Deterministic gates | **skillgate** (René Zander, 2026) | Static gate, no self-modification | Independent convergence from same theoretical constraint. We add: self-referential loop, L2/L3/L4 |
+
+---
+
+## Real Feedback, Real Verification
+
+### Open Source
+
+- **affaan-m/ECC**: 2 PRs merged, 1 approved
+- **alirezarezvani/claude-skills**: Co-authored-by attribution from maintainer
 - **anthropics/skills**: Multiple PRs under review
 
-### DEV.to Deep-Dive (2026-07-12~13)
+### DEV.to Comments → Experiments (July 2026)
 
-5 articles → 11+ detailed comments → 2 verification experiments:
+After publishing 5 technical articles, detailed comments from practitioners prompted two verification experiments:
 
-| Commenter | Contribution | Verified? |
-|-----------|-------------|-----------|
-| **Mike Czerwinski** | "receipt-of-action vs receipt-of-diligence"; residual clustering; format under GateGuard-OFF | P1-1 (n=200): confirmed. P1-2 (n=240): syllogism confirmed — buys mechanical compliance only; prose better for reasoning |
-| **Dipankar Sarkar** | Decision-token measurement; LLM-judge bias warning | Decision-token pre-annotation published; both experiments use deterministic regex scoring |
-| **René Zander** | skillgate — independent convergence on same architecture | Both bypass NL channel, reject model self-reports. **Independent convergence.** Our additions: strange loop, L2/L3/L4 |
-| **Max Quimby** | "Ceiling effect is the finding"; mechanizability boundary | Five-layer classification documented; scanner designed |
+Mike Czerwinski asked whether the ~0.7% residual violations cluster on task types gates can't instrument, and whether format still matters for reasoning when GateGuard is off. **P1-1** (n=200) confirmed the clustering — where the gate reaches, zero violations; at the boundary, 100% semantic failures. **P1-2** (n=240) found the hypothesis wrong in an interesting way: format effect is constant regardless of gate, and prose consistently outperforms code for reasoning depth.
 
-[Full analysis](supplementary/p1-followup-experiments.md)
+Dipankar Sarkar pushed for decision-token measurement, warned against LLM-judge bias, and specified semantic-only experiment design. All follow-up experiments use deterministic regex scoring, and decision-token annotations are now pre-registered.
 
----
+René Zander built skillgate independently — same architecture, same theoretical constraint (the Compliance Gap / Prose Barrier), same design principle (deterministic filesystem checks outside the model loop). We converged from different starting points. His system is production-grade and shipping on npm. Ours adds the self-referential loop, neural gates, causal encoding, and drift prediction. The shared insight is stronger for having been discovered twice.
 
-## AI-Simulated Review (Self-Diagnosis)
+Max Quimby identified the key boundary question: where exactly does "gate it" become "can only nudge it"? The five-layer classification exists but is still manual. A mechanizability-scanner that infers layers from rule structure is the next build.
 
-> ⚠️ **All AI-simulated.** For author self-diagnosis before contacting human advisors. Not institutional opinion.
-
-Multi-round independent review (2026-07-11~13, professor/postdoc/top-venue reviewer isolation): Workshop-competitive (ACL SRW/CHI LBW). Blind scoring + restructuring → Findings/Short Paper. Core fix: single-rater unblinded scoring.
-
-Reports: [initial](reviewer-report-2026-07-11.md) · [reevaluation](reviewer-report-2026-07-12-reevaluation.md)
+Full analysis at [supplementary/p1-followup-experiments.md](supplementary/p1-followup-experiments.md).
 
 ---
 
-## What I Achieved (And Didn't)
+## What I Built and What I Couldn't
 
-**Achieved** (one person, one laptop, one API key):
-- Five-layer architecture with independent per-layer verification
+What works:
+- Five-layer architecture with per-layer verification mechanisms
 - 13 experiments across 440+ API calls
-- Non-monotonic constraint gradient (three-regime), cross-architecture behavioral confirmation, L2/L3 dissociation
-- 5000+ lines of Python, 19/19 behavioral tests passing
-- Real open-source recognition (PRs merged + co-authorship)
+- Non-monotonic constraint gradient, cross-architecture behavioral confirmation, L2/L3 dissociation
+- ~5000 lines of Python, 19/19 behavioral tests passing
 
-**Structurally impossible** under current conditions:
-- Second rater → needs another person
-- L2 logprob cross-model → Qwen/GLM APIs don't support logprobs (behavioral layer done)
-- Human advisor → actively seeking
-- Systematic literature training → needs time
+What doesn't (yet):
+- Second rater — needs another person
+- Cross-model logprob replication — API-limited (behavioral layer done)
+- Human advisor — actively looking
+- Systematic literature grounding — needs time
 
-**These are boundary conditions, not excuses. Evaluate the work within them.**
-
----
-
-## Published Articles
-
-**DEV.to** (6 articles):
-- [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier
-- [I Built a Neural Gate — Layer 2](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — L2
-- [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — L1+L3
-- [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) — L2 Logprob V3
-- [Psychological Safety for AI — L0](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986) — L0
-- [Follow-Up: Decision-Token, Format-as-Fallback, and What Changed](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo) — Community feedback
-
-**Juejin** (Chinese, 5 articles): juejin.cn/user/4250072430682412
+These aren't disclaimers to dismiss. They're the actual conditions. The work should be judged within them.
 
 ---
 
-*github.com/YuhaoLin2005/hermes-workspace — verification infrastructure for AI agents. 50+ sessions of data. Seeking summer 2026 internship.*
+## Writeups
+
+DEV.to (6 articles):
+- [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l)
+- [I Built a Neural Gate](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2)
+- [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670)
+- [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26)
+- [Psychological Safety for AI](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986)
+- [Follow-Up: What Changed](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo)
+
+Chinese (5 articles): juejin.cn/user/4250072430682412
+
+---
+
+*github.com/YuhaoLin2005/hermes-workspace · 50+ sessions · 13 experiments · one laptop*
