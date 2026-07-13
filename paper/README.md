@@ -2,7 +2,7 @@
 
 > 林宇浩，福建农林大学 · 空间信息与数字技术 2023 级 · 2026 年 7 月
 >
-> **一句话**：AI agent 长对话中规则被遗忘、产出物缺验证、自我认知失真。本文提出五层校验体系——L0 心理安全（许可层，让 agent 安全地说"不确定"）、L1 机械门（文件系统，绕过 AI 自评）、L2 神经门（token 概率探针，检测规则穿透）、L3 因果编码（三段论格式改变注意力路由）、L4 漂移预测（趋势检测，在漂移发生前预警）。50+ session 部署 + 9 项实验验证。
+> **一句话**：AI agent 长对话中规则被遗忘、产出物缺验证、自我认知失真。本文提出五层校验体系——L0 心理安全（许可层，让 agent 安全地说"不确定"）、L1 机械门（文件系统，绕过 AI 自评）、L2 神经门（token 概率探针，检测规则穿透）、L3 因果编码（三段论格式改变注意力路由）、L4 漂移预测（趋势检测，在漂移发生前预警）。50+ session 部署 + 11 项实验验证。
 
 ---
 
@@ -20,7 +20,7 @@
 |------------|------|
 | **核心命题** | AI agent 的配置规则到底有没有因果效应？还是只是消耗 context token 的装饰文本？ |
 | **五层架构** | L0 心理安全（许可层）→ L1 机械门（绕过 AI 自评）→ L2 神经门（检测规则穿透）→ L3 因果编码（格式→路由）→ L4 漂移预测（未漂先警） |
-| **关键实证发现** | ① 机械门将违规率从 55.9% 压到 0.7% ② Causal Swap: 删一条规则使备选方案寻求率从 73%→20% (OR=11.0, 95% CI [2.0, 60.6], p=0.009, 单人评分) ③ 三段论格式的约束内化深度 > 祈使句 (d=+0.578, BF=282k, API读取DV) ④ L0 心理安全提示词：准确率无损（+0.01），不确定性承认改善（n=5非天花板探针 r=+0.949 [0.57, 0.996]） ⑤ L2/L3 分离跨三架构一致：格式影响内部表征不影响行为合规 |
+| **关键实证发现** | ① 机械门将违规率从 55.9% 压到 0.7% ② Causal Swap: 删一条规则使备选方案寻求率从 73%→20% (OR=11.0, 95% CI [2.0, 60.6], p=0.009, 单人评分) ③ 三段论格式的约束内化深度 > 祈使句 (d=+0.578, BF=282k, API读取DV) ④ L0 心理安全提示词：准确率无损（+0.01），不确定性承认改善（n=5非天花板探针 r=+0.949）⑤ L2/L3 分离跨三架构一致 ⑥ 约束梯度非单调：三段论效益遵循三阶段（优化→压制→反弹），L1最优(d_z=0.596)，8B/9B模型上未检测到 |
 | **理论贡献** | 五层沿 Prose Barrier 轴向深化——L0 预处理生成过程（许可不确定性）、L1 在 Barrier 外（纯机械）、L2 潜入 Barrier 内（结构检测）、L3 改变 Barrier 内路由（格式效应）、L4 站在 Barrier 外看全局（预测） |
 | **客观限制** | 单作者 · 单人评分（L2/跨模型除外） · L2 logprob 仅 DeepSeek · 无导师 · 无经费 · 一台笔记本 |
 | **投稿定位** | Workshop 强投稿（ACL SRW / CHI LBW / NeurIPS R0-FoMo）；补盲法评分+结构重组可达 Findings/Short Paper；顶会长文需独立复制+导师指导 |
@@ -67,7 +67,7 @@ L0 心理安全           L1 机械门            L2 神经门            L3 因
 | **L0 心理安全** | 安全提示词 5 原则, 40 探针 A/B, within-probe logprob | 准确率无损 (+0.01), 3/5 非天花板改善, P0 r=+0.949 | ✅ 验证通过 |
 | **L1 机械门** | quality-gate.py, health-check.py, 双层机械门, 三问时间门, 执行债务追踪 | 19/19 行为测试通过, 150 任务合规 99.3%, 34 session 55.9%→0.7% | ~90% |
 | **L2 神经门** | neural-gate.py v1+v2 (关键词回响+logprob差分), constraint-fingerprints.json | 40 探针预验证, logprob 差分 d=+0.578 检测到格式效应 | ~45% |
-| **L3 因果编码** | 三段论 vs 祈使句 A/B, Causal Swap (n=30), eval-field.py, canonization.py, CONSTITUTION.md | 格式效应 d=+0.578, OR=11.0 (p=0.009), 首规则已正典化 | ~55% |
+| **L3 因果编码** | 三段论 vs 祈使句 A/B, Causal Swap (n=30), 约束梯度 (96 calls), 跨模型约束梯度 (192 calls) | 格式效应 d=+0.578, OR=11.0 (p=0.009), 三阶段模型 (优化→压制→反弹), 跨模型行为零效应(行为测量+天花板限定) | ~60% |
 | **L4 漂移预测** | drift_predictor.py (332行, 12特征), periodic-audit.py (322行, SHA256链), ABC分级遏制 | Risk 0/100 [LOW], 8特征校准, 行为测试基线 | ~65% |
 
 ### Prose Barrier：贯穿五层的理论核心
@@ -97,6 +97,8 @@ L0 心理安全           L1 机械门            L2 神经门            L3 因
 | Format A/B 合规 | 150 tasks | Between-subjects (75+75) | 合规率 | 天花板 99.3%，机械钩子主导 | — | L1, L3 | 作者本人 |
 | **GateGuard-OFF** | **21 probes × 3 cond** | **Within-probe, 3-condition (NO RULES / IMP / SYL)** | **行为合规** | **规则有效 (+0.38 above NO RULES baseline 0.48); IMP≈SYL (Δ=−0.02, d<0.65 不可检测)** | — | **L3** | **作者本人** |
 | **跨模型行为复制** | **12 probes × 3 cond × 3 models** | **3 模型 (DSv4 MoE + Qwen3-8B Dense + GLM-4-9B)** | **行为合规** | **SYL−IMP all ≤ \|0.025\| across 3 architectures; Qwen/GLM near ceiling; BF₀₁=2.7 (pooled)** | — | **L3** | **API 观察** |
+| **约束梯度** | **12 probes × 2 formats × 4 levels (96 calls)** | **4 输出约束级别 (L0~L3), DeepSeek V4 Pro** | **logprob d_z** | **非单调: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091); 三阶段模型** | — | **L3** | **API 直接返回** |
+| **约束梯度-跨模型** | **12p×4L×2fmt×2M (192 calls)** | **Qwen3-8B + GLM-4-9B via SiliconFlow** | **行为合规** | **8B/9B 未检测到格式效应 (GLM d_z=0); 受行为测量+天花板限制, 非确定性结论** | — | **L3** | **API 观察** |
 | Syllogism 盲交叉验证 | 4 sessions | 5 规则全触发 | 违规率 | 0 违规 + 涌现主动审计 | — | L3 | 作者本人 |
 | 行为测试套件 | 19 tests | 自动化回归 | pass/fail | 19/19 全通过 (CORE-01~08 + BEH-01~11) | — | L1, L4 | **脚本自动** |
 
@@ -153,11 +155,19 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 
 **为什么先导是零效应**：8 探针中 4 个对比 token 不在 DeepSeek top-20 logprobs → −10.0 哨兵值人造差分。预验证管线消除 artifact 后真实效应暴露。DV 直接从 API 读取，**无人工评分**。
 
-### L3 因果编码：Causal Swap + 格式效应
+### L3 因果编码：Causal Swap + 格式效应 + 约束梯度
 
 **Causal Swap (n=30)**：删一条规则 → WITH 73% vs WITHOUT 20%，OR=11.0, 95% CI [2.0, 60.6], p≈0.009。⚠️ 交替分配非随机（Fisher 检验假设被违反，p 值为近似），单人评分非盲法
 
-**格式效应**：三段论内部表征深度 > 祈使句 (d=+0.578, BF=282k, API 读取 DV)。但行为合规层面 IMP≈SYL（Δ=−0.02）——格式影响内部处理，不影响行为输出。跨三架构（MoE/Dense/GLM）一致：SYL−IMP ≤ |0.025|（Qwen/GLM 近天花板，BF₀₁=2.7）。机械门是内部表征→行为合规的桥梁。
+**格式效应**：三段论内部表征深度 > 祈使句 (d=+0.578, BF=282k, API 读取 DV)。但行为合规层面 IMP≈SYL（Δ=−0.02）——格式影响内部处理，不影响行为输出。跨三架构（MoE/Dense/GLM）一致：SYL−IMP ≤ |0.025|。
+
+**P1 多场景弹性**（§6.15）：格式效应在多场景提示词下崩溃（d_z 0.58→0.19），控制实验确定元指令（"只输出A或B"）是 ~80% 主因——Prose Barrier of Measurement：测量工具抑制了被测量的机制。
+
+**约束梯度**（96 calls, §6.15）：4 级输出约束（L0: 无 / L1: 仅输出AB / L2: 不要解释 / L3: 禁止任何非AB字符）。**非单调模式**：d_z L1(0.596) > L3(0.297) > L0(0.315) > L2(0.091)。三阶段模型：优化→压制→反弹。L1-visibility 模式从 synergy→compensation 转变，与 P1 多场景独立收敛。
+
+**跨模型约束梯度**（192 calls, Qwen3-8B + GLM-4-9B）：**8B/9B 模型上未检测到格式效益**（GLM d_z=0 全级别，但受行为测量和天花板效应限制）。提示处理深度梯度，但 logprob 级跨模型验证仍待 API 支持。
+
+**L3 升级**：`格式效应 = f(因果链长度, 处理阶段)` where 阶段 ∈ {优化, 压制, 反弹}。边界条件：处理深度（认知负载 + 输出约束） + 模型容量。
 
 **正典化系统**：eval-field.py (453行, 5人格) + canonization.py (318行, 24h冷却) + CONSTITUTION.md (首规则已正典化)
 
@@ -215,8 +225,8 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 
 **我做到了**（一个人、一台笔记本、一个 API key）：
 - 五层架构设计（L0 心理安全 + Prose Barrier + 每层独立验证机制）
-- 9 项实验（L0 安全提示词、回溯编码、Causal Swap、Logprob 探针、Format A/B、GateGuard-OFF、跨模型行为复制、盲交叉验证、行为测试）
-- L3 行为合规跨三架构验证（DeepSeek MoE / Qwen3-8B Dense / GLM-4-9B），L2/L3 分离跨模型一致（L2 logprob 仅 DeepSeek，API 限制）
+- 11 项实验（L0 安全提示词、回溯编码、Causal Swap、Logprob 探针、Format A/B、GateGuard-OFF、跨模型行为复制、约束梯度、跨模型约束梯度、盲交叉验证、行为测试）
+- L3 格式效应非单调约束梯度（三阶段：优化→压制→反弹），L3 行为合规跨三架构验证（DeepSeek MoE / Qwen3-8B Dense / GLM-4-9B），L2/L3 分离跨模型一致（L2 logprob 仅 DeepSeek, API 限制）
 - 5000+ 行 Python 脚本，19/19 行为测试全通过
 - 开源社区真实认可（PR merged + Co-authored-by）
 
