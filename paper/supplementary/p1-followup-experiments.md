@@ -67,10 +67,10 @@ The auto-classifier verdict is "INCONCLUSIVE" due to the mixed T5 pattern, but t
 
 | Condition | Mech (CI95) | Reasoning (CI95) |
 |-----------|-------------|-------------------|
-| code_gate_on | 5.00 [5.00,5.00] | 4.20 [3.98,4.42] |
-| code_gate_off | 3.15 [3.07,3.25] | 3.98 [3.83,4.12] |
-| prose_gate_on | 3.25 [3.05,3.45] | **4.42** [4.23,4.58] |
-| prose_gate_off | 3.15 [3.05,3.25] | 4.17 [3.95,4.38] |
+| code_gate_on | 5.00 [5.00,5.00] | 4.20 [3.98,4.40] |
+| code_gate_off | 3.15 [3.07,3.23] | 3.98 [3.83,4.12] |
+| prose_gate_on | 3.25 [3.03,3.45] | **4.42** [4.25,4.58] |
+| prose_gate_off | 3.15 [3.05,3.25] | 4.17 [3.95,4.37] |
 
 ### Hypothesis Tests
 
