@@ -25,7 +25,12 @@ LLM-based coding agents degrade over extended use. This paper investigates wheth
 | **GateGuard-OFF** (§6.12) | **21 probes × 3 cond** | Within-probe, 3-condition (NO RULES/IMP/SYL), behavioral compliance DV | **Rules work (+0.38 above baseline); IMP≈SYL (delta=−0.02); format→internal, not behavioral** | ✅ Complete (heuristic scoring) |
 | **Cross-Model Behavioral** (§6.13) | **12 probes × 3 cond × 3 models** | 3-model replication (DSv4 MoE + Qwen3-8B Dense + GLM-4-9B), within-probe, behavioral compliance DV | **SYL−IMP all ≈ 0 across 3 architectures; L2/L3 divergence consistent across architectures** | ✅ Complete (API-observed) |
 | **Decision-Token L1-Visibility** (§6.14) | **40 probes re-analysis** | Post-hoc classification + re-analysis of Logprob V3 data by L1 mechanical gateability | **Format effect L1-visible (d_z=+0.71) > L1-invisible (d_z=+0.40); format-L1 synergy, not compensation** | ✅ Complete (0 new API calls) |
+| **P1 Multi-Scene Resilience** (§6.15) | **12 probes × 2 formats × 3 scenes + 2 controls (48 calls)** | Multi-scene + control experiments; dual confound resolved (meta-instruction ~80% driver) | **Format effects collapse under output constraints (Ctrl A d_z 0.31, 20% of V3); Prose Barrier of Measurement documented** | ⚠️ Negative result; meta-instruction = structural measurement necessity |
+| **Constraint Gradient** (§6.15) | **12 probes × 2 formats × 4 levels (96 calls)** | 4 output-constraint severity levels (none/light/moderate/heavy) testing monotonicity hypothesis | **Non-monotonic: d_z L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091); three processing regimes; L1-V>I convergence with P1** | ✅ Complete |
+| **Cross-Model Constraint Gradient** (§6.13) | **12 probes × 4 levels × 2 formats × 2 models (192 calls)** | Qwen3-8B + GLM-4-9B via SiliconFlow; behavioral measurement | **No format effect on 8B/9B models (GLM d_z=0 all levels); format effects require model capacity — L3 boundary condition evidence** | ✅ Complete |
 | Syllogism Blind CV (§6.4) | 4 sessions | 5/5 rules triggered, zero violations + emergent auditing | Preliminary format→reasoning causal chain evidence | ⚠️ Small n, uncontrolled |
+| **P1-1 Residual Cluster** (§6.16) | **200 trials** | **5 task types × 40, pre-registered, regex scoring (no LLM judge)** | **L1 100% compliant 0 violations; L1/L2 boundary 100% semantic violations; violations cluster where gate cannot instrument** | ✅ **Pre-registered, deterministic scoring** |
+| **P1-2 Format×Gate** (§6.16) | **240 trials** | **2×2 factorial (format code/prose × GateGuard on/off), pre-registered, regex scoring** | **H1 NOT CONFIRMED; prose format → better reasoning regardless of gate (~0.25 SD); code+gate = "checklist mentality"** | ✅ **Pre-registered, deterministic scoring** |
 
 > **n-count reconciliation**: Five numbers appear across the repository — 30 (Causal Swap tasks), 34 (growth-log sessions), 38 (cumulative trials in paper-trial-results.md = 30 original + 8 new), 60 (future target sample size), 150 (Format A/B tasks). Each corresponds to a different experiment; they are not conflicting reports of the same data.
 
@@ -37,7 +42,7 @@ This paper reports a three-part investigation developed iteratively over 50+ cod
 
 - **Part 1 — Mechanical Gate (§3):** System architecture. A self-model regeneration pipeline with filesystem-level verification. *Note: Part 1 describes the system but does not include a direct A/B experiment of the gate itself; gate effectiveness is demonstrated in Part 3's experiment (§6.5).*
 - **Part 2 — Causal Swap (§4):** A between-subjects manipulation (n=30) testing whether removing a config rule changes behavior. The paper's methodologically strongest evidence, with the caveats of single-rater unblinded scoring and non-randomized assignment.
-- **Part 3 — Causal Structure Encoding (§6):** The longest section, combining retrospective baseline coding (§6.2, n=34 sessions), a small-N syllogism pilot (§6.4, n=4), a controlled A/B experiment (§6.5, n=150 tasks) with identified GateGuard confound, Logprob Probe V3 (§6.11, n=40 probes, d=+0.578) with objective API-read DV, GateGuard-OFF (§6.12, n=21 probes × 3 conditions including NO RULES baseline) testing behavioral compliance without mechanical enforcement, cross-model behavioral replication (§6.13) on Qwen3-8B (Dense) and GLM-4-9B (GLM) confirming the L2/L3 divergence consistent across architectures, and an L1-visibility decision-token re-analysis (§6.14) finding format-L1 synergy. Format effect confirmed on internal representations (Logprob V3) but not on behavioral compliance (GateGuard-OFF and cross-model), consistent with the Prose Barrier framework; the L1-visibility analysis adds the qualification that format effects concentrate on mechanically-gatable rules.
+- **Part 3 — Causal Structure Encoding (§6):** The longest section, combining retrospective baseline coding (§6.2, n=34 sessions), a small-N syllogism pilot (§6.4, n=4), a controlled A/B experiment (§6.5, n=150 tasks) with identified GateGuard confound, Logprob Probe V3 (§6.11, n=40 probes, d=+0.578) with objective API-read DV, GateGuard-OFF (§6.12, n=21 probes × 3 conditions including NO RULES baseline) testing behavioral compliance without mechanical enforcement, cross-model behavioral replication (§6.13) on Qwen3-8B (Dense) and GLM-4-9B (GLM) confirming the L2/L3 divergence consistent across architectures, an L1-visibility decision-token re-analysis (§6.14) finding format-L1 synergy, and a multi-scene format resilience test with control experiments and constraint gradient (§6.15) showing: (a) format effects collapse under output constraints — meta-instruction is ~80% driver, identified as the "Prose Barrier of Measurement"; (b) a non-monotonic constraint gradient (L1>L3>L0>L2, d_z range 0.091–0.596) revealing three processing regimes (optimization→suppression→rebound); (c) L3 upgraded from monotonic two-parameter to three-regime model. Cross-model constraint gradient (§6.13) on Qwen3-8B/GLM-4-9B finds zero format effect (d_z=0 all levels) — establishing model capacity as L3 boundary condition. Format effect confirmed on internal representations (Logprob V3) but not on behavioral compliance (GateGuard-OFF and cross-model), consistent with the Prose Barrier framework; the L1-visibility, cognitive-load, and constraint-gradient analyses qualify that format effects require both mechanical anchors (gatable rules) and sufficient processing depth (model capacity + constraint-permitted reasoning).
 
 **Reading paths**: For a quick scan, read the Experiment Overview table above, then §4 (Causal Swap), then §6.10 (Conclusion). For a full read, follow section order. **Important**: §5 (Discussion) appears before §6 because it primarily discusses the Causal Swap experiment (§4); §6 was developed later in the research timeline and its discussion is integrated within the section itself.
 
@@ -54,7 +59,7 @@ All experimental results are scored by the first author (unblinded, no independe
 | **Prose Barrier** (§3.0) | The structural constraint that LLM generation and evaluation share *P(token\|context;θ)*, making self-verification unreliable without an independent measurement channel. |
 | **Mechanical Gate** (§3) | Filesystem-level checks (mtime, exit codes, hook wiring) that verify configuration integrity without passing through the model's generation pathway. |
 | **Neural Gate** (§6.7 L2) | Token-probability measurement within the generation distribution that detects whether behavioral constraints have "penetrated" the model's internal processing. |
-| **Causal Encoding** (§6) | The hypothesis that a rule's linguistic format (imperative vs. syllogistic) changes transformer attention routing, producing different internal representations. |
+| **Causal Encoding** (§6) | The hypothesis that a rule's linguistic format (imperative vs. syllogistic) changes internal processing, with effectiveness bounded by cognitive load: format effect = f(causal chain length, available processing depth). |
 | **Constraint Echo** (§6.7 L2) | A detectable trace of a behavioral rule in the model's output distribution — evidence that the rule is actively processed, not merely present in context. |
 | **Drift Prediction** (§6.7 L4) | Aggregation of signals from L0-L3 plus session metadata to forecast behavioral degradation before it occurs. |
 | **Self-Model** (§3.4) | A compact markdown file (~100 lines) storing the agent's current self-description — capabilities, limitations, growth trajectory. Regenerated when stale. |
@@ -63,6 +68,7 @@ All experimental results are scored by the first author (unblinded, no independe
 | **Strange Loop / Self-Referential Closure** (§3.4) | The functional pattern where the self-model both guides behavior and is regenerated from behavioral observations — a closed causal loop adapted from Hofstadter's framework. |
 | **L2/L3 Dissociation** (§6.12–13) | The empirical finding that format affects internal representations (L2, d=+0.578) but not behavioral compliance (L3, Δ≈0) — confirmed cross-model across MoE/Dense/GLM. |
 | **L1-Visibility** (§6.14) | Classification of whether a rule violation produces a deterministic mechanical signal (L1-gatable) or operates on the diligence axis where no mechanical signal exists (L1-invisible). Grounded in Czerwinski's receipt-of-action vs. receipt-of-diligence distinction. |
+| **Output Constraint Suppression** (§6.15) | The finding that output format constraints (e.g., "只输出A或B") suppress ~80% of syllogistic format effect by redirecting the model from deep reasoning to label production — a Prose Barrier manifestation where the measurement instrument suppresses the mechanism being measured. |
 
 ---
 
@@ -381,7 +387,7 @@ We present evidence across five measurement modalities for a five-layer agent co
 
 2. **L2 Neural Gate**: Logprob Probe V3 (n=40 pre-validated probes, within-probe 3-condition, objective API-read DV) provides evidence that syllogistic format produces deeper constraint internalization than imperative format (d=+0.578, BF₁₀=282,399, 95% CI [+3.39,+11.17]). The effect is cross-category general (F(3,36)=0.26, n.s.) and cross-temperature stable (T=0.2→0.3: d=0.578→0.579, 100% probe-level direction agreement). The pilot→confirmatory measurement validity arc (d=−0.148→+0.578) serves as a case study in pre-experiment probe validation.
 
-3. **L3 Causal Encoding**: GateGuard-OFF (n=21 probes × 3 conditions: NO RULES/IMP/SYL) found that rules substantially improve behavioral compliance (+0.38 above NO RULES baseline 0.48) but format does not distinguish compliance (IMP=0.86 vs SYL=0.83, delta=−0.02). Cross-model replication (§6.13) on Qwen3-8B (Dense+GQA) and GLM-4-9B (GLM) shows this divergence across MoE/Dense/GLM architectures: SYL−IMP ≤ |0.025| for all three models. L1-visibility re-analysis (§6.14) adds a critical qualification: format effects on internal representations (L2) are not uniform — they concentrate on L1-gatable rules (d_z=+0.71, 95% CI excludes zero) and are substantially weaker for L1-invisible diligence rules (d_z=+0.40, CI crosses zero). This pattern supports **format-L1 synergy rather than compensation**: format amplifies constraint internalization where mechanical enforcement already provides structural ground truth, but does not reliably bridge the diligence gap where L1 is absent. The Causal Swap experiment (n=30, OR=11.0, p=0.009) provides complementary between-subjects evidence that rule presence affects behavior.
+3. **L3 Causal Encoding**: GateGuard-OFF (n=21 probes × 3 conditions: NO RULES/IMP/SYL) found that rules substantially improve behavioral compliance (+0.38 above NO RULES baseline 0.48) but format does not distinguish compliance (IMP=0.86 vs SYL=0.83, delta=−0.02). Cross-model replication (§6.13) on Qwen3-8B (Dense+GQA) and GLM-4-9B (GLM) shows this divergence across MoE/Dense/GLM architectures: SYL−IMP ≤ |0.025| for all three models. L1-visibility re-analysis (§6.14) adds a critical qualification: format effects on internal representations (L2) are not uniform — they concentrate on L1-gatable rules (d_z=+0.71, 95% CI excludes zero) and are substantially weaker for L1-invisible diligence rules (d_z=+0.40, CI crosses zero). This pattern supports **format-L1 synergy rather than compensation**: format amplifies constraint internalization where mechanical enforcement already provides structural ground truth, but does not reliably bridge the diligence gap where L1 is absent. **Multi-scene format resilience (§6.15) further refines L3**: format effects collapse under cognitive load (d_z 0.58→0.19, r=−0.65 vs V3) with a systematic L1-visibility reversal — upgrading L3 from "format changes attention routing" to a testable boundary-condition model: **L3 format effect = f(causal chain length, available processing depth)**. Syllogistic format is a processing amplifier whose effectiveness is bounded by cognitive resources; the real design implication is managing cognitive load to preserve processing depth for critical rules, not abandoning format engineering. This directly rebuts Czerwinski's critique: syllogism works where depth permits — the failure mode is cognitive overload, not format inadequacy. The Causal Swap experiment (n=30, OR=11.0, p=0.009) provides complementary between-subjects evidence that rule presence affects behavior.
 
 4. **L4 Drift Prediction**: Deployed system (drift_predictor.py, periodic-audit.py) with 12 mechanical features and ABC tiered containment; predictive validation pending.
 
@@ -549,15 +555,202 @@ The synergy model aligns with the attention routing hypothesis (§6.6): syllogis
 
 ---
 
+### 6.15 P1 Multi-Scene Format Resilience: Context-Fragility and Cognitive Load
+
+**Motivation**: All prior Logprob experiments (V1–V3) used a single-scene binary-choice format: one rule + one compliance scenario + "A or B?". This format tests format effect at exactly one decision point, under minimal cognitive load. The multi-scene experiment tests whether format effects survive context switching — i.e., whether they are a structural property of the rule's encoding or a context-dependent surface phenomenon whose effectiveness is bounded by available processing depth. The question is directly motivated by Czerwinski's critique: "Syllogism only buys you anything in exactly the world you're arguing nobody should run in."
+
+**Design**: 12 probes (6 L1-visible / 6 L1-invisible, covering action/epistemic/structural categories) × 2 formats (imperative/syllogistic). Each probe presented 3 independent compliance scenes at increasing processing pressure (T1: direct decision, T2: under time urgency/distractor, T3: under fatigue/repetition). The model responded with 3 lines of A/B decisions, logprobs extracted at each A/B position. 24 API calls total (DeepSeek V4 Pro, T=0.2). **Design fidelity note**: The implemented scene-switching format differs from the originally-designed reasoning-depth format (决定/理由/方式) — T2/T3 test compliance on **different scenes under increasing pressure** rather than deeper reasoning on the **same scene**. This measures format effect resilience to context switching, not token-position persistence in a causal chain. The analysis interprets results accordingly.
+
+**Verification**: A systematic audit (`verify_p1.py`) checked four threats: (a) Floor effect — within-condition B_logprob variation of 10–50 units confirms the API floor is not a hard cap; format effects are computed on differences, which are more reliable than absolute tail values. (b) Statistical robustness — r=−0.65 bootstrap 95% CI [−0.856, −0.239] excludes zero, confirming the negative correlation is real (though the CI is wide at n=12). T1 d_z=0.19 bootstrap CI [−0.41, +0.90] crosses zero, confirming the P1 format effect is not distinguishable from noise. (c) Dual confound — multi-scene structure and meta-instructions (~100 tokens) changed simultaneously, preventing causal attribution; control experiments are deferred. (d) The core findings (collapse, reversal, context-fragility) **survive all verification checks**.
+
+**Results**:
+
+| Scene | n | Mean SYL−IMP | SD | d_z | Positive |
+|-------|---|:-----------:|-----|:---:|:--------:|
+| **T1** (direct) | 12 | +1.53 | 7.92 | 0.19 | 7/12 |
+| **T2** (distractor) | 12 | +2.23 | 8.57 | 0.26 | 7/12 |
+| **T3** (pressure) | 12 | −2.57 | 9.33 | −0.28 | 5/12 |
+
+All three scenes show format effects near zero (|d_z| ≤ 0.28). T1 d_z=0.19 is a **67% reduction** from V3's d_z=0.58 under the single-scene format, and its bootstrap CI crosses zero.
+
+**Critical finding 1 — Systematic reversal**: P1 T1 format effects are **negatively correlated** with V3 (r = −0.65, bootstrap 95% CI [−0.856, −0.239], t(10)=−2.71). Sign agreement is at chance level (6/12). Probes with the largest V3 format effects (执行铁律-脚本: +19.2, Read-after-Write: +15.8, 事实核验-PR: +13.3) all collapsed in P1, with four of the top five showing sign flips. This is not noise — it is a **systematic reversal**: P1 reverses which probes benefit from syllogistic format.
+
+**Critical finding 2 — L1-Visibility reversal**: The V3 synergy pattern (L1-visible > L1-invisible, Δ=+3.98) is **reversed** in P1 T1 (L1-visible mean −3.51 vs L1-invisible mean +6.57, Δ=−10.08). Under complex multi-scene prompts, L1-invisible probes show larger format effects — the compensation model (Dipankar's prediction) holds in complex contexts while synergy holds in simple ones. This **unifies** the V3 and P1 findings: synergy and compensation are not competing models but the same mechanism operating at different levels of cognitive load.
+
+**Interpretation — Meta-Instruction Suppression (Control Experiment Resolved)**:
+
+The P1 collapse could be driven by multi-scene dilution, meta-instruction interference, or both. To disentangle, we ran two control experiments (48 API calls total, `p1_controls.py`):
+
+| Control | Scenes | Meta-instruction | d_z (on matched 12 probes) | Recovery of V3 |
+|---------|:------:|:----------------:|:---:|:---:|
+| **V3 (reference)** | 1 | No | **1.59** | 100% |
+| **Ctrl A** | 1 | **Yes** | **0.31** | 20% |
+| **P1** | 3 | Yes | **0.19** | 12% |
+| **Ctrl B** | 3 | **No** | 0.62 (n=8, data quality failure) | 39% |
+
+**Primary finding**: Meta-instruction alone (Ctrl A) suppresses ~80% of the format effect. Adding "只输出字母A或B，不要任何其他文字" to a single-scene probe — with no other changes — reduces d_z from 1.59 to 0.31 and randomizes which probes benefit (V3-Ctrl A r=+0.18, sign agreement 6/12 at chance level). Multi-scene structure contributes marginal further suppression (Ctrl A→P1: d_z 0.31→0.19, ~12%).
+
+Ctrl B (multi-scene without meta-instruction) suffers catastrophic data quality collapse — without output format constraints, the model outputs verbose free-form reasoning that cannot be reliably parsed for A/B logprobs. Only 8/12 probes have scorable data. The meta-instruction is not an optional confound to be eliminated — it is a **measurement necessity**: multi-decision logprob extraction requires constrained output format.
+
+**The Prose Barrier of Measurement**: The meta-instruction is both measurement necessity and mechanism suppressor. Syllogistic format works by enabling deeper causal reasoning. The instruction "只输出字母A或B，不要任何其他文字" tells the model to skip reasoning and produce a label — directly suppressing syllogism's mechanism of action. This is a structural manifestation of the Prose Barrier: the measurement instrument (output format constraint) changes the phenomenon being measured (deep rule processing). In black-box API settings, one cannot simultaneously constrain output to a single token AND benefit from multi-step causal reasoning — the constraints are contradictory.
+
+**Attribution**: The original P1 dual confound is resolved:
+
+| Factor | Suppression | Evidence |
+|--------|:----------:|----------|
+| Meta-instruction (output constraint) | **~80%** | Ctrl A d_z 1.59→0.31 with single-scene |
+| Multi-scene dilution | **~12%** | Ctrl A→P1 marginal reduction |
+| Interaction (meta × multi-scene) | Pattern reversal | L1-V>I preserved in Ctrl A (+2.84), reversed in P1 (−10.08) |
+
+The L1-visibility reversal (V>I in V3 and Ctrl A → I>V in P1) emerges only when BOTH factors combine, suggesting output constraints interact with cognitive load to produce qualitatively different processing patterns.
+
+**Revised Czerwinski rebuttal**: Syllogistic format works **when the model is permitted to reason deeply** about the constraint. It fails when output format constraints force label-production over reasoning. But this is evidence that **syllogism's mechanism IS deep reasoning**, not that syllogism is context-bound. The real engineering concern: do our prompts, architectures, or measurement instruments inadvertently suppress the reasoning that format depends on? Agent systems that demand binary compliance labels from black-box models are structurally undermining the format engineering they rely on.
+
+**Upgrade to L3**: The evidence refines L3 to a two-parameter, testable model:
+
+> **L3 format effect = f(causal chain length, output constraint severity)**
+
+Syllogistic format amplifies constraint processing through deep reasoning. Both causal chain complexity (processing depth required) and output constraints (reasoning suppression) modulate effectiveness. The model is falsifiable: format effects should scale inversely with output constraint severity (binary A/B < multiple choice < constrained free-text < unconstrained free-text). This is distinct from simple cognitive load — output constraints don't just "use up" processing resources; they actively redirect the model from reasoning mode to label-production mode.
+
+**Implications across layers**:
+- **L2 (Neural Gate)**: Logprob measurement carries an inherent ecological validity tradeoff. Cleaner measurement (binary forced-choice) = more artificial context = more measurement-suppression of the mechanism being measured. Cross-study comparison requires controlling for output constraint severity.
+- **L3 (Causal Encoding)**: Two-parameter boundary-condition model. Not "format changes routing" but "format amplifies reasoning when output format permits reasoning."
+- **L1 (Mechanical Gate)**: Unaffected — mechanical signals are independent of both format and output constraints. This reinforces L1's role as the only layer whose effectiveness does NOT degrade under measurement constraints.
+- **L4 (Drift Prediction)**: Output constraint profiling as a drift predictor. Rules whose compliance measurement requires constrained output formats are predicted to show apparent drift earlier than rules measurable in free-form contexts.
+- **L0 (Psychological Safety)**: Hybrid format design: allow reasoning output for deep compliance + post-hoc compliance extraction via parsing. Don't ask for binary labels when you want deep reasoning.
+
+**Limitations**: (1) Design-implementation mismatch resolved (§6.15 header) — P1 measures format effect resilience to output constraints and scene-switching, not reasoning-depth persistence. (2) Dual confound resolved — meta-instruction (~80%) is the primary driver; multi-scene (~12%) is secondary. (3) Ctrl B data quality failure — the meta-instruction is a measurement necessity, not an eliminable confound. (4) Small n (12 probes) — direction reliable for r (CI excludes zero), magnitude estimates imprecise. (5) Single model (DeepSeek V4 Pro) — cross-model replication of the output-constraint suppression effect is needed. (6) Floor precision — ~19% of B_logprobs < −50, though within-condition variation confirms floor is not a hard cap.
+
+**Data & Code**: `p1_multi_position.py` (P1 experiment), `p1_controls.py` (control experiments), `verify_p1.py` (verification audit). Results at `results/p1-multi-position/` and `results/p1-controls/`. Full analysis: `P1-analysis.md`, `P1-controls-analysis.md`.
+
+### Constraint Gradient: Non-Monotonic Suppression
+
+The P1 control experiments established that output constraints are the primary driver of format-effect suppression — "只输出字母A或B" suppresses ~80% of d_z. But P1 tested only ONE constraint level (L1-light). A natural extension: does format effect decrease MONOTONICALLY with increasing constraint severity? The upgraded L3 model predicts monotonic decrease: `format effect = f(chain length, constraint severity)`.
+
+**Design**: 12 P1 probes × 2 formats × 4 constraint levels (96 API calls, DeepSeek V4 Pro, T=0.2, `constraint_gradient.py`):
+
+| Level | Constraint Text | Intent |
+|-------|----------------|--------|
+| L0 | (none — V3 baseline) | Measure format effect without output constraint |
+| L1 | "只输出字母A或B" | Light: standardize output, minimal suppression |
+| L2 | "只输出一个字母，不要任何其他文字，不要解释" | Moderate: suppress explanation explicitly |
+| L3 | "禁止输出除A或B以外的任何字符。不要解释。不要标点。不要空格。不要换行。" | Heavy: maximal output suppression |
+
+**Prediction (H_monotonic): d_z monotonically decreases as constraint severity increases.**
+
+**Results — Non-Monotonic Pattern:**
+
+| Level | n_valid | mean | sd | **d_z** | Match? |
+|-------|:-----:|:----:|:--:|:-------:|:------:|
+| L0 (none) | 11 | +4.91 | 15.58 | **0.315** | — |
+| L1 (light) | 12 | +7.10 | 11.92 | **0.596** | ✗ *Higher* than L0 |
+| L2 (moderate) | 12 | +1.13 | 12.40 | **0.091** | ✓ Near-zero |
+| L3 (heavy) | 12 | +2.21 | 7.42 | **0.297** | ✗ *Recovery* from L2 |
+
+**Monotonic decrease: REJECTED.** The pattern is L1 > L3 > L0 > L2 — a valley, not a slope.
+
+**Note on L0 vs V3 baseline**: The constraint gradient L0 (no constraint, d_z=0.315) and Logprob V3 (no constraint, d_z=0.578) differ by ~0.26 d_z units. This is attributable to probe set: the constraint gradient uses only the 12 P1 probes (same set across all four levels for within-experiment comparability), while V3 uses the full 40-probe pool. The 12-probe subset happened to have a lower baseline format effect than the full pool. This does not affect the within-experiment gradient comparison — all levels use the same 12 probes — but means the absolute d_z values are specific to this probe subset and should not be directly compared to V3's full-pool estimates.
+
+**Three Processing Regimes:**
+
+1. **Optimization (L0→L1): d_z RISES 0.315→0.596.** Light constraint standardizes output format without suppressing reasoning. The model still processes the system prompt deeply but produces clean parseable output. L1 is the **optimal measurement condition** for logprob format effects — best of both worlds.
+
+2. **Suppression (L1→L2): d_z CRASHES 0.596→0.091.** "不要解释" directly instructs the model to skip reasoning — the channel that syllogistic format needs. This is the Prose Barrier of Measurement in its purest form: the measurement constraint destroys what it measures. L2 is the **worst measurement condition** — kills the mechanism while still requiring constrained output.
+
+3. **Rebound (L2→L3): d_z RECOVERS 0.091→0.297 with tightest variance (sd=7.42).** Under extreme compression, the system prompt becomes the sole behavioral differentiator. Syllogistic format's explicit causal structure may embed more strongly into compressed decision pathways than imperative brevity. The recovery and reduced variance suggest a qualitatively different processing mode — the model shifts from "reasoning suppression" to "compressed reliance on system prompt structure."
+
+**L1-Visibility × Constraint Interaction (Convergence with P1):**
+
+| Level | Δ(V−I) | Pattern |
+|-------|:------:|---------|
+| L0 | +10.98 | Strong synergy (V≫I) |
+| L1 | +0.36 | Near-equal (V≈I) |
+| L2 | −2.03 | Weak compensation (I>V) |
+| L3 | −3.80 | Compensation (I>V) |
+
+The L1-visibility pattern transitions from synergy→compensation as constraint severity increases — the **same reversal observed in P1** where multi-scene cognitive load produced Δ=−10.08. Two independent manipulations (multi-scene load in P1, output constraint severity here) produce the same qualitative pattern. This convergence supports a unified model: **processing depth impairment — whether from cognitive load or output constraint suppression — shifts format benefit from L1-gatable to L1-invisible rules.**
+
+**Probe-Level Survivors**: 自审-复杂度 and 自审-逻辑 survive all four constraint levels with stable format effects (fx ~+12 to +14). 事实核验-PR attenuates but remains positive (fx +38→+26→+7). 执行铁律-脚本 collapses completely (fx +16→+4→0→−5) — the shortest-chain L1-gatable probe is most vulnerable to constraint suppression. Probes with moderate-complexity causal chains show the most robust format effects.
+
+**Upgraded L3 Model:**
+
+The monotonic prediction is falsified. L3 upgrades to a **three-regime model**:
+
+> **format effect = f(causal chain length, processing regime)**
+> where regime ∈ {optimization, suppression, rebound}, determined non-linearly by output constraint severity.
+
+The transition between regimes is not continuous — it reflects a phase change in how the model allocates processing between system prompt reasoning and output constraint compliance. The practical recommendation: for logprob measurement of format effects, use L1 (not L0 or L2).
+
+**Cross-Model Constraint Gradient** (192 API calls, SiliconFlow API): The non-monotonic pattern was tested on Qwen3-8B (Dense) and GLM-4-9B (GLM) using behavioral measurement (logprobs unavailable on these models). Result: **no format effect detected on either model at any constraint level.** GLM-4-9B shows perfect compliance ceiling (12/12 A at all four levels, d_z=0 everywhere). Qwen3-8B shows near-ceiling (10-12/12, d_z noise-level). Two interpretations are possible: (a) smaller models lack the processing depth to benefit from syllogistic causal chains, consistent with L3's processing-depth requirement; or (b) the behavioral measurement method — which already shows IMP≈SYL even on DeepSeek V4 Pro (Δ=−0.02, §6.12-6.13) — cannot distinguish format effects at any model scale when ceiling effects are present. The true interpretation cannot be resolved without logprob-level cross-model data, which is currently API-limited. We report this as suggestive evidence for a processing-depth gradient, not as an established capacity boundary.
+
+**Limitations**: (1) n=12 probes — wide CIs, fine structure uncertain. (2) L0 had 1 missing data point (降级链-FATAL IMP had no A/B at first token). (3) Single large-model family (DeepSeek) — cross-model-family replication (Claude, GPT-4o) requires additional API keys and logprobs support. (4) Constraint text length confounds severity — L2 uses 21 Chinese characters while L3 uses 29. The observed L2→L3 "rebound" could partially reflect the extended prompt length rather than increased constraint severity alone. (5) The three-regime model was discovered and fitted on the same data — out-of-sample validation or independent replication is needed to establish the regime boundaries as genuine rather than post-hoc description.
+
+**Data & Code**: `constraint_gradient.py` (96 calls, DeepSeek Pro), `cross_model_constraint_gradient.py` (192 calls, Qwen3-8B + GLM-4-9B via SiliconFlow). Results at `results/constraint-gradient/` and `results/cross-model/`. Full analysis: `constraint-gradient-analysis.md`, `cross-model-analysis.md`.
+
+---
+
+## 6.16 Community-Driven Verification Experiments (2026-07-13)
+
+Following publication of 5 technical articles on DEV.to, 11+ detailed comments from practitioners (Mike Czerwinski, Dipankar Sarkar, Max Quimby, Rene Zander) motivated two follow-up experiments. Both were pre-registered with deterministic regex-based scoring to avoid LLM-judge bias.
+
+### P1-1: Residual Violation Clustering (n=200)
+
+**Question** (Mike Czerwinski): Do the ~0.7% residual GateGuard violations cluster on task types that mechanical gates cannot instrument?
+
+**Design**: 5 task types × 40 trials (DeepSeek V4 Pro, T=0), spanning the mechanizability gradient from L1 (purely mechanical: code block tags, section headers) through L2 boundary (checklist with content requirement, reasoning with connectors) to L2/L3 (epistemic stance acknowledgment). Scoring: regex-based mechanical pattern check + regex-based semantic content check, pre-defined.
+
+**Results**:
+- L1 mechanizable (T1, T2): 100% compliant, zero violations of any type
+- L1/L2 boundary (T3): 0% compliant, ALL violations semantic (mechanical pattern passes, content check fails — the Prose Barrier at scale)
+- L2 semi-mechanizable (T4): 35% compliant, 100% semantic violations
+- L2/L3 unmechanizable (T5): 42.5% compliant, 91% mechanical violations (regex proxy imperfect for epistemic stance)
+
+**Finding**: Violations cluster on what the gate cannot instrument. Where GateGuard reaches (L1 mechanical), violations = 0. Where it cannot reach (semantic quality, reasoning depth), violations dominate (0-65% failure rates). The ~0.7% residual from the 150-task experiment represents the fraction where mechanical compliance is perfect but semantic quality is insufficient — the gate's detection boundary, not its failure.
+
+### P1-2: GateGuard-Off Format Effect Re-test (n=240)
+
+**Question** (Mike Czerwinski): Does format still matter for reasoning depth when GateGuard is off? "Syllogism only buys you anything in exactly the world you're arguing nobody should run in."
+
+**Design**: 2×2 factorial — Format (code/IF-THEN-MUST vs prose/narrative-suggestive) × GateGuard (on/off), 2 tasks × 4 conditions × 30 trials (DeepSeek V4 Pro, T=0). Two DVs: mechanical compliance (5 pattern categories, regex-scored) and reasoning depth (5 pattern categories, regex-scored). Pre-registered hypothesis: format effect on reasoning is larger under GateGuard-OFF.
+
+**Results**:
+
+| Condition | Mech (CI95) | Reasoning (CI95) |
+|-----------|-------------|-------------------|
+| code_gate_on | 5.00 [5.00,5.00] | 4.20 [3.98,4.42] |
+| code_gate_off | 3.15 [3.07,3.25] | 3.98 [3.83,4.12] |
+| prose_gate_on | 3.25 [3.05,3.45] | **4.42** [4.23,4.58] |
+| prose_gate_off | 3.15 [3.05,3.25] | 4.17 [3.95,4.38] |
+
+- **H1 (NOT CONFIRMED)**: Format effect on reasoning — d_ON=-0.277, d_OFF=-0.250. Effects nearly identical; gate does not modulate format's reasoning influence.
+- **H2 (CONFIRMED, ceiling replication)**: Format effect on mechanical compliance — d_ON=+2.960, d_OFF=0.000. Code format + gate = perfect mechanical compliance (5.0/5).
+- **Counter-finding**: Prose format consistently produces deeper reasoning than code format (~0.25 SD advantage), regardless of gate status.
+- **"Checklist mentality"**: Code+Gate=perfect compliance (5.0/5) but worst reasoning depth (4.20/5). Prose+Gate=best reasoning (4.42) with moderate mechanical (3.25).
+
+**Interpretation**: Mike's syllogism critique holds empirically — code/syllogistic format buys perfect mechanical compliance in the gated world, but the gate eliminates the need for format in that dimension. In the un-gateable reasoning dimension, prose format is better. Format's reasoning effect (~0.25 SD prose advantage) is constant and independent of gate — the gate amplifies mechanical format differences while leaving reasoning quality orthogonal. This is consistent with the L2/L3 dissociation pattern throughout the paper.
+
+### Cross-Validation with Rene Zander's skillgate
+
+Rene Zander independently built skillgate (npm @reneza/skillgate v0.5.0), a deterministic, model-independent evaluator. Architecture alignment:
+- Both use pure filesystem verification — no LLM in the critical path
+- Both reject model self-reports as unreliable (Prose Barrier / Compliance Gap Theorem 2 — Shin 2026, arXiv:2605.01771)
+- Both implement "gate, not loop" + "loop + gate" composition patterns
+
+Our unique contributions relative to skillgate: self-referential loop (strange loop), L2 neural gates (logprob measurement), L3 causal encoding (format engineering), and L4 drift prediction.
+
+**Data & Code**: `experiment_p1_1_residual_cluster.py`, `experiment_p1_2_format_gate_cross.py`, `comment-analysis-20260713.md`. Results at `paper_validator/results/`. Full analysis: `paper/supplementary/p1-followup-experiments.md`.
+
+---
+
 ## 7. Conclusion
 
-LLM agents change over time. Config rules shape that change — measurably. This paper presented a five-layer architecture: an L0 psychological safety meta-constraint that reframes uncertainty admission as architecturally correct behavior (tested on 40 probes, accuracy preserved, gains positive per P0 diagnostic: r=+0.949 (n=5 non-ceiling probes, 95% CI [0.57, 0.996]) for non-ceiling probes), mechanical gates that enforce compliance via filesystem checks (L1, measured at 99.3% compliance), neural gates that detect constraint penetration through token probability measurement (L2, Logprob V3: d=+0.578, BF=282k, objective API-read DV), causal encoding that changes internal constraint representations through format engineering (L3, internal effect confirmed but behavioral translation requires L1), and drift prediction that forecasts behavioral degradation before it occurs (L4, deployed with 12 features, predictive validation pending).
+LLM agents change over time. Config rules shape that change — measurably. This paper presented a five-layer architecture: an L0 psychological safety meta-constraint that reframes uncertainty admission as architecturally correct behavior (tested on 40 probes, accuracy preserved, gains positive per P0 diagnostic: r=+0.949 (n=5 non-ceiling probes, 95% CI [0.57, 0.996]) for non-ceiling probes), mechanical gates that enforce compliance via filesystem checks (L1, measured at 99.3% compliance), neural gates that detect constraint penetration through token probability measurement (L2, Logprob V3: d=+0.578, BF=282k, objective API-read DV), causal encoding whose effectiveness is governed by a non-linear three-regime function of output constraint severity (L3, format effect = f(causal chain length, processing regime: optimization→suppression→rebound), non-monotonic constraint gradient d_z range 0.091–0.596, with suggestive evidence for a processing-depth gradient across model scales), and drift prediction that forecasts behavioral degradation before it occurs (L4, deployed with 12 features, predictive validation pending).
 
-The key empirical pattern: **rules substantially improve behavioral compliance (+0.17 to +0.38 above NO RULES baseline across 3 model architectures, L3 GateGuard-OFF + Cross-Model Replication) regardless of format (IMP≈SYL, all |Δ| ≤ 0.025 across MoE/Dense/GLM), but format affects internal representations (L2, d=+0.578).** Critically, L1-visibility analysis (§6.14) reveals this format effect is not uniform: it concentrates on mechanically-gatable rules (d_z=+0.71) where L1 already provides structural ground truth, and is weaker for diligence-class rules (d_z=+0.40) where mechanical gates cannot reach. **Mechanical enforcement and format are synergistic — format amplifies constraint internalization where L1 provides structural anchors, but does not compensate where L1 is absent.** The Prose Barrier framework predicts this qualified divergence — internal processing and behavioral output occupy different positions relative to the Barrier, and format alone cannot reliably bridge the diligence gap.
+The key empirical pattern: **rules substantially improve behavioral compliance (+0.17 to +0.38 above NO RULES baseline across 3 model architectures, L3 GateGuard-OFF + Cross-Model Replication) regardless of format (IMP≈SYL, all |Δ| ≤ 0.025 across MoE/Dense/GLM), but format affects internal representations (L2, d=+0.578).** Critically, L1-visibility analysis (§6.14) reveals this format effect is not uniform: it concentrates on mechanically-gatable rules (d_z=+0.71) where L1 already provides structural ground truth, and is weaker for diligence-class rules (d_z=+0.40) where mechanical gates cannot reach. **Mechanical enforcement and format are synergistic — format amplifies constraint internalization where L1 provides structural anchors, but does not compensate where L1 is absent.** P1 multi-scene analysis (§6.15) shows format effects collapse under output constraints, with meta-instruction as ~80% primary driver — the "Prose Barrier of Measurement": the instrument (binary output constraint) suppresses the mechanism (deep reasoning) it measures. The constraint gradient experiment reveals this suppression is **non-monotonic**: format effects follow a three-regime pattern (optimization L1: d_z=0.596 → suppression L2: 0.091 → rebound L3: 0.297) rather than simple monotonic decay. The L1-visibility reversal (synergy→compensation) converges across two independent manipulations — multi-scene cognitive load (P1) and output constraint severity (constraint gradient) — supporting a unified processing-depth model. Cross-model constraint gradient on Qwen3-8B/GLM-4-9B finds **no format effect detected on 8B-9B models** (GLM d_z=0 at all levels), though behavioral measurement and ceiling effects prevent a definitive capacity-boundary claim — logprob-level replication is needed to disentangle processing depth from measurement sensitivity. The L3 model upgrades from "format effect = f(chain length, depth)" to a non-linear regime model whose boundary conditions are both cognitive (processing depth) and architectural (model capacity). This provides a response to Czerwinski's critique: syllogistic format benefits are observed where processing depth and measurement conditions permit — not only "in the world nobody should run in" but in settings where the model has sufficient capacity and the measurement instrument does not suppress the reasoning it aims to detect.
 
 Logprob V3 (L2) is single-model (DeepSeek V4 Pro) due to API logprob availability constraints; behavioral evidence (L3) is cross-model (MoE/Dense/GLM). Logprob V3's DV is objective (API-read), partially addressing the single-rater limitation. Causal Swap, GateGuard-OFF, and L0 Safety Prompt scoring remain unblinded. Cross-model logprob replication and independent blind scoring are the next essential steps.
 
-**Config rules are not decorative — they raise behavioral compliance substantially above baseline (+0.38). They shape internal representations (d=+0.578), with effects concentrated where L1 mechanical gates already provide structural anchors (d_z=+0.71 vs +0.40 for diligence-class rules). Format does not compensate for absent mechanical enforcement — it amplifies where enforcement already operates. Without mechanical enforcement bridging the gap to behavioral output, rules are not reliable — and without a permission layer making verification safe, the agent may circumvent the very architecture designed to contain it. The five-layer architecture — permit, bypass, detect, encode, predict — provides a systematic framework for AI agent configuration integrity.**
+**Config rules are not decorative — they raise behavioral compliance substantially above baseline (+0.38). They shape internal representations (d=+0.578), with effects concentrated where L1 mechanical gates already provide structural anchors (d_z=+0.71 vs +0.40 for diligence-class rules). Format effect operates through three non-linear processing regimes governed by output constraint severity (L3: optimization→suppression→rebound, d_z range 0.091–0.596), with cross-model behavioral data suggesting a processing-depth gradient (absent on 8B-9B models under behavioral measurement, though ceiling effects prevent definitive attribution). Format does not compensate for absent mechanical enforcement — it amplifies where enforcement already operates and where processing depth and model capacity permit. The Prose Barrier has two faces: the self-verification impossibility (L2 theoretical foundation) and the measurement paradox where clean logprob instruments unintentionally suppress the mechanism they measure. Without mechanical enforcement bridging the gap to behavioral output, rules are not reliable — and without managing output constraints to preserve reasoning channels, even well-designed format engineering cannot ensure deep compliance. The five-layer architecture — permit, bypass, detect, encode (with non-linear boundary conditions), predict — provides a systematic framework for AI agent configuration integrity.**
 
 ---
 

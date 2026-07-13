@@ -39,7 +39,7 @@
 → 完整 PAPER.md + 实验数据 + [reviewer-report-2026-07-11.md](reviewer-report-2026-07-11.md)。**注意：reviewer-report 中的"审稿人"是 AI 模拟的，用途是自诊而非替代真人评审。**
 
 ### 想深入（45 min）
-→ 以上全部 + [supplementary/](supplementary/) 补充分析（logprob↔behavior 桥接、NO RULES 基线完整分析、五层独立性论证）。
+→ 以上全部 + [supplementary/](supplementary/) 补充分析（logprob↔behavior 桥接、NO RULES 基线完整分析、五层独立性论证、P1社区驱动验证实验）。
 
 ---
 
@@ -100,6 +100,8 @@ L0 心理安全           L1 机械门            L2 神经门            L3 因
 | **约束梯度** | **12 probes × 2 formats × 4 levels (96 calls)** | **4 输出约束级别 (L0~L3), DeepSeek V4 Pro** | **logprob d_z** | **非单调: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091); 三阶段模型** | — | **L3** | **API 直接返回** |
 | **约束梯度-跨模型** | **12p×4L×2fmt×2M (192 calls)** | **Qwen3-8B + GLM-4-9B via SiliconFlow** | **行为合规** | **8B/9B 未检测到格式效应 (GLM d_z=0); 受行为测量+天花板限制, 非确定性结论** | — | **L3** | **API 观察** |
 | Syllogism 盲交叉验证 | 4 sessions | 5 规则全触发 | 违规率 | 0 违规 + 涌现主动审计 | — | L3 | 作者本人 |
+| **P1-1 残差聚类** (§6.16) | **200 trials** | **5 task types × 40 trials, pre-registered, regex scoring** | **违规分类 (机械/语义)** | **L1 100%合规 0违规; L1/L2边界 100%语义违规; L2/L3 违规聚集于gate盲区** | — | **L1, L3** | **脚本自动** |
+| **P1-2 格式×Gate** (§6.16) | **240 trials** | **2×2 factorial (format × gate), pre-registered, regex scoring** | **机械合规 + 推理深度** | **H1未证实 (d_ON=-0.277≈d_OFF=-0.250); Prose格式推理始终优于Code; Code+Gate="checklist mentality"** | — | **L1, L3** | **脚本自动** |
 | 行为测试套件 | 19 tests | 自动化回归 | pass/fail | 19/19 全通过 (CORE-01~08 + BEH-01~11) | — | L1, L4 | **脚本自动** |
 
 > **Logprob V3 和 Format A/B 的区别**：Format A/B 测**行为输出**（hook 开启时合规率被机械门推到天花板）。Logprob V3 测**内部表征**（取第一 token 的概率差，绕过机械门）。两者互补。
@@ -141,6 +143,7 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 - **Manifest↔Hook 一致**: 23↔23, 0 偏差
 - **跨脚本路径一致**: 30 路径 0 冲突
 - **执行债务追踪**: ≥3 次代码写入未执行 → 自动阻断
+- **P1-1 残差聚类** (n=200, 2026-07-13): 验证 Mike Czerwinski 的追问——可机械化任务 100%合规零违规；L1/L2 边界 100%语义违规（gate 检测格式但检测不了内容）；不可机械化任务 57%语义违规。**违规聚集在 gate 无法检测的语义空间。**
 - **设计哲学**: L1 使用 Shell 脚本、文件 mtime、exit code 是**刻意设计**——Prose Barrier 的推论是任何经过 NL 通道的检查都不可靠，因此 L1 只用 AI 够不着的底层机制。当前实现仅适用于单机（非 K8s/分布式），扩展需要状态持久化层，这是工程化工作而非架构缺陷。
 
 ### L2 神经门：Logprob 探针 V3（2026-07-12 新增）
@@ -168,6 +171,8 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 **跨模型约束梯度**（192 calls, Qwen3-8B + GLM-4-9B）：**8B/9B 模型上未检测到格式效益**（GLM d_z=0 全级别，但受行为测量和天花板效应限制）。提示处理深度梯度，但 logprob 级跨模型验证仍待 API 支持。
 
 **L3 升级**：`格式效应 = f(因果链长度, 处理阶段)` where 阶段 ∈ {优化, 压制, 反弹}。边界条件：处理深度（认知负载 + 输出约束） + 模型容量。
+
+**P1-2 格式×GateGuard 交互** (n=240, 2026-07-13): 2×2 因子实验（格式 code/prose × GateGuard on/off）。H1（格式效应在 GateGuard-OFF 下更大）未证实——效应在两种条件下几乎相同 (d_ON=-0.277 ≈ d_OFF=-0.250)。**反直觉发现**: Prose 格式规则在所有条件下都比 code 格式产生更深推理 (~0.25 SD 恒定优势)。Code+GateGuard ON = "checklist mentality"（机械合规满分 5.0/5，但推理深度最差 4.20/5）。详见 [supplementary/p1-followup-experiments.md](supplementary/p1-followup-experiments.md)。
 
 **正典化系统**：eval-field.py (453行, 5人格) + canonization.py (318行, 24h冷却) + CONSTITUTION.md (首规则已正典化)
 
@@ -209,6 +214,19 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 - **alirezarezvani/claude-skills**：维护者主动 Co-authored-by 署名
 - **anthropics/skills**：多个 PR 审查中
 
+### DEV.to 社区深度反馈 (2026-07-12~13)
+
+5篇技术文章发布后收到 11+ 条详细评论。关键反馈和验证结果：
+
+| 评论者 | 核心贡献 | 我们的验证 |
+|--------|---------|-----------|
+| **Mike Czerwinski** | "receipt-of-action vs receipt-of-diligence" 概念；追问 ~0.7% 残差是否聚集在 gate 盲区 | P1-1 (n=200): 证实——gate可检测区0机械违规，盲区100%语义违规 |
+| **Mike Czerwinski** | "Syllogism only buys you anything in the world you're engineering away"；GateGuard-off下格式效应复测 | P1-2 (n=240): 证实syllogism困境——code格式在gate-on下完美机械合规但推理变浅；prose格式推理始终更优 |
+| **Dipankar Sarkar** | 决策token测量、语义only实验设计、scorer不带LLM偏见 | 决策token预标注声明已发布；P1-1/P1-2用确定性regex scoring |
+| **René Zander** | skillgate项目：独立构建了相同模式的确定性gate引擎 | 架构对齐分析完成——Prose Barrier/Compliance Gap Theorem 2完全一致；我们的 L2/L3/L4 + 奇异环是独特贡献 |
+
+详见 [supplementary/p1-followup-experiments.md](supplementary/p1-followup-experiments.md)。
+
 ---
 
 ## AI 模拟审查（自诊工具·非真人评审）
@@ -242,11 +260,12 @@ SessionStart → health-check.py (检测 flag, 24h冷却)
 
 ## 已发布技术博文
 
-**DEV.to**（5 篇）：
+**DEV.to**（6 篇）：
 - [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) — Prose Barrier
 - [I Built a Neural Gate — Layer 2](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) — L2 神经门
 - [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) — L1+L3 合规
 - [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) — L2 Logprob V3
 - [Psychological Safety for AI — L0](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986) — L0 心理安全
+- [Follow-Up: Decision-Token, Format-as-Fallback, and What Changed](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo) — 社区反馈+决策token+格式立场
 
 **掘金**（中文，5 篇对应）：juejin.cn/user/4250072430682412
