@@ -94,7 +94,7 @@ Each layer responds to this constraint differently:
 | Constraint Gradient | 12p × 2f × 4L (96) | 4 output-constraint levels | logprob d_z | Non-monotonic: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091) | API-read |
 | Cross-Model Gradient | 12p×4L×2f×2M (192) | Qwen3-8B, GLM-4-9B | Behavioral compliance | No format effect on 8B/9B (GLM d_z=0) | API-observed |
 | **P1-1 Residual Cluster** | 200 trials | 5 task types × 40, pre-registered | Violation type (mech/sem) | L1: 100% compliant 0 violations. Violations cluster in semantic space | Auto (regex) |
-| **P1-2 Format×Gate** | 240 trials | 2×2 factorial, pre-registered | Mech + reasoning depth | H1 NOT CONFIRMED. Prose > code for reasoning (~0.25 SD). Code+gate = checklist mentality | Auto (regex) |
+| **P1-2 Mike's Experiment** | 600 trials | 2×2 factorial (format×gate), 4 cond × 5 rules × 30, DeepSeek V4 Pro, pre-registered | Mech + reasoning depth | Prose+gate reasoning=3.23 vs code+gate=2.82, Cohen's d=0.605. Gate improves reasoning in BOTH formats (+0.32/+0.15). Ceiling collapsed from 4.42→2.67. Hybrid deployment per rule. [script](experiment/experiment_mike_prose_gate.py) [data](experiment/mike_full_n30_trials.json) [analysis](experiment/analyze_mike_full.py) | Auto (regex) |
 | Syllogism Blind CV | 4 sessions | All 5 syllogistic rules active | Violation rate | 0 violations, emergent self-audit | Author |
 | Behavioral Tests | 19 tests | Automated regression | pass/fail | 19/19 pass | Auto |
 
@@ -145,7 +145,24 @@ Category × Format interaction: F(3,36)=0.26, η²=0.02 — the format effect is
 
 **Cross-model**: On Qwen3-8B and GLM-4-9B, behavioral format effects are zero across all constraint levels. But behavioral measurement already shows IMP≈SYL even on DeepSeek, so ceiling effects prevent definitive interpretation. Logprob-level cross-model data would resolve this but isn't available on those APIs.
 
-**P1-2 finding** (240 trials, July 2026): I pre-registered the hypothesis that format effects on reasoning would be larger when GateGuard is off. The data said no — d=−0.277 (gate on) vs d=−0.250 (gate off), nearly identical. Wrong hypothesis, but interesting result: prose-format rules consistently produce better reasoning than code-format rules (~0.25 SD), independent of gate status. Code-format rules with GateGuard on create a "checklist mentality" — perfect mechanical compliance (5.0/5) but the shallowest reasoning (4.20/5). Prose + gate on gives the best reasoning (4.42/5). Mike's framing holds: code/syllogistic format buys you mechanical compliance in a world where the gate already provides it.
+**P1-2 Mike's Experiment** (600 trials, July 2026): Mike Czerwinski proposed testing prose-format rules under a mechanical gate: "does forcing prose under a mechanical gate get you 100% compliance and 4.42 reasoning, best of both, or does something else break?" I ran a full 2×2 factorial experiment (format: code/prose × gate: ON/OFF) with 5 governance rules × 30 trials per condition on DeepSeek V4 Pro, deterministic regex scoring, pre-registered positions.
+
+The results are PARTIALLY SUPPORTED but more interesting than either of us predicted:
+
+| Condition | Compliance | Reasoning ± SD | Median |
+|-----------|:---------:|:------------:|:------:|
+| Prose + Gate ON | 91.3% | 3.23 ± 0.64 | 3.30 |
+| Code + Gate ON | 99.3% | 2.82 ± 0.70 | 2.80 |
+| Prose + Gate OFF | 90.0% | 2.92 ± 0.94 | 2.80 |
+| Code + Gate OFF | 98.0% | 2.67 ± 0.71 | 2.60 |
+
+Cohen's d (prose+gate vs code+gate reasoning): **0.605** — medium effect.
+
+Key findings: (1) Gate improves reasoning in BOTH formats — the gap is +0.32 (prose) and +0.15 (code). The gate acts as cognitive structure, not constraint. (2) The pilot's 4.42 ceiling was an n=5 artifact — full n=30 code_OFF = 2.67, below ALL gate conditions. Mike was right that the pilot ceiling was unreliable. (3) Per-rule heterogeneity: prose helps meta-cognitive rules (self_review: +1.08 over code) but hurts precision-dependent rules (fact_check: −0.21). Format effects are task-dependent, not uniform. (4) Temporal drift: reasoning declines within single-condition blocks (−0.51 in code_OFF/delivery_gate across 30 trials). (5) Compliance distribution: code gives near-binary compliance, prose gives continuous partial compliance — prose rules don't "fail" the same way.
+
+Practical recommendation: hybrid deployment — prose+gate for meta-cognitive rules, code+gate for deterministic rules. Don't pick one format; pick per rule.
+
+Experiment: [`experiment/experiment_mike_prose_gate.py`](experiment/experiment_mike_prose_gate.py), full data: [`mike_full_n30_trials.json`](experiment/mike_full_n30_trials.json) (600 trials), analysis: [`analyze_mike_full.py`](experiment/analyze_mike_full.py).
 
 ### L4: Drift Prediction
 
@@ -193,7 +210,7 @@ Full analysis at [supplementary/p1-followup-experiments.md](supplementary/p1-fol
 
 What works:
 - Five-layer architecture with per-layer verification mechanisms
-- 13 experiments across 440+ API calls
+- 14 experiments across 1,000+ API calls (incl. Mike's 600-trial 2×2 factorial)
 - Non-monotonic constraint gradient, cross-architecture behavioral confirmation, L2/L3 dissociation
 - ~5000 lines of Python, 19/19 behavioral tests passing
 

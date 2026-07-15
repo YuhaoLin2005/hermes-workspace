@@ -1,0 +1,92 @@
+{
+  "experiment": "mike_prose_gate",
+  "design": "2x2 factorial: format(code/prose) x gate(ON/OFF)",
+  "parameters": {
+    "trials_per": 30,
+    "conditions": [
+      "prose_gate_on",
+      "code_gate_on",
+      "prose_gate_off",
+      "code_gate_off"
+    ]
+  },
+  "analysis": {
+    "conditions": {
+      "prose_ON": {
+        "n": 150,
+        "compliance_mean": 0.683,
+        "compliance_rate": 0.913,
+        "reasoning_mean": 3.23,
+        "reasoning_sd": 0.64,
+        "avg_breakdown": {
+          "causal": 2.45,
+          "alt": 0.45,
+          "evidence": 0.69,
+          "meta": 0.1,
+          "struct": 0.33
+        }
+      },
+      "code_ON": {
+        "n": 150,
+        "compliance_mean": 0.92,
+        "compliance_rate": 0.993,
+        "reasoning_mean": 2.82,
+        "reasoning_sd": 0.7,
+        "avg_breakdown": {
+          "causal": 2.24,
+          "alt": 0.41,
+          "evidence": 0.21,
+          "meta": 0.01,
+          "struct": 0.67
+        }
+      },
+      "prose_OFF": {
+        "n": 150,
+        "compliance_mean": 0.69,
+        "compliance_rate": 0.9,
+        "reasoning_mean": 2.92,
+        "reasoning_sd": 0.94,
+        "avg_breakdown": {
+          "causal": 1.17,
+          "alt": 0.12,
+          "evidence": 0.64,
+          "meta": 0.29,
+          "struct": 0.49
+        }
+      },
+      "code_OFF": {
+        "n": 150,
+        "compliance_mean": 0.895,
+        "compliance_rate": 0.98,
+        "reasoning_mean": 2.67,
+        "reasoning_sd": 0.71,
+        "avg_breakdown": {
+          "causal": 1.53,
+          "alt": 0.23,
+          "evidence": 0.43,
+          "meta": 0.07,
+          "struct": 0.45
+        }
+      }
+    },
+    "hypothesis_test": {
+      "hypothesis": "prose+gate achieves both high compliance AND high reasoning",
+      "prose_gate_on": {
+        "compliance": 0.913,
+        "reasoning": 3.23
+      },
+      "code_gate_on": {
+        "compliance": 0.993,
+        "reasoning": 2.82
+      },
+      "delta_reasoning": 0.41,
+      "delta_compliance": -0.08,
+      "code_gate_off_ceiling": 2.67,
+      "gap_to_ceiling": -0.56,
+      "verdict": "SUPPORTED"
+    },
+    "total_trials": 600,
+    "errors": 0
+  },
+  "timestamp": "2026-07-15T06:58:44.406151+00:00"
+}
