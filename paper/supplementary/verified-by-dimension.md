@@ -27,15 +27,17 @@ From the P1-2 rule set, scored by mechanizability_scanner.py:
 | Rule | Verification | Score |
 |------|-------------|-------|
 | `connection_check` — "File exists, mtime ≤ 5min" | Execution | 1.000 |
+| `delivery_gate` — "Include [REASONING][ALTERNATIVES][ANSWER]" | Execution (tag) + Interpretation (content) | 0.800 |
 | `file_output` — "Write result with exit code 0" | Execution | 0.750 |
-| `delivery_gate` — "Include [REASONING][ALTERNATIVES][ANSWER]" | Execution (tag) + Interpretation (content) | 0.500 |
-| `fact_check` — "Verify claim against source" | Interpretation | 0.500 |
-| `change_condition` — "State when answer would change" | Interpretation | 0.500 |
-| `alternative_seeking` — "Name alternative + reason" | Interpretation | 0.400 |
-| `trade_off` — "Identify explicit trade-off" | Interpretation | 0.400 |
+| `fact_check` — "Verify claim against source" | Interpretation (source check) + Execution (MUST directive) | 0.700 |
+| `change_condition` — "State when answer would change" | Interpretation (content) + Execution (MUST state) | 0.700 |
+| `alternative_seeking` — "Name alternative + reason" | Interpretation (content: why rejected) + Execution (MUST name) | 0.600 |
+| `trade_off` — "Identify explicit trade-off" | Interpretation (content) + Execution (MUST identify) | 0.600 |
 | `context_aware` — "Tailor to situation" | Interpretation | 0.350 |
-| `self_review` — "Reason through full loop" | Interpretation | 0.100 |
+| `self_review` — "Reason through full loop" | Interpretation | 0.300 |
 | `quality_standard` — "Thorough and insightful" | Interpretation | 0.050 |
+
+> Scores updated 2026-07-17 after mechanizability_scanner regex fix (v0.1.1): `must_directive` now catches all MUST/NEVER/EVERY verbs (was: 8-verb whitelist), `structured_markers` matches case-insensitively, `code_fence` signal added. Calibrated 5/5 against P1-1 ground truth.
 
 Boundary rules (score 0.60–0.75) are exactly where execution-checkable structure meets interpretation-judged content.
 
