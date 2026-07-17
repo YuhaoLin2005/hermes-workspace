@@ -87,7 +87,7 @@
 | **Regex gap measurement** | Mike Czerwinski | "8% detection gap 是否影响 d=0.605？" | [regex_gap_measure.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/regex_gap_measure.py) |
 | **Verified-by dimension** | Alice | "verified-by-interpretation vs verified-by-execution" | [supplementary/verified-by-dimension.md](paper/supplementary/verified-by-dimension.md) |
 | **skillgate 收敛** | René Zander | 独立构建了相同架构 | [paper/README.md §Real Feedback](paper/README.md) |
-| **📊 2026-07-17 实验报告** | 以上全部 | 三工具校准 + 对照验证（scanner 5/5, hash 可复现, d=0.605 robust） | [supplementary/community-experiments-2026-07-17.md](paper/supplementary/community-experiments-2026-07-17.md) |
+| **📊 2026-07-18 实验报告** | 以上全部 | 四实验完成：scanner 5/5(DS Pro) → 2/5跨模型(发现2D门控空间), hash 可复现, d=0.605 robust | [supplementary/community-experiments-2026-07-17.md](paper/supplementary/community-experiments-2026-07-17.md) |
 
 ---
 
