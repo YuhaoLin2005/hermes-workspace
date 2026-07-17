@@ -82,9 +82,11 @@
 | **P1-1** (n=200) | Mike Czerwinski | "0.7% 残余违规聚类在门无法检测的任务上吗？" | [supplementary/p1-followup-experiments.md](paper/supplementary/p1-followup-experiments.md) |
 | **P1-2** (n=600) | Mike Czerwinski | "Prose rules + 机械门 = 两全其美？" | [data](experiment/mike_full_n30_trials.json) [script](experiment/experiment_mike_prose_gate.py) |
 | **Deterministic scoring** | Dipankar Sarkar | "不用 LLM 判官——用 regex" | 所有后续实验采用 |
-| **Pre-registration** | Dipankar Sarkar | "Git commit → SHA256 + provider timestamp 升级方案" | 待实现 |
+| **SHA256 预注册** | Dipankar Sarkar | "SHA256 + provider timestamp 升级方案" | [pre_register.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/pre_register.py) |
+| **Mechanizability scanner** | Max Quimby | "门在哪一步从可门控变成只能轻推？" | [layers/mechanizability_scanner.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/layers/mechanizability_scanner.py) |
+| **Regex gap measurement** | Mike Czerwinski | "8% detection gap 是否影响 d=0.605？" | [regex_gap_measure.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/regex_gap_measure.py) |
+| **Verified-by dimension** | Alice | "verified-by-interpretation vs verified-by-execution" | [supplementary/verified-by-dimension.md](paper/supplementary/verified-by-dimension.md) |
 | **skillgate 收敛** | René Zander | 独立构建了相同架构 | [paper/README.md §Real Feedback](paper/README.md) |
-| **Mechanizability boundary** | Max Quimby | "门在哪一步从可门控变成只能轻推？" | mechanizability-scanner 待构建 |
 
 ---
 
