@@ -29,6 +29,20 @@ I'm an undergraduate with one laptop and no advisor. These aren't things to apol
 
 ---
 
+## From DEV.to?
+
+If you came from one of my DEV.to articles, see [../NAVIGATION.md](../NAVIGATION.md) for the full article→paper→code map.
+
+**Quick jumps from popular articles:**
+- "I Ran 150 Tasks..." → [PAPER.md §6.5](../PAPER.md) + `paper-validator claim l1-visibility`
+- "I Built a Neural Gate" → [PAPER.md §6.11](../PAPER.md) + `paper-validator claim logprob-probe-v3`
+- "AI Agents Can't Self-Verify" → [PAPER.md §3](../PAPER.md) + `paper-validator claim prose-barrier`
+- "Your Feedback Made This Better" → [PAPER.md §6.16](../PAPER.md) + [supplementary/p1-followup-experiments.md](supplementary/p1-followup-experiments.md)
+
+**Engineering implementation**: [paper-validator](https://github.com/YuhaoLin2005/paper-validator) — runnable Python package that validates all 8 governance claims. `pip install requests && python -m paper_validator claim --claim all --trials 30`
+
+---
+
 ## How to Read This
 
 **2 minutes**: The experiment table below + the key numbers per layer.
@@ -226,15 +240,20 @@ These aren't disclaimers to dismiss. They're the actual conditions. The work sho
 
 ## Writeups
 
-DEV.to (6 articles):
+**Full navigation**: see [../NAVIGATION.md](../NAVIGATION.md) — article→paper section→code for every published piece.
+
+DEV.to (11+ articles):
 - [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l)
 - [I Built a Neural Gate](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2)
-- [150 Tasks: Do AI Agents Follow Rules?](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670)
+- [I Ran 150 Tasks](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670)
 - [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26)
 - [Psychological Safety for AI](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986)
-- [Follow-Up: What Changed](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo)
+- [Follow-Up: Decision-Token Measurement](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo)
+- [I Pre-Registered a Hypothesis](https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec)
+- [Your Feedback Made This Better](https://dev.to/yuhaolin2005/your-feedback-made-this-better-heres-what-changed-4ol2)
+- [I Built a Self-Referential AI](https://dev.to/yuhaolin2005/i-built-a-self-referential-ai-system-then-anthropic-discovered-the-same-architecture-in-claude-3m73)
 
-Chinese (2 articles): [掘金/juejin.cn](https://juejin.cn/user/4250072430682412) — 平行发明故事 + 预注册假设被数据打脸
+Chinese (5 articles): [掘金/juejin.cn](https://juejin.cn/user/4250072430682412) — 平行发明故事 + 预注册假设被数据打脸 + 五层架构中文解读
 
 ---
 
