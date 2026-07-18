@@ -1,6 +1,6 @@
 # Your AI Gate Works Perfectly — Until You Switch Models
 
-Last week I wrote: "Mechanizability-scanner. Building this next." And: "Cross-model replication. Blocked on API access."
+In the previous article I wrote: "Mechanizability-scanner. Building this next." And: "Cross-model replication. Blocked on API access."
 
 Both are done. The scanner works. The cross-model data is in.
 
@@ -145,7 +145,7 @@ A rule scored 0.950 L1 by the scanner might be effectively L2 on Qwen and L1 on 
 
 ## René Zander Already Knew This
 
-René Zander built [skillgate](https://www.npmjs.com/package/@reneza/skillgate) — deterministic, model-independent gates for AI coding agents. He arrived at the same architecture from the same constraint, independently. I wrote about this convergence last week.
+René Zander built [skillgate](https://www.npmjs.com/package/@reneza/skillgate) — deterministic, model-independent gates for AI coding agents. He arrived at the same architecture from the same constraint, independently. I wrote about this convergence in the previous article.
 
 What I didn't notice then: skillgate's design implicitly targets the overlap zone. Every check runs as a pure function over the filesystem. File-exists, file-contains, absent, command, evidence. These are all **structurally L1** rules. And skillgate ships as an npm package for Claude Code — a model with high format-compliance tendency on the DeepSeek family.
 
@@ -165,7 +165,7 @@ Scoring is deterministic regex only. No LLM judge. This is correct for L1 measur
 
 ## What's Next
 
-The scanner is at `github.com/YuhaoLin2005/paper-validator` — `mechanizability_scanner.py`, v0.1.1. The cross-model experiment script and 200-trial dataset are in `experiment_p1_1_cross_model.py` and `results/p1_1_cross_model_20260717-143157.json`.
+The scanner is at `github.com/YuhaoLin2005/paper-validator` — `layers/mechanizability_scanner.py`, v0.1.1. The cross-model experiment script and 200-trial dataset are in `experiment_p1_1_cross_model.py` and `results/p1_1_cross_model_20260717-143157.json`.
 
 Full analysis with per-model compliance patterns: `hermes-workspace/paper/supplementary/community-experiments-2026-07-17.md` § Experiment 4.
 
@@ -173,4 +173,4 @@ If you've run calibration trials on your own model — or if you've noticed your
 
 ---
 
-*200 new API calls. 3 models. 1 scanner. The tool I promised last week, and the cross-model data I said was blocked. Both done. The finding isn't what I expected — which means it was worth running.*
+*200 new API calls. 3 models. 1 scanner. The tool I promised in the previous article, and the cross-model data I said was blocked. Both done. The finding isn't what I expected — which means it was worth running.*
