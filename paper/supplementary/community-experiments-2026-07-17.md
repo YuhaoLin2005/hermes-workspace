@@ -118,6 +118,8 @@ prose_ON vs prose_OFF: raw=-0.007  adj=-0.007  [stable]
 
 **Trigger**: Community review — "Scanner calibration was done on a single model (DeepSeek V4 Pro). Does it hold across architectures?"
 
+**DEV.to article**: [Your AI Gate Works Perfectly — Until You Switch Models](https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0)
+
 **Method**: Replicate P1-1 (5 task types × 20 trials each) on 2 additional SiliconFlow models: Qwen3.6-35B-A3B and DeepSeek V4 Flash. Total: 200 new API calls (temperature=0.0). Compare scanner L1/L2/L3 predictions to ground-truth compliance across all 3 models.
 
 **Script**: `paper-validator/experiment_p1_1_cross_model.py` · **Data**: `results/p1_1_cross_model_20260717-143157.json`

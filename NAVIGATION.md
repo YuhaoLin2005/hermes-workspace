@@ -16,6 +16,7 @@
 | "Your Feedback Made This Better" | [PAPER.md §6.16](PAPER.md) P1-1, P1-2 + [supplementary/p1-followup-experiments.md](paper/supplementary/p1-followup-experiments.md) |
 | "I Built a Self-Referential AI" | [PAPER.md §3.4](PAPER.md) Strange Loop + `paper-validator/layers/strange_loop.py` |
 | "Search Didn't Make Your LLM Dumber" | [PAPER.md §3.1](PAPER.md) Context Engineering |
+| "Your AI Gate Works Perfectly..." | [PAPER.md §6.16](PAPER.md) P1-1 + [community-experiments](paper/supplementary/community-experiments-2026-07-17.md) § Experiment 4 + `mechanizability_scanner.py` |
 | "The Line Is Not Between..." | [PAPER.md §6](PAPER.md) Discussion (cross-layer synthesis) |
 
 ---
@@ -34,6 +35,7 @@
 | [Your Feedback Made This Better](https://dev.to/yuhaolin2005/your-feedback-made-this-better-heres-what-changed-4ol2) | [PAPER.md §6.16](PAPER.md) P1-1, P1-2 | `gateguard-off`, `l1-visibility` | [supplementary/p1-followup-experiments.md](paper/supplementary/p1-followup-experiments.md) |
 | [I Built a Self-Referential AI](https://dev.to/yuhaolin2005/i-built-a-self-referential-ai-system-then-anthropic-discovered-the-same-architecture-in-claude-3m73) | [PAPER.md §3.4](PAPER.md) Strange Loop | `strange_loop` module | [layers/strange_loop.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/layers/strange_loop.py) |
 | Search Didn't Make Your LLM Dumber | [PAPER.md §3.1](PAPER.md) Context Engineering | — | — |
+| [Your AI Gate Works Perfectly](https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0) | [PAPER.md §6.16](PAPER.md) P1-1 + [supplementary § Experiment 4](paper/supplementary/community-experiments-2026-07-17.md) | `mechanizability_scanner.py`, `cross-model` | [experiment_p1_1_cross_model.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/experiment_p1_1_cross_model.py) + [results](https://github.com/YuhaoLin2005/paper-validator/blob/main/results/p1_1_cross_model_20260717-143157.json) |
 | The Line Is Not Between Human and Machine | [PAPER.md §6](PAPER.md) Discussion | 全量 claims | [paper/self-model.md](paper/self-model.md) |
 
 **中国读者**: [掘金主页](https://juejin.cn/user/4250072430682412) — 5 篇中文深度解读
@@ -87,7 +89,7 @@
 | **Regex gap measurement** | Mike Czerwinski | "8% detection gap 是否影响 d=0.605？" | [regex_gap_measure.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/regex_gap_measure.py) |
 | **Verified-by dimension** | Alice | "verified-by-interpretation vs verified-by-execution" | [supplementary/verified-by-dimension.md](paper/supplementary/verified-by-dimension.md) |
 | **skillgate 收敛** | René Zander | 独立构建了相同架构 | [paper/README.md §Real Feedback](paper/README.md) |
-| **📊 2026-07-18 实验报告** | 以上全部 | 四实验完成：scanner 5/5(DS Pro) → 2/5跨模型(发现2D门控空间), hash 可复现, d=0.605 robust | [supplementary/community-experiments-2026-07-17.md](paper/supplementary/community-experiments-2026-07-17.md) |
+| **📊 2026-07-18 实验报告** | 以上全部 | 四实验完成：scanner 5/5(DS Pro) → 2/5跨模型(发现2D门控空间), hash 可复现, d=0.605 robust | [DEV.to 文章](https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0) · [supplementary](paper/supplementary/community-experiments-2026-07-17.md) |
 
 ---
 
