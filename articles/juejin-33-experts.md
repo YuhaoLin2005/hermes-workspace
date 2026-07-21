@@ -119,7 +119,7 @@ routes:
 
 ## 架构全景
 
-![架构全景图](https://cdn.jsdelivr.net/gh/YuhaoLin2005/hermes-workspace@main/articles/architecture-diagram.png)
+![架构全景图](https://cdn.jsdelivr.net/gh/YuhaoLin2005/hermes-workspace@8eb1914/articles/architecture-diagram.png)
 
 核心链路：触发 → 路由调度 → 双池匹配 → LLM 推理 → 多角色输出 → 机械门校验 → 人判断。黄色高亮节点标注了本文反复强调的盲区：所有角色共享同一推理引擎，33 人同意不一定是 33 个独立判断。
 
