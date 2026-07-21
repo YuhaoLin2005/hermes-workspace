@@ -6,6 +6,16 @@
 >
 > 📄 [完整论文 (PAPER.md)](PAPER.md) · 📂 [实验数据](paper/experiment/) · 🔧 [独立验证工具 paper-validator](https://github.com/YuhaoLin2005/paper-validator) · 📝 [DEV.to](https://dev.to/yuhaolin2005) · [掘金](https://juejin.cn/user/4250072430682412)
 
+## For DEV.to Readers
+
+This is the system described in **"Stop Using Generic AI Review. Build Your Own Board of Experts."** What you'll find here:
+
+- [`expert-pool-sample.md`](expert-pool-sample.md) — the expert format: one person, one principle, one source, one confidence level
+- [`.claude/routing.md`](.claude/routing.md) — the dispatch table: which experts review what, with zero manual picking
+- `_check_kb.py` — the mechanical gate: code enforces rules, AI follows them
+
+Everything here is what I actually use. YAML, Python, markdown. No demo, no mockup.
+
 ---
 
 ## 一句话
