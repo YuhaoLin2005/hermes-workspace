@@ -119,20 +119,9 @@ routes:
 
 ## 架构全景
 
-```mermaid
-graph TD
-    A[触发：Session事件 / 用户意图] --> B[路由表匹配]
-    B --> C[固定池：33人 · 文档化原则 · 置信度]
-    B --> D[随机池：联网搜索 · 陌生视角 · 打破回声]
-    C --> E[LLM推理引擎]
-    D --> E
-    E --> F[多角色审查输出]
-    F --> G[机械门：_check_kb.py · 硬失败阻断]
-    G --> H[用户最终决策]
-    E -.-> I[⚠ 推理引擎未解耦：跨模型方差分解待验证]
-```
+![架构全景图](https://mermaid.ink/svg/pako:eNp1UUsvA1EU3vsVN9fWM11ILCSoV8KK3aQRxhRpgxgWdghV6WjRGrSNdpR2IgylUabUn5lz752Vv-B22ugj6dl9Oed8j3OWNxc2VtCcuwPxkrcXlx2MWS4LkTPI72OnUalhAc9Ksry6vmaZIav0jnoRjekkWCQHEUiUsQd1dw-hEQGz4jON5Zmmg_JpH55gj0MhrS21aFgfUTDeST5d1xhxOEYFDAkTjDjv_X7FXS7LNBFRj4iWAUWFcAqC14h-G9aPBma2xl9fdwvYjkdI0qyus70Y_T4jp0lauEX2tUJjKZYLsNw5IsdRmi5A4gYyL21dkrBOTwNNlxh1ZMYEPD09U2t_XZBouMGJuzryj8ccPM6D3cW5NDt-BUMjqXtWjsKR2V48rdkPSpP4uMM0IeBKwNsX-1LnGcUVSfTN-xZ7NnYQ1R7hLs8K9_ZViahPDaYmnNVJAdf-ltylpSAE3uiT2uKganeKTyZeQTG5QmNOknxguQzbzSJW1ImuwU2IqJ9QNCDI75qB8iE3zZ73aqTy1o5fQlPIu-r3D3Z6vV6XuNQlb22u-6QKFPv7Bv4ALAQiNg)
 
-核心链路：触发 → 路由调度 → 双池匹配 → LLM 推理 → 多角色输出 → 机械门校验 → 人判断。虚线标注是本文反复强调的盲区：所有角色共享同一推理引擎，33 人同意不一定是 33 个独立判断。
+核心链路：触发 → 路由调度 → 双池匹配 → LLM 推理 → 多角色输出 → 机械门校验 → 人判断。黄色节点标注是本文反复强调的盲区：所有角色共享同一推理引擎，33 人同意不一定是 33 个独立判断。
 
 ---
 
