@@ -37,15 +37,15 @@ dashboard:
     current_score:
       core_claim_novelty: "5/10"
       experimental_rigor: "3/10"
-      literature_positioning: "2/10"
+      literature_positioning: "4/10"
       writing_maturity: "3/10"
-      competitor_differentiation: "0/10"
+      competitor_differentiation: "4/10"
 
   experiments:
-    completed: 6
+    completed: 16
     in_progress: 0
-    planned: 3
-    total_api_calls_used: ~1400
+    planned: 1
+    total_api_calls_used: ~2000
 
 streaks:
   devto_post_streak: 0
