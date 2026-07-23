@@ -57,6 +57,21 @@ The 5-agent adversarial review (Academic Researcher, Self-Loop Expert, Digital C
 - **Section 3 (Architecture)**: Describe the dual-pool review system (L3) and the 5-agent adversarial review protocol. This is a concrete architectural mechanism for compensating single-modal LLM blind spots.
 - **Section 4 (Experiments)**: Report the review's convergent findings: all 5 agents independently identified the "execution without wiring" pattern, and 4/5 identified the mirror trap. This is a form of inter-rater reliability within the system's self-analytical layer.
 
+### 1.3b Expert Board Independence Validation — E1a+E1b (Added 2026-07-23)
+
+The 3-persona expert board was empirically tested. A community reviewer (DEV.to) challenged whether persona diversity is genuine independence or "costume diversity" — one model judging in masks.
+
+**E1a** (30 trials, DS V4 Pro × Kimi K2.7, pre-reg `eebe2a31fb290860`): Cross-model same-persona agreement = 1.00, within-model diff-persona = 0.87. Initially interpreted as evidence for persona-driven judgment. Expert panel diagnosed ceiing effect — 4/5 snippets unanimous, only 1 discriminating item.
+
+**E1b** (112 trials, pre-reg `9c80bad72382d8c4`, 14 discriminating snippets): Fleiss' κ = 0.049, 95% CI [-0.046, 0.111] — indistinguishable from random. DS κ = -0.201 (negative — personas disagree MORE than chance), Kimi κ = 0.460 (moderate). The persona effect is model-dependent and does not generalize.
+
+**What to add**:
+
+- **Section 3 (Architecture)**: Replace "3 independent expert perspectives" with "3 persona-guided evaluations whose diversity is model-dependent." Report model-specific κ. The named-principle anchor (premise decorrelation + source-checkable citations) is the real contribution; persona multiplicity is cosmetic.
+- **Section 4 (Experiments)**: Add E1b as a methodological self-audit — the study ran an adversarial test of its own expert board claim and downgraded it based on evidence (κ ≈ random). This is meta-level rigor: the methodology's capacity for self-correction demonstrated empirically.
+- **Section 5 (Discussion)**: Frame the E1a→E1b trajectory: pre-registered hypothesis → community challenge → follow-up experiment → self-refutation. A negative result reported honestly is stronger than an unreplicated positive claim.
+- Full docs: `paper/experiments/e1-persona-decorrelation.md`. Scripts: `paper-validator/experiment_e1b_cross_model.py`, `results/e1b_cross_model.json`.
+
 ### 1.4 Claim-Based vs Evidence-Based Cognition Separation
 
 The v0.9.1 mirror fracture diagnosis formalized a distinction between:
