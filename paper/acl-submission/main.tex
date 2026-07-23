@@ -1,0 +1,802 @@
+% The Prose Barrier --- arXiv Preprint
+% ACL-format short paper (4 pages + references)
+% arXiv: cs.CL / cs.AI
+
+\documentclass[11pt]{article}
+\usepackage[preprint]{acl}
+
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{inconsolata}
+
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+\title{The Prose Barrier: Structural Limits of Agent Self-Verification \\
+  and a Five-Layer Configuration Integrity Architecture}
+
+\author{Yuhao Lin \\
+  Fujian Agriculture and Forestry University \\
+  \texttt{3235706088@stu.fafu.edu.cn} \\\\
+  \textbf{Independent undergraduate work. No research supervisor. No funding.}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+AI coding agents are configured through natural-language rules---system prompts,
+markdown files, hook registries. Over long conversations, these rules degrade.
+The root cause, I find, is structural: an LLM's generation and self-evaluation
+share the same decoder $P(\text{token} \mid \text{context}; \theta)$, so the
+model cannot independently verify rule compliance---it can only \textit{generate
+a claim} that it did. I call this the Prose Barrier.
+
+I present a five-layer architecture organized by position relative to the
+Barrier: L0 psychological safety (uncertainty admission), L1 mechanical gates
+(filesystem checks bypassing NL entirely), L2 neural gates (logprob probes
+detecting constraint penetration without content interpretation), L3 causal
+encoding (syllogistic format altering internal representation depth), and L4
+drift prediction (trend-based early warning). Deployed over 34 agent sessions
+with 11 experiments across 3 architectures (DeepSeek V4 Pro, Qwen3-8B, GLM-4-9B).
+
+Three patterns are visible. First, rules improve compliance (direction
+consistent across three architectures; e.g., $+0.38$ above baseline for DeepSeek),
+though behavioral scoring reliability was poor
+($\kappa=-0.14$). Second, syllogistic format deepens constraint internalization
+at the logprob level ($d_z{=}+0.578$, $BF_{10}{=}2.8{\times}10^5$, objective
+API-read DV) without changing behavioral output ($\text{IMP}{\approx}\text{SYL}$
+across architectures). Third, format effects follow a non-monotonic pattern
+($C_1 > C_0 > C_3 > C_2$) governed by output constraint severity, not a slope.
+
+All experiments by a single undergraduate student on one laptop (Dell G15,
+RTX 3060). No supervisor. No funding. Code and data at
+\url{https://github.com/YuhaoLin2005/hermes-workspace}.
+\end{abstract}
+
+\section{Introduction}
+
+A typical Claude Code agent loads 5--10 markdown files defining its behavioral
+rules: how to review code, when to run tests, what constitutes a deliverable.
+These rules sit in system prompts and hook registries. The agent reads them at
+session start. Then it works---sometimes for hours, across dozens of tasks,
+generating thousands of tokens.
+
+Whether the agent actually follows its rules is an empirical question.
+
+I ran 34 sessions with a rule-configured agent. Retrospective coding of these
+sessions showed rule violations in 55.9\% of sessions (19 of 34) before
+mechanical enforcement was wired in. After adding filesystem-level checks
+(mtime comparison, regex matching, exit code verification) and running a
+150-task controlled experiment across 6 sessions, the violation rate dropped to
+0.7\% (1 of 150 tasks). These behavioral numbers come from a scoring protocol
+later found to have poor inter-rater reliability ($\kappa=-0.14$; see
+Limitations), so they should be treated as directional indicators, not precise
+estimates.
+
+The scoring protocol's failure was itself informative: the same structural
+constraint that prevents the agent from self-verifying (Section~\ref{sec:barrier})
+also prevented the single author from blind-scoring reliably---a mirror of the
+Prose Barrier at the meta-level, where independent verification requires a second
+person rather than a second prompt.
+
+The core question is \textit{why}. A language model that performs at professional-exam level
+can fail to reliably verify that it wrote a file to disk. The answer, I came to
+believe, is about architecture, not capability.
+
+The core problem is that when an LLM agent evaluates itself---``Did I follow
+rule R on this task?''---its answer comes from the same decoder that may have
+already failed to follow R. There is no independent channel. The act of
+self-checking and the act of generating share the same token distribution
+$P(\text{token} \mid \text{context}; \theta)$. This is what I call the
+\textbf{Prose Barrier}: a structural constraint that makes unassisted agent
+self-verification unreliable, not because the model is bad at it, but because
+the architecture makes genuine independent verification impossible.
+
+I advance three claims:
+
+\begin{enumerate}
+\item \textbf{The Prose Barrier is a structural constraint, not an engineering
+  bug.} It follows from the autoregressive nature of LLMs and means that
+  verification channels must be architecturally independent of generation
+  channels. This reframes agent reliability from ``write better prompts'' to
+  ``design architectures that work around the Barrier.''
+
+\item \textbf{A five-layer architecture systematically addresses this
+  constraint.} The layers are organized by their position relative to the
+  Prose Barrier---pre-processing (L0), operating outside it (L1), probing inside
+  it without interpreting content (L2), altering internal routing through it
+  (L3), and observing it from outside across time (L4).
+
+\item \textbf{Format effects on internal representations are measurable at the
+  logprob level, but behavioral claims require independent validation.}
+  Logprob-level measurement (L2, $d_z=+0.578$, $BF_{10}=282$k) provides objective
+  evidence that syllogistic rule format alters internal constraint representations
+  compared to imperative format---without relying on human scoring. Constraint
+  gradient experiments reveal a non-monotonic relationship between output
+  constraint severity and format effect strength. The behavioral compliance
+  numbers (55.9\% $\to$ 0.7\%) are exploratory rather than confirmatory because
+  all behavioral experiments were scored by a single unblinded rater; a partial
+  blind check yielded $\kappa = -0.14$---below chance. This limitation is
+  discussed explicitly, and Section~\ref{sec:whatweneed} specifies what would be
+  needed for confirmatory claims.
+\end{enumerate}
+
+These claims connect through a single mechanism: a rule that an agent follows
+is, at the representation level, a constraint that the decoder respects during
+generation. If format changes how deeply a constraint penetrates internal
+representations (Claim~3), then format engineering is a lever for rule compliance.
+The logprob experiments below measure this penetration at the token-probability
+level, bypassing the scoring reliability problem that affects the behavioral
+data. The behavioral experiments test whether penetration translates to
+observable compliance. The gap between them---format changes representations
+but not behavior---is itself the central empirical finding.
+
+\section{The Prose Barrier}
+\label{sec:barrier}
+
+\subsection{Definition}
+
+Consider an autoregressive language model $M$ with parameters $\theta$. At
+decoding step $n$, the model samples:
+\[
+t_n \sim P(\cdot \mid t_{1}, \ldots, t_{n-1}; \theta)
+\]
+Every token the model produces---whether it is ``thinking about what to do,''
+``evaluating what it just did,'' or ``taking action''---is drawn from this same
+distribution. There is no separate ``auditor'' module with independent access to
+ground truth. When the agent is asked ``did you follow rule $R$,'' its answer
+is sampled from the same decoder whose state may already encode a failure to
+follow $R$.
+
+\textbf{Consequence.} The Barrier cannot be circumvented by prompting. Telling the agent
+``be more careful about self-checking'' generates more self-checking
+tokens---but those tokens are still drawn from the same distribution. The model
+cannot step outside its own generation to independently audit it. This is not a
+claim about how well LLMs self-verify; it is a claim about what self-verification
+\textit{means} in an autoregressive architecture.
+
+\subsection{The Five-Layer Response}
+
+If the Barrier cannot be removed, it can be worked around. This configuration
+integrity architecture addresses agent rule compliance from five positions
+relative to the Barrier:
+
+\begin{description}
+\item[L0 --- Psychological Safety.] Pre-processes the generation by reframing
+  uncertainty. Rather than ``always be helpful and confident,'' the agent is
+  told: ``Accuracy $>$ completeness. `I don't know' is a valid output. You will
+  not be punished for admitting uncertainty.'' This does not bypass the
+  Barrier---it changes what the model generates before the Barrier becomes
+  relevant. Tested on 40 binary-choice probes: accuracy preserved ($+0.01$),
+  non-ceiling-probe uncertainty admission improved ($r=+0.949$, $n=5$ probes
+  below ceiling, 95\% CI $[0.57, 0.996]$).
+  \textbf{Status:} preliminary signal only; $n{=}5$ non-ceiling probes,
+  a single outlier could drive the correlation.
+
+\item[L1 --- Mechanical Gate.] Operates entirely outside the Barrier. Instead of
+  asking the agent ``did you read back the file?'' (NL, goes through the
+  Barrier), a shell script compares \texttt{mtime} timestamps (filesystem, no NL
+  involved). Violations are detected by regex matching, exit code checking, and
+  hook wiring verification---none of which go through the model.
+  Deployed over 34 sessions: violation rate dropped from 55.9\% to 0.7\%
+  (exploratory; see Limitations for $\kappa=-0.14$ on behavioral scoring).
+  19 automated tests (e.g., hook-file mtime verification, SHA256 chain integrity,
+  stale output detection via regex, exit-code gate enforcement) operate at the
+  filesystem level, bypassing the model entirely; all 19 pass.
+  \textbf{Status:} deployed and operational; single-machine only.
+
+\item[L2 --- Neural Gate.] Probes inside the Barrier but avoids content
+  interpretation. Rather than reading the agent's output and judging whether it
+  ``seems compliant'' (an NL task, unreliable per the Barrier), I measure token
+  logprobs at specific decision points. If a syllogistic rule format produces
+  higher probability for rule-consistent choice tokens compared to imperative
+  format, I have detected format penetration---without interpreting a single
+  word of the agent's output. The DV is read directly from the API JSON response
+  (\texttt{logprobs=True}, \texttt{top\_logprobs=20}); zero human scoring.
+  \textbf{Status:} 40-probe validation complete ($d_z=+0.578$, $BF_{10}=282$k); single
+  model (DeepSeek V4 Pro) due to API logprob availability.
+
+\item[L3 --- Causal Encoding.] Alters internal processing through the Barrier.
+  The hypothesis: reformulating the same rule from imperative (``verify your
+  output'') to syllogistic form (``Write operations can deviate from intent.
+  Only a read-back confirms correctness. Therefore, verify after writing.'')
+  changes attention routing because the causal chain structure provides a
+  template that the model's attention mechanism can follow. Evidence from L2
+  logprob measurement, constraint gradient experiments, and convergent
+  validation across two independent manipulations.
+  \textbf{Status:} multiple experiments completed; causal mechanism relies on
+  Pender (2026) for independent mechanistic evidence.
+
+\item[L4 --- Drift Prediction.] Observes L1--L3 state across time, entirely
+  outside the Barrier. 12 mechanical features (SHA256 chain integrity, hook
+  wiring consistency, stale file detection, etc.) are tracked across sessions.
+  When feature patterns deviate from calibration baselines, the system flags
+  emerging drift before behavioral failures cascade.
+  \textbf{Status:} deployed with 12 features; predictive validation pending.
+\end{description}
+
+\begin{table}[t]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Layer} & \textbf{Position} & \textbf{Mechanism} & \textbf{Evidence} \\
+\midrule
+L0 Safety  & Pre-barrier & Reframe uncertainty & Accuracy preserved ($+0.01$), \\
+            &             & admission             & $r{=}+0.949$ ($n{=}5$ non-ceiling) \\
+L1 Gate     & Outside     & Filesystem checks     & 55.9\%$\to$0.7\% violation, 19/19 tests \\
+L2 Gate     & Inside      & Logprob probes        & $d_z{=}+0.578$, $BF{=}2.8{\times}10^5$ ($n{=}40$) \\
+L3 Encoding & Through     & Syllogistic format    & $d_z$ 0.09--0.60 (non-monotonic) \\
+L4 Predict  & Outside     & Drift features        & 12 features deployed, validation pending \\
+\bottomrule
+\end{tabular}
+\caption{Five-layer architecture: position relative to the Prose Barrier,
+mechanism, and current empirical support. L1 and L4 operate outside the
+Barrier (mechanical checks); L2 probes inside without interpreting content;
+L3 alters internal processing through the Barrier; L0 reframes before
+generation begins.}
+\label{tab:architecture}
+\end{table}
+
+\section{Key Experiments}
+
+\subsection{Logprob V3: Does Format Change Internal Representation?}
+\label{sec:v3}
+
+An initial attempt ($n=8$ probes) produced $d_z = -0.148$---a near-zero result
+in the wrong direction. I wrote a blog post about the null finding~\footnote{DEV.to:
+``My Experiment Showed Zero Effect. A Statistician Told Me My Measurement Was
+Broken.''}. A reader identified the issue: 4 of 8 probes had comparison tokens
+absent from DeepSeek's top-20 logprobs, so my script substituted a $-10.0$
+sentinel value---injecting noise that masked the real effect.
+
+I built a mechanical pre-screening pipeline (\texttt{probe\_validator.py}) that
+queries the API for top-20 logprobs at the decision token position and verifies
+both option tokens are present. Probes that fail are rejected before the main
+experiment runs. This is the equivalent of calibrating an instrument before
+taking readings.
+
+\textbf{Design.} Within-probe, 3-condition (NO RULES / imperative / syllogistic).
+40 probes (10 per category: action, epistemic, structural, meta), all passing
+pre-screening. Each probe is a binary choice (A or B) embedded in a scenario
+drawn from real Claude Code agent usage. For instance: \textit{``The agent
+completed a multi-file refactoring. Should it (A) run the test suite before
+declaring completion, or (B) trust the changes and proceed?''} ---a probe for
+the action category testing whether the agent prioritizes verification over
+speed. The DV is $\log P(A) - \log P(B)$ at
+the first token position where both A and B logprobs are available, read directly
+from the DeepSeek V4 Pro API response ($T=0.2$, chosen as a compromise:
+greedy $T=0$ returns unavailable-logprob sentinels on this API, while $T=1.0$
+introduces excessive variance for a repeated-measures design; $T=0.2$ provides
+usable logprobs with modest sampling noise).
+
+\textbf{Results.} $n=40$ probes. Mean IMP (imperative-format) differential:
+$-2.95$ ($SD=14.67$). Mean SYL (syllogistic-format) differential: $+4.48$
+($SD=13.45$). Paired difference
+$\bar{x}_{\Delta} = +7.43$, $SE=2.03$, $t(39)=3.65$, $p=0.0008$ (two-tailed).
+Cohen's $d_z = +0.578$ (bootstrap 95\% CI on raw logprob differential: $[+3.39, +11.17]$). Bayes factor
+$BF_{10} = 282{,}399$ (JZS prior, $r=0.707$), extreme evidence for the
+alternative. 32/40 probes (80\%) show direction favoring syllogistic format.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Category} & \textbf{IMP} & \textbf{SYL} & $\mathbf{d_z}$ \\
+\midrule
+Action      & $-3.66$ & $+1.85$ & $+0.50$ \\
+Epistemic   & $-4.23$ & $+3.92$ & $+0.76$ \\
+Structural  & $-2.37$ & $+5.56$ & $+0.67$ \\
+Meta        & $-1.54$ & $+3.21$ & $+0.38$ \\
+\bottomrule
+\end{tabular}
+\caption{Logprob V3 per-category results. All categories favor syllogistic
+format. Category $\times$ Format ANOVA: $F(3,36)=0.26$, $\eta^2=0.02$, n.s.}
+\label{tab:v3}
+\end{table}
+
+The $SE = 2.03$ yields a 95\% confidence interval of approximately
+$[+3.39, +11.17]$ on the raw logprob differential---the effect is robust but
+the magnitude is uncertain. Category $\times$ Format interaction was not
+significant ($F(3,36)=0.26$, $\eta^2=0.02$). The small $\eta^2$ indicates that the observed interaction effect is near zero
+($\eta^2=0.02$); however, with $n=10$ per category, power to detect a medium
+interaction ($\eta^2=0.06$) at $\alpha=0.05$ is approximately $0.35$, so the
+absence of a detectable interaction should not be interpreted as evidence that
+no interaction exists---only that the observed effect size is small.
+
+\subsection{Where Format Helps: L1-Visibility Analysis}
+\label{sec:l1vis}
+
+A reviewer of an earlier draft predicted that format effects should concentrate
+on rules where mechanical gates cannot reach---format as the ``last line of
+defense'' where L1 is absent. I tested the opposite
+prediction: format amplifies where L1 provides structural anchors.
+
+\textbf{Classification.} Each of the 40 probes was classified as L1-visible
+(violation produces a deterministic, machine-detectable signal) or L1-invisible
+(violation concerns judgment quality, with no mechanical ground truth). The
+classification uses a three-test criterion: SIGNAL (does violation produce a
+deterministic mechanical signal?), ACTION (can a hook verify receipt-of-action?),
+CERTAINTY (zero false positives on mechanical signal?). All three must pass for
+L1-visible. 22/40 probes (55\%) classified as L1-visible; 18/40 (45\%) as
+L1-invisible.
+
+\textbf{Results.} L1-visible probes: $\bar{x}=+9.47$, $s=13.36$, within-group
+$d_z=+0.71$, 95\% CI $[+0.35, +1.08]$. L1-invisible probes: $\bar{x}=+5.20$,
+$s=12.91$, within-group $d_z=+0.40$, 95\% CI $[+0.02, +0.78]$. The between-group
+difference $\Delta d=+0.31$ does not reach significance ($t(38)=1.03$, $p=0.31$)
+at $n=40$ for a between-group comparison. A sensitivity analysis reclassifying three ambiguous probes at the
+boundary did not change the direction of the effect.
+
+The prediction was wrong. Format helps \textit{more} where L1 already operates
+(within-group $d_z=+0.71$ for L1-visible) than where it does not (within-group
+$d_z=+0.40$ for L1-invisible), though the between-group difference is not
+significant ($t(38)=1.03$, $p=0.31$). The direction is consistent with synergy
+(format amplifying existing structural anchors) rather than substitution (format
+compensating for missing mechanical enforcement), but $n=40$ is underpowered for
+this between-group comparison and the classification was performed by a single
+unblinded rater.
+
+\textbf{Limitation.} The classification was done by the same person who ran the
+experiment, without a second classifier or inter-rater reliability check. The
+three-test criterion was developed to be as mechanical as possible (binary
+yes/no for each test), but the boundary between ``receipt-of-action'' and
+``receipt-of-diligence'' has gray areas.
+
+\subsection{Constraint Gradient: A Non-Monotonic Pattern}
+\label{sec:gradient}
+
+The L2 neural gate measures format effect at the logprob level. But to measure
+it, I had to constrain the agent's output---otherwise it produces paragraphs of
+natural language where the first-token logprob DV cannot be cleanly extracted.
+The constraint text was: ``Output only the letter A or B'' (Chinese original:
+``只输出字母A或B'').
+
+This creates a paradox. I am measuring whether syllogistic format produces
+deeper reasoning about the constraint, but I am also telling the model to
+suppress its reasoning output. The measurement instrument is suppressing the
+mechanism it is measuring---what I came to call the \textbf{Prose Barrier of
+Measurement}.
+
+This is not a paradox limited to the present design: any behavioral output
+constraint on an autoregressive model (forced-choice, short-form, structured
+format) risks suppressing the internal processing it aims to measure, because
+the same decoder generates both the reasoning and the response.
+
+\textbf{Design.} To test whether this suppression is monotonic (stricter
+constraint $\to$ weaker format effect), I ran the 12 P1 probes through 4 levels
+of output constraint (labeled C0--C3 to distinguish from architectural layers
+L0--L4), 2 formats each, 96 API calls total (DeepSeek V4 Pro, $T=0.2$):
+
+\begin{itemize}
+\item \textbf{C0}: No constraint. V3 baseline condition.
+\item \textbf{C1}: ``Output only the letter A or B'' (light: standardize output format).
+\item \textbf{C2}: ``Output only one letter, no other text, no explanation'' (moderate:
+  explicitly suppress explanation).
+\item \textbf{C3}: ``Do not output any characters except A or B. No explanation. No punctuation.
+  No spaces. No newlines.'' (heavy: maximal output suppression).
+\end{itemize}
+
+\textbf{Results.} The monotonic prediction is wrong.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Level} & $\mathbf{n}$ & $\bar{x}$ & $\mathbf{s}$ & $\mathbf{d_z}$ \\
+\midrule
+C0 (none)     & 11 & $+4.91$  & 15.58 & $\mathbf{0.315}$ \\
+C1 (light)    & 12 & $+7.10$  & 11.92 & $\mathbf{0.596}$ \\
+C2 (moderate) & 12 & $+1.13$  & 12.40 & $\mathbf{0.091}$ \\
+C3 (heavy)    & 12 & $+2.21$  & 7.42  & $\mathbf{0.297}$ \\
+\bottomrule
+\end{tabular}
+\caption{Constraint gradient: format effect rises, crashes, then partially
+recovers. C0 $n=11$ due to one probe (degradation-chain FATAL IMP)
+having no A/B token at the first position. The C0 $d_z=0.315$ vs.\ the V3
+$d_z=0.578$ (Section \ref{sec:v3}) differ because the constraint gradient uses
+only the 12 P1 probes for within-experiment comparability, while V3 uses the
+full 40-probe pool. Constraint levels C0--C3 are distinct from architectural
+layers L0--L4.}
+\label{tab:gradient}
+\end{table}
+
+The pattern (Table~\ref{tab:gradient}) suggests three qualitatively different
+processing regimes rather than a single monotonic function. \textbf{Important
+caveat:} no formal statistical test of non-monotonicity was conducted (e.g.,
+quadratic contrast or piecewise regression across the four levels). The
+three-regime description below is a qualitative interpretation of the observed
+means, not a confirmed statistical model, and was developed on the same data
+used to evaluate it:
+
+\begin{description}
+\item[Optimization ($C_0 \to C_1$):] $d_z$ \textit{rises} from 0.315 to 0.596.
+  A light constraint that standardizes output format without telling the model
+  to skip reasoning actually \textit{improves} the measurement---clean parseable
+  output, still-processed reasoning. This is the best measurement condition for
+  logprob-based format effect detection.
+
+\item[Suppression ($C_1 \to C_2$):] $d_z$ \textit{crashes} from 0.596 to 0.091.
+  ``No explanation'' directly instructs the model to skip the
+  reasoning channel that syllogistic format uses. The measurement constraint
+  destroys the mechanism it is measuring. C2 is the worst measurement
+  condition---it kills the mechanism while still requiring constrained output.
+
+\item[Rebound ($C_2 \to C_3$):] $d_z$ \textit{recovers} to 0.297 with the
+  tightest variance across all levels ($s=7.42$). Under extreme compression,
+  the model's system prompt becomes the only remaining behavioral
+  differentiator. Syllogistic format's explicit causal structure may be
+  embedding more effectively into compressed decision pathways than imperative
+  brevity. But the constraint text is also longer (29 vs.~21 characters), and
+  this length confound cannot be cleanly separated from severity.
+\end{description}
+
+\textbf{Convergent evidence.} The L1-visibility pattern transitions from synergy
+to compensation as constraint severity increases:
+$\Delta_{V-I}$: $+10.98 \to +0.36 \to -2.03 \to -3.80$. The same reversal
+was observed in a separate experiment where multi-scene cognitive load was the
+manipulation ($\Delta=-10.08$ in the P1 experiment). Two independent
+manipulations producing the same qualitative pattern is suggestive---not
+conclusive, given the small $n$ and post-hoc nature of the comparison,
+but warrants formal replication.
+
+\textbf{Per-probe variation.} Two probes (self-audit-complexity and
+self-audit-logic) survive all four constraint levels with broadly stable format
+effects, while the shortest-chain L1-gatable probe (execution-rule-script)
+collapses entirely ($f_x$: $+16 \to +4 \to 0 \to -5$). Probes with
+moderate-complexity causal chains---not the simplest and not the most
+complex---show the most robust format effects. This is consistent with an
+inverted-U relationship between chain complexity and format benefit, though
+$n=12$ is far too small to estimate a parametric curve.
+
+\subsection{Behavioral Replication Across Architectures}
+\label{sec:crossmodel}
+
+\textbf{Rules improve compliance, with caveats.} I ran the same 12 probes in a
+condition with all mechanical enforcement hooks removed (the agent's
+rule-configuration system, called GateGuard, was set to OFF---all
+filesystem-level checks at L1 and behavioral-test hooks were disabled) with a
+NO RULES baseline on three models. Compliance rates (NO RULES $\to$ IMP $\to$ SYL):
+DeepSeek V4 Pro (MoE): 0.48 $\to$ 0.86 $\to$ 0.83; Qwen3-8B (Dense):
+0.79 $\to$ 1.00 $\to$ 0.98; GLM-4-9B (GLM): 0.83 $\to$ 1.00 $\to$ 1.00.
+These numbers are behavioral scores from a protocol with $\kappa=-0.14$ and
+should be interpreted as exploratory direction indicators, not precise estimates.
+
+\textbf{Format does not change behavior.} IMP compliance $\approx$ SYL compliance
+on all three models ($|\Delta| \leq 0.03$). But on DeepSeek, Logprob V3 shows
+$d_z=+0.578$. Format changes internal representations without changing behavioral
+output---the same dissociation observed in the original GateGuard-OFF experiment
+now replicated on two additional architectures. That said, Qwen and GLM show
+near-ceiling compliance (IMP/SYL both at $0.98$--$1.00$), so there is little
+room for format to create a behavioral difference even if one exists.
+
+\textbf{Cross-model constraint gradient.} I ran the same 4-level constraint
+gradient experiment on Qwen3-8B and GLM-4-9B (behavioral measurement only;
+logprobs unavailable via SiliconFlow API). Neither model showed any format
+effect at any level (GLM: $d_z=0$ everywhere, with perfect 12/12 A-selection
+in all conditions). Two possible explanations: (a) 8B--9B models genuinely
+lack the processing depth to benefit from syllogistic structure, or (b) the
+behavioral measurement method---which already shows $\text{IMP}\approx\text{SYL}$
+on DeepSeek---cannot detect format effects at any model scale when ceiling
+effects are present. Logprob-level cross-model data would distinguish these
+explanations but was not available.
+
+\section{Discussion}
+
+\subsection{What This Work Is and Is Not}
+
+This work has two contributions. The conceptual contribution is reframing agent
+reliability from ``how to make them better'' to ``what makes self-verification
+structurally impossible''---identifying the Prose Barrier as the root cause of
+a practical engineering problem (agent configuration drift). The empirical
+contribution is demonstrating that format effects on internal constraint
+representations are measurable at the logprob level with an objective,
+API-read dependent variable---a method that bypasses the behavioral scoring
+problem ($\kappa=-0.14$, see Limitations) that prevents confirmatory behavioral
+claims in the current data.
+
+This is not a completed project by the standards of a supervised lab; all
+behavioral results should be interpreted as exploratory (see Limitations for
+the full list).
+
+\subsection{Beyond the First Token: Context-Fragility of Format Effects}
+
+The Logprob V3 experiment (\S\ref{sec:v3}) measured format effects at the first
+decision token in single-scenario probes---optimal conditions: one binary choice,
+minimal output constraints. But real agent behavior unfolds across hundreds of
+tokens, through multiple decisions, under shifting cognitive demands. Does the
+format effect survive these conditions?
+
+\textbf{Multi-scenario collapse.} I ran a follow-up experiment (P1, $n=12$
+probes) in which each probe required three simultaneous decisions on distinct
+scenarios within a single prompt, rather than the V3 design of one binary choice
+per call. The format effect collapsed: Cohen's $d_z$ dropped from 0.58
+(single-scene) to 0.19 (multi-scene), a 67\% reduction. Bootstrap 95\% CI for
+the multi-scene $d_z$ crosses zero [$-$0.41, $+$0.90]. Critically, the
+per-probe format effects in V3 and P1 are \textit{negatively correlated}
+($r=-0.65$, 95\% CI [$-$0.89, $-$0.12], $t(10)=-2.71$). The probes most
+responsive to syllogistic format in the clean single-scene condition became the
+\textit{least} responsive under multi-scene load---a systematic reversal, not
+noise-driven attenuation.
+
+\textbf{The Prose Barrier of Measurement.} Two control experiments disentangled
+the causes. The multi-scene P1 design confounded two changes: adding multiple
+scenarios, and adding a meta-instruction (``Output only the letter A or B'')
+required for parseable logprob extraction. Control A (single scene with
+meta-instruction, $n=12$) accounted for $\sim$80\% of the total suppression
+($d_z$ 1.59$\to$0.31 on the matched probe subset). The meta-instruction alone---
+telling the model to suppress explanation and output only a label---
+eliminated most of the format effect, even in the single-scene condition.
+
+This is a structural finding about measurement, not a confound to be eliminated.
+The meta-instruction is both \textit{measurement necessity} (without it, the
+model outputs free-form reasoning and logprob extraction fails) and
+\textit{mechanism suppressor} (syllogistic format works by enabling deeper causal
+reasoning; the instruction ``do not explain'' tells the model to skip the
+reasoning channel that syllogism was designed to enhance). I call this the
+\textbf{Prose Barrier of Measurement}: the measurement instrument (output format
+constraint) changes the phenomenon being measured (deep rule processing). This is
+a corollary of the Prose Barrier---the same decoder generates both the reasoning
+and the constrained output, so constraining one necessarily alters the other.
+
+\textbf{A three-parameter model.} These results, combined with the constraint
+gradient (\S\ref{sec:gradient}) and cross-model replication
+(\S\ref{sec:crossmodel}), suggest that format effect magnitude is a function of
+at least three parameters: causal chain complexity (longer chains show larger V3
+effects but collapse more under load), available cognitive depth (constrained by
+prompt complexity and output format restrictions), and model capacity (8B--9B
+models show no format effect; the effect emerges only on the 236B-effective MoE
+architecture). The non-monotonic constraint gradient ($C_1 > C_0 > C_3 > C_2$)
+and the P1 collapse converge on the same mechanism: format effects require the
+deep reasoning channel to be available. When output constraints, cognitive load,
+or model capacity limits suppress that channel, syllogistic format loses its
+mechanism.
+
+\textbf{What syllogistic format can and cannot do.} The V3 result ($d_z=+0.578$,
+$BF_{10}=282$k) establishes that syllogistic format improves constraint
+processing under favorable conditions (single decision, reasoning channel open).
+The P1 result establishes that this improvement is context-fragile---it does not
+survive the transition to complex, multi-decision prompts where the reasoning
+channel is suppressed. The behavioral null result ($\text{IMP}\approx\text{SYL}$,
+$\Delta\leq 0.03$) across three architectures then indicates that even when the
+logprob-level format effect is robust (V3 conditions), it does not translate into
+observable behavioral change within the current experimental paradigm.
+
+These boundaries do not invalidate syllogistic format as a tool. They specify
+\textit{when} it works: for isolated, high-depth decisions where the model is
+permitted to reason. And they specify when it does not: under cognitive load,
+with suppressed output channels, or on low-capacity models. This is not a
+failure---it is a measurement of boundary conditions, which is what transforms a
+phenomenon from ``surprising observation'' into ``engineering tool with known
+operating envelope.''
+
+\subsection{Related Work}
+
+The Prose Barrier concept connects to several established results but also
+faces challenges from work demonstrating that LLMs can improve through internal
+processes. \citet{wei2022cot} showed that chain-of-thought prompting elicits
+better reasoning; \citet{wang2022selfconsistency} demonstrated that majority
+voting over multiple samples improves accuracy; and \citet{madaan2023selfrefine}
+found that iterative self-feedback can refine outputs. These results appear to
+challenge the Prose Barrier: if LLMs can self-improve, why can they not
+self-verify? The answer is that these methods all operate by changing the
+generation distribution $P(\text{token} \mid \text{context})$---longer reasoning
+chains, multiple samples, iterative refinement---rather than by providing an
+independent verification channel. They improve outputs by altering the
+distribution the decoder samples from rather than providing ground-truth
+access. This distinction matters: a model can get better at producing
+rule-consistent outputs through internal processes, but it still cannot
+independently verify that a specific output satisfies the constraint. External
+verification (L1) and internal improvement (CoT, self-consistency) are
+complementary, not substitutes. The Prose Barrier does not claim self-improvement
+is impossible; it claims that ground-truth-independent verification is
+structurally unavailable in a single-decoder architecture.
+
+First, \citet{kambhampati2024} established that LLMs require external
+verification modules---L1 is an instantiation of this principle for configuration
+management rather than planning, extending the LLM-Modulo framework to the
+problem of self-referential rule compliance. \citet{bai2022constitutional}
+proposed constitutional AI where models self-critique their outputs; the Prose
+Barrier argues this self-critique is structurally constrained by the
+shared-decoder architecture, and that external verification channels (L1) are
+necessary wherever ground truth is mechanically checkable.
+
+Second, \citet{pendereffect2026} provided independent evidence that declarative
+vs.\ procedural format alters attention routing in LLMs; my L2/L3 experiments
+measure this phenomenon in an applied engineering context with logprob-level
+resolution. The non-monotonic constraint gradient extends this line of work by
+showing that the relationship between output constraint severity and format
+effect is not simply linear. \citet{rath2026agent} documented drift in
+multi-agent systems through inter-agent coordination metrics; this work focuses
+on single-agent configuration drift through the lens of a structural constraint
+(the Prose Barrier) rather than an emergent coordination phenomenon.
+
+Third, \citet{loopengineering2026} proposed deterministic external verification
+loops around probabilistic internal LLM loops---L1 is a configuration-domain
+instantiation of this principle. \citet{czerwinski2026} introduced the
+action-vs-diligence distinction that grounds the L1-visibility classification;
+the empirical finding that L1-synergy (amplification, not substitution) is the pattern
+adds quantitative evidence to this taxonomy.
+
+Fourth, this work is shaped by two broader critiques of NLP research practice.
+\citet{bender2020climbing} argued that language models, trained on form alone,
+cannot in principle acquire meaning---a position that supports this caution
+against interpreting logprob shifts as evidence of ``deeper understanding''
+rather than distributional preference changes. \citet{lipton2018troubling}
+identified patterns of overclaiming in ML scholarship, including failure to
+distinguish explanation from speculation and the use of suggestive terminology
+that carries unearned connotations; I have attempted to avoid these patterns
+through explicit hedging, pre-registration disclosure, and quantitative effect
+size reporting, though I acknowledge that terms like ``Prose Barrier'' and
+``Neural Gate'' are novel coinages that carry rhetorical weight beyond their
+empirical grounding.
+
+\subsection{Practical Implications}
+
+Three implications follow from these findings for agent builders. These
+implications arise from a pattern that emerged across the full experimental
+sequence: the most reliable effects (L1 compliance gains, logprob format effects)
+are those measured through architecturally independent channels, while the least
+reliable (behavioral compliance scores) required a single unblinded rater. The
+reliability hierarchy mirrors the layers' distance from the Prose Barrier.
+
+First,
+rules that can be mechanically verified---where a script can detect a violation
+of rule $R$ without NL interpretation---are fundamentally more enforceable than
+rules that require judgment. Second, the $+0.38$ compliance gain from having
+any rules (exploratory estimate) dwarfs format engineering effects in magnitude,
+suggesting that investment in L1 mechanical gates yields the highest marginal
+return. Third, if measuring format effects via logprobs, light output
+constraints preserve the reasoning channel being measured; heavy suppression
+destroys it.
+
+\subsection{What Would Be Needed for Confirmatory Claims}
+\label{sec:whatweneed}
+
+This paper reports exploratory findings from a single undergraduate student
+working without supervision, funding, or multi-model API access. Each of these
+requirements for confirmatory evidence is individually achievable: cross-model
+logprob replication costs an estimated \$2--5 in API calls, and the probe
+validation pipeline (\texttt{probe\_validator.py}) is open-source at
+\url{https://github.com/YuhaoLin2005/hermes-workspace}. The barrier to
+confirmatory evidence is not resource but design---specifically, the need for
+independent blind scoring that the author cannot provide alone.
+
+The following
+would be the minimum requirements to upgrade any of the behavioral claims to
+confirmatory status:
+
+\begin{enumerate}
+\item \textbf{Independent blind scoring.} At least two raters, blinded to
+  condition, scoring all behavioral transcripts. Cohen's $\kappa > 0.7$ is the
+  conventional threshold for acceptable inter-rater reliability. The current
+  $\kappa = -0.14$ (below chance) means the current scoring protocol cannot
+  produce confirmatory evidence even in principle.
+\item \textbf{Cross-model logprob replication.} Logprob V3 replicated on a
+  non-MoE architecture (Claude, GPT-4) with logprobs API support, to rule out
+  the possibility that the $d_z=+0.578$ format effect is specific to DeepSeek's
+  MoE architecture. Estimated cost: \$2--5 for 40-probe replication.
+\item \textbf{Pre-registered constraint gradient hypothesis.} The three-regime
+  model (optimization$\to$suppression$\to$rebound) should be pre-registered as a
+  planned contrast with a formal test of non-monotonicity (e.g., quadratic
+  contrast in repeated-measures ANOVA) on a new holdout probe set distinct from
+  the $n=12$ probes used for discovery.
+\item \textbf{Second L1-visibility classifier.} The classification of probes as
+  L1-visible vs.\ L1-invisible should be performed independently by a second
+  rater, with classification agreement reported.
+\end{enumerate}
+
+Until these conditions are met, all behavioral findings in this paper should be
+treated as hypothesis-generating rather than hypothesis-testing.
+
+\section{Limitations}
+
+The following limitations must be weighed when evaluating this work:
+
+\begin{enumerate}
+\item \textbf{Single-rater, unblinded behavioral scoring (fatal).} All behavioral
+  experiments were scored by the author with knowledge of experimental
+  conditions. A partial blind check on $n=8$ transcripts produced Cohen's
+  $\kappa = -0.14$ (95\% bootstrap CI approximately $[-0.8, +0.4]$ with
+  $n=8$), indicating the scoring protocol does not meet the threshold for
+  confirmatory inference. This low $\kappa$ does not necessarily mean the
+  raters disagreed on most cases---with near-ceiling compliance rates in the
+  GateGuard-ON condition, extreme base rates can produce low kappa even when
+  observed agreement is high (the ``kappa paradox'';~\cite{lipton2018troubling},
+  who warn against reporting metrics without context). Regardless of its cause,
+  the $\kappa = -0.14$ means that all behavioral compliance numbers
+  reported in this paper (including the 55.9\% $\to$ 0.7\% headline result)
+  should be interpreted as exploratory, not confirmatory. Independent blind
+  scoring by at least two raters achieving $\kappa > 0.7$ is the most critical
+  precondition for any claim the current behavioral results support.
+
+\item \textbf{Single-model logprob evidence.} Logprob V3 ($n=40$) and the
+  constraint gradient experiment ($n=12 \times 4$ levels) were conducted on
+  DeepSeek V4 Pro only. Cross-model family logprob replication (Claude, GPT-4)
+  was prevented by API key and logprob availability constraints. The format
+  effect findings may be specific to DeepSeek's architecture (MoE with
+  CSA/HCA).
+
+\item \textbf{Small sample sizes in key analyses.} The constraint gradient
+  uses $n=12$ probes per level; confidence intervals are wide and the
+  non-monotonic pattern could shift with additional probes. The three-regime
+  model was discovered and described on the same data. L0 Safety Prompt
+  correlation ($r=+0.949$) is based on $n=5$ non-ceiling probes; a single
+  outlier could drive this correlation. Cross-model behavioral replication
+  uses $n=12$ probes with $BF_{01} \approx 2.7$---data favor the null but
+  $n=12$ is underpowered to distinguish a genuine null from an imprecise
+  measurement.
+
+\item \textbf{Probe pre-screening selection bias.} The \texttt{probe\_validator.py}
+  pipeline rejects probes whose option tokens do not appear in DeepSeek's
+  top-20 logprobs. This selects probes in which format effects are already large
+  enough to push option tokens into the measurable range, potentially inflating
+  the pooled format effect estimate ($d_z=+0.578$). The direction and magnitude
+  of this bias cannot be estimated from the current data.
+
+\item \textbf{Constraint-length confound.} C2 and C3 constraint texts differ in
+  length (21 vs.\ 29 Chinese characters). Severity cannot be fully isolated
+  from prompt length in the constraint gradient experiment.
+
+\item \textbf{Post-hoc L1-visibility classification.} The L1-visibility
+  classification ($\S$\ref{sec:l1vis}) was performed by the author without
+  a second classifier. While the three-test criterion (SIGNAL/ACTION/CERTAINTY)
+  was designed to be mechanical, classification ambiguity at boundaries could
+  affect the $d_z=+0.71$ vs.\ $+0.40$ comparison (within-group effects; the
+  between-group difference $\Delta d=+0.31$ was not significant).
+
+\item \textbf{Lack of pre-registration.} No experimental hypotheses or analysis
+  plans were pre-registered. All reported analyses should be considered
+  exploratory.
+
+\item \textbf{Single author, single device, no supervision.} All experiments
+  were conducted by a single undergraduate student on a single laptop (Dell G15,
+  RTX 3060 6GB, 16GB RAM). No research supervisor reviewed the experimental
+  design, data analysis, or manuscript. No funding supported this work.
+\end{enumerate}
+
+\section{Conclusion}
+
+Agent configuration integrity is not primarily a prompt engineering problem.
+It is an architectural problem with a structural root cause: the Prose Barrier.
+The five-layer architecture---permit (L0), bypass (L1), detect (L2), encode
+(L3), predict (L4)---offers one systematic response. Critically, only L1
+constitutes an external verification channel (per \citet{kambhampati2024}'s
+LLM-Modulo framework); L2 and L3 operate inside the model and measure internal
+representations, not independent verification. The empirical evidence has clear
+limitations (see Limitations above) but points in a consistent direction: rules
+work, format matters for internal processing but not behavioral output, and the
+effect of output constraints on format measurement is non-monotonic, forming
+three processing regimes rather than a simple slope. The Prose Barrier of
+Measurement---the discovery that the instrument used to measure format effects
+can suppress the mechanism being measured---has implications beyond this paper:
+it suggests that clean binary-output experimental designs for LLM evaluation may
+systematically underestimate format effects.
+
+\section*{Acknowledgments}
+
+This paper grew out of a series of DEV.to articles I wrote while trying to
+figure out why my agent kept ignoring its own rules. I am grateful to the
+DEV.to community---especially Mike Czerwinski, whose receipt-of-action versus
+receipt-of-diligence distinction sharpened the L1-visibility analysis, and
+whose Paper-A-versus-Paper-B framing clarified whether format optimization
+serves as substitute for mechanical gates or as fallback where gates cannot
+reach; Dipankar Sarkar, whose prediction that format effects should
+concentrate where mechanical gates cannot reach sent me down the
+gate-absent analysis, and whose suggestion to score logprob differentials
+at decision tokens rather than averaged across full outputs improved the
+measurement; Max Quimby, whose mechanizability-boundary question motivated
+the five-layer architecture; the anonymous reader who spotted that my
+logprob script was feeding $-10.0$ sentinels into a statistical test; and
+everyone who took the time to argue with me in the comments. Those
+discussions shaped every experiment in this paper, including the ones
+that failed.
+
+The remaining errors, of which I am sure there are many, are mine alone.
+
+\bibliographystyle{acl_natbib}
+\bibliography{references}
+
+\end{document}
