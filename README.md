@@ -1,108 +1,101 @@
 # hermes-workspace
 
-> **AI agent 到底有没有在遵守规则？** — 五层验证架构，从机械门到漂移预测
->
-> 林宇浩 · FAFU 空间信息与数字技术 2023 级
->
-> 📄 [完整论文 (PAPER.md)](PAPER.md) · 📂 [实验数据](paper/experiment/) · 🔧 [独立验证工具 paper-validator](https://github.com/YuhaoLin2005/paper-validator) · 📝 [DEV.to](https://dev.to/yuhaolin2005) · [掘金](https://juejin.cn/user/4250072430682412)
+> **Does your AI agent actually follow rules?** — I measure it. 16 pre-registered experiments, 5-layer governance architecture. Mechanical scoring. No cherry-picking.
 
-## For DEV.to Readers
-
-This is the system described in **"Stop Using Generic AI Review. Build Your Own Board of Experts."** What you'll find here:
-
-- [`expert-pool-sample.md`](expert-pool-sample.md) — the expert format: one person, one principle, one source, one confidence level
-- [`.claude/routing.md`](.claude/routing.md) — the dispatch table: which experts review what, with zero manual picking
-- `_check_kb.py` — the mechanical gate: code enforces rules, AI follows them
-
-Everything here is what I actually use. YAML, Python, markdown. No demo, no mockup.
+林宇浩 · FAFU Spatial Information & Digital Technology · [DEV.to](https://dev.to/yuhaolin2005) · [掘金](https://juejin.cn/user/4250072430682412)
 
 ---
 
-## 一句话
+## What is this?
 
-**AI agent 长对话中遗忘规则、产出物无验证、自我认知漂移。** 现有方案依赖 AI 自评（不可靠），本文提出脱离模型解码器的机械校验体系——文件时间戳、正则匹配、进程退出码——任何模型、任何厂商均可复现。
+This is the research hub for measuring whether AI agents obey governance rules across long sessions. It contains the full academic paper, all experiment data and scoring scripts, and the running governance architecture that enforces rules mechanically — not through LLM self-assessment.
 
----
+**Core problem:** AI agents generate output and evaluate output from the same probability distribution P(token|context;θ). They cannot independently verify their own compliance — the same mechanism that produces a violation is asked to detect it. (This is the **Prose Barrier** — [PAPER.md §3](PAPER.md).)
 
-## 论文三部曲
+## Quick navigation
 
-| Part | 内容 | 状态 | 文件 |
-|:--:|------|:--:|------|
-| **1** | 机械门：文件系统层校验，绕过 AI 自评偏差 | ✅ 已部署 + 实验 | [PAPER.md](PAPER.md) §3-§5 |
-| **2** | 神经门：关键词回响→logprob差分→残差流探针 | 📐 v1 已部署, v2/v3 已设计 | [PAPER.md](PAPER.md) §6 |
-| **3** | 因果编码：三段论格式改变注意力路由→推理深度 | 🗺️ 路线图, 初步证据 | [PAPER.md](PAPER.md) §7 |
+| You want to... | Go here |
+|---------------|---------|
+| Read the paper | [PAPER.md](PAPER.md) — 5-layer architecture, Prose Barrier, experiments |
+| See experiment data | [paper/experiment/](paper/experiment/) — raw JSON results, scoring scripts, SHA256 pre-registration |
+| Run an experiment | [paper/experiment/experiment-execution-guide.md](paper/experiment/experiment-execution-guide.md) |
+| Understand the architecture | [.claude/](.claude/) — the running governance system (YAML, Python, Markdown) |
+| Jump from a DEV.to article | [NAVIGATION.md](NAVIGATION.md) — article → paper section → code mapping |
 
----
-
-## 实验概览
-
-| 实验 | N | 设计 | 主要发现 | 状态 |
-|------|:--:|------|------|:--:|
-| Growth-log 回溯 | 34 sessions | 纵向编码 | 机械门接线前 55.9%→接线后 0.7% | ✅ |
-| Causal Swap | 30 tasks | Between-subjects, DeepSeek V4 Pro | OR=11.0, p=0.0092 | ⚠️ 单评分者 |
-| Format A/B | **150 tasks** | Between-subjects, 6 sessions | 99.3%合规, 天花板效应 | ⚠️ 需 GateGuard-OFF |
-| Syllogism 交叉验证 | 4 sessions | 5规则全触发, 零违规 | 格式→推理深度因果链初步 | ⚠️ n 过小 |
-
-> **诚实标注**：所有定量结果由作者单人评分、非盲法。κ=-0.14（盲审信度检查 n=8，未通过）。需独立第二评分者验证。
-
----
-
-## 三层架构
+## Architecture
 
 ```
-L1 机械门 ✅ 已部署   文件时间戳/正则/exit 2 → 绕过 AI 自评
-L2 神经门 📐 设计中  关键词回响→logprob差分→残差流探针
-L3 因果编码 🗺️ 路线图 三段论格式→注意力路由→推理深度
-
-核心洞见 (Prose Barrier)：
-生成和验证共享同一解码器分布 P(token|context;θ)
-→ AI 无法独立验证自身输出 → 机械校验是结构必需，非工程偏好
+L1 Mechanical gates  ✅ Deployed   File timestamps, regex, exit codes — outside the generation loop
+L2 Neural probes     📐 Design     Logprob differentials measure constraint fidelity
+L3 Causal encoding   🗺️ Roadmap    Syllogistic format changes attention routing → deeper reasoning
+L4 Drift prediction  ✅ Deployed   8-feature model predicts when rules will decay
+L5 Self-regeneration ✅ Deployed   Auto-detects stale self-model, triggers rebuild
 ```
 
----
+L1 is the load-bearing layer. `exit 2` cannot be argued with. L4 feeds compaction count from [compact-counter](https://github.com/YuhaoLin2005/compact-counter) into the drift risk model.
+
+## Key findings
+
+1. **Mechanical gates eliminate format effects.** 150 tasks: compliance 99.3% with GateGuard ON, format difference disappears. Ceiling effect IS the finding. [PAPER.md §6.5]
+2. **Compaction causes rule decay with a cliff at ~16 rounds.** 459 sessions tracked, 425 compaction events. Format rules survive longer than semantic rules. L8→L12: compliance drops 80%→20%. → [compact-counter](https://github.com/YuhaoLin2005/compact-counter)
+3. **Pre-registration makes null results publishable.** SHA256 hash committed before 600 API calls. Hypothesis killed. Cannot rewrite. → [PAPER.md §6.16](PAPER.md)
+4. **Fine-tuning Instruct models can silently break them.** Loss ↓, behavior collapsed into digit-repeating. Behavioral metrics catch what loss curves miss. → [training-gate](https://github.com/YuhaoLin2005/training-gate)
+
+## Experiment index
+
+16 experiments completed. Each with pre-registered hypothesis, deterministic regex scoring, public data.
+
+| # | Experiment | Design | Key result | Where |
+|---|-----------|--------|------------|-------|
+| P1-1 | Format × Gate | 150 tasks, GateGuard ON/OFF, syllogism vs imperative | 99.3% compliance, format effect→0 with gate | [PAPER.md §6.5] |
+| P1-2 | Pre-Registered | 600 calls, 2×2 factorial, SHA256 pre-reg | Hypothesis KILLED. Gate improves reasoning (+0.32 d) | [PAPER.md §6.16] |
+| R1 | Adversarial Rules | 50 calls, 5 rules × 5 degradation levels | Null result — default-aligned rules immune to compaction | [compact_fidelity_decay.py](paper/experiment/compact_fidelity_decay.py) |
+| R2 | Reverse Instructions | 50 calls, 5 adversarial rules × 5 levels | L8→L12 cliff: 80%→20% full compliance | same script, round 2 |
+| Causal Swap | Rule Removal | 30 tasks, between-subjects | OR=11.0, p=0.0092 | [PAPER.md §6.6] |
+| Logprob V3 | Constraint Gradient | 12 probes × 2 formats × 4 constraint levels | Syllogistic format advantage peaks at moderate constraint | [paper/experiment/logprob-v3/](paper/experiment/logprob-v3/) |
+| Cross-Model | Scanner Calibration | 3 models, same gate rules | Gateability = rule_structure × model_capability | [paper-validator results](https://github.com/YuhaoLin2005/paper-validator) |
+| E1a/b | Expert Board | 30→112 trials, cross-model | Persona diversity is model-dependent; Fleiss' κ=0.049 | [community-experiments](paper/supplementary/community-experiments-2026-07-17.md) |
+
+Full experiment list and detailed results: [PAPER.md appendix](PAPER.md) and [paper/experiment/](paper/experiment/).
+
+## Reproduce
+
+```bash
+git clone https://github.com/YuhaoLin2005/hermes-workspace.git
+cd hermes-workspace
+
+# Set API key (DeepSeek or any OpenAI-compatible endpoint)
+export DEEPSEEK_API_KEY=sk-...
+
+# Run the compaction decay experiment (100 calls, ~15 min)
+python paper/experiment/compact_fidelity_decay.py
+
+# Or use paper-validator for standardized claim verification
+pip install requests
+python -m paper_validator claim --claim all --trials 30
+```
+
+**Scoring:** All experiments use deterministic regex patterns, committed before execution. No LLM judge. Pre-registration via SHA256 hash embedded in API records ([pre_register.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/pre_register.py)). Raw data in `paper/experiment/results/` and `paper/experiment/*.json`.
+
+## Honest limitations
+
+- **Single rater.** Author-scored. Blind check: κ=-0.14 (n=8, failed). Critical weakness.
+- **Single model.** Most experiments on DeepSeek V4 Pro. Cross-model validation in progress.
+- **Per-rule breakdowns are exploratory.** Only overall effects are pre-registered.
+- **API ceiling.** Reproducibility bounded by provider retention. Hash proves report↔records consistency, not records↔reality.
+- **Solo researcher.** No advisor, no lab. Community feedback on DEV.to serves as lightweight peer review.
+
+## Related
+
+| Project | What | Connection |
+|---------|------|------------|
+| [paper-validator](https://github.com/YuhaoLin2005/paper-validator) | `python -m paper_validator claim --all` | Importable from hermes-workspace claims |
+| [compact-counter](https://github.com/YuhaoLin2005/compact-counter) | Compaction tracker | Found L8→L12 cliff in 459 production sessions |
+| [digital-twin-trainer](https://github.com/YuhaoLin2005/digital-twin-trainer) | QLoRA + DPO pipeline | ML approach to internalizing rules |
+| [training-gate](https://github.com/YuhaoLin2005/training-gate) | Behavioral drift detection | Companion finding: loss curves lie |
 
 ---
 
-## DeepSeek V4 成本优化
+📝 [DEV.to](https://dev.to/yuhaolin2005) (31 articles, EN) · [掘金](https://juejin.cn/user/4250072430682412) (中文) · [NAVIGATION.md](NAVIGATION.md) (article → paper → code map)
 
-研究基础设施从 Claude 迁移至 DeepSeek V4 Pro 后，针对 1M 上下文窗口 + 自动前缀缓存特性进行了系统优化：
-
-| 参数 | 优化前 | 优化后 | 逻辑 |
-|------|------|------|------|
-| Reasoning Effort | max | high | DeepSeek high 足够，省 thinking token |
-| autoCompactWindow | 600K | **400K** | 利用 1M 窗口, 减少 compact→保护缓存 |
-| subagent model | inherit (pro) | **flash** | cache miss $0.14 vs $0.435 |
-| ENABLE_TOOL_SEARCH | auto:5 | **false** | ToolSearch 每次摧毁缓存 (已知 Bug #53132) |
-| ENABLE_PROMPT_CACHING_1H | "1" | 已删除 | DeepSeek 自动前缀缓存，不需要标记 |
-
-详见 [DeepSeek 优化文档](paper/experiment/DEEPSEEK_OPTIMIZATION.md)
-
----
-
-## 诚实局限
-
-1. 单评分者 + 非盲法 — **κ=-0.14**，论文最致命缺陷
-2. 无安慰剂对照 — 观测效应可能归因于 token 数量
-3. GateGuard 天花板效应 — 验证了 L1 而非 L3
-4. 文献检索依赖自主搜索 + AI 辅助
-5. 独立完成，无导师指导
-
----
-
-## 快速导航
-
-| 你要看 | 点这里 |
-|------|------|
-| 完整论文 | [PAPER.md](PAPER.md) |
-| 5 分钟摘要 | [paper/professor-meeting-onepager.md](paper/professor-meeting-onepager.md) |
-| 实验数据 | [paper/experiment/](paper/experiment/) |
-| 实验配置快照 | [paper/experiment/experiment-config-snapshot.json](paper/experiment/experiment-config-snapshot.json) |
-| DeepSeek 优化 | [paper/experiment/DEEPSEEK_OPTIMIZATION.md](paper/experiment/DEEPSEEK_OPTIMIZATION.md) |
-| AI 模拟审稿报告 | [paper/reviewer-report-2026-07-11.md](paper/reviewer-report-2026-07-11.md) |
-| DEV.to 技术文章 | [dev.to/yuhaolin2005](https://dev.to/yuhaolin2005) |
-
----
-
-## 许可
-
-MIT
+MIT License
