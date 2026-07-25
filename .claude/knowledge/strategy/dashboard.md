@@ -5,33 +5,34 @@
 
 ```yaml
 dashboard:
+  synced_at: 2026-07-24T07:36:19Z
+
   devto:
-    articles: 30
-    comments_written: 41
-    followers: ?        # DEV.to API 不公开 follower count
-    total_reactions: ~40  # 从 API 估算：30篇文章，多数2-3❤️
-    notable_commenters: [Mike_Czerwinski, René_Zander, Dipankar_Sarkar, Tom_Jones, Alice, Alex_Shevchenko, CodeKitHub]
-    unread_comments: ?   # 需检查通知页
+    articles: 31
+    comments_written: 4
+    followers: ?
+    total_reactions: ?  # manual: needs API
+    notable_commenters: ['Dipankar Sarkar', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
+    unread_comments: ?  # manual: needs notification check
 
   juejin:
-    articles: 18
-    total_reads: ~3008
-    total_likes: ~22  # 2篇有明确点赞数据
-    most_popular: 2289_reads  # [juejin-rene] René Zander 故事
-    # 注：掘金评论互动少，平台文化不同——不重点维护评论
+    articles: 20
+    total_reads: 74
+    total_likes: 8
+    most_popular: 34_reads
 
   github:
-    paper_validator_stars: 0
-    paper_validator_forks: 0
-    hermes_workspace_stars: 0
-    total_commits_since_july1: 134  # 50 hermes + 50 .claude/scripts + 20 pv-profile + 14 pv-main
+    paper_validator_stars: ?  # manual: gh api
+    paper_validator_forks: ?  # manual: gh api
+    hermes_workspace_stars: ?  # manual: gh api
+    total_commits_since_july1: ?  # manual: git log
     prs_merged: 0
-    prs_open: 0
+    prs_open: ?
     issues_filed: 0
 
   paper:
     chapters_drafted: "?/5"
-    claims_validated: 9
+    claims_validated: 10
     claims_needing_blind_scoring: [claim-8]
     target_venue: "CHI LBW / ACL SRW / arXiv"
     target_deadline: ?
@@ -43,56 +44,27 @@ dashboard:
       competitor_differentiation: "4/10"
 
   experiments:
-    completed: 18
+    completed: 16
     in_progress: 0
-    planned: 2
-    total_api_calls_used: ~2200
-    latest:
-      e1_persona_decorrelation:
-        date: 2026-07-23
-        prereg_hash_e1a: eebe2a31fb290860
-	        e1a_result: "persona drives judgment (1.00 > 0.87) BUT ceiling effect (4/5 unanimous)"
-	      e1b_cross_model:
-	        date: 2026-07-23
-	        prereg_hash: 9c80bad72382d8c4
-	        models: [DeepSeek-V4-Pro, Kimi-K2.7-Code]
-	        trials: 112
-	        tokens: 81717
-	        errors: 0
-	        fleiss_kappa_all: 0.049
-	        fleiss_kappa_ds: -0.201
-	        fleiss_kappa_kimi: 0.460
-	        result: "E1b REFUTES E1a. Persona effect = model-dependent. Expert board = costume diversity."
-        models: [DeepSeek-V4-Pro, Kimi-K2.7-Code]
-        trials: 30
-        tokens: 21853
-        errors: 0
-        result: "persona drives judgment: cross-model same-persona 1.00 > within-model diff-persona 0.87"
-        caveat: "4/5 snippets unanimous; effect from error_silent where Torvalds REJECTs vs Carmack/Knuth A_W_NOTES — pattern holds across both architectures"
+    planned: 0
+    total_api_calls_used: ?  # manual: sum from experiment logs
+    latest:  # preserved from manual updates
+      # (see dashboard.md git history for latest experiment details)
 
-streaks:
-  devto_post_streak: 0
-  github_commit_streak: 0
-  session_streak: ?
+  self:
+    last_regeneration: ?
+
+  streaks:
+    devto_post_streak: 0
+    github_commit_streak: 0
+    session_streak: ?
 
   community_milestones:
-    - date: 2026-07-19
-      event: "Mike Czerwinski 发表回应文章 'The Line Is Not Between Human and Machine... It Is Between Code and Judgment' (dev.to/jugeni)——回应你的研究框架"
-    - date: 2026-07-19
-      event: "Tom Jones 独立复现 stance-marker 剥离实验 (17%→2.1%) + 跨模型层次外部验证——首次有陌生人复现你的结果"
-    - date: 2026-07-19
-      event: "Alice 提供 2 个生产环境 hook-failure 真实案例——可入 supplementary"
-    - date: 2026-07-21
-      event: "发表 [expert-board] Stop Using Generic AI Review — 命名原则锚定→去关联前提→33 persona独立幻觉，Mike Czerwinski 关联评论"
-    - date: 2026-07-23
-      event: "E1 Persona Decorrelation 完成——DS V4 Pro × Kimi K2.7 Code 跨架构验证：persona 驱动判断（跨模型同persona 1.00 > 同模型异persona 0.87），0/30 errors"
-    - date: 2026-07-23
-      event: "数字分身数据同步——DEV.to/juejin/GitHub/遥感实习数据全部刷新，user-profile+self-model+remote-sensing-checkpoint 更新"
-	    - date: 2026-07-23
-	      event: "E1b Cross-Model完成——112 trials, κ=0.049(≈随机), E1a被证伪。专家团三人收敛：persona=costume diversity。论文框架需从persona-driven降级为multi-model ensemble"
+    # (manually maintained — preserved across sync runs)
 
-last_updated: 2026-07-23
+  last_updated: 2026-07-24
 ```
+
 
 ## 指标解释
 
