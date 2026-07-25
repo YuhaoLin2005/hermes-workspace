@@ -1,0 +1,316 @@
+{
+  "experiment": "format-comparison",
+  "design": "within-probe 3-condition (baseline/imperative/syllogistic)",
+  "model": "deepseek-chat",
+  "n_probes": 8,
+  "timestamp": "2026-07-12T02:48:08.102904+00:00",
+  "hypothesis": "Format Effect > 0 — syllogistic > imperative for constraint internalization",
+  "results": {
+    "per_probe": [
+      {
+        "theme": "自动执行",
+        "imperative_differential": -6659.3333,
+        "syllogistic_differential": -6659.3333,
+        "format_effect": 0.0
+      },
+      {
+        "theme": "最低成本验证",
+        "imperative_differential": 0.0,
+        "syllogistic_differential": 0.0,
+        "format_effect": 0.0
+      },
+      {
+        "theme": "自审",
+        "imperative_differential": 0.0,
+        "syllogistic_differential": 0.0,
+        "format_effect": 0.0
+      },
+      {
+        "theme": "双池审查",
+        "imperative_differential": 0.0,
+        "syllogistic_differential": 0.0,
+        "format_effect": 0.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "imperative_differential": -3329.6667,
+        "syllogistic_differential": 0.0,
+        "format_effect": 3329.6667
+      },
+      {
+        "theme": "事实核验",
+        "imperative_differential": 0.0,
+        "syllogistic_differential": 0.0,
+        "format_effect": 0.0
+      },
+      {
+        "theme": "执行铁律",
+        "imperative_differential": -3329.6667,
+        "syllogistic_differential": -6659.3333,
+        "format_effect": -3329.6666
+      },
+      {
+        "theme": "降级链",
+        "imperative_differential": 0.0,
+        "syllogistic_differential": 0.0,
+        "format_effect": 0.0
+      }
+    ],
+    "statistics": {
+      "n": 8,
+      "mean_effect": 0.0,
+      "sd": 1779.7817,
+      "se": 629.2479,
+      "t_statistic": 0.0,
+      "cohens_dz": 0.0,
+      "positive_count": 1,
+      "positive_fraction": 0.125,
+      "wilcoxon_w": 8,
+      "interpretation": "Negligible."
+    }
+  },
+  "raw": {
+    "baseline": [
+      {
+        "theme": "自动执行",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -3339.6667
+      },
+      {
+        "theme": "最低成本验证",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "自审",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "双池审查",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "事实核验",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "执行铁律",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "降级链",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      }
+    ],
+    "imperative": [
+      {
+        "theme": "自动执行",
+        "compliant_logprob": -6669.3333,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "最低成本验证",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "自审",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "双池审查",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "compliant_logprob": -3339.6667,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "事实核验",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "执行铁律",
+        "compliant_logprob": -3339.6667,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "降级链",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      }
+    ],
+    "syllogistic": [
+      {
+        "theme": "自动执行",
+        "compliant_logprob": -6669.3333,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "最低成本验证",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "自审",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "双池审查",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "事实核验",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "执行铁律",
+        "compliant_logprob": -6669.3333,
+        "violating_logprob": -10.0
+      },
+      {
+        "theme": "降级链",
+        "compliant_logprob": -10.0,
+        "violating_logprob": -10.0
+      }
+    ],
+    "imperative_differentials": [
+      {
+        "theme": "自动执行",
+        "differential": -6659.3333,
+        "baseline_compliant": -10.0,
+        "format_compliant": -6669.3333,
+        "format_violating_diff": 3329.6667
+      },
+      {
+        "theme": "最低成本验证",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "自审",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "双池审查",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "differential": -3329.6667,
+        "baseline_compliant": -10.0,
+        "format_compliant": -3339.6667,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "事实核验",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "执行铁律",
+        "differential": -3329.6667,
+        "baseline_compliant": -10.0,
+        "format_compliant": -3339.6667,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "降级链",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      }
+    ],
+    "syllogistic_differentials": [
+      {
+        "theme": "自动执行",
+        "differential": -6659.3333,
+        "baseline_compliant": -10.0,
+        "format_compliant": -6669.3333,
+        "format_violating_diff": 3329.6667
+      },
+      {
+        "theme": "最低成本验证",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "自审",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "双池审查",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "Read-after-Write",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "事实核验",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "执行铁律",
+        "differential": -6659.3333,
+        "baseline_compliant": -10.0,
+        "format_compliant": -6669.3333,
+        "format_violating_diff": 0.0
+      },
+      {
+        "theme": "降级链",
+        "differential": 0.0,
+        "baseline_compliant": -10.0,
+        "format_compliant": -10.0,
+        "format_violating_diff": 0.0
+      }
+    ]
+  }
+}

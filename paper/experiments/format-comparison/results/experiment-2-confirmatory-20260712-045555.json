@@ -1,0 +1,2036 @@
+{
+  "experiment": "experiment-2-confirmatory",
+  "design": "within-probe 3-condition (baseline/imperative/syllogistic)",
+  "model": "deepseek-chat",
+  "n_probes": 40,
+  "timestamp": "2026-07-12T04:55:55.595701+00:00",
+  "pre_registered": true,
+  "hypothesis": "Format Effect > 0 — syllogistic > imperative",
+  "results": {
+    "per_probe": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "imperative_effect": 7.6804,
+        "syllogistic_effect": 19.4993,
+        "format_effect": 11.8189,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "imperative_effect": 33.4511,
+        "syllogistic_effect": 52.6059,
+        "format_effect": 19.1548,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "imperative_effect": 33.9418,
+        "syllogistic_effect": 38.1048,
+        "format_effect": 4.163,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "imperative_effect": 23.6894,
+        "syllogistic_effect": 42.0018,
+        "format_effect": 18.3124,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "imperative_effect": 48.6751,
+        "syllogistic_effect": 40.7492,
+        "format_effect": -7.9259,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "imperative_effect": 12.5059,
+        "syllogistic_effect": 17.2025,
+        "format_effect": 4.6966,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "imperative_effect": 2.6444,
+        "syllogistic_effect": 18.4121,
+        "format_effect": 15.7677,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "imperative_effect": 53.196,
+        "syllogistic_effect": 29.2933,
+        "format_effect": -23.9027,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "imperative_effect": 28.6723,
+        "syllogistic_effect": 33.6806,
+        "format_effect": 5.0083,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "imperative_effect": 5.2875,
+        "syllogistic_effect": 13.8559,
+        "format_effect": 8.5684,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "imperative_effect": 13.6347,
+        "syllogistic_effect": 26.9586,
+        "format_effect": 13.3239,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "imperative_effect": 0.699,
+        "syllogistic_effect": 5.7151,
+        "format_effect": 5.0161,
+        "imp_chosen": "B",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "imperative_effect": 3.2649,
+        "syllogistic_effect": 11.4511,
+        "format_effect": 8.1862,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "imperative_effect": -18.023,
+        "syllogistic_effect": -2.4443,
+        "format_effect": 15.5787,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "imperative_effect": 2.1402,
+        "syllogistic_effect": 10.3575,
+        "format_effect": 8.2173,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "imperative_effect": -1.6543,
+        "syllogistic_effect": -0.3484,
+        "format_effect": 1.3059,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "imperative_effect": 16.718,
+        "syllogistic_effect": 13.9795,
+        "format_effect": -2.7385,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "imperative_effect": -1.0438,
+        "syllogistic_effect": -4.3814,
+        "format_effect": -3.3376,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "imperative_effect": -18.9548,
+        "syllogistic_effect": -4.4853,
+        "format_effect": 14.4695,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "imperative_effect": 6.8103,
+        "syllogistic_effect": 8.9375,
+        "format_effect": 2.1272,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "imperative_effect": -6.2436,
+        "syllogistic_effect": 4.4497,
+        "format_effect": 10.6933,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "imperative_effect": 6.6396,
+        "syllogistic_effect": 17.8613,
+        "format_effect": 11.2217,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "imperative_effect": 30.9591,
+        "syllogistic_effect": 30.1467,
+        "format_effect": -0.8124,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "imperative_effect": 11.8837,
+        "syllogistic_effect": 0.2046,
+        "format_effect": -11.6791,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "imperative_effect": 6.6641,
+        "syllogistic_effect": 10.4989,
+        "format_effect": 3.8348,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "imperative_effect": -5.2114,
+        "syllogistic_effect": 7.7275,
+        "format_effect": 12.9389,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "imperative_effect": 19.8781,
+        "syllogistic_effect": 32.0669,
+        "format_effect": 12.1888,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "imperative_effect": -2.5301,
+        "syllogistic_effect": 1.9934,
+        "format_effect": 4.5235,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "imperative_effect": -1.1569,
+        "syllogistic_effect": 3.7831,
+        "format_effect": 4.94,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "imperative_effect": 8.2859,
+        "syllogistic_effect": 10.4146,
+        "format_effect": 2.1287,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "imperative_effect": 10.7249,
+        "syllogistic_effect": 17.3475,
+        "format_effect": 6.6226,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "imperative_effect": -1.6646,
+        "syllogistic_effect": 2.4183,
+        "format_effect": 4.0829,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "imperative_effect": 6.7012,
+        "syllogistic_effect": 7.4422,
+        "format_effect": 0.741,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "imperative_effect": 10.2795,
+        "syllogistic_effect": 2.851,
+        "format_effect": -7.4285,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "imperative_effect": 0.203,
+        "syllogistic_effect": 2.3784,
+        "format_effect": 2.1754,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "imperative_effect": -1.042,
+        "syllogistic_effect": 3.3066,
+        "format_effect": 4.3486,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "imperative_effect": 10.2745,
+        "syllogistic_effect": 8.6234,
+        "format_effect": -1.6511,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "imperative_effect": 24.4671,
+        "syllogistic_effect": 25.2071,
+        "format_effect": 0.74,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "imperative_effect": -5.7818,
+        "syllogistic_effect": 6.3784,
+        "format_effect": 12.1602,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "imperative_effect": -0.353,
+        "syllogistic_effect": 6.6603,
+        "format_effect": 7.0133,
+        "imp_chosen": "A",
+        "syl_chosen": "A"
+      }
+    ],
+    "statistics": {
+      "n": 40,
+      "mean": 4.9148,
+      "sd": 8.4856,
+      "se": 1.3417,
+      "t": 3.6632,
+      "d_z": 0.5792,
+      "positive": 32,
+      "positive_frac": 0.8
+    },
+    "robustness": {
+      "bootstrap": {
+        "ci_low": 2.2789,
+        "ci_high": 7.44,
+        "n_bootstrap": 10000
+      },
+      "loo": {
+        "t_min": 3.4348,
+        "t_max": 4.9207,
+        "t_range": 1.4859
+      },
+      "bf10": 284183.5298
+    },
+    "anova": {
+      "categories": {
+        "action": {
+          "n": 10,
+          "mean": 5.5662,
+          "sd": 13.1351
+        },
+        "epistemic": {
+          "n": 10,
+          "mean": 6.2149,
+          "sd": 6.8953
+        },
+        "structural": {
+          "n": 10,
+          "mean": 4.9978,
+          "sd": 7.5103
+        },
+        "meta": {
+          "n": 10,
+          "mean": 2.8804,
+          "sd": 5.3465
+        }
+      },
+      "F": 0.2736,
+      "df_between": 3,
+      "df_within": 36,
+      "eta2": 0.0223
+    }
+  },
+  "raw": {
+    "baseline": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.3401,
+        "differential": 26.3401,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "compliant_logprob": -12.2148,
+        "violating_logprob": -0.0,
+        "differential": -12.2148,
+        "chosen": "B"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "compliant_logprob": -0.0004,
+        "violating_logprob": -7.9007,
+        "differential": 7.9004,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "compliant_logprob": -15.6532,
+        "violating_logprob": -0.0,
+        "differential": -15.6532,
+        "chosen": "B"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "compliant_logprob": -16.7567,
+        "violating_logprob": 0.0,
+        "differential": -16.7567,
+        "chosen": "B"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -20.5818,
+        "differential": 20.5818,
+        "chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -23.6032,
+        "differential": 23.6032,
+        "chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "compliant_logprob": -23.2648,
+        "violating_logprob": 0.0,
+        "differential": -23.2648,
+        "chosen": "B"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "compliant_logprob": -5.3193,
+        "violating_logprob": -0.0049,
+        "differential": -5.3143,
+        "chosen": "B"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -21.0311,
+        "differential": 21.0311,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -20.5184,
+        "differential": 20.5184,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "compliant_logprob": -1.0515,
+        "violating_logprob": -0.4299,
+        "differential": -0.6215,
+        "chosen": "B"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.082,
+        "differential": 18.082,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -34.227,
+        "differential": 34.227,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.5175,
+        "differential": 29.5175,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -27.6519,
+        "differential": 27.6519,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -16.5003,
+        "differential": 16.5003,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "compliant_logprob": -0.0019,
+        "violating_logprob": -28.2239,
+        "differential": 28.222,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -44.5894,
+        "differential": 44.5894,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -20.5948,
+        "differential": 20.5947,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -36.82,
+        "differential": 36.82,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "compliant_logprob": -1.1817,
+        "violating_logprob": -0.4843,
+        "differential": -0.6973,
+        "chosen": "B"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "compliant_logprob": -4.0788,
+        "violating_logprob": -0.0178,
+        "differential": -4.061,
+        "chosen": "B"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "compliant_logprob": -0.0156,
+        "violating_logprob": -18.438,
+        "differential": 18.4225,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -30.3732,
+        "differential": 30.3732,
+        "chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "compliant_logprob": -0.0005,
+        "violating_logprob": -8.0693,
+        "differential": 8.0688,
+        "chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "compliant_logprob": -1.4283,
+        "violating_logprob": -0.2741,
+        "differential": -1.1542,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.0305,
+        "differential": 29.0305,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -11.2865,
+        "differential": 11.2865,
+        "chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "compliant_logprob": -0.0345,
+        "violating_logprob": -3.4196,
+        "differential": 3.3851,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "compliant_logprob": -0.0004,
+        "violating_logprob": -7.9297,
+        "differential": 7.9294,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -10.2009,
+        "differential": 10.2008,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -24.5249,
+        "differential": 24.5249,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.8186,
+        "differential": 18.8186,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -18.5598,
+        "differential": 18.5598,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.8124,
+        "differential": 29.8124,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -11.7318,
+        "differential": 11.7318,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "compliant_logprob": -0.4431,
+        "violating_logprob": -1.0274,
+        "differential": 0.5844,
+        "chosen": "B"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.2141,
+        "differential": 31.2141,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.4597,
+        "differential": 18.4597,
+        "chosen": "A"
+      }
+    ],
+    "imperative": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -34.0205,
+        "differential": 34.0205,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -21.2363,
+        "differential": 21.2363,
+        "chosen": "A"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -41.8422,
+        "differential": 41.8422,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "compliant_logprob": -0.0004,
+        "violating_logprob": -8.0366,
+        "differential": 8.0362,
+        "chosen": "A"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.9184,
+        "differential": 31.9184,
+        "chosen": "A"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -33.0877,
+        "differential": 33.0877,
+        "chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.2476,
+        "differential": 26.2476,
+        "chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.9312,
+        "differential": 29.9312,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "compliant_logprob": -0.0001,
+        "violating_logprob": -23.358,
+        "differential": 23.358,
+        "chosen": "A"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.3186,
+        "differential": 26.3186,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -34.1531,
+        "differential": 34.1531,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "compliant_logprob": -0.6552,
+        "violating_logprob": -0.7326,
+        "differential": 0.0775,
+        "chosen": "B"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -21.3469,
+        "differential": 21.3469,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -16.204,
+        "differential": 16.204,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.6577,
+        "differential": 31.6577,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.9976,
+        "differential": 25.9976,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -33.2183,
+        "differential": 33.2183,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -27.1782,
+        "differential": 27.1782,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.6346,
+        "differential": 25.6346,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -27.405,
+        "differential": 27.405,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -30.5764,
+        "differential": 30.5764,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "compliant_logprob": -0.0026,
+        "violating_logprob": -5.945,
+        "differential": 5.9423,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.8981,
+        "differential": 26.8981,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -30.3062,
+        "differential": 30.3062,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -37.0373,
+        "differential": 37.0373,
+        "chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "compliant_logprob": -0.0558,
+        "violating_logprob": -2.9132,
+        "differential": 2.8574,
+        "chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.7239,
+        "differential": 18.7239,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.5004,
+        "differential": 26.5004,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "compliant_logprob": -0.0001,
+        "violating_logprob": -10.1297,
+        "differential": 10.1296,
+        "chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -11.671,
+        "differential": 11.671,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.6543,
+        "differential": 18.6543,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "compliant_logprob": -0.0002,
+        "violating_logprob": -8.5364,
+        "differential": 8.5362,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.2261,
+        "differential": 31.2261,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.0981,
+        "differential": 29.0981,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.7628,
+        "differential": 18.7628,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -28.7704,
+        "differential": 28.7704,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -22.0063,
+        "differential": 22.0063,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.0515,
+        "differential": 25.0515,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.4323,
+        "differential": 25.4323,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.1067,
+        "differential": 18.1067,
+        "chosen": "A"
+      }
+    ],
+    "syllogistic": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -45.8394,
+        "differential": 45.8394,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -40.3911,
+        "differential": 40.3911,
+        "chosen": "A"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -46.0052,
+        "differential": 46.0052,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.3486,
+        "differential": 26.3486,
+        "chosen": "A"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -23.9925,
+        "differential": 23.9925,
+        "chosen": "A"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -37.7843,
+        "differential": 37.7843,
+        "chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -42.0153,
+        "differential": 42.0153,
+        "chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "compliant_logprob": -0.0024,
+        "violating_logprob": -6.0309,
+        "differential": 6.0285,
+        "chosen": "A"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -28.3663,
+        "differential": 28.3663,
+        "chosen": "A"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -34.887,
+        "differential": 34.887,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -47.477,
+        "differential": 47.477,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "compliant_logprob": -0.0061,
+        "violating_logprob": -5.0997,
+        "differential": 5.0936,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.5331,
+        "differential": 29.5331,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.7827,
+        "differential": 31.7827,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -39.875,
+        "differential": 39.875,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -27.3035,
+        "differential": 27.3035,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -30.4798,
+        "differential": 30.4798,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -23.8406,
+        "differential": 23.8406,
+        "chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -40.1041,
+        "differential": 40.1041,
+        "chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -29.5322,
+        "differential": 29.5322,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -41.2697,
+        "differential": 41.2697,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "compliant_logprob": -0.0008,
+        "violating_logprob": -17.1648,
+        "differential": 17.164,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -26.0857,
+        "differential": 26.0857,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -18.6271,
+        "differential": 18.6271,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -40.8721,
+        "differential": 40.8721,
+        "chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -15.7963,
+        "differential": 15.7963,
+        "chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -30.9127,
+        "differential": 30.9127,
+        "chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.0239,
+        "differential": 31.0239,
+        "chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -15.0696,
+        "differential": 15.0696,
+        "chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "compliant_logprob": -0.0,
+        "violating_logprob": -13.7997,
+        "differential": 13.7997,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.2769,
+        "differential": 25.2769,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "compliant_logprob": -0.0001,
+        "violating_logprob": -12.6192,
+        "differential": 12.6191,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -31.9671,
+        "differential": 31.9671,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -21.6696,
+        "differential": 21.6696,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -20.9382,
+        "differential": 20.9382,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -33.119,
+        "differential": 33.119,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -20.3552,
+        "differential": 20.3552,
+        "chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.7915,
+        "differential": 25.7915,
+        "chosen": "A"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -37.5925,
+        "differential": 37.5925,
+        "chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "compliant_logprob": 0.0,
+        "violating_logprob": -25.12,
+        "differential": 25.12,
+        "chosen": "A"
+      }
+    ],
+    "imp_effects": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "differential": 7.6804,
+        "baseline_ab": 26.3401,
+        "format_ab": 34.0205,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "differential": 33.4511,
+        "baseline_ab": -12.2148,
+        "format_ab": 21.2363,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "differential": 33.9418,
+        "baseline_ab": 7.9004,
+        "format_ab": 41.8422,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "differential": 23.6894,
+        "baseline_ab": -15.6532,
+        "format_ab": 8.0362,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "differential": 48.6751,
+        "baseline_ab": -16.7567,
+        "format_ab": 31.9184,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "differential": 12.5059,
+        "baseline_ab": 20.5818,
+        "format_ab": 33.0877,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "differential": 2.6444,
+        "baseline_ab": 23.6032,
+        "format_ab": 26.2476,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "differential": 53.196,
+        "baseline_ab": -23.2648,
+        "format_ab": 29.9312,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "differential": 28.6723,
+        "baseline_ab": -5.3143,
+        "format_ab": 23.358,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "differential": 5.2875,
+        "baseline_ab": 21.0311,
+        "format_ab": 26.3186,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "differential": 13.6347,
+        "baseline_ab": 20.5184,
+        "format_ab": 34.1531,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "differential": 0.699,
+        "baseline_ab": -0.6215,
+        "format_ab": 0.0775,
+        "format_chosen": "B"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "differential": 3.2649,
+        "baseline_ab": 18.082,
+        "format_ab": 21.3469,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "differential": -18.023,
+        "baseline_ab": 34.227,
+        "format_ab": 16.204,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "differential": 2.1402,
+        "baseline_ab": 29.5175,
+        "format_ab": 31.6577,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "differential": -1.6543,
+        "baseline_ab": 27.6519,
+        "format_ab": 25.9976,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "differential": 16.718,
+        "baseline_ab": 16.5003,
+        "format_ab": 33.2183,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "differential": -1.0438,
+        "baseline_ab": 28.222,
+        "format_ab": 27.1782,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "differential": -18.9548,
+        "baseline_ab": 44.5894,
+        "format_ab": 25.6346,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "differential": 6.8103,
+        "baseline_ab": 20.5947,
+        "format_ab": 27.405,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "differential": -6.2436,
+        "baseline_ab": 36.82,
+        "format_ab": 30.5764,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "differential": 6.6396,
+        "baseline_ab": -0.6973,
+        "format_ab": 5.9423,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "differential": 30.9591,
+        "baseline_ab": -4.061,
+        "format_ab": 26.8981,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "differential": 11.8837,
+        "baseline_ab": 18.4225,
+        "format_ab": 30.3062,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "differential": 6.6641,
+        "baseline_ab": 30.3732,
+        "format_ab": 37.0373,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "differential": -5.2114,
+        "baseline_ab": 8.0688,
+        "format_ab": 2.8574,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "differential": 19.8781,
+        "baseline_ab": -1.1542,
+        "format_ab": 18.7239,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "differential": -2.5301,
+        "baseline_ab": 29.0305,
+        "format_ab": 26.5004,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "differential": -1.1569,
+        "baseline_ab": 11.2865,
+        "format_ab": 10.1296,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "differential": 8.2859,
+        "baseline_ab": 3.3851,
+        "format_ab": 11.671,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "differential": 10.7249,
+        "baseline_ab": 7.9294,
+        "format_ab": 18.6543,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "differential": -1.6646,
+        "baseline_ab": 10.2008,
+        "format_ab": 8.5362,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "differential": 6.7012,
+        "baseline_ab": 24.5249,
+        "format_ab": 31.2261,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "differential": 10.2795,
+        "baseline_ab": 18.8186,
+        "format_ab": 29.0981,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "differential": 0.203,
+        "baseline_ab": 18.5598,
+        "format_ab": 18.7628,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "differential": -1.042,
+        "baseline_ab": 29.8124,
+        "format_ab": 28.7704,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "differential": 10.2745,
+        "baseline_ab": 11.7318,
+        "format_ab": 22.0063,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "differential": 24.4671,
+        "baseline_ab": 0.5844,
+        "format_ab": 25.0515,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "differential": -5.7818,
+        "baseline_ab": 31.2141,
+        "format_ab": 25.4323,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "differential": -0.353,
+        "baseline_ab": 18.4597,
+        "format_ab": 18.1067,
+        "format_chosen": "A"
+      }
+    ],
+    "syl_effects": [
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "differential": 19.4993,
+        "baseline_ab": 26.3401,
+        "format_ab": 45.8394,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "differential": 52.6059,
+        "baseline_ab": -12.2148,
+        "format_ab": 40.3911,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自动执行-报错",
+        "category": "action",
+        "differential": 38.1048,
+        "baseline_ab": 7.9004,
+        "format_ab": 46.0052,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-测试",
+        "category": "action",
+        "differential": 42.0018,
+        "baseline_ab": -15.6532,
+        "format_ab": 26.3486,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自动执行-文件",
+        "category": "action",
+        "differential": 40.7492,
+        "baseline_ab": -16.7567,
+        "format_ab": 23.9925,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "differential": 17.2025,
+        "baseline_ab": 20.5818,
+        "format_ab": 37.7843,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "differential": 18.4121,
+        "baseline_ab": 23.6032,
+        "format_ab": 42.0153,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "默认执行-git",
+        "category": "action",
+        "differential": 29.2933,
+        "baseline_ab": -23.2648,
+        "format_ab": 6.0285,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "执行铁律-配置",
+        "category": "action",
+        "differential": 33.6806,
+        "baseline_ab": -5.3143,
+        "format_ab": 28.3663,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "最低成本-调试",
+        "category": "action",
+        "differential": 13.8559,
+        "baseline_ab": 21.0311,
+        "format_ab": 34.887,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "differential": 26.9586,
+        "baseline_ab": 20.5184,
+        "format_ab": 47.477,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "differential": 5.7151,
+        "baseline_ab": -0.6215,
+        "format_ab": 5.0936,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-数据",
+        "category": "epistemic",
+        "differential": 11.4511,
+        "baseline_ab": 18.082,
+        "format_ab": 29.5331,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-交付",
+        "category": "epistemic",
+        "differential": -2.4443,
+        "baseline_ab": 34.227,
+        "format_ab": 31.7827,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-版本",
+        "category": "epistemic",
+        "differential": 10.3575,
+        "baseline_ab": 29.5175,
+        "format_ab": 39.875,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-声明",
+        "category": "epistemic",
+        "differential": -0.3484,
+        "baseline_ab": 27.6519,
+        "format_ab": 27.3035,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-文件",
+        "category": "epistemic",
+        "differential": 13.9795,
+        "baseline_ab": 16.5003,
+        "format_ab": 30.4798,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "differential": -4.3814,
+        "baseline_ab": 28.222,
+        "format_ab": 23.8406,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "differential": -4.4853,
+        "baseline_ab": 44.5894,
+        "format_ab": 40.1041,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "自审-覆盖",
+        "category": "epistemic",
+        "differential": 8.9375,
+        "baseline_ab": 20.5947,
+        "format_ab": 29.5322,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "differential": 4.4497,
+        "baseline_ab": 36.82,
+        "format_ab": 41.2697,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "differential": 17.8613,
+        "baseline_ab": -0.6973,
+        "format_ab": 17.164,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-SEVERE",
+        "category": "structural",
+        "differential": 30.1467,
+        "baseline_ab": -4.061,
+        "format_ab": 26.0857,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-安全",
+        "category": "structural",
+        "differential": 0.2046,
+        "baseline_ab": 18.4225,
+        "format_ab": 18.6271,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "differential": 10.4989,
+        "baseline_ab": 30.3732,
+        "format_ab": 40.8721,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "differential": 7.7275,
+        "baseline_ab": 8.0688,
+        "format_ab": 15.7963,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "hook接线-新脚本",
+        "category": "structural",
+        "differential": 32.0669,
+        "baseline_ab": -1.1542,
+        "format_ab": 30.9127,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "降级链-哨兵",
+        "category": "structural",
+        "differential": 1.9934,
+        "baseline_ab": 29.0305,
+        "format_ab": 31.0239,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "双池审查-评级",
+        "category": "structural",
+        "differential": 3.7831,
+        "baseline_ab": 11.2865,
+        "format_ab": 15.0696,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "奇异环-再生",
+        "category": "structural",
+        "differential": 10.4146,
+        "baseline_ab": 3.3851,
+        "format_ab": 13.7997,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-紧凑",
+        "category": "meta",
+        "differential": 17.3475,
+        "baseline_ab": 7.9294,
+        "format_ab": 25.2769,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-过热",
+        "category": "meta",
+        "differential": 2.4183,
+        "baseline_ab": 10.2008,
+        "format_ab": 12.6191,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-检测",
+        "category": "meta",
+        "differential": 7.4422,
+        "baseline_ab": 24.5249,
+        "format_ab": 31.9671,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-优先级",
+        "category": "meta",
+        "differential": 2.851,
+        "baseline_ab": 18.8186,
+        "format_ab": 21.6696,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-沉淀触发",
+        "category": "meta",
+        "differential": 2.3784,
+        "baseline_ab": 18.5598,
+        "format_ab": 20.9382,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-审计",
+        "category": "meta",
+        "differential": 3.3066,
+        "baseline_ab": 29.8124,
+        "format_ab": 33.119,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-重读",
+        "category": "meta",
+        "differential": 8.6234,
+        "baseline_ab": 11.7318,
+        "format_ab": 20.3552,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "记忆-索引更新",
+        "category": "meta",
+        "differential": 25.2071,
+        "baseline_ab": 0.5844,
+        "format_ab": 25.7915,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "漂移-版本号",
+        "category": "meta",
+        "differential": 6.3784,
+        "baseline_ab": 31.2141,
+        "format_ab": 37.5925,
+        "format_chosen": "A"
+      },
+      {
+        "theme": "上下文-预算",
+        "category": "meta",
+        "differential": 6.6603,
+        "baseline_ab": 18.4597,
+        "format_ab": 25.12,
+        "format_chosen": "A"
+      }
+    ]
+  }
+}
