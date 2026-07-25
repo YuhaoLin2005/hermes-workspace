@@ -45,6 +45,18 @@
 - **关心**: 设计模式、实验方法、可复现性
 - **回复原则**: 公开归功——他的设计被实现并验证了
 
+## Max Quimby
+
+- **DEV.to**: https://dev.to/max_quimby
+- **出现文章**: [150-tasks] [cross-model]
+- **角色**: 架构边界定义者——提出 mechanizability 分类问题
+- **贡献**:
+  1. "Ceiling effect is the most honest result you could have gotten"——确认零发现=真发现
+  2. "Where do you draw the line between 'gate it' and 'can only nudge it'?"——直接催生了 L1/L2/L3/L4 五层架构分类
+  3. "Independent, out-of-band verification is the only thing that reliably catches it"——平行验证主张
+- **关心**: 架构边界、mechanizability 分类、理论落地
+- **回复原则**: 边界定义是他提的——归功
+
 ## René Zander
 
 - **DEV.to**: https://dev.to/reneza

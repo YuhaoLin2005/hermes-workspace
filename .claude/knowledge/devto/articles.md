@@ -1,6 +1,6 @@
 # DEV.to Article Index
 
-> 31 posts published (as of 2026-07-24). 每发新文章后更新。
+> 31 posts published (as of 2026-07-26). 每发新文章后更新。
 > `[key]` = /devto-copilot 命令参数。论文实验系列有完整索引，平台工程系列简洁索引。
 
 ## 论文实验系列（8篇——有详细索引）

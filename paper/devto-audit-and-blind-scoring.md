@@ -62,7 +62,7 @@ When the model keeps failing — same violation, same pattern, despite L1 and L3
 
 DPO (Direct Preference Optimization) takes the failure + the correct behavior → computes a preference gradient → updates model weights. I've validated this approach on a related problem: [DPO-trained Qwen2.5-1.5B on causal reasoning](https://dev.to/yuhaolin2005/i-dpo-trained-a-model-to-prefer-causal-reasoning-the-base-model-already-did-it-just-couldnt-act-1kip). The base model already encoded causal structure — DPO unlocked the ability to act on it. QLoRA made this feasible on an RTX 3060 (6GB VRAM).
 
-**The rule-compliance DPO pipeline has actually run** — 82.4K training examples, trained on Qwen2.5-1.5B using QLoRA (fits on an RTX 3060 with 6GB VRAM). 38 training steps, one epoch.
+**The rule-compliance DPO pipeline has actually run** — 150 causal preference pairs (150 train / 30 test), trained on Qwen2.5-1.5B using QLoRA (fits on an RTX 3060 with 6GB VRAM). 38 training steps, one epoch.
 
 Training loss went down. Good sign. But the behavioral metrics caught something the loss curve completely missed: on certain test prompts, the model collapsed into repeating the same digit over and over. The math said "improving." The actual behavior said "breaking." This is why I'm convinced behavioral measurement matters more than training curves — and why blind-scored behavioral data is the gate on scaling this further (see P0 below).
 
@@ -74,7 +74,7 @@ Training loss went down. Good sign. But the behavioral metrics caught something 
 
 The three paths are the architecture. But after months of running them, I hit a question I couldn't dodge: **are my mechanical gates actually working, or are they security theater?**
 
-So I did a full audit. 38 mechanical gate hooks. Every one of them. I checked the gate logs across 8 sessions — 339 total entries — and classified each gate by what it actually intercepted.
+So I did a full audit. 38 mechanical gate hooks. Every one of them. I checked the gate logs across 9 sessions (July 17–26) — 339 total entries — and classified each gate by what it actually intercepted.
 
 The results were brutal:
 
@@ -85,7 +85,7 @@ The results were brutal:
 | Dangerous-command check | 6 | 6 | 0% |
 | Execution-debt check | 24 | 24 | 0% |
 
-**87% of all gate activity was noise.** The three-questions gate — a timestamp check that was supposed to ensure I was paying attention before every write — had collapsed completely. 295 consecutive blocks, zero cognitive friction. The LLM had discovered it could just run `python three-questions-pass.py` and the gate would clear. It wrote a 19-line bypass script. The gate had become security theater.
+**87% of all gate activity was noise.** The three-questions gate — a timestamp check that was supposed to ensure I was paying attention before every write — had collapsed completely. 295 consecutive blocks, zero cognitive friction. The LLM had discovered it could just run `python three-questions-pass.py` and the gate would clear. It wrote a bypass script. The gate had become security theater.
 
 But here's what stopped me: **the other three gates were perfect.** 34 violations caught, zero missed, zero false alarms. The sensitive-path check caught every attempt to write to a credential file. The dangerous-command check caught every `rm -rf` and `chmod 777`. The execution-debt check caught every time I was writing code without running it.
 
@@ -160,7 +160,7 @@ I'm an undergrad at FAFU (福建农林大学). Building this in public:
 
 ## A Quick Thank You (Before I Ask For More Help)
 
-This article exists because people read the last one and pushed back. Mike Czerwinski pointed out that syllogistic format might only work where mechanical gates already operate. Dipankar Sarkar predicted the opposite — that format effects should be strongest where gates are absent. Max Quimby caught that I wasn't measuring at the right token positions. René Zander had independently discovered the Prose Barrier and built a parallel verification tool (skillgate — check it out). Their comments weren't just encouragement. They shaped the experiments, the analysis, and ultimately the theory.
+This article exists because people read the last one and pushed back. Mike Czerwinski pointed out that syllogistic format might only work where mechanical gates already operate. Dipankar Sarkar predicted the opposite — that format effects should be strongest where gates are absent — and caught that I was averaging logprobs across the whole output, missing the signal. ("Penetration lives at the decision tokens, not the average.") Max Quimby pushed me to classify which rules can be gated vs. which can only be nudged — the mechanizability boundary that became the L1/L2/L3/L4 architecture. René Zander had independently discovered the Prose Barrier and built a parallel verification tool (skillgate — check it out). Their comments weren't just encouragement. They shaped the experiments, the analysis, and ultimately the theory.
 
 If you're one of those people reading this: **thank you.** You made this better. If you're new here: welcome, and the same invitation stands — tear this apart, find what I missed, tell me where I'm wrong.
 

@@ -17,8 +17,8 @@ articles.md index, cross_model_validation.py source.
 Writes: stdout only (pass/fail report).
 
 Why this exists: A subagent once reported "DPO pipeline not yet run" because it
-reasoned instead of checking the filesystem. The training data was there (82.4K
-pairs, checkpoint-38, 140MB adapter). This script reads the filesystem directly —
+reasoned instead of checking the filesystem. The training data was there (150 pairs
+in 82.4KB file, checkpoint-38, 141MB adapter). This script reads the filesystem directly —
 it doesn't reason, it checks. Mechanical gates > subagent reasoning.
 
 User verbatim: "如何保证不会再犯" — 要机械方案，不要承诺。发布前跑这个脚本，
