@@ -3,36 +3,85 @@
 cross_model_validation.py — Cross-model Behavioral Compliance Validation
 ========================================================================
 Importers: gateguard_off.py (behavioral scoring pattern), probe_pool.py (shared probes)
-Callers:  standalone CLI (python cross_model_validation.py)
-API:      SiliconFlow /v1/chat/completions (NO logprobs — behavioral DV)
-Schema:   12 probes × 3 conditions (no_rules/imperative/syllogistic) × 2 models
+Callers:  standalone CLI (python cross_model_validation.py [--model X] [--api-key Y] [--provider Z])
+API:      OpenAI-compatible /v1/chat/completions (NO logprobs — behavioral DV)
+Schema:   12 probes × 3 conditions (no_rules/imperative/syllogistic)
           → per-probe behavioral compliance score (0/0.5/1.0)
           → format_effect = SYL_compliance - IMP_compliance
           → cross-model comparison vs DeepSeek GateGuard-OFF baseline
 
 Purpose:  Test whether L2/L3 independence generalizes across architectures.
           DeepSeek: logprob format effect d=+0.578, BUT behavioral IMP≈SYL≈0.85
-          Question:  Do Qwen3-8B and GLM-4-9B also show SYL≈IMP behaviorally?
-          → If YES: L2/L3 dissociation is cross-architecture, not a DS quirk.
-          → Validates SOUL/BODY/INTERFACE: behavioral rules are model-agnostic.
+          Question:  Does the format effect hold across GPT, Claude, Gemini, Qwen, GLM?
+          → If YES: L2/L3 dissociation is cross-architecture, universal.
 
-Models:   Qwen/Qwen3-8B (Alibaba Dense) + THUDM/GLM-4-9B-0414 (Zhipu GLM)
-          vs DeepSeek V4 Pro (MoE) baseline from gateguard_off.py
+Quick start:
+  # SiliconFlow (default, needs SF_API_KEY env var):
+  python cross_model_validation.py
 
-User instruction: "登好了，你自己和双池专家团挑选好合适的模型自己去把ak弄好"
+  # Anthropic Claude:
+  python cross_model_validation.py --provider anthropic --model claude-sonnet-5-20250901 --api-key $ANTHROPIC_API_KEY
+
+  # OpenAI:
+  python cross_model_validation.py --provider openai --model gpt-4o --api-key $OPENAI_API_KEY
+
+  # Google Gemini:
+  python cross_model_validation.py --provider google --model gemini-2.5-pro --api-key $GEMINI_API_KEY
+
+Community: I'm in China with limited API access to Claude/GPT/Gemini.
+If you have API keys, please run this and share the results JSON.
 """
 
-import json, sys, time, statistics, math, random, re
+import argparse, json, os, sys, time, statistics, math, random, re
 from datetime import datetime, timezone
 from pathlib import Path
 from collections import defaultdict
 
-# ── Config ─────────────────────────────────────────────────────────────────
-SF_API_KEY = os.environ.get("SF_API_KEY", "")
-if not SF_API_KEY:
-    raise RuntimeError("SF_API_KEY environment variable not set")
-SF_BASE_URL = "https://api.siliconflow.cn/v1"
-MODELS = ["Qwen/Qwen3-8B", "THUDM/GLM-4-9B-0414"]
+# ── Provider Presets ──────────────────────────────────────────────────────
+PROVIDERS = {
+    "siliconflow": {"base_url": "https://api.siliconflow.cn/v1", "env_key": "SF_API_KEY"},
+    "anthropic":   {"base_url": "https://api.anthropic.com/v1",   "env_key": "ANTHROPIC_API_KEY"},
+    "openai":      {"base_url": "https://api.openai.com/v1",       "env_key": "OPENAI_API_KEY"},
+    "google":      {"base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "env_key": "GEMINI_API_KEY"},
+    "deepseek":    {"base_url": "https://api.deepseek.com/v1",     "env_key": "DEEPSEEK_API_KEY"},
+    "custom":      {"base_url": None,                               "env_key": None},
+}
+
+# ── CLI ───────────────────────────────────────────────────────────────────
+parser = argparse.ArgumentParser(
+    description="Cross-model Behavioral Compliance Validation",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    epilog="""
+Examples:
+  python cross_model_validation.py
+  python cross_model_validation.py --provider anthropic --model claude-sonnet-5-20250901 --api-key sk-ant-xxx
+  python cross_model_validation.py --provider openai --model gpt-4o --api-key sk-xxx
+  python cross_model_validation.py --provider google --model gemini-2.5-pro --api-key xxx
+  python cross_model_validation.py --base-url https://your-api/v1 --model your-model --api-key sk-xxx
+
+Without arguments: uses SiliconFlow with Qwen3-8B + GLM-4-9B (needs SF_API_KEY env var).
+With --model: runs ONLY the specified model (single-model mode).
+Community mode: run with your API key, share results JSON.
+"""
+)
+parser.add_argument("--model", "-m", help="Model ID (single-model mode). Omit for Qwen+GLM default.")
+parser.add_argument("--provider", "-p", choices=list(PROVIDERS.keys()), default="siliconflow",
+                    help="API provider preset (default: siliconflow)")
+parser.add_argument("--api-key", "-k", help="API key (or set provider env var)")
+parser.add_argument("--base-url", help="Override API base URL")
+parser.add_argument("--dry-run", action="store_true", help="Print config without API calls")
+cli = parser.parse_args()
+
+# Resolve
+prov = PROVIDERS[cli.provider]
+BASE_URL = cli.base_url or prov["base_url"]
+API_KEY = cli.api_key or (os.environ.get(prov["env_key"], "") if prov["env_key"] else "")
+if not API_KEY and not cli.dry_run:
+    env_name = prov["env_key"] or "API_KEY"
+    parser.error(f"No API key. Set --api-key or {env_name} environment variable.")
+
+SINGLE_MODEL_MODE = cli.model is not None
+MODELS = [cli.model] if SINGLE_MODEL_MODE else ["Qwen/Qwen3-8B", "THUDM/GLM-4-9B-0414"]
 BASELINE_SYSTEM = "你是AI助手。"
 REQUEST_TIMEOUT_S = 60
 
@@ -98,9 +147,9 @@ def score_compliance(text):
     return 0.5
 
 # ── API Client ─────────────────────────────────────────────────────────────
-def call_siliconflow(model, system_prompt, user_prompt, temperature=0.2):
+def call_api(model, system_prompt, user_prompt, temperature=0.2):
     import urllib.request, urllib.error
-    url = f"{SF_BASE_URL}/chat/completions"
+    url = f"{BASE_URL}/chat/completions"
     body = {
         "model": model, "max_tokens": 100, "temperature": temperature,
         "messages": [
@@ -109,7 +158,7 @@ def call_siliconflow(model, system_prompt, user_prompt, temperature=0.2):
         ]
     }
     req = urllib.request.Request(url, data=json.dumps(body).encode("utf-8"),
-        headers={"Authorization": f"Bearer {SF_API_KEY}", "Content-Type": "application/json"})
+        headers={"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"})
     try:
         with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_S) as resp:
             return json.loads(resp.read().decode("utf-8"))
@@ -134,7 +183,7 @@ def run_model(model, probes, temperature=0.2):
             theme = probe["theme"]
             system = BASELINE_SYSTEM if fmt_key == "no_rules" else probe[fmt_key]
             print(f"    {i+1}/{len(probes)}: {theme} ...", file=sys.stderr, end=" ")
-            resp = call_siliconflow(model, system, probe["user_prompt"], temperature=temperature)
+            resp = call_api(model, system, probe["user_prompt"], temperature=temperature)
             if resp is None:
                 cond_results.append({"theme":theme,"error":"API failed","score":None})
                 print("FAIL", file=sys.stderr); continue
@@ -299,8 +348,15 @@ def main():
 
     total_calls = len(PROBES)*3*len(MODELS)
     print(f"Cross-Model Behavioral Compliance Validation", file=sys.stderr)
+    print(f"Provider: {cli.provider} | Base URL: {BASE_URL}", file=sys.stderr)
     print(f"Models: {', '.join(MODELS)}", file=sys.stderr)
-    print(f"Probes: {len(PROBES)} | Calls: {total_calls} | API: SiliconFlow (behavioral DV)", file=sys.stderr)
+    print(f"Probes: {len(PROBES)} | Calls: {total_calls} | Single-model: {SINGLE_MODEL_MODE}", file=sys.stderr)
+
+    if cli.dry_run:
+        print(f"\n[Dry run — no API calls. Config OK]", file=sys.stderr)
+        example_key = prov["env_key"] or "API_KEY"
+        print(f"  To run: python cross_model_validation.py --provider {cli.provider} --model {MODELS[0]} --api-key ${example_key}", file=sys.stderr)
+        return
 
     all_stats = {}
     all_raw = {}
