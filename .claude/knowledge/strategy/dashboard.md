@@ -27,12 +27,12 @@ dashboard:
     most_popular: "七月德国开发者 — 2685阅读 17赞 12收藏"
 
   github:
-    paper_validator_stars: ?      # manual: gh api
-    paper_validator_forks: ?      # manual: gh api
-    hermes_workspace_stars: ?     # manual: gh api
+    paper_validator_stars: 0      # gh api: 2026-07-25
+    paper_validator_forks: 0      # gh api: 2026-07-25
+    hermes_workspace_stars: 0     # gh api: 2026-07-25
     total_commits_since_july1: ?  # manual: git log
     prs_merged: 0
-    prs_open: ?
+    prs_open: 0                   # gh pr list: 2026-07-25
     issues_filed: 0
 
   paper:
@@ -68,6 +68,7 @@ dashboard:
     # (manually maintained — preserved across sync runs)
 
   last_updated: 2026-07-25
+  data_gaps_since: 2026-07-25  # 5 unresolved: commits_since_july1, target_deadline, api_calls_used, last_regeneration, session_streak
 ```
 
 
