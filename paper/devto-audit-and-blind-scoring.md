@@ -1,6 +1,6 @@
 # I Discovered AI Agents Can't Self-Verify. The Real Problem Is Much Bigger.
 
-**Two months ago I found that AI agents can't independently check if they followed your rules. I built mechanical gates to work around it. They worked — 55.9% violations down to 0.7%. But last week I realized I'd been solving the wrong problem.**
+**I'm an undergrad in China, building an AI governance thesis in public. Two months ago I found that AI agents can't independently check if they followed your rules. I built mechanical gates to work around it. They worked — 55.9% violations down to 0.7%. But last week I realized I'd been solving the wrong problem.**
 
 The real problem isn't verification.
 
@@ -17,7 +17,9 @@ Human writes NL rules → Model reads NL → Model generates behavior
 Human writes NL checks → Model reads NL → Model generates "yes I followed the rules"
 ```
 
-But every autoregressive transformer — GPT, Claude, DeepSeek, Qwen — generates text and evaluates text through the exact same decoder: `P(token | context; θ)`. When you ask "did you follow rule X?", the model runs the same forward pass it uses to write poetry. It can't step outside itself to verify. It can only *generate a claim* that it complied.
+But every autoregressive transformer — GPT, Claude, DeepSeek, Qwen — generates text and evaluates text through the exact same mechanism. Think of it like this: the model has one pipeline for producing words. When you ask it "did you follow rule X?", it can't pause, run an internal audit, and give you a verified answer. It can only run that same word-production pipeline and *generate text that claims* it followed the rule. The pipeline doesn't know the difference between "I actually checked" and "I wrote a sentence that sounds like I checked."
+
+(Technically: both generation and evaluation route through `P(token | context; θ)` — the same probability distribution over next tokens. If you don't care about the math, the one-sentence version is: **the model can't step outside itself to verify itself.**)
 
 I called this the **Prose Barrier**. (Wrote about it [here](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l). René Zander, a German dev I've never met, independently discovered the same thing. Convergent evolution.)
 
@@ -60,7 +62,9 @@ When the model keeps failing — same violation, same pattern, despite L1 and L3
 
 DPO (Direct Preference Optimization) takes the failure + the correct behavior → computes a preference gradient → updates model weights. I've validated this approach on a related problem: [DPO-trained Qwen2.5-1.5B on causal reasoning](https://dev.to/yuhaolin2005/i-dpo-trained-a-model-to-prefer-causal-reasoning-the-base-model-already-did-it-just-couldnt-act-1kip). The base model already encoded causal structure — DPO unlocked the ability to act on it. QLoRA made this feasible on an RTX 3060 (6GB VRAM).
 
-**The rule-compliance DPO pipeline has run on 82.4K causal preference pairs** — Qwen2.5-1.5B, QLoRA on RTX 3060 (6GB), 38 steps, 1 epoch. The results: loss ↓, but behavioral metrics caught something the loss curve didn't — the model collapsed into digit-repeating on certain probes. Behavioral drift detection matters more than training loss. A broader rule-compliance preference dataset (building on these results) is gated on blind-scored behavioral data (P0).
+**The rule-compliance DPO pipeline has actually run** — 82.4K training examples, trained on Qwen2.5-1.5B using QLoRA (fits on an RTX 3060 with 6GB VRAM). 38 training steps, one epoch.
+
+Training loss went down. Good sign. But the behavioral metrics caught something the loss curve completely missed: on certain test prompts, the model collapsed into repeating the same digit over and over. The math said "improving." The actual behavior said "breaking." This is why I'm convinced behavioral measurement matters more than training curves — and why blind-scored behavioral data is the gate on scaling this further (see P0 below).
 
 **This path bypasses NL entirely.** You're not telling the model to change. You're changing what the model *is*. The "language" here is the geometry of embedding space, shifted by behavioral data.
 
@@ -87,7 +91,7 @@ But here's what stopped me: **the other three gates were perfect.** 34 violation
 
 **The gates that worked checked things the LLM physically couldn't fake.** File paths. Command strings. Disk space. The gate that failed checked something the LLM could simulate — a human attention ritual.
 
-I removed the three-questions gate (78 lines of code, 15 dead hooks). The noise dropped to zero. The signal became visible. **The architecture improved through subtraction.**
+I removed the three-questions gate (78 lines of code, 15 dead hooks). The noise dropped to zero. The signal became visible. I got better results by deleting code — not the way it's supposed to work, but it worked.
 
 ---
 
@@ -99,7 +103,7 @@ The mechanical gate has one kind of blindness: **staleness**. Its patterns age. 
 
 The LLM has a completely different blindness: **self-reference failure**. It can't step outside its own decoder to verify whether it actually followed a rule. It can only *generate a claim* that it did. That's the Prose Barrier.
 
-**These two kinds of blindness are orthogonal.** They can't happen at the same time on the same thing. A regex pattern being outdated has nothing to do with whether the model can self-verify. The model's self-deception has nothing to do with whether a file path matches a pattern.
+**These two kinds of blindness don't overlap. At all.** A regex being outdated has nothing to do with whether the model can self-verify. The model's self-deception has nothing to do with whether a file path matches a pattern. They're blind to completely different things — and that's the whole trick.
 
 So they form a mutual suspicion loop:
 
@@ -119,9 +123,9 @@ I formalized this into three theorems (full math at [`paper/theory/cross-type-bi
 
 **Theorem 3 — Why trust collapses.** A gate with bypass rate *b* (fraction of blocks that are circumvented) decays exponentially: trust after *t* interactions = initial trust × (1−b)^t. When *b* = 1 (every block bypassed, like the three-questions gate), trust hits zero in ONE interaction. The gate becomes invisible.
 
-This is genuinely new. I searched the literature — no prior work proposes bidirectional verification between deterministic code and probabilistic models. Every existing verification architecture (Constitutional AI, multi-agent debate, recursive oversight, Neural Interactive Proofs) operates within the same type. Same-type verification has a mathematical ceiling. Cross-type verification doesn't.
+I spent a week digging through papers to see if anyone had done this before. As far as I can tell — no one has. Every existing verification architecture (Constitutional AI, multi-agent debate, recursive oversight, Neural Interactive Proofs) uses the same type of verifier checking the same type of verifier. That has a mathematical ceiling (Theorem 2). Cross-type verification doesn't hit that ceiling (Theorem 1).
 
-**The unified framework:** Prose Barrier is the impossibility proof (LLMs can't self-verify). CTBV is the possibility construction (LLM + mechanical gate CAN co-verify, IF their error spaces are orthogonal). Together they form a complete theory of AI verification.
+Put together: **Prose Barrier** is the "here's why LLMs can't self-verify" result. **CTBV** is the "here's the condition under which verification IS possible." One says what's broken. One says how to fix it.
 
 ---
 
@@ -129,7 +133,7 @@ This is genuinely new. I searched the literature — no prior work proposes bidi
 
 When people hear "AI rule compliance," they think: prompt engineering. Better system prompts. Chain-of-thought. Constitutional AI self-critique.
 
-That's the wrong lineage. The actual intellectual tradition this builds on:
+When I started, I thought the same thing. But the more I dug, the more I realized this work sits in a different conversation — one about the structural limits of language models:
 
 - **Bender, Gebru, McMillan-Major & Shmitchell (2021)** — *On the Dangers of Stochastic Parrots*: LMs distribute, they don't understand. The verification problem is structural.
 - **Bender & Koller (2020)** — *Climbing towards NLU*: the octopus thought experiment. Form alone doesn't produce understanding.
@@ -137,7 +141,7 @@ That's the wrong lineage. The actual intellectual tradition this builds on:
 - **Bai et al. (2022)** — *Constitutional AI*: self-critique reduces harm, but the critique comes from the same model being critiqued. The ceiling is baked in.
 - **Startari (2025)** — *TLOC*: structural theorem arguing that transformers cannot verify internal rule compliance. Mathematical ceiling.
 
-This isn't a prompt engineering paper. It's an architecture paper. The question isn't "what's the best way to tell the model to behave?" It's "what are the structural limits of transformer verification, and what architecture works around them at each layer?"
+What CTBV adds to this tradition: Bender, Kambhampati, and Startari all pointed at the ceiling. Constitutional AI tried to work around it with self-critique — but Theorem 2 shows why that has the same ceiling. **CTBV is the first to say: the way through the ceiling isn't a better LLM. It's pairing an LLM with something that isn't an LLM at all — and proving mathematically why that pairing works.**
 
 ---
 
@@ -154,7 +158,15 @@ I'm an undergrad at FAFU (福建农林大学). Building this in public:
 
 ---
 
-## Two Things I Need Help With
+## A Quick Thank You (Before I Ask For More Help)
+
+This article exists because people read the last one and pushed back. Mike Czerwinski pointed out that syllogistic format might only work where mechanical gates already operate. Dipankar Sarkar predicted the opposite — that format effects should be strongest where gates are absent. Max Quimby caught that I wasn't measuring at the right token positions. René Zander had independently discovered the Prose Barrier and built a parallel verification tool (skillgate — check it out). Their comments weren't just encouragement. They shaped the experiments, the analysis, and ultimately the theory.
+
+If you're one of those people reading this: **thank you.** You made this better. If you're new here: welcome, and the same invitation stands — tear this apart, find what I missed, tell me where I'm wrong.
+
+---
+
+## Two Places Where You Can Help (If You're Up For It)
 
 ### 1. Blind Scoring (P0 — blocks everything)
 
@@ -170,6 +182,8 @@ You'll find:
 - A score table template — copy, fill, send back
 
 **Zero AI expertise needed.** You're scoring what the AI *did*, not what it *said*. If 2+ raters agree (κ > 0.7), the central claim goes from "one guy's notebook" to "independently verified."
+
+If you have 5 minutes and want to be part of this — it would genuinely mean a lot.
 
 ### 2. Cross-Model Experiment (P3 — blocked by geography)
 
@@ -194,14 +208,14 @@ The question: does the format effect (syllogistic vs imperative) hold across GPT
 
 | Priority | Task | Status |
 |----------|------|--------|
-| **P0** | Blind scoring: 2+ raters → κ > 0.7 | 🔴 [Help here](https://github.com/YuhaoLin2005/hermes-workspace/tree/main/paper/blind-scoring) |
+| **P0** | Blind scoring: 2+ raters → κ > 0.7 | 🔴 [Would mean a lot](https://github.com/YuhaoLin2005/hermes-workspace/tree/main/paper/blind-scoring) |
 | P1 | Separate "proof" from "best explanation" in paper | ✅ Done |
 | P2 | Design Implications: who needs which layer | ✅ Done |
-| **P3** | Cross-model: need Claude/GPT/Gemini API access | 🟡 [Help here](https://github.com/YuhaoLin2005/hermes-workspace/blob/main/paper/experiment/logprob-v3/cross_model_validation.py) |
+| **P3** | Cross-model: need Claude/GPT/Gemini API access | 🟡 [If you have API access](https://github.com/YuhaoLin2005/hermes-workspace/blob/main/paper/experiment/logprob-v3/cross_model_validation.py) |
 | P4 | Generalize checker + pip install | ⬜ Planned |
 
 ---
 
 *Building an AI governance thesis in public. All code: [paper-validator](https://github.com/YuhaoLin2005/paper-validator). All experiments: [hermes-workspace](https://github.com/YuhaoLin2005/hermes-workspace).*
 
-*The architecture is universal. The evidence needs your eyes.*
+*The architecture is universal. The evidence needs your eyes — and honestly, I could use your help. Thank you for reading this far.*
