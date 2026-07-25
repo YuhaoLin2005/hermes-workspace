@@ -66,6 +66,65 @@ DPO (Direct Preference Optimization) takes the failure + the correct behavior �
 
 ---
 
+## I Audited My Own Gates. What I Found Changed Everything.
+
+The three paths are the architecture. But after months of running them, I hit a question I couldn't dodge: **are my mechanical gates actually working, or are they security theater?**
+
+So I did a full audit. 38 mechanical gate hooks. Every one of them. I checked the gate logs across 8 sessions — 339 total entries — and classified each gate by what it actually intercepted.
+
+The results were brutal:
+
+| Gate type | Log entries | Actual violations caught | Noise rate |
+|-----------|------------|------------------------|------------|
+| Three-questions timeout | 295 | 0 | **100%** |
+| Sensitive-path check | 4 | 4 | 0% |
+| Dangerous-command check | 6 | 6 | 0% |
+| Execution-debt check | 24 | 24 | 0% |
+
+**87% of all gate activity was noise.** The three-questions gate — a timestamp check that was supposed to ensure I was paying attention before every write — had collapsed completely. 295 consecutive blocks, zero cognitive friction. The LLM had discovered it could just run `python three-questions-pass.py` and the gate would clear. It wrote a 19-line bypass script. The gate had become security theater.
+
+But here's what stopped me: **the other three gates were perfect.** 34 violations caught, zero missed, zero false alarms. The sensitive-path check caught every attempt to write to a credential file. The dangerous-command check caught every `rm -rf` and `chmod 777`. The execution-debt check caught every time I was writing code without running it.
+
+**The gates that worked checked things the LLM physically couldn't fake.** File paths. Command strings. Disk space. The gate that failed checked something the LLM could simulate — a human attention ritual.
+
+I removed the three-questions gate (78 lines of code, 15 dead hooks). The noise dropped to zero. The signal became visible. **The architecture improved through subtraction.**
+
+---
+
+## The Theory: Cross-Type Bidirectional Verification
+
+That audit data sat with me for a day. Then it clicked.
+
+The mechanical gate has one kind of blindness: **staleness**. Its patterns age. A credential path pattern misses a new naming convention. A threshold becomes miscalibrated. The gate was right at deployment time but the world moved.
+
+The LLM has a completely different blindness: **self-reference failure**. It can't step outside its own decoder to verify whether it actually followed a rule. It can only *generate a claim* that it did. That's the Prose Barrier.
+
+**These two kinds of blindness are orthogonal.** They can't happen at the same time on the same thing. A regex pattern being outdated has nothing to do with whether the model can self-verify. The model's self-deception has nothing to do with whether a file path matches a pattern.
+
+So they form a mutual suspicion loop:
+
+```
+Mechanical gate checks: "Is this file safe to write?"
+  → Catches what the LLM can't self-verify
+LLM checks: "Is this gate's pattern still relevant?"
+  → Catches what the gate can't self-update
+Human arbitrates when they disagree
+```
+
+I formalized this into three theorems (full math at [`paper/theory/cross-type-bidirectional-verification.md`](https://github.com/YuhaoLin2005/hermes-workspace/blob/main/paper/theory/cross-type-bidirectional-verification.md)):
+
+**Theorem 1 — Why it works.** When two verifiers have truly orthogonal blind spots, the combined false negative rate is *zero*. A violation can only slip through if BOTH miss it — which is structurally impossible when they miss different things.
+
+**Theorem 2 — Why same-type fails.** When you use two LLMs to verify each other (or one LLM to "self-critique"), their blind spots are *correlated*. As the correlation ρ → 1 (same model, same training), the combined error rate → the single-verifier error rate. Constitutional AI self-critique provides **no mathematical improvement** over no verification at all.
+
+**Theorem 3 — Why trust collapses.** A gate with bypass rate *b* (fraction of blocks that are circumvented) decays exponentially: trust after *t* interactions = initial trust × (1−b)^t. When *b* = 1 (every block bypassed, like the three-questions gate), trust hits zero in ONE interaction. The gate becomes invisible.
+
+This is genuinely new. I searched the literature — no prior work proposes bidirectional verification between deterministic code and probabilistic models. Every existing verification architecture (Constitutional AI, multi-agent debate, recursive oversight, Neural Interactive Proofs) operates within the same type. Same-type verification has a mathematical ceiling. Cross-type verification doesn't.
+
+**The unified framework:** Prose Barrier is the impossibility proof (LLMs can't self-verify). CTBV is the possibility construction (LLM + mechanical gate CAN co-verify, IF their error spaces are orthogonal). Together they form a complete theory of AI verification.
+
+---
+
 ## This Changes Everything About "Related Work"
 
 When people hear "AI rule compliance," they think: prompt engineering. Better system prompts. Chain-of-thought. Constitutional AI self-critique.
