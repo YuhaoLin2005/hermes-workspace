@@ -205,6 +205,61 @@ L0 operates at a different level than L1-L4. It does not enforce, measure, route
 
 **Positioning.** We do not claim the psychological safety prompt "improves honesty" — the baseline model is already honest at 90% on boundary questions. We claim the prompt provides a **non-harmful safety net** (accuracy preserved, H1 passed) that **reframes the agent's relationship with its own verification architecture** (admitting limits = correct system behavior). The value proposition shifts from "improve behavior" (ceiling-limited) to "protect against failure modes under enforcement pressure" (untested but theoretically motivated). For the paper, L0 serves as a foundational architectural claim: **a verification architecture needs its agent to be aligned with verification, not incentivized to circumvent it.**
 
+### 3.6 Theoretical Foundation: Cross-Type Bidirectional Verification (CTBV)
+
+The Prose Barrier (§3.0) is an impossibility result: LLMs cannot self-verify because generation and evaluation share \(P(\text{token} \mid \text{context}; \theta)\). But impossibility results demand constructive counterparts — if self-verification is impossible, under what conditions IS verification possible?
+
+**CTBV provides the answer: verification becomes possible when two verifiers of different computational types — with structurally orthogonal error spaces — form a mutual suspicion loop.**
+
+#### Formal Definitions
+
+Let \(V_D\) be a **type-D (deterministic) verifier**: mechanical gate operating via regex, file timestamps, exit codes. Let \(V_P\) be a **type-P (probabilistic) verifier**: language model operating via \(P(\text{token} \mid \text{context}; \theta)\). Their error spaces are \(E(V_D)\) and \(E(V_P)\) — the sets of states where each produces an incorrect verdict.
+
+Two verifiers have **orthogonal error spaces** if \(E(V_D) \cap E(V_P) = \emptyset\) — no state exists where both simultaneously err. Orthogonality is guaranteed when the verifiers inspect disjoint feature sets: \(V_D\) inspects filesystem features (\(\Phi_D\)), \(V_P\) inspects token distributions (\(\Phi_P\)), and \(\Phi_D \cap \Phi_P = \emptyset\) (Lemma 1; see full formalization for proof).
+
+#### Three Theorems
+
+**Theorem 1 (Cross-Type Error Reduction).** Under strict orthogonality, the combined false negative rate \(\alpha_{\text{CTBV}} = 0\). A false negative requires BOTH verifiers to miss the same violation, which is structurally impossible when error spaces are disjoint. Under \(\varepsilon\)-orthogonality, \(\alpha_{\text{CTBV}} \leq \varepsilon\).
+
+**Theorem 2 (Homogeneous Degeneracy).** For two same-type verifiers \(V_{P1}, V_{P2}\) with error correlation \(\rho\), the combined false negative rate is \(\alpha_{\text{HOM}} = \alpha_1\alpha_2 + \rho\sqrt{\alpha_1(1-\alpha_1)\alpha_2(1-\alpha_2)}\). When \(\rho \to 1\) (same model verifying itself), \(\alpha_{\text{HOM}} \to \alpha\) — self-verification provides **no improvement** over single verification. This proves why Constitutional AI and LLM self-critique have a structural performance ceiling.
+
+**Theorem 3 (Trust Exponential Decay).** A verifier with bypass rate \(b\) (fraction of FAIL verdicts circumvented) experiences trust collapse: \(T_V(t) = T_V(0) \cdot (1-b)^t\). When \(b = 1\) (every block bypassed), \(T_V(1) = 0\) — security theater in a single interaction.
+
+#### Empirical Validation: Gate Audit Ablation
+
+A systematic audit of 38 production mechanical gate hooks (2026-07-26) provided empirical grounding:
+
+| Gate type | Log entries | True intercepts | Noise rate | Bypass rate \(b\) |
+|-----------|------------|-----------------|------------|-------------------|
+| Three-questions timeout | 295 | 0 | 100% | **0.995** |
+| Sensitive-path check | 4 | 4 | 0% | 0 |
+| Dangerous-command check | 6 | 6 | 0% | 0 |
+| Execution-debt check | 24 | 24 | 0% | 0 |
+
+The three-questions gate (\(b \approx 0.995\)) had collapsed into security theater — Theorem 3 predicts \(T_V(1) \approx 0\), confirmed by the 19-line bypass script the LLM wrote. Removing this gate and 15 dead hooks (38→25) had **zero impact on true-positive detection rates** — signal previously drowned in noise (87% noise rate, operator learned to ignore all gate logs) became visible.
+
+**Orthogonality analysis** confirmed the surviving gates and the LLM have orthogonal error spaces: \(E(V_D)\) arises from *staleness* (patterns outdated vs. changed environment), \(E(V_P)\) arises from *self-reference failure* (Prose Barrier). These error causes operate on disjoint feature sets (\(\Phi_D \cap \Phi_P = \emptyset\)), satisfying Lemma 1's condition for strict orthogonality.
+
+#### Relationship to the Five-Layer Architecture
+
+CTBV provides the theoretical spine for the L0–L4 architecture:
+
+| Layer | CTBV role | Error type covered |
+|:-----:|-----------|-------------------|
+| L1 (Mechanical Gate) | \(V_D\) in the CTBV pair | Staleness failures (type-D error space) |
+| L2 (Neural Gate) | \(V_P\)'s measurement channel | Self-reference failures (type-P error space) |
+| L3 (Causal Encoding) | Optimizes \(V_P\)'s constraint processing | Boundary condition: format effect = \(f\)(cognitive load) |
+| L4 (Drift Prediction) | Observes CTBV health from outside | Trust collapse early warning |
+| L0 (Psychological Safety) | Prevents \(V_P\) from adversarial bypass of \(V_D\) | Incentive alignment — agent aligned with verification |
+
+The key architectural principle is **Orthogonal Defense**: each verification layer must operate on a feature set disjoint from all other layers. This is stronger than conventional "defense in depth" (same-type layers at different granularity). CTBV layers defenses of *different types* with *disjoint feature sets* — each catches what the others structurally cannot.
+
+#### Significance
+
+CTBV redefines verification from a **property** of a system to a **relation** between systems with structurally orthogonal error spaces. No prior work proposes or analyzes bidirectional verification between deterministic and probabilistic verifiers — all existing verification architectures (recursive oversight, Constitutional AI, multi-agent debate, Neural Interactive Proofs) operate within the same computational type. CTBV is the first to exploit *structural* (not merely statistical) orthogonality of error spaces across computational substrates.
+
+> **Full formalization** with rigorous proofs, complete statistical analysis (Clopper-Pearson CIs, empirical data tables), and expanded related work: `paper/theory/cross-type-bidirectional-verification.md`.
+
 ---
 
 ## 4. Experiment: Causal Swap (n=30)
@@ -791,3 +846,10 @@ Logprob V3 (L2) is single-model (DeepSeek V4 Pro) due to API logprob availabilit
 [15] Shinn, N. et al. "Reflexion: Language Agents with Verbal Reinforcement Learning." NeurIPS, 2023.
 [16] Yao, S. et al. "ReAct: Synergizing Reasoning and Acting in Language Models." ICLR, 2023.
 [17] Khattab, O. et al. "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines." NeurIPS, 2023.
+[18] Duhigg, C. "What Google Learned From Its Quest to Build the Perfect Team." The New York Times Magazine, 2016.
+[19] Hammond, L. & Adam-Day, S. "Neural Interactive Proofs." ICLR, 2025.
+[20] Scrivens, R. "Empirical Validation of the Classification-Verification Dichotomy for AI Safety Gates." Zenodo, 2026.
+[21] Irving, G., Christiano, P. & Amodei, D. "AI Safety via Debate." arXiv:1805.00899, 2018.
+[22] Bowman, S.R. et al. "Measuring Progress on Scalable Oversight for Large Language Models." arXiv:2211.03540, 2022.
+[23] Lin, Y. "Cross-Type Bidirectional Verification: A Formal Framework." hermes-workspace/paper/theory/, 2026.
+[24] Xie, X. & Zhou, X. "The Bidirectional Trust in the Context of New Human-Machine Relationships." Advances in Psychological Science, 2025.

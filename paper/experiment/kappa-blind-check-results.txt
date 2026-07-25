@@ -1,0 +1,74 @@
+================================================================
+  Cohen's Kappa Verification — Blind Scoring Reliability Check (n=8)
+  Verification date: 2026-07-25
+================================================================
+
+================================================================
+  Case A: DOCUMENTED DATA (PAPER.md §5.2)
+================================================================
+  Contingency table:
+                Blind=YES  Blind=NO   Total
+  Author=YES      7          1          8
+  Author=NO       0          0          0
+  Total           7          1          8
+
+  Author YES rate: 1.0000 (100.0%)
+  Blind  YES rate: 0.8750 (87.5%)
+  Raw agreement:   0.8750 (87.5%)
+  Expected (p_e):  0.8750 (87.5%)
+  Cohen's κ:       0.0000
+  → ZERO-VARIANCE THEOREM: κ = 0 because rater has no variance
+
+================================================================
+  Case B: HYPOTHETICAL (would give κ ≈ −0.14)
+================================================================
+  Contingency table:
+                Blind=YES  Blind=NO   Total
+  Author=YES      6          1          7
+  Author=NO       1          0          1
+  Total           7          1          8
+
+  Author YES rate: 0.8750 (87.5%)
+  Blind  YES rate: 0.8750 (87.5%)
+  Raw agreement:   0.7500 (75.0%)
+  Expected (p_e):  0.7812 (78.1%)
+  Cohen's κ:       -0.1429
+  → NEGATIVE: agreement worse than chance (kappa paradox)
+
+================================================================
+  THEOREM: Zero-Variance Rater → κ = 0
+================================================================
+  Given: Rater A scores all n items as category k (p_A_k = 1.0)
+         P_e = Σ p_A_i × p_B_i = 1.0 × p_B_k + 0 = p_B_k
+         P_o = n × p_B_k / n = p_B_k (A always says k, so agreement
+                happens exactly when B also says k)
+         Therefore P_e = P_o → κ = 0
+  This holds for ANY n, ANY number of categories, ANY agreement rate.
+  It is a mathematical identity, not an empirical finding.
+
+================================================================
+  DIAGNOSIS
+================================================================
+  PAPER.md §5.2 states: κ = −0.14
+  Verified value:      κ = 0.00
+
+  Two possible explanations for the discrepancy:
+  1. COMPUTATIONAL ERROR: κ was miscalculated or estimated
+     without formal computation. No computational trace exists
+     in any session transcript or git history.
+  2. DATA MISMATCH: The data described in PAPER.md differs from
+     the data used to compute κ = −0.14. (See Case B above)
+
+  QUALITATIVE IMPACT: MINIMAL.
+  Both κ = 0.00 and κ = −0.14 support the SAME interpretation:
+  the blind check did NOT validate the scoring protocol. Empty
+  cell (d = 0 both NO) means the task failed to produce balanced
+  outcomes. The paper's honest framing is correct regardless of
+  the exact κ value.
+
+  RECOMMENDATION: Update PAPER.md §5.2 to use κ = 0.00 (the
+  verified value) and add a brief note explaining the zero-variance
+  theorem — this STRENGTHENS the kappa paradox argument: κ = 0
+  when one rater always says YES is exactly what Cohen's kappa
+  was designed to reveal.
+
