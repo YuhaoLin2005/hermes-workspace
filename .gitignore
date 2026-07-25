@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+.idea/
+*personal*
+*growth-log*
+*self-model*
+.env
+.env.local
