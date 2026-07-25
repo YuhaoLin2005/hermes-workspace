@@ -74,11 +74,11 @@ pipeline:
     impact: "L2神经门细粒度扩展；安全训练解剖刀（非安全评估器）；可独立发表为 workshop/short paper"
     effort: "~2-3天（本地推理，$0成本），RTX 3060 6GB 可跑"
     blocks: []
-    blocked_by: [arxiv-preprint, hf-pr-778]
+    blocked_by: [paper-work-resumes]
     status: planned
     spec: "paper/experiments/sart-safety-attention-routing-tomography.md"
-    gate_condition: "arXiv preprint 提交 AND HuggingFace PR #778 merge → 通知林宇浩启动"
-    next_action: "等待 blocking 条件解除"
+    gate_condition: "林宇浩恢复论文工作（开始更新 PAPER.md 或明确说'继续推进论文'）→ session 启动时提醒 SART 可以做"
+    next_action: "等待论文工作恢复。arXiv 需要导师推荐才能发预印版，目前论文暂停中。"
 
 critical_path: [blind-scoring → paper-draft-complete → paper-submission]
 current_blocker: "盲评分未做——阻塞论文投稿（最大瓶颈）"

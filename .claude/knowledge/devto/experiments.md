@@ -66,12 +66,13 @@
 
 ## SART: Safety Attention Routing Tomography
 
-- **Status**: PLANNED — spec written, blocked by arxiv + HF PR #778
+- **Status**: PLANNED — spec written, blocked by paper-work-resumes（论文暂停中，等导师推荐后才能发 arXiv）
 - **Spec**: `paper/experiments/sart-safety-attention-routing-tomography.md`
 - **设计**: 3家族×3训练深度, attention routing topographic map + habituation curve + causal ablation
 - **核心假说**: 安全训练越深, 情感/安全 token attention 路由越强、越稳定、越抗疲劳
 - **定位**: 安全训练解剖刀（不是安全评估器）；L2神经门细粒度扩展
 - **资源**: RTX 3060 6GB 可跑, ~2-3天, $0
+- **触发**: 林宇浩恢复论文工作时提醒
 - **文章**: 待 -- 完成后可写为 workshop/short paper
 
 *最后更新: 2026-07-26*

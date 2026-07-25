@@ -51,7 +51,7 @@ dashboard:
   experiments:
     completed: 16
     in_progress: 0
-    planned: 1                    # SART spec written 2026-07-26; blocked by arxiv + HF PR #778
+    planned: 1                    # SART spec written 2026-07-26; blocked by paper-work-resumes（论文暂停，等导师推荐发arXiv）
     total_api_calls_used: ?       # manual: sum from experiment logs
     latest:
       # (see dashboard.md git history for latest experiment details)

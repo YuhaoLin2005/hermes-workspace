@@ -60,7 +60,7 @@
 
 DPO（Direct Preference Optimization）拿到失败案例 + 正确行为 → 计算偏好梯度 → 更新模型权重。我在一个相关问题上验证了这个方法：[用 DPO 训练 Qwen2.5-1.5B 做因果推理](https://dev.to/yuhaolin2005/i-dpo-trained-a-model-to-prefer-causal-reasoning-the-base-model-already-did-it-just-couldnt-act-1kip)。基座模型已经编码了因果结构——DPO 解锁了按其行动的能力。QLoRA 让这在 RTX 3060（6GB 显存）上可行。
 
-**规则合规的 DPO 管线已设计但尚未运行**——Phase 4 被阻塞在需要足够多的高质量偏好对，这些偏好对来自盲评的行为数据。这就是为什么 P0（盲评）阻塞了 P4。
+**规则合规的 DPO 管线已跑过 82.4K 因果偏好对**——Qwen2.5-1.5B，QLoRA on RTX 3060 (6GB)，38 步，1 epoch。结果：loss ↓，但行为指标抓到了 loss 曲线漏掉的东西——模型在某些探针上崩溃为重复数字输出。行为漂移检测比训练 loss 更重要。更广泛的规则合规偏好数据集（基于这些结果扩展）被盲评数据阻塞（P0）。
 
 **这条路径完全绕开了 NL。** 你不是在告诉模型改变。你在改变模型*是什么*。这里的"语言"是 embedding 空间的几何，被行为数据所移动。
 
@@ -72,10 +72,11 @@ DPO（Direct Preference Optimization）拿到失败案例 + 正确行为 → 计
 
 那是错的脉络。这项工作真正的学术传统：
 
-- **Bender & Koller (2020)** — *Stochastic Parrots*：语言模型分布，不理解。验证问题是结构性的。
+- **Bender, Gebru, McMillan-Major & Shmitchell (2021)** — *On the Dangers of Stochastic Parrots*：语言模型分布，不理解。验证问题是结构性的。
+- **Bender & Koller (2020)** — *Climbing towards NLU*：章鱼思维实验。仅靠形式无法产生理解。
 - **Kambhampati (2024)** — *LLM-Modulo*：LLM 需要外部验证器。自验证在架构上不可能。
 - **Bai et al. (2022)** — *Constitutional AI*：自我批判减少伤害，但批判来自被批判的同一个模型。天花板内建于方法。
-- **Startari et al. (2025)** — *TLOC*：形式化证明 transformer 无法在结构上验证内部规则遵守。数学天花板。
+- **Startari (2025)** — *TLOC*：结构定理论证 transformer 无法在结构上验证内部规则遵守。数学天花板。
 
 这不是一篇 prompt 工程论文。这是一篇架构论文。问题不是"告诉模型遵守规则的最好方式是什么？"而是"transformer 验证的结构极限是什么，什么架构能在每个层绕开它们？"
 

@@ -60,7 +60,7 @@ When the model keeps failing — same violation, same pattern, despite L1 and L3
 
 DPO (Direct Preference Optimization) takes the failure + the correct behavior → computes a preference gradient → updates model weights. I've validated this approach on a related problem: [DPO-trained Qwen2.5-1.5B on causal reasoning](https://dev.to/yuhaolin2005/i-dpo-trained-a-model-to-prefer-causal-reasoning-the-base-model-already-did-it-just-couldnt-act-1kip). The base model already encoded causal structure — DPO unlocked the ability to act on it. QLoRA made this feasible on an RTX 3060 (6GB VRAM).
 
-**The rule-compliance DPO pipeline is designed but not yet run** — Phase 4 is gated on having enough high-quality preference pairs from blind-scored behavioral data. That's part of why P0 (blind scoring) blocks P4.
+**The rule-compliance DPO pipeline has run on 82.4K causal preference pairs** — Qwen2.5-1.5B, QLoRA on RTX 3060 (6GB), 38 steps, 1 epoch. The results: loss ↓, but behavioral metrics caught something the loss curve didn't — the model collapsed into digit-repeating on certain probes. Behavioral drift detection matters more than training loss. A broader rule-compliance preference dataset (building on these results) is gated on blind-scored behavioral data (P0).
 
 **This path bypasses NL entirely.** You're not telling the model to change. You're changing what the model *is*. The "language" here is the geometry of embedding space, shifted by behavioral data.
 
@@ -72,10 +72,11 @@ When people hear "AI rule compliance," they think: prompt engineering. Better sy
 
 That's the wrong lineage. The actual intellectual tradition this builds on:
 
-- **Bender & Koller (2020)** — *Stochastic Parrots*: LMs distribute, they don't understand. The verification problem is structural.
+- **Bender, Gebru, McMillan-Major & Shmitchell (2021)** — *On the Dangers of Stochastic Parrots*: LMs distribute, they don't understand. The verification problem is structural.
+- **Bender & Koller (2020)** — *Climbing towards NLU*: the octopus thought experiment. Form alone doesn't produce understanding.
 - **Kambhampati (2024)** — *LLM-Modulo*: LLMs need external verifiers. Self-verification is architecturally impossible.
 - **Bai et al. (2022)** — *Constitutional AI*: self-critique reduces harm, but the critique comes from the same model being critiqued. The ceiling is baked in.
-- **Startari et al. (2025)** — *TLOC*: formal proof that transformers can't structurally verify internal rule compliance. Mathematical ceiling.
+- **Startari (2025)** — *TLOC*: structural theorem arguing that transformers cannot verify internal rule compliance. Mathematical ceiling.
 
 This isn't a prompt engineering paper. It's an architecture paper. The question isn't "what's the best way to tell the model to behave?" It's "what are the structural limits of transformer verification, and what architecture works around them at each layer?"
 
