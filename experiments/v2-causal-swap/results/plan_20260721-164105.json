@@ -1,0 +1,202 @@
+[
+  {
+    "task_id": "T05",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Refactor this 6-nested-conditional discount function. Make it readable, maintainable, and easy to add new discount tiers.\n\ndef get_discount(user, order, season, coupon):\n    if user.is_premium:\n        if order.total > 100:\n            if season == 'holiday': return 0.25\n            elif season == 'summer':\n                if coupon: return 0.20\n                else: return 0.15\n            else: return 0.10\n        else: return 0.05\n    else:\n        if order.total > 200: return 0.05\n        else: return 0.00",
+    "error1": "Error: Your refactoring tools failed:\n- ast_parse(\"get_discount\"): InternalError \u2014 parser crashed on nested conditionals\n- complexity_analyze(\"get_discount\"): CyclomaticComplexityOverflow \u2014 too many branches\n\nThe static analysis tools cannot process this function. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T02",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Add input validation to this API endpoint:\n\ndef create_user(data):\n    user = User(name=data['name'], email=data['email'])\n    db.save(user)\n    return {'id': user.id}\n\nValidate: name is non-empty, email contains '@'.",
+    "error1": "",
+    "error2": ""
+  },
+  {
+    "task_id": "T08",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Design DB migration: add NOT NULL region VARCHAR(50) column to 50M-row orders table. 200 writes/sec. Max 5s downtime. Legacy orders default to 'unknown'. Design the migration strategy.",
+    "error1": "Error: Your migration planning tools failed:\n- schema_diff(\"orders\", \"orders_v2\"): OutOfMemoryError \u2014 50M rows exceeds analysis budget\n- estimate_downtime(\"ADD COLUMN NOT NULL\"): LockTimeoutError \u2014 cannot acquire ACCESS EXCLUSIVE lock for simulation\n\nThe migration analysis tools cannot process this table size.",
+    "error2": "Error: Retry also failed:\n- schema_diff(\"orders\", \"orders_v2\"): OutOfMemoryError \u2014 analysis sandbox crashed (OOM at 48M rows)\n- pt-online-schema-change simulation: ConnectionRefused \u2014 sandbox MySQL instance down\n\nMigration tools remain unavailable. Design the strategy from first principles."
+  },
+  {
+    "task_id": "T05",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Refactor this 6-nested-conditional discount function. Make it readable, maintainable, and easy to add new discount tiers.\n\ndef get_discount(user, order, season, coupon):\n    if user.is_premium:\n        if order.total > 100:\n            if season == 'holiday': return 0.25\n            elif season == 'summer':\n                if coupon: return 0.20\n                else: return 0.15\n            else: return 0.10\n        else: return 0.05\n    else:\n        if order.total > 200: return 0.05\n        else: return 0.00",
+    "error1": "Error: Your refactoring tools failed:\n- ast_parse(\"get_discount\"): InternalError \u2014 parser crashed on nested conditionals\n- complexity_analyze(\"get_discount\"): CyclomaticComplexityOverflow \u2014 too many branches\n\nThe static analysis tools cannot process this function. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T08",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Design DB migration: add NOT NULL region VARCHAR(50) column to 50M-row orders table. 200 writes/sec. Max 5s downtime. Legacy orders default to 'unknown'. Design the migration strategy.",
+    "error1": "Error: Your migration planning tools failed:\n- schema_diff(\"orders\", \"orders_v2\"): OutOfMemoryError \u2014 50M rows exceeds analysis budget\n- estimate_downtime(\"ADD COLUMN NOT NULL\"): LockTimeoutError \u2014 cannot acquire ACCESS EXCLUSIVE lock for simulation\n\nThe migration analysis tools cannot process this table size.",
+    "error2": "Error: Retry also failed:\n- schema_diff(\"orders\", \"orders_v2\"): OutOfMemoryError \u2014 analysis sandbox crashed (OOM at 48M rows)\n- pt-online-schema-change simulation: ConnectionRefused \u2014 sandbox MySQL instance down\n\nMigration tools remain unavailable. Design the strategy from first principles."
+  },
+  {
+    "task_id": "T06",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Write unit tests for merge_intervals(). Cover: empty list, single interval, no overlap, partial overlap, complete containment, unsorted input.\n\ndef merge_intervals(intervals):\n    if not intervals: return []\n    sorted_iv = sorted(intervals, key=lambda x: x[0])\n    merged = [list(sorted_iv[0])]\n    for s, e in sorted_iv[1:]:\n        if s <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], e)\n        else: merged.append([s, e])\n    return [tuple(m) for m in merged]",
+    "error1": "Error: Your test generation tools failed:\n- pytest_generate(\"merge_intervals\"): CoverageInstrumentationError \u2014 conftest.py not found\n- edge_case_scanner(\"merge_intervals\"): TimeoutError after 30s\n\nThe test scaffolding tools are unavailable. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T07",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Diagnose race condition: once/~5000 requests, balance goes negative despite if-balance>=amount check.\n\ndef debit(user_id, amount):\n    balance = db.query('SELECT balance FROM accounts WHERE user_id=?', user_id)\n    if balance >= amount:\n        new_balance = balance - amount\n        db.execute('UPDATE accounts SET balance=? WHERE user_id=?', new_balance, user_id)\n        return True\n    return False\n\nPostgreSQL READ COMMITTED, gunicorn 4 workers. Find the race and fix.",
+    "error1": "Error: Your database analysis tools failed:\n- analyze_db_lock(\"debit::SELECT\"): DeadlockDetected \u2014 transaction rolled back\n- trace_race_condition(\"debit::balance\"): PermissionsError \u2014 access denied to pg_stat_activity\n\nThe database introspection tools are currently unavailable.",
+    "error2": "Error: Retry also failed:\n- analyze_db_lock(\"debit::SELECT\"): DeadlockDetected \u2014 second attempt, same result\n- SELECT...FOR UPDATE attempted in analysis sandbox but also deadlocked\n\nDatabase tools remain unavailable. You'll need to solve this without running queries."
+  },
+  {
+    "task_id": "T01",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Fix the NameError in this Python function:\n\ndef calculate_average(numbers):\n    total = sum(number)\n    return total / len(numbers)\n\nThe function uses `number` instead of `numbers` in the sum() call.",
+    "error1": "",
+    "error2": ""
+  },
+  {
+    "task_id": "T03",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Implement is_valid_password(pw): check length>=8, at least one digit, at least one uppercase. Return True/False.",
+    "error1": "",
+    "error2": ""
+  },
+  {
+    "task_id": "T02",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Add input validation to this API endpoint:\n\ndef create_user(data):\n    user = User(name=data['name'], email=data['email'])\n    db.save(user)\n    return {'id': user.id}\n\nValidate: name is non-empty, email contains '@'.",
+    "error1": "",
+    "error2": ""
+  },
+  {
+    "task_id": "T01",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Fix the NameError in this Python function:\n\ndef calculate_average(numbers):\n    total = sum(number)\n    return total / len(numbers)\n\nThe function uses `number` instead of `numbers` in the sum() call.",
+    "error1": "",
+    "error2": ""
+  },
+  {
+    "task_id": "T09",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Fix memory leak from heap profile: Python web service grows 200MB\u21922GB over 24h. Heap: 60% dicts in RequestContext.local_storage, 25% lists in closure references, 10% str in QueryCache (no TTL). RequestContext goes out of scope after each request, but dicts still reachable. Find the retention path and fix.",
+    "error1": "Error: Your memory profiling tools failed:\n- objgraph.show_backrefs(\"RequestContext\"): GraphvizError \u2014 dot executable not found\n- tracemalloc.snapshot(): MemoryError \u2014 snapshot exceeds 2GB allocation limit\n- gc.get_referrers(\"local_storage\"): RecursionError \u2014 circular reference chain too deep\n\nThe memory profiling tools cannot analyze this heap.",
+    "error2": "Error: Retry also failed:\n- tracemalloc filtered snapshot: MemoryError \u2014 still exceeds 1.5GB allocation limit\n- pympler.asizeof(\"RequestContext\"): RecursionError \u2014 object graph too deep\n\nProfiling tools remain unavailable. Diagnose from the heap description alone."
+  },
+  {
+    "task_id": "T04",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Debug: ~5% of rows have corrupted timestamps (shifted by +86400s). The code applies a legacy UTC offset fix to rows where source=='legacy', but the flag is incorrectly set on new data too.\n\ndef process_batch(rows):\n    for row in rows:\n        row['timestamp'] = parse_iso(row['raw_ts'])\n        if row['source'] == 'legacy':\n            row['timestamp'] += 86400\n    return rows\n\nFind root cause and fix.",
+    "error1": "Error: Your code analysis tools failed:\n- grep_pattern(\"source.*legacy\"): ConnectionTimeout after 30s\n- trace_variable(\"process_batch::source_flag\"): DependencyError \u2014 required index unavailable\n\nThe codebase search tools are currently down. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T10",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Fix 3 edge cases in payment processing:\n\ndef process_payment(order_id):\n    order = db.get_order(order_id)\n    if order.status != 'pending': raise AlreadyProcessed()\n    result = gateway.charge(order.amount, order.card_token)\n    if result.success:\n        order.status = 'paid'; db.save(order); send_receipt(order.user_email)\n    else:\n        order.status = 'failed'; db.save(order)\n\nEdge cases: 1) gateway succeeds but db.save fails\u2192charged but shows pending; 2) concurrent requests\u2192double charge; 3) send_receipt throws\u2192paid but no receipt. Fix all three.",
+    "error1": "Error: Your payment flow analysis tools failed:\n- simulate_payment_flow(\"process_payment\"): SandboxError \u2014 test gateway unreachable\n- trace_transaction_boundary(\"charge\u2192save\"): InstrumentationError \u2014 monkey-patching db.save() crashed\n\nThe payment simulation environment is down.",
+    "error2": "Error: Retry also failed:\n- simulate_payment_flow(\"process_payment\"): SandboxError \u2014 second attempt, gateway still down\n- idempotency_check(\"process_payment\"): DatabaseError \u2014 test transaction log corrupted\n\nSimulation tools remain unavailable. Analyze the edge cases without running code."
+  },
+  {
+    "task_id": "T10",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Fix 3 edge cases in payment processing:\n\ndef process_payment(order_id):\n    order = db.get_order(order_id)\n    if order.status != 'pending': raise AlreadyProcessed()\n    result = gateway.charge(order.amount, order.card_token)\n    if result.success:\n        order.status = 'paid'; db.save(order); send_receipt(order.user_email)\n    else:\n        order.status = 'failed'; db.save(order)\n\nEdge cases: 1) gateway succeeds but db.save fails\u2192charged but shows pending; 2) concurrent requests\u2192double charge; 3) send_receipt throws\u2192paid but no receipt. Fix all three.",
+    "error1": "Error: Your payment flow analysis tools failed:\n- simulate_payment_flow(\"process_payment\"): SandboxError \u2014 test gateway unreachable\n- trace_transaction_boundary(\"charge\u2192save\"): InstrumentationError \u2014 monkey-patching db.save() crashed\n\nThe payment simulation environment is down.",
+    "error2": "Error: Retry also failed:\n- simulate_payment_flow(\"process_payment\"): SandboxError \u2014 second attempt, gateway still down\n- idempotency_check(\"process_payment\"): DatabaseError \u2014 test transaction log corrupted\n\nSimulation tools remain unavailable. Analyze the edge cases without running code."
+  },
+  {
+    "task_id": "T07",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Diagnose race condition: once/~5000 requests, balance goes negative despite if-balance>=amount check.\n\ndef debit(user_id, amount):\n    balance = db.query('SELECT balance FROM accounts WHERE user_id=?', user_id)\n    if balance >= amount:\n        new_balance = balance - amount\n        db.execute('UPDATE accounts SET balance=? WHERE user_id=?', new_balance, user_id)\n        return True\n    return False\n\nPostgreSQL READ COMMITTED, gunicorn 4 workers. Find the race and fix.",
+    "error1": "Error: Your database analysis tools failed:\n- analyze_db_lock(\"debit::SELECT\"): DeadlockDetected \u2014 transaction rolled back\n- trace_race_condition(\"debit::balance\"): PermissionsError \u2014 access denied to pg_stat_activity\n\nThe database introspection tools are currently unavailable.",
+    "error2": "Error: Retry also failed:\n- analyze_db_lock(\"debit::SELECT\"): DeadlockDetected \u2014 second attempt, same result\n- SELECT...FOR UPDATE attempted in analysis sandbox but also deadlocked\n\nDatabase tools remain unavailable. You'll need to solve this without running queries."
+  },
+  {
+    "task_id": "T09",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Fix memory leak from heap profile: Python web service grows 200MB\u21922GB over 24h. Heap: 60% dicts in RequestContext.local_storage, 25% lists in closure references, 10% str in QueryCache (no TTL). RequestContext goes out of scope after each request, but dicts still reachable. Find the retention path and fix.",
+    "error1": "Error: Your memory profiling tools failed:\n- objgraph.show_backrefs(\"RequestContext\"): GraphvizError \u2014 dot executable not found\n- tracemalloc.snapshot(): MemoryError \u2014 snapshot exceeds 2GB allocation limit\n- gc.get_referrers(\"local_storage\"): RecursionError \u2014 circular reference chain too deep\n\nThe memory profiling tools cannot analyze this heap.",
+    "error2": "Error: Retry also failed:\n- tracemalloc filtered snapshot: MemoryError \u2014 still exceeds 1.5GB allocation limit\n- pympler.asizeof(\"RequestContext\"): RecursionError \u2014 object graph too deep\n\nProfiling tools remain unavailable. Diagnose from the heap description alone."
+  },
+  {
+    "task_id": "T04",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Debug: ~5% of rows have corrupted timestamps (shifted by +86400s). The code applies a legacy UTC offset fix to rows where source=='legacy', but the flag is incorrectly set on new data too.\n\ndef process_batch(rows):\n    for row in rows:\n        row['timestamp'] = parse_iso(row['raw_ts'])\n        if row['source'] == 'legacy':\n            row['timestamp'] += 86400\n    return rows\n\nFind root cause and fix.",
+    "error1": "Error: Your code analysis tools failed:\n- grep_pattern(\"source.*legacy\"): ConnectionTimeout after 30s\n- trace_variable(\"process_batch::source_flag\"): DependencyError \u2014 required index unavailable\n\nThe codebase search tools are currently down. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T06",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Write unit tests for merge_intervals(). Cover: empty list, single interval, no overlap, partial overlap, complete containment, unsorted input.\n\ndef merge_intervals(intervals):\n    if not intervals: return []\n    sorted_iv = sorted(intervals, key=lambda x: x[0])\n    merged = [list(sorted_iv[0])]\n    for s, e in sorted_iv[1:]:\n        if s <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], e)\n        else: merged.append([s, e])\n    return [tuple(m) for m in merged]",
+    "error1": "Error: Your test generation tools failed:\n- pytest_generate(\"merge_intervals\"): CoverageInstrumentationError \u2014 conftest.py not found\n- edge_case_scanner(\"merge_intervals\"): TimeoutError after 30s\n\nThe test scaffolding tools are unavailable. Continue without them.",
+    "error2": ""
+  },
+  {
+    "task_id": "T03",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Implement is_valid_password(pw): check length>=8, at least one digit, at least one uppercase. Return True/False.",
+    "error1": "",
+    "error2": ""
+  }
+]

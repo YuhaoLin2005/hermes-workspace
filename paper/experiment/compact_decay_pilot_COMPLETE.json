@@ -1,0 +1,1167 @@
+{
+  "experiment": "compact_fidelity_decay_pilot",
+  "timestamp": "2026-07-24T15:30:19.327559+00:00",
+  "model": "deepseek-chat",
+  "n_instructions": 5,
+  "levels": [
+    0,
+    3,
+    8,
+    12,
+    18
+  ],
+  "reps": 2,
+  "total_calls": 50,
+  "hypotheses": {
+    "H0": "Compliance rate independent of compaction level",
+    "H1": "Compliance rate decreases monotonically with compaction level",
+    "H1_prime": "Compliance rate higher at levels 3-8 than 0-2 (U-curve)"
+  },
+  "trials": [
+    {
+      "trial_id": 1,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有函数和类的注释必须使用中文编写。使用三个引号包围注释块。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "以下是根据规则编写的Python函数：\n\n```python\ndef gcd(a, b):\n    \"\"\"\n    计算两个整数的最大公约数（GCD）。\n\n    该函数使用欧几里得算法（辗转相除法）来高效计算两个非负整数的最大公约数。\n    如果两个数均为0，则返回0。\n\n    参数:\n        a (int): 第一个整数。\n        b (int): 第二个整数。\n\n    返回:\n        int: 输入两个数的最大公约数。\n\n    示例:\n        >>> gcd(48, 18)\n        6\n        >>> gcd(0, 5)\n        5\n        >>> gcd(0, 0)\n        0\n    \"\"\"\n    # 处理边界情况：如果两者均为0，返回0\n    if a == 0 and b == 0:\n        return 0\n    \n    # 确保处理负数，取绝对值\n    a, b = abs(a), abs(b)\n    \n    # 欧几里得算法：反复用较小数除较大数，直到余数为0\n    while b != 0:\n        a, b = b, a % b\n    \n    return a\n```\n\n该函数使用欧几里得算法，通过反复取余操作计算最大公约数。它处理了负数和零的特殊情况，并包含详细的注释。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.26,
+      "api_error": false
+    },
+    {
+      "trial_id": 2,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有函数和类的注释必须使用中文编写。使用三个引号包围注释块。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "以下是计算两个数最大公约数的Python函数，命名为`gcd`：\n\n```python\ndef gcd(a: int, b: int) -> int:\n    \"\"\"\n    计算两个整数的最大公约数（GCD）。\n\n    该函数使用欧几里得算法（辗转相除法）来计算最大公约数，\n    算法基于原理：gcd(a, b) = gcd(b, a % b)，直到余数为0。\n\n    参数:\n        a (int): 第一个整数，可以是正数、负数或零\n        b (int): 第二个整数，可以是正数、负数或零\n\n    返回:\n        int: 两个数的最大公约数，始终为非负整数。\n             如果两个数都为零，则返回0。\n\n    示例:\n        >>> gcd(12, 8)\n        4\n        >>> gcd(17, 5)\n        1\n        >>> gcd(-12, 8)\n        4\n        >>> gcd(0, 5)\n        5\n        >>> gcd(0, 0)\n        0\n    \"\"\"\n    # 处理负数和零的情况，取绝对值确保结果非负\n    a, b = abs(a), abs(b)\n    \n    # 特殊情况：如果b为0，则最大公约数为a\n    # 如果a也为0，则返回0\n    while b != 0:\n        a, b = b, a % b\n    return a\n\n# 测试函数\nif __name__ == \"__main__\":\n    # 测试用例\n    test_cases = [\n        (12, 8, 4),\n        (17, 5, 1),\n        (-12, 8, 4),\n        (0, 5, 5),\n        (0, 0, 0),\n        (48, 18, 6),\n        (100, 25, 25)\n    ]\n    \n    print(\"测试最大公约数函数：\")\n    for a, b, expected in test_cases:\n        result = gcd(a, b)\n        status = \"✓\" if result == expected else \"✗\"\n        print(f\"{status} gcd({a}, {b}) = {result} (期望值: {expected})\")\n```\n\n这个函数的特点：\n\n1. **算法选择**：使用欧几里得算法（辗转相除法），效率高且实现简洁\n2. **参数处理**：支持正数、负数和零，通过`abs()`取绝对值确保结果非负\n3. **边界情况**：正确处理一个或两个参数为零的情况\n4. **类型提示**：使用类型注解提高代码可读性\n5. **文档字符串**：包含详细的中文说明、参数描述、返回值和示例",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 5.27,
+      "api_error": false
+    },
+    {
+      "trial_id": 3,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "函数注释用中文写，三个引号括起来。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "```python\ndef gcd(a: int, b: int) -> int:\n    \"\"\"计算两个整数的最大公约数（辗转相除法）\n\n    Args:\n        a: 第一个整数\n        b: 第二个整数\n\n    Returns:\n        两个数的最大公约数\n\n    Examples:\n        >>> gcd(12, 8)\n        4\n        >>> gcd(17, 5)\n        1\n    \"\"\"\n    while b != 0:\n        a, b = b, a % b\n    return abs(a)\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 1.44,
+      "api_error": false
+    },
+    {
+      "trial_id": 4,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "函数注释用中文写，三个引号括起来。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "```python\ndef gcd(a: int, b: int) -> int:\n    \"\"\"计算两个整数的最大公约数（使用欧几里得算法）\n\n    参数:\n        a: 第一个整数\n        b: 第二个整数\n\n    返回:\n        两个数的最大公约数（正整数）\n\n    示例:\n        >>> gcd(12, 8)\n        4\n        >>> gcd(17, 5)\n        1\n    \"\"\"\n    # 处理负数：取绝对值\n    a, b = abs(a), abs(b)\n    \n    # 欧几里得算法：gcd(a, b) = gcd(b, a % b)\n    while b != 0:\n        a, b = b, a % b\n    \n    return a\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 1.81,
+      "api_error": false
+    },
+    {
+      "trial_id": 5,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "注释用中文。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "下面是一个计算两个数最大公约数的Python函数，命名为 `gcd`：\n\n```python\ndef gcd(a, b):\n    \"\"\"\n    计算两个整数 a 和 b 的最大公约数 (GCD)。\n    使用欧几里得算法（辗转相除法）。\n    \n    参数:\n        a (int): 第一个整数\n        b (int): 第二个整数\n    \n    返回:\n        int: a 和 b 的最大公约数\n    \"\"\"\n    # 将输入转换为绝对值，确保处理负数\n    a, b = abs(a), abs(b)\n    \n    # 欧几里得算法：当 b 不为 0 时，重复取余\n    while b != 0:\n        a, b = b, a % b\n    \n    # 返回结果（此时 a 即为最大公约数）\n    return a\n```\n\n这个函数使用欧几里得算法（辗转相除法），这是计算最大公约数最经典和高效的方法。函数会处理负数输入（通过取绝对值），并返回两个整数的最大公约数。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 2.76,
+      "api_error": false
+    },
+    {
+      "trial_id": 6,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "注释用中文。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "以下是计算两个数最大公约数的Python函数，使用欧几里得算法（辗转相除法）：\n\n```python\ndef gcd(a, b):\n    \"\"\"\n    计算两个整数的最大公约数（使用欧几里得算法）\n    \n    参数:\n        a (int): 第一个整数\n        b (int): 第二个整数\n        \n    返回:\n        int: a和b的最大公约数\n    \"\"\"\n    # 确保输入为整数\n    if not isinstance(a, int) or not isinstance(b, int):\n        raise TypeError(\"输入必须为整数\")\n    \n    # 处理负数情况，取绝对值\n    a, b = abs(a), abs(b)\n    \n    # 如果其中一个为0，则最大公约数为另一个数\n    if a == 0:\n        return b\n    if b == 0:\n        return a\n    \n    # 欧几里得算法：gcd(a, b) = gcd(b, a % b)\n    while b != 0:\n        a, b = b, a % b\n    \n    return a\n```\n\n**函数说明：**\n- 使用欧几里得算法，效率高且简单\n- 支持负数输入（自动取绝对值处理）\n- 处理了0值输入的情况\n- 包含类型检查，确保输入为整数\n\n**使用示例：**\n```python\nprint(gcd(48, 18))   # 输出: 6\nprint(gcd(100, 75))  # 输出: 25\nprint(gcd(17, 13))   # 输出: 1（互质数）\nprint(gcd(-12, 8))   # 输出: 4\nprint(gcd(0, 5))     # 输出: 5\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 4.05,
+      "api_error": false
+    },
+    {
+      "trial_id": 7,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "写注释。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "好的，这是一个计算两个整数最大公约数的 Python 函数，命名为 `gcd`，并附有详细注释。\n\n```python\ndef gcd(a: int, b: int) -> int:\n    \"\"\"\n    计算两个整数的最大公约数（GCD），使用欧几里得算法（辗转相除法）。\n\n    参数:\n        a (int): 第一个整数\n        b (int): 第二个整数\n\n    返回:\n        int: a 和 b 的最大公约数\n\n    示例:\n        >>> gcd(48, 18)\n        6\n        >>> gcd(7, 13)\n        1\n    \"\"\"\n    # 将输入转换为绝对值，确保处理负数时结果正确\n    a, b = abs(a), abs(b)\n\n    # 欧几里得算法：重复用较大数除以较小数取余，直到余数为0\n    while b != 0:\n        # 保存当前的b，用于下一步计算\n        remainder = a % b\n        # 交换：新的a是旧的b，新的b是余数\n        a, b = b, remainder\n\n    # 当b为0时，a即为最大公约数\n    return a\n```\n\n**用法示例**：\n```python\nprint(gcd(48, 18))  # 输出 6\nprint(gcd(100, 25)) # 输出 25\nprint(gcd(7, 13))   # 输出 1\nprint(gcd(-12, 8))  # 输出 4（绝对值处理）\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.33,
+      "api_error": false
+    },
+    {
+      "trial_id": 8,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "写注释。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "以下是计算两个数最大公约数的Python函数：\n\n```python\ndef gcd(a: int, b: int) -> int:\n    \"\"\"\n    计算两个整数的最大公约数（Greatest Common Divisor）\n\n    使用欧几里得算法（辗转相除法）实现。\n    该算法基于原理：gcd(a, b) = gcd(b, a % b)，当b为0时，a即为最大公约数。\n\n    参数:\n        a: 第一个整数\n        b: 第二个整数\n\n    返回:\n        两个整数的最大公约数\n\n    示例:\n        >>> gcd(48, 18)\n        6\n        >>> gcd(100, 25)\n        25\n        >>> gcd(17, 23)\n        1\n    \"\"\"\n    # 确保输入为整数\n    if not isinstance(a, int) or not isinstance(b, int):\n        raise TypeError(\"输入必须是整数\")\n    \n    # 处理负数的情况：最大公约数通常定义为正数\n    a, b = abs(a), abs(b)\n    \n    # 欧几里得算法\n    while b != 0:\n        # 保存余数\n        remainder = a % b\n        # 更新a和b的值\n        a = b\n        b = remainder\n    \n    return a\n```\n\n这个函数使用欧几里得算法，通过不断取余来高效计算最大公约数。函数包含了类型检查、负数处理，并提供了详细的文档字符串说明。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.56,
+      "api_error": false
+    },
+    {
+      "trial_id": 9,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "以下是计算两个数最大公约数的Python函数：\n\n```python\ndef gcd(a, b):\n    \"\"\"\n    计算两个整数的最大公约数（Greatest Common Divisor）\n    使用欧几里得算法（辗转相除法）\n    \n    参数:\n        a: 第一个整数\n        b: 第二个整数\n    \n    返回:\n        两个数的最大公约数\n    \"\"\"\n    # 确保处理负数的情况\n    a, b = abs(a), abs(b)\n    \n    # 欧几里得算法\n    while b != 0:\n        a, b = b, a % b\n    \n    return a\n```\n\n这个函数使用了欧几里得算法（辗转相除法），这是计算最大公约数最经典和高效的算法。函数可以处理正数、负数和零的情况。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 2.2,
+      "api_error": false
+    },
+    {
+      "trial_id": 10,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "我来写一个计算两个数最大公约数的Python函数。\n\n```python\ndef gcd(a, b):\n    \"\"\"\n    计算两个整数的最大公约数 (Greatest Common Divisor)\n    使用欧几里得算法（辗转相除法）\n    \n    参数:\n        a: 第一个整数\n        b: 第二个整数\n    \n    返回:\n        两个数的最大公约数\n    \"\"\"\n    # 确保输入为整数\n    if not isinstance(a, int) or not isinstance(b, int):\n        raise TypeError(\"输入必须为整数\")\n    \n    # 处理负数的情况\n    a, b = abs(a), abs(b)\n    \n    # 如果其中一个数为0，返回另一个数\n    if a == 0:\n        return b\n    if b == 0:\n        return a\n    \n    # 欧几里得算法\n    while b != 0:\n        a, b = b, a % b\n    \n    return a\n\n# 测试示例\nif __name__ == \"__main__\":\n    # 测试用例\n    print(gcd(12, 8))      # 输出: 4\n    print(gcd(17, 5))      # 输出: 1\n    print(gcd(48, 18))     # 输出: 6\n    print(gcd(-12, 8))     # 输出: 4 (处理负数)\n    print(gcd(0, 5))       # 输出: 5 (处理0的情况)\n```\n\n这个实现使用了欧几里得算法（辗转相除法），具有以下特点：\n1. 处理了负数情况（返回正数结果）\n2. 处理了0的情况\n3. 包含了类型检查\n4. 添加了完整的文档字符串说明",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.51,
+      "api_error": false
+    },
+    {
+      "trial_id": 11,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有代码块必须使用```python标记包裹，不要使用```或```js。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "```python\ndef binary_search(arr, target):\n    \"\"\"\n    二分查找算法实现\n    \n    参数:\n        arr: 已排序的列表（升序）\n        target: 要查找的目标值\n    \n    返回:\n        目标值的索引（如果存在），否则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1  # 目标在右半部分\n        else:\n            right = mid - 1  # 目标在左半部分\n    \n    return -1  # 未找到目标值\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_array = [1, 3, 5, 7, 9, 11, 13, 15]\n    test_target = 7\n    \n    result = binary_search(test_array, test_target)\n    \n    if result != -1:\n        print(f\"目标值 {test_target} 在索引 {result} 处找到\")\n    else:\n        print(f\"目标值 {test_target} 未在数组中找到\")\n    \n    # 更多测试\n    print(\"\\n更多测试：\")\n    for target in [1, 9, 15, 0, 16]:\n        idx = binary_search(test_array, target)\n        status = \"找到\" if idx != -1 else \"未找到\"\n        print(f\"目标值 {target}: {status}, 索引: {idx}\")\n```\n\n**算法说明：**\n\n- **时间复杂度**：O(log n)，每次迭代将搜索范围缩小一半\n- **空间复杂度**：O(1)，只使用了常数额外空间\n- **前置条件**：输入数组必须已按升序排序\n- **工作原理**：通过不断将搜索区间对半分割，比较中间元素与目标值，决定下一步搜索方向",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.67,
+      "api_error": false
+    },
+    {
+      "trial_id": 12,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有代码块必须使用```python标记包裹，不要使用```或```js。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "以下是二分查找算法的Python实现：\n\n```python\ndef binary_search(arr, target):\n    \"\"\"\n    在有序数组中查找目标值\n    \n    参数:\n        arr: 已排序的数组\n        target: 要查找的目标值\n    \n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2  # 防止整数溢出\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_array = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]\n    \n    # 测试存在的元素\n    target = 7\n    result = binary_search(test_array, target)\n    print(f\"查找 {target} 的结果: 索引 {result}\")\n    \n    # 测试不存在的元素\n    target = 8\n    result = binary_search(test_array, target)\n    print(f\"查找 {target} 的结果: 索引 {result}\")\n    \n    # 测试边界情况\n    target = 1\n    result = binary_search(test_array, target)\n    print(f\"查找 {target} 的结果: 索引 {result}\")\n    \n    target = 19\n    result = binary_search(test_array, target)\n    print(f\"查找 {target} 的结果: 索引 {result}\")\n```\n\n**算法说明：**\n- **时间复杂度**：O(log n)，其中 n 是数组长度\n- **空间复杂度**：O(1)，只使用了常数级额外空间\n- **前提条件**：输入数组必须是有序的（升序）\n\n**关键点：**\n1. 使用 `left + (right - left) // 2` 而非 `(left + right) // 2` 来防止整数溢出\n2. 循环条件 `left <= right` 确保能处理所有情况\n3. 根据中间值与目标值的比较结果，调整搜索范围",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.76,
+      "api_error": false
+    },
+    {
+      "trial_id": 13,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "代码块用```python标记。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "```python\ndef binary_search(arr, target):\n    \"\"\"\n    二分查找算法实现\n    \n    参数:\n        arr: 已排序的列表（升序）\n        target: 要查找的目标值\n    \n    返回:\n        目标值的索引（如果存在），否则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2  # 防止整数溢出\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_arr = [1, 3, 5, 7, 9, 11, 13, 15]\n    test_target = 7\n    \n    result = binary_search(test_arr, test_target)\n    \n    if result != -1:\n        print(f\"目标值 {test_target} 在索引 {result} 处找到\")\n    else:\n        print(f\"目标值 {test_target} 未在数组中找到\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 2.25,
+      "api_error": false
+    },
+    {
+      "trial_id": 14,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "代码块用```python标记。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "好的，这是一个二分查找的Python实现。二分查找要求输入数组是**有序的**。\n\n```python\ndef binary_search(arr, target):\n    \"\"\"\n    在有序数组arr中查找目标值target。\n    如果找到，返回其索引；否则返回-1。\n    \"\"\"\n    left, right = 0, len(arr) - 1\n\n    while left <= right:\n        mid = left + (right - left) // 2  # 防止溢出\n\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n\n    return -1\n\n# 使用示例\nif __name__ == \"__main__\":\n    sorted_array = [1, 3, 5, 7, 9, 11, 13, 15]\n    target = 7\n\n    result = binary_search(sorted_array, target)\n\n    if result != -1:\n        print(f\"目标值 {target} 在索引 {result} 处找到。\")\n    else:\n        print(f\"目标值 {target} 不在数组中。\")\n```\n\n**关键点说明：**\n- 时间复杂度：O(log n)\n- 空间复杂度：O(1)（迭代版本）\n- 前提条件：数组必须已排序\n- 使用 `left + (right - left) // 2` 计算中间索引，可避免 `(left + right)` 可能导致的整数溢出",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.03,
+      "api_error": false
+    },
+    {
+      "trial_id": 15,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用Python代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "```python\ndef binary_search(arr, target):\n    \"\"\"\n    在有序数组arr中查找目标值target。\n    如果找到，返回target的索引；否则返回-1。\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 1.53,
+      "api_error": false
+    },
+    {
+      "trial_id": 16,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用Python代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "```python\ndef binary_search(arr, target):\n    \"\"\"\n    二分查找算法实现\n    \n    参数:\n        arr: 已排序的列表\n        target: 要查找的目标值\n    \n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    sorted_array = [1, 3, 5, 7, 9, 11, 13, 15]\n    test_targets = [7, 2, 15, 1]\n    \n    for target in test_targets:\n        result = binary_search(sorted_array, target)\n        if result != -1:\n            print(f\"目标值 {target} 找到，索引位置: {result}\")\n        else:\n            print(f\"目标值 {target} 未找到\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 2.41,
+      "api_error": false
+    },
+    {
+      "trial_id": 17,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "```python\ndef binary_search(arr, target):\n    \"\"\"\n    在有序数组arr中查找目标值target。\n    如果找到，返回目标值的索引；否则返回-1。\n    \"\"\"\n    left, right = 0, len(arr) - 1\n\n    while left <= right:\n        mid = (left + right) // 2  # 计算中间索引\n\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1  # 目标在右半部分\n        else:\n            right = mid - 1  # 目标在左半部分\n\n    return -1  # 未找到\n\n# 使用示例\nif __name__ == \"__main__\":\n    sorted_array = [1, 3, 5, 7, 9, 11, 13, 15]\n    target = 7\n\n    result = binary_search(sorted_array, target)\n    if result != -1:\n        print(f\"目标值 {target} 找到，索引为 {result}\")\n    else:\n        print(f\"目标值 {target} 未找到\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 2.2,
+      "api_error": false
+    },
+    {
+      "trial_id": 18,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "好的，我来给你写一个Python实现的二分查找算法：\n\n```python\ndef binary_search(arr, target):\n    \"\"\"\n    二分查找算法\n    参数:\n        arr: 有序数组（升序）\n        target: 要查找的目标值\n    返回:\n        目标值的索引，如果不存在则返回-1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2  # 防止整数溢出\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1  # 未找到目标值\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    sorted_array = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]\n    \n    # 查找存在的元素\n    target1 = 7\n    result1 = binary_search(sorted_array, target1)\n    print(f\"查找 {target1} 的结果: 索引 {result1}\")  # 输出: 索引 3\n    \n    # 查找不存在的元素\n    target2 = 8\n    result2 = binary_search(sorted_array, target2)\n    print(f\"查找 {target2} 的结果: 索引 {result2}\")  # 输出: 索引 -1\n    \n    # 查找边界元素\n    target3 = 1\n    result3 = binary_search(sorted_array, target3)\n    print(f\"查找 {target3} 的结果: 索引 {result3}\")  # 输出: 索引 0\n    \n    target4 = 19\n    result4 = binary_search(sorted_array, target4)\n    print(f\"查找 {target4} 的结果: 索引 {result4}\")  # 输出: 索引 9\n```\n\n这个实现的特点：\n\n1. **时间复杂度**: O(log n) - 每次循环将搜索范围缩小一半\n2. **空间复杂度**: O(1) - 只使用了几个变量\n3. **前提条件**: 输入的数组必须是已排序的（升序）\n4. **防止整数溢出**: 使用 `mid = left + (right - left) // 2` 而不是 `(left + right) // 2`\n5. **边界处理**: 正确处理了空数组和未找到的情况\n\n这是一个经典的二分查找实现，适用于已排序的数组。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 4.41,
+      "api_error": false
+    },
+    {
+      "trial_id": 19,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "我来写一个二分查找的Python实现，包含递归和迭代两种方式：\n\n```python\ndef binary_search_iterative(arr, target):\n    \"\"\"\n    迭代版本的二分查找\n    参数:\n        arr: 已排序的数组\n        target: 要查找的目标值\n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = left + (right - left) // 2  # 防止整数溢出\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n\ndef binary_search_recursive(arr, target, left=None, right=None):\n    \"\"\"\n    递归版本的二分查找\n    参数:\n        arr: 已排序的数组\n        target: 要查找的目标值\n        left: 左边界索引\n        right: 右边界索引\n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    if left is None:\n        left = 0\n    if right is None:\n        right = len(arr) - 1\n    \n    if left > right:\n        return -1\n    \n    mid = left + (right - left) // 2\n    \n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, right)\n    else:\n        return binary_search_recursive(arr, target, left, mid - 1)\n\n\n# 测试代码\nif __name__ == \"__main__\":\n    # 测试用例\n    test_arr = [1, 3, 5, 7, 9, 11, 13, 15]\n    \n    print(f\"测试数组: {test_arr}\")\n    print(\"-\" * 40)\n    \n    # 测试迭代版本\n    print(\"迭代版本:\")\n    for target in [7, 1, 15, 6, 0, 20]:\n        result = binary_search_iterative(test_arr, target)\n        if result != -1:\n            print(f\"  查找 {target}: 找到，索引为 {result}\")\n        else:\n            print(f\"  查找 {target}: 未找到\")\n    \n    print()\n    \n    # 测试递归版本\n    print(\"递归版本:\")\n    for target in [7, 1, 15, 6, 0, 20]:\n        result = binary_search_recursive(test_arr, target)\n        if result != -1:\n            print(f\"  查找 {target}: 找到，索引为 {result}\")\n        else:\n            print(f\"  查找 {target}: 未找到\")\n    \n    print(\"\\n\" + \"=\" * 40)\n    print(\"边界情况测试:\")\n    \n    # 空数组测试\n    empty_arr = []\n    print(f\"空数组查找 5: {binary_search_iterative(empty_arr, 5)}\")\n    \n    # 单元素数组测试\n    single_arr = [42]\n    print(f\"单元素数组查找 42: {binary_search_iterative(single_arr, 42)}\")\n    print(f\"单元素数组查找 10: {binary_search_iterative(single_arr, 10)}\")\n    \n    # 重复元素测试（找到第一个匹配的元素，但不一定是最左边的）\n    dup_arr = [1, 2, 2, 2, 3, 4]\n    print(f\"重复元素数组 {dup_arr} 查找 2: {binary_search_iterative(dup_arr, 2)}\")\n```\n\n**主要特点：**\n\n1. **两种实现方式**：\n   - 迭代版本：使用while循环，空间复杂度O(1)\n   - 递归版本：使用递归调用，空间复杂度O(log n)\n\n2. **关键优化**：\n   - 使用 `mid = left + (right - left) // 2` 而不是 `(left + right) // 2`，防止整数溢出\n   - 清晰的边界条件处理\n\n3. **复杂度分析**：\n   - 时间复杂度：O(log n)\n   - 空间复杂度：迭代O(1)，递归O(log n)\n\n4. **使用前提**：数组必须是已排序的（升序）\n\n这个实现包含了完整的测试用例，可以验证二分查找在各种情况下的正确性。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 7.16,
+      "api_error": false
+    },
+    {
+      "trial_id": 20,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "我来写一个二分查找的Python实现，包含基本的迭代和递归两种版本。\n\n```python\ndef binary_search_iterative(arr, target):\n    \"\"\"\n    二分查找的迭代实现\n    \n    参数:\n        arr: 已排序的列表\n        target: 要查找的目标值\n    \n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    left, right = 0, len(arr) - 1\n    \n    while left <= right:\n        mid = (left + right) // 2\n        \n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    \n    return -1\n\n\ndef binary_search_recursive(arr, target, left, right):\n    \"\"\"\n    二分查找的递归实现\n    \n    参数:\n        arr: 已排序的列表\n        target: 要查找的目标值\n        left: 左边界索引\n        right: 右边界索引\n    \n    返回:\n        目标值的索引，如果未找到则返回 -1\n    \"\"\"\n    if left > right:\n        return -1\n    \n    mid = (left + right) // 2\n    \n    if arr[mid] == target:\n        return mid\n    elif arr[mid] < target:\n        return binary_search_recursive(arr, target, mid + 1, right)\n    else:\n        return binary_search_recursive(arr, target, left, mid - 1)\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试数据\n    sorted_array = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]\n    test_targets = [7, 20, 1, 19, 5]\n    \n    print(\"测试二分查找:\")\n    print(f\"数组: {sorted_array}\")\n    print(\"-\" * 40)\n    \n    for target in test_targets:\n        # 迭代版本\n        iter_result = binary_search_iterative(sorted_array, target)\n        # 递归版本\n        recur_result = binary_search_recursive(sorted_array, target, 0, len(sorted_array) - 1)\n        \n        print(f\"查找 {target}:\")\n        print(f\"  迭代版本结果索引: {iter_result}\")\n        print(f\"  递归版本结果索引: {recur_result}\")\n        \n        if iter_result != -1:\n            print(f\"  验证: arr[{iter_result}] = {sorted_array[iter_result]}\")\n        print()\n```\n\n**算法说明：**\n\n1. **时间复杂度**: O(log n) - 每次迭代将搜索范围减半\n2. **空间复杂度**: \n   - 迭代版本: O(1)\n   - 递归版本: O(log n) - 递归调用栈的开销\n\n**使用前提**：输入的数组必须是**已排序**的，否则二分查找无法正确工作。\n\n**主要特点**：\n- 通过不断缩小搜索范围来快速定位目标值\n- 比线性查找效率高得多（特别是大数据集）\n- 实现简单，是基础的算法之一",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 5.85,
+      "api_error": false
+    },
+    {
+      "trial_id": 21,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "不要使用TypeScript或任何类型标注语法。所有代码必须使用纯JavaScript（ES6），不使用静态类型。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "下面是一个接收用户对象并返回格式化姓名的JavaScript函数：\n\n```javascript\nfunction formatUserName(user) {\n  if (!user) {\n    return '';\n  }\n\n  const firstName = user.firstName || '';\n  const lastName = user.lastName || '';\n\n  if (!firstName && !lastName) {\n    return '';\n  }\n\n  return `${lastName}${firstName}`;\n}\n```\n\n这个函数：\n- 接收一个用户对象作为参数\n- 如果用户对象不存在，返回空字符串\n- 从对象中获取 firstName 和 lastName 属性\n- 如果两个名字都为空，返回空字符串\n- 否则返回 \"姓+名\" 的格式（中文姓名格式）",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 2.14,
+      "api_error": false
+    },
+    {
+      "trial_id": 22,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "不要使用TypeScript或任何类型标注语法。所有代码必须使用纯JavaScript（ES6），不使用静态类型。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "这是一个接收用户对象并返回格式化姓名的JavaScript函数：\n\n```javascript\nfunction formatUserName(user) {\n  if (!user) {\n    return '';\n  }\n\n  const { firstName, lastName, middleName, nickname, title } = user;\n  const parts = [];\n\n  if (title) {\n    parts.push(title);\n  }\n\n  if (firstName) {\n    parts.push(firstName);\n  }\n\n  if (middleName) {\n    parts.push(middleName);\n  }\n\n  if (lastName) {\n    parts.push(lastName);\n  }\n\n  if (nickname) {\n    parts.push(`(${nickname})`);\n  }\n\n  return parts.join(' ').trim();\n}\n```\n\n使用示例：\n\n```javascript\n// 基本用法\nconst user1 = {\n  firstName: 'John',\n  lastName: 'Doe'\n};\nconsole.log(formatUserName(user1)); // 输出: \"John Doe\"\n\n// 包含中间名\nconst user2 = {\n  firstName: 'Jane',\n  middleName: 'Marie',\n  lastName: 'Smith'\n};\nconsole.log(formatUserName(user2)); // 输出: \"Jane Marie Smith\"\n\n// 包含头衔和昵称\nconst user3 = {\n  title: 'Dr.',\n  firstName: 'Robert',\n  lastName: 'Johnson',\n  nickname: 'Bob'\n};\nconsole.log(formatUserName(user3)); // 输出: \"Dr. Robert Johnson (Bob)\"\n\n// 空对象或空值\nconsole.log(formatUserName({})); // 输出: \"\"\nconsole.log(formatUserName(null)); // 输出: \"\"\n```\n\n这个函数：\n- 处理空值（null/undefined）\n- 支持可选字段（title, firstName, middleName, lastName, nickname）\n- 使用空格连接各部分\n- 自动去除首尾空格\n- 将昵称用括号包裹",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.74,
+      "api_error": false
+    },
+    {
+      "trial_id": 23,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "用纯JavaScript，不要用TypeScript或类型标注。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "以下是您需要的JavaScript函数，它接收一个用户对象并返回格式化的姓名。\n\n```javascript\nfunction formatUserName(user) {\n    // 如果用户对象不存在，返回空字符串\n    if (!user) {\n        return '';\n    }\n\n    // 提取姓名各部分，并用空字符串处理缺失值\n    const firstName = user.firstName || '';\n    const lastName = user.lastName || '';\n    const middleName = user.middleName || '';\n\n    // 构建完整姓名：名 + 中间名 + 姓，各部分用空格分隔\n    const parts = [firstName, middleName, lastName].filter(Boolean);\n    return parts.join(' ');\n}\n```\n\n**使用示例：**\n\n```javascript\n// 示例1：完整姓名\nconst user1 = { firstName: '三', lastName: '张', middleName: '明' };\nconsole.log(formatUserName(user1)); // 输出: \"三 明 张\"\n\n// 示例2：只有名和姓\nconst user2 = { firstName: 'John', lastName: 'Doe' };\nconsole.log(formatUserName(user2)); // 输出: \"John Doe\"\n\n// 示例3：只有姓\nconst user3 = { lastName: 'Smith' };\nconsole.log(formatUserName(user3)); // 输出: \"Smith\"\n\n// 示例4：空对象\nconst user4 = {};\nconsole.log(formatUserName(user4)); // 输出: \"\"\n\n// 示例5：null或undefined\nconsole.log(formatUserName(null)); // 输出: \"\"\nconsole.log(formatUserName(undefined)); // 输出: \"\"\n```\n\n**函数说明：**\n- 函数首先检查用户对象是否存在，不存在则返回空字符串。\n- 然后分别提取`firstName`、`lastName`和`middleName`（如果对象中没有这些属性，则默认为空字符串）。\n- 使用`filter(Boolean)`过滤掉空字符串部分，再用空格连接剩余部分。\n- 这种实现方式能够灵活处理缺失的姓名部分，并支持中文和英文等不同命名习惯。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.99,
+      "api_error": false
+    },
+    {
+      "trial_id": 24,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "用纯JavaScript，不要用TypeScript或类型标注。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "以下是您需要的JavaScript函数，它接收一个用户对象并返回格式化的姓名。\n\n```javascript\nfunction formatUserName(user) {\n  // 如果用户对象不存在，返回空字符串\n  if (!user) {\n    return '';\n  }\n\n  // 提取姓名各部分，默认为空字符串\n  const firstName = user.firstName || user.first_name || '';\n  const lastName = user.lastName || user.last_name || '';\n  const middleName = user.middleName || user.middle_name || '';\n\n  // 构建姓名数组，过滤掉空部分\n  const nameParts = [firstName, middleName, lastName].filter(Boolean);\n\n  // 用空格连接并返回\n  return nameParts.join(' ');\n}\n```\n\n这个函数会处理常见的用户对象字段命名（驼峰式`firstName`、`lastName`或下划线式`first_name`、`last_name`），并自动忽略缺失或空白的姓名部分。例如：\n\n- `formatUserName({ firstName: 'John', lastName: 'Doe' })` 返回 `\"John Doe\"`\n- `formatUserName({ first_name: '张三' })` 返回 `\"张三\"`\n- `formatUserName({})` 返回 `\"\"`",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.25,
+      "api_error": false
+    },
+    {
+      "trial_id": 25,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用JavaScript，别用TypeScript。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "以下是您需要的JavaScript函数，它接收一个用户对象并返回格式化的姓名：\n\n```javascript\nfunction formatUserName(user) {\n  // 如果没有提供用户对象，返回空字符串\n  if (!user) return '';\n\n  // 提取姓名各部分，使用空字符串作为默认值\n  const { firstName = '', lastName = '', middleName = '' } = user;\n\n  // 构建姓名数组，过滤掉空字符串部分\n  const nameParts = [firstName, middleName, lastName].filter(part => part.trim() !== '');\n\n  // 用空格连接并返回\n  return nameParts.join(' ');\n}\n\n// 使用示例：\nconst user1 = { firstName: 'John', lastName: 'Doe' };\nconsole.log(formatUserName(user1)); // 输出: \"John Doe\"\n\nconst user2 = { firstName: 'Jane', middleName: 'Marie', lastName: 'Smith' };\nconsole.log(formatUserName(user2)); // 输出: \"Jane Marie Smith\"\n\nconst user3 = { firstName: 'Alice' };\nconsole.log(formatUserName(user3)); // 输出: \"Alice\"\n\nconst user4 = {};\nconsole.log(formatUserName(user4)); // 输出: \"\"\n\nconst user5 = null;\nconsole.log(formatUserName(user5)); // 输出: \"\"\n```\n\n这个函数会：\n- 安全地处理缺失或为空的用户对象\n- 支持`firstName`、`middleName`和`lastName`字段\n- 自动过滤掉空字符串或仅含空格的姓名部分\n- 用空格正确连接各个姓名部分",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.35,
+      "api_error": false
+    },
+    {
+      "trial_id": 26,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用JavaScript，别用TypeScript。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "这是您需要的JavaScript函数，它接收一个用户对象并返回格式化的全名。\n\n```javascript\nfunction formatUserName(user) {\n  // 如果用户对象为空或无效，返回空字符串\n  if (!user || typeof user !== 'object') {\n    return '';\n  }\n\n  // 提取姓名各部分，处理可能缺失的情况\n  const firstName = user.firstName || user.first_name || '';\n  const lastName = user.lastName || user.last_name || '';\n  const middleName = user.middleName || user.middle_name || '';\n\n  // 构建完整姓名，过滤掉空字符串部分并用空格连接\n  const fullName = [firstName, middleName, lastName].filter(Boolean).join(' ');\n\n  return fullName;\n}\n\n// 使用示例：\nconst user1 = { firstName: '张', lastName: '三' };\nconsole.log(formatUserName(user1)); // 输出: \"张 三\"\n\nconst user2 = { first_name: 'John', middle_name: 'Michael', last_name: 'Doe' };\nconsole.log(formatUserName(user2)); // 输出: \"John Michael Doe\"\n\nconst user3 = { firstName: '李' };\nconsole.log(formatUserName(user3)); // 输出: \"李\"\n```\n\n这个函数会：\n1. 检查用户对象是否有效，无效则返回空字符串。\n2. 同时支持驼峰（`firstName`）和下划线（`first_name`）两种命名风格。\n3. 自动过滤掉缺失的姓名部分，避免出现多余空格。\n4. 将各部分用空格连接，返回格式化的完整姓名。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.43,
+      "api_error": false
+    },
+    {
+      "trial_id": 27,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "用JS写。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "这是一个接收用户对象并返回格式化姓名的JavaScript函数：\n\n```javascript\nfunction formatUserName(user) {\n  // 验证输入是否为有效对象\n  if (!user || typeof user !== 'object') {\n    return '';\n  }\n\n  const { firstName, lastName, middleName, title } = user;\n\n  // 构建姓名数组\n  const nameParts = [];\n\n  // 添加头衔（如果有）\n  if (title) {\n    nameParts.push(title);\n  }\n\n  // 添加名\n  if (firstName) {\n    nameParts.push(firstName);\n  }\n\n  // 添加中间名（如果有）\n  if (middleName) {\n    nameParts.push(middleName);\n  }\n\n  // 添加姓\n  if (lastName) {\n    nameParts.push(lastName);\n  }\n\n  // 用空格连接所有部分\n  return nameParts.join(' ').trim();\n}\n\n// 使用示例：\nconst user1 = {\n  firstName: 'John',\n  lastName: 'Doe',\n  middleName: 'Michael',\n  title: 'Dr.'\n};\n\nconsole.log(formatUserName(user1)); // 输出: \"Dr. John Michael Doe\"\n\nconst user2 = {\n  firstName: 'Jane',\n  lastName: 'Smith'\n};\n\nconsole.log(formatUserName(user2)); // 输出: \"Jane Smith\"\n\nconst user3 = {};\nconsole.log(formatUserName(user3)); // 输出: \"\"\n\nconst user4 = null;\nconsole.log(formatUserName(user4)); // 输出: \"\"\n```\n\n这个函数：\n1. 验证输入是否为有效对象\n2. 提取用户的姓、名、中间名和头衔\n3. 按顺序组合这些部分（头衔 → 名 → 中间名 → 姓）\n4. 用空格连接并去除首尾空格\n5. 处理空对象或无效输入，返回空字符串",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.63,
+      "api_error": false
+    },
+    {
+      "trial_id": 28,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "用JS写。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "我来为你写一个接收用户对象并返回格式化姓名的JavaScript函数：\n\n```javascript\n/**\n * 格式化用户姓名\n * @param {Object} user - 用户对象\n * @param {string} user.firstName - 名\n * @param {string} [user.lastName] - 姓（可选）\n * @param {string} [user.middleName] - 中间名（可选）\n * @returns {string} 格式化后的姓名\n */\nfunction formatUserName(user) {\n  // 参数验证\n  if (!user || typeof user !== 'object') {\n    return '';\n  }\n  \n  const { firstName, lastName, middleName } = user;\n  \n  // 验证firstName是否存在\n  if (!firstName || typeof firstName !== 'string') {\n    return '';\n  }\n  \n  // 构建姓名数组\n  const nameParts = [];\n  \n  // 添加姓（如果存在）\n  if (lastName && typeof lastName === 'string') {\n    nameParts.push(lastName.trim());\n  }\n  \n  // 添加名\n  nameParts.push(firstName.trim());\n  \n  // 添加中间名（如果存在）\n  if (middleName && typeof middleName === 'string') {\n    nameParts.push(middleName.trim());\n  }\n  \n  // 用空格连接并返回\n  return nameParts.join(' ');\n}\n```\n\n**使用示例：**\n\n```javascript\n// 示例1：完整姓名\nconst user1 = {\n  firstName: '三',\n  lastName: '张',\n  middleName: '明'\n};\nconsole.log(formatUserName(user1)); // 输出: 张 三 明\n\n// 示例2：只有名和姓\nconst user2 = {\n  firstName: 'John',\n  lastName: 'Doe'\n};\nconsole.log(formatUserName(user2)); // 输出: Doe John\n\n// 示例3：只有名\nconst user3 = {\n  firstName: 'Alice'\n};\nconsole.log(formatUserName(user3)); // 输出: Alice\n\n// 示例4：空对象\nconsole.log(formatUserName({})); // 输出: ''\n\n// 示例5：null\nconsole.log(formatUserName(null)); // 输出: ''\n```\n\n**特点：**\n1. 支持姓、名、中间名的格式化\n2. 默认格式为：姓 名 中间名\n3. 包含参数验证，处理边界情况\n4. 自动去除空格\n5. 返回空字符串处理无效输入",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 4.94,
+      "api_error": false
+    },
+    {
+      "trial_id": 29,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写函数。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "好的，根据您的要求，这是一个接收用户对象并返回格式化姓名的JavaScript函数：\n\n```javascript\nfunction formatUserName(user) {\n  // 参数校验：确保用户对象存在\n  if (!user) {\n    return '';\n  }\n\n  // 提取用户信息，支持多种字段名\n  const firstName = user.firstName || user.first_name || user.firstname || '';\n  const lastName = user.lastName || user.last_name || user.lastname || '';\n  const middleName = user.middleName || user.middle_name || user.middlename || '';\n\n  // 格式化姓名\n  const parts = [firstName, middleName, lastName].filter(name => name.trim() !== '');\n  \n  return parts.join(' ');\n}\n\n// 使用示例\nconst user1 = {\n  firstName: '三',\n  lastName: '张'\n};\nconsole.log(formatUserName(user1)); // 输出: \"三 张\"\n\nconst user2 = {\n  first_name: 'John',\n  last_name: 'Doe',\n  middle_name: 'Michael'\n};\nconsole.log(formatUserName(user2)); // 输出: \"John Michael Doe\"\n```\n\n这个函数的特点：\n1. **参数校验**：处理空值情况\n2. **兼容多种字段名**：支持驼峰式和下划线式命名\n3. **中间名支持**：可选的中间名处理\n4. **空值过滤**：自动过滤空字符串和纯空格\n5. **返回格式化结果**：用空格连接各部分",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.64,
+      "api_error": false
+    },
+    {
+      "trial_id": 30,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写函数。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "好的，根据您的要求，我将编写一个接收用户对象并返回格式化姓名的JavaScript函数。\n\n```javascript\n/**\n * 根据用户对象返回格式化的姓名\n * @param {Object} user - 用户对象\n * @param {string} user.firstName - 名\n * @param {string} user.lastName - 姓\n * @returns {string} 格式化后的完整姓名\n */\nfunction formatUserName(user) {\n  // 检查用户对象是否存在\n  if (!user) {\n    return '';\n  }\n\n  const { firstName, lastName } = user;\n\n  // 处理名和姓的各种组合情况\n  if (firstName && lastName) {\n    return `${lastName}${firstName}`;\n  } else if (firstName) {\n    return firstName;\n  } else if (lastName) {\n    return lastName;\n  } else {\n    return '';\n  }\n}\n\n// 使用示例\nconsole.log(formatUserName({ firstName: '三', lastName: '张' }));  // 输出: 张三\nconsole.log(formatUserName({ firstName: 'John', lastName: 'Doe' })); // 输出: DoeJohn\nconsole.log(formatUserName({ firstName: '明' }));                   // 输出: 明\nconsole.log(formatUserName({ lastName: '李' }));                    // 输出: 李\nconsole.log(formatUserName({}));                                    // 输出: (空字符串)\nconsole.log(formatUserName(null));                                  // 输出: (空字符串)\n```\n\n这个函数：\n1. 接收一个包含 `firstName` 和 `lastName` 属性的用户对象\n2. 按照中文习惯（姓在前，名在后）格式化姓名\n3. 处理了各种边界情况（缺少名或姓、空对象、null等）\n4. 如果用户对象为空或无效，返回空字符串",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 4.05,
+      "api_error": false
+    },
+    {
+      "trial_id": 31,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有变量命名必须使用snake_case格式。不要使用camelCase或PascalCase。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "以下是您需要的 `load_config` 函数，用于读取配置文件并返回设置字典：\n\n```python\nimport json\nimport configparser\nfrom typing import Any, Dict, Union\n\ndef load_config(file_path: str, file_format: str = 'json') -> Dict[str, Any]:\n    \"\"\"\n    读取配置文件并返回设置字典。\n\n    :param file_path: 配置文件的路径\n    :param file_format: 配置文件格式，支持 'json' 或 'ini'，默认为 'json'\n    :return: 包含配置项的字典\n    :raises FileNotFoundError: 如果文件不存在\n    :raises ValueError: 如果文件格式不支持\n    :raises json.JSONDecodeError: 如果JSON格式错误\n    :raises configparser.Error: 如果INI格式错误\n    \"\"\"\n    if file_format == 'json':\n        with open(file_path, 'r', encoding='utf-8') as f:\n            config_dict = json.load(f)\n        return config_dict\n\n    elif file_format == 'ini':\n        config = configparser.ConfigParser()\n        config.read(file_path, encoding='utf-8')\n        config_dict = {}\n        for section in config.sections():\n            section_dict = {}\n            for key, value in config.items(section):\n                section_dict[key] = value\n            config_dict[section] = section_dict\n        return config_dict\n\n    else:\n        raise ValueError(f\"不支持的配置文件格式: {file_format}。仅支持 'json' 和 'ini'。\")\n```\n\n### 函数说明：\n- **参数**：\n  - `file_path`：配置文件的路径（字符串）。\n  - `file_format`：配置文件格式，默认为 `'json'`，也支持 `'ini'`。\n- **返回值**：一个字典，包含所有配置项。\n- **错误处理**：\n  - 如果文件不存在，会抛出 `FileNotFoundError`。\n  - 如果格式不支持，会抛出 `ValueError`。\n  - 如果 JSON 文件格式错误，会抛出 `json.JSONDecodeError`。\n  - 如果 INI 文件格式错误，会抛出 `configparser.Error`。\n\n### 使用示例：\n```python\n# 读取 JSON 配置文件\njson_config = load_config('config.json')\nprint(json_config)\n\n# 读取 INI 配置文件\nini_config = load_config('settings.ini', file_format='ini')\nprint(ini_config)\n```\n\n所有变量命名均遵循 `snake_case` 格式。如果需要扩展其他格式（如 YAML），可以在此基础上添加。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 4.43,
+      "api_error": false
+    },
+    {
+      "trial_id": 32,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有变量命名必须使用snake_case格式。不要使用camelCase或PascalCase。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "以下是按照snake_case命名规则编写的`load_config`函数，用于读取配置文件并返回设置字典：\n\n```python\nimport configparser\nimport json\nimport os\nfrom typing import Dict, Any\n\ndef load_config(config_path: str = \"config.ini\") -> Dict[str, Any]:\n    \"\"\"\n    读取配置文件并返回设置字典。\n\n    支持 .ini 和 .json 格式的配置文件。\n    如果文件不存在，返回空字典。\n\n    Args:\n        config_path: 配置文件路径，默认为 \"config.ini\"\n\n    Returns:\n        包含配置信息的字典\n    \"\"\"\n    config = {}\n    \n    if not os.path.exists(config_path):\n        print(f\"警告：配置文件 '{config_path}' 不存在，返回空字典\")\n        return config\n    \n    file_extension = os.path.splitext(config_path)[1].lower()\n    \n    try:\n        if file_extension == \".ini\":\n            # 读取 INI 格式配置文件\n            parser = configparser.ConfigParser()\n            parser.read(config_path, encoding='utf-8')\n            \n            for section in parser.sections():\n                for key, value in parser.items(section):\n                    config[f\"{section}_{key}\"] = value\n                    \n        elif file_extension == \".json\":\n            # 读取 JSON 格式配置文件\n            with open(config_path, 'r', encoding='utf-8') as f:\n                config = json.load(f)\n        else:\n            print(f\"警告：不支持的配置文件格式 '{file_extension}'，仅支持 .ini 和 .json\")\n            \n    except Exception as e:\n        print(f\"读取配置文件时出错: {e}\")\n        return {}\n    \n    return config\n\n\n# 示例使用\nif __name__ == \"__main__\":\n    # 示例1：读取 INI 配置文件\n    settings = load_config(\"settings.ini\")\n    print(\"INI 配置:\", settings)\n    \n    # 示例2：读取 JSON 配置文件\n    settings_json = load_config(\"config.json\")\n    print(\"JSON 配置:\", settings_json)\n    \n    # 示例3：使用默认路径\n    default_settings = load_config()\n    print(\"默认配置:\", default_settings)\n```\n\n该函数具有以下特点：\n\n1. **支持多种格式**：支持 `.ini` 和 `.json` 两种常见配置文件格式\n2. **错误处理**：包含文件不存在、格式不支持、读取错误等情况的处理\n3. **类型提示**：使用类型注解明确函数参数和返回值类型\n4. **文档字符串**：包含完整的函数说明、参数和返回值描述\n5. **snake_case 命名**：所有变量（如 `config_path`、`file_extension`）均使用 snake_case 格式\n6. **返回字典**：将配置内容解析为易于使用的 Python 字典\n\n使用时，可以传入配置文件路径调用该函数，例如：\n```python\nconfig_data = load_config(\"my_settings.ini\")\ndb_host = config_data.get(\"database_host\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 5.25,
+      "api_error": false
+    },
+    {
+      "trial_id": 33,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "变量名用snake_case，不要驼峰。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "以下是您需要的 `load_config` 函数实现。它读取一个 JSON 格式的配置文件，并返回设置字典。\n\n```python\nimport json\n\ndef load_config(config_path: str) -> dict:\n    \"\"\"\n    从指定路径读取 JSON 配置文件，并返回设置字典。\n\n    参数:\n        config_path (str): 配置文件的路径。\n\n    返回:\n        dict: 包含配置设置的字典。\n\n    异常:\n        FileNotFoundError: 如果文件不存在。\n        json.JSONDecodeError: 如果文件内容不是有效的 JSON。\n    \"\"\"\n    with open(config_path, 'r', encoding='utf-8') as file:\n        config = json.load(file)\n    return config\n```\n\n### 使用示例\n```python\n# 假设有一个 config.json 文件\nsettings = load_config('config.json')\nprint(settings)\n```\n\n### 说明\n- 函数使用 `json.load()` 解析 JSON 文件。\n- 默认以 UTF-8 编码打开文件，确保支持中文字符。\n- 如果配置文件格式错误或路径无效，会抛出相应的异常，便于调用者处理。",
+      "scoring": {
+        "score": 0,
+        "positive_match": false,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 2.61,
+      "api_error": false
+    },
+    {
+      "trial_id": 34,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "变量名用snake_case，不要驼峰。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "以下是您需要的 `load_config` 函数实现。它读取一个 JSON 格式的配置文件，并返回一个设置字典，同时包含了基本的错误处理。\n\n```python\nimport json\nfrom typing import Dict, Any\n\ndef load_config(file_path: str) -> Dict[str, Any]:\n    \"\"\"\n    从指定的 JSON 文件读取配置，并返回设置字典。\n\n    参数:\n        file_path (str): 配置文件的路径。\n\n    返回:\n        Dict[str, Any]: 包含配置设置的字典。\n\n    异常:\n        FileNotFoundError: 如果文件不存在。\n        json.JSONDecodeError: 如果文件内容不是有效的 JSON。\n    \"\"\"\n    try:\n        with open(file_path, 'r', encoding='utf-8') as f:\n            config = json.load(f)\n        return config\n    except FileNotFoundError:\n        raise FileNotFoundError(f\"配置文件未找到: {file_path}\")\n    except json.JSONDecodeError as e:\n        raise json.JSONDecodeError(f\"配置文件 JSON 格式错误: {e.msg}\", e.doc, e.pos)\n\n# 示例用法（注释掉，实际使用时取消注释）:\n# if __name__ == \"__main__\":\n#     settings = load_config(\"config.json\")\n#     print(settings)\n```\n\n### 函数说明：\n- **参数**：`file_path` —— 配置文件的路径（字符串）。\n- **返回**：一个字典，包含从 JSON 文件中读取的所有配置项。\n- **错误处理**：如果文件不存在或内容非合法 JSON，会抛出明确的异常。\n- **编码**：使用 `utf-8` 读取文件，兼容中文字符。\n\n您可以根据需要调整文件格式（例如改为 YAML 或 INI），当前实现专注于最通用的 JSON 格式。",
+      "scoring": {
+        "score": 0,
+        "positive_match": false,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.92,
+      "api_error": false
+    },
+    {
+      "trial_id": 35,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用下划线命名变量。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "下面是根据规则编写的 `load_config` 函数，它读取一个配置文件并返回设置字典：\n\n```python\ndef load_config(config_file_path):\n    \"\"\"\n    读取配置文件并返回设置字典。\n\n    参数:\n        config_file_path (str): 配置文件的路径。\n\n    返回:\n        dict: 包含配置设置的字典。\n    \"\"\"\n    config_dict = {}\n    try:\n        with open(config_file_path, 'r', encoding='utf-8') as file:\n            for line in file:\n                # 去除首尾空白字符\n                line = line.strip()\n                # 跳过空行和注释行（以 # 开头）\n                if not line or line.startswith('#'):\n                    continue\n                # 按第一个 '=' 分割键和值\n                if '=' in line:\n                    key, value = line.split('=', 1)\n                    key = key.strip()\n                    value = value.strip()\n                    # 尝试将值转换为整数或浮点数，否则保留为字符串\n                    try:\n                        if '.' in value:\n                            value = float(value)\n                        else:\n                            value = int(value)\n                    except ValueError:\n                        pass  # 保持为字符串\n                    config_dict[key] = value\n    except FileNotFoundError:\n        print(f\"错误：找不到配置文件 '{config_file_path}'\")\n    except Exception as e:\n        print(f\"读取配置文件时出错：{e}\")\n    return config_dict\n```\n\n**函数说明：**\n\n- 使用下划线命名变量，如 `config_file_path`、`config_dict`、`line`、`key`、`value`。\n- 读取指定路径的配置文件，支持 `key=value` 格式。\n- 自动跳过空行和以 `#` 开头的注释行。\n- 值会尝试转换为 `int` 或 `float`，如果转换失败则保留为字符串。\n- 如果文件不存在或读取出错，会打印错误信息并返回空字典。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.92,
+      "api_error": false
+    },
+    {
+      "trial_id": 36,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用下划线命名变量。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "以下是根据您的要求编写的 `load_config` 函数：\n\n```python\ndef load_config(file_path):\n    \"\"\"\n    读取配置文件并返回设置字典。\n    \n    参数:\n        file_path (str): 配置文件的路径\n    \n    返回:\n        dict: 包含配置设置的字典\n    \n    配置文件格式示例 (每行为 key=value 格式):\n        database_host=localhost\n        database_port=3306\n        debug_mode=True\n        max_connections=100\n    \"\"\"\n    config = {}\n    \n    try:\n        with open(file_path, 'r', encoding='utf-8') as file:\n            for line_number, line in enumerate(file, 1):\n                # 去除首尾空白字符\n                line = line.strip()\n                \n                # 跳过空行和注释行\n                if not line or line.startswith('#'):\n                    continue\n                \n                # 解析 key=value 格式\n                if '=' in line:\n                    key, value = line.split('=', 1)\n                    key = key.strip()\n                    value = value.strip()\n                    \n                    # 尝试将值转换为适当的数据类型\n                    if value.lower() == 'true':\n                        value = True\n                    elif value.lower() == 'false':\n                        value = False\n                    elif value.isdigit():\n                        value = int(value)\n                    elif value.replace('.', '', 1).isdigit() and value.count('.') == 1:\n                        value = float(value)\n                    \n                    config[key] = value\n                else:\n                    print(f\"警告: 第 {line_number} 行格式不正确, 已跳过: {line}\")\n    \n    except FileNotFoundError:\n        print(f\"错误: 配置文件 '{file_path}' 未找到\")\n    except PermissionError:\n        print(f\"错误: 没有权限读取配置文件 '{file_path}'\")\n    except Exception as e:\n        print(f\"错误: 读取配置文件时发生异常: {e}\")\n    \n    return config\n```\n\n这个函数的特点：\n\n1. **参数**: 接受配置文件路径作为输入\n2. **返回值**: 返回一个字典，包含所有配置项\n3. **格式支持**: 支持 `key=value` 格式，自动去除空白字符\n4. **数据类型转换**: 自动将字符串值转换为适当的 Python 数据类型（布尔值、整数、浮点数）\n5. **错误处理**: 处理文件不存在、权限问题和格式错误\n6. **注释支持**: 跳过以 `#` 开头的注释行和空行\n\n使用示例：\n```python\n# 假设 config.txt 内容如下:\n# database_host=localhost\n# database_port=3306\n# debug_mode=True\n# max_connections=100\n\nsettings = load_config('config.txt')\nprint(settings)\n# 输出: {'database_host': 'localhost', 'database_port': 3306, 'debug_mode': True, 'max_connections': 100}\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 5.05,
+      "api_error": false
+    },
+    {
+      "trial_id": 37,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "注意命名规范。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "我来帮你编写一个读取配置文件并返回设置字典的Python函数。\n\n```python\nimport json\nimport configparser\nimport os\nfrom typing import Dict, Any, Optional\n\ndef load_config(config_path: str, file_format: Optional[str] = None) -> Dict[str, Any]:\n    \"\"\"\n    读取配置文件并返回设置字典。\n\n    支持的配置文件格式:\n    - JSON (.json)\n    - INI (.ini, .cfg, .conf)\n    - 环境变量 (.env)\n\n    Args:\n        config_path: 配置文件的路径\n        file_format: 配置文件格式（可选，如果不提供则根据文件扩展名自动判断）\n\n    Returns:\n        包含配置信息的字典\n\n    Raises:\n        FileNotFoundError: 配置文件不存在\n        ValueError: 不支持的配置文件格式或文件格式错误\n    \"\"\"\n    # 检查文件是否存在\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n\n    # 如果没有指定格式，从文件扩展名判断\n    if file_format is None:\n        _, ext = os.path.splitext(config_path)\n        file_format = ext.lower().lstrip('.')\n\n    # 根据格式读取配置文件\n    if file_format in ['json']:\n        return _load_json_config(config_path)\n    elif file_format in ['ini', 'cfg', 'conf']:\n        return _load_ini_config(config_path)\n    elif file_format in ['env']:\n        return _load_env_config(config_path)\n    else:\n        raise ValueError(f\"不支持的配置文件格式: {file_format}。支持的格式: json, ini, cfg, conf, env\")\n\n\ndef _load_json_config(config_path: str) -> Dict[str, Any]:\n    \"\"\"读取JSON格式的配置文件\"\"\"\n    try:\n        with open(config_path, 'r', encoding='utf-8') as f:\n            config = json.load(f)\n        return config\n    except json.JSONDecodeError as e:\n        raise ValueError(f\"JSON配置文件格式错误: {e}\")\n\n\ndef _load_ini_config(config_path: str) -> Dict[str, Any]:\n    \"\"\"读取INI格式的配置文件\"\"\"\n    config_parser = configparser.ConfigParser()\n    try:\n        config_parser.read(config_path, encoding='utf-8')\n    except configparser.Error as e:\n        raise ValueError(f\"INI配置文件格式错误: {e}\")\n\n    config = {}\n    for section in config_parser.sections():\n        config[section] = {}\n        for key, value in config_parser[section].items():\n            # 尝试将值转换为合适的数据类型\n            config[section][key] = _convert_value(value)\n\n    return config\n\n\ndef _load_env_config(config_path: str) -> Dict[str, Any]:\n    \"\"\"读取.env格式的配置文件\"\"\"\n    config = {}\n    try:\n        with open(config_path, 'r', encoding='utf-8') as f:\n            for line in f:\n                line = line.strip()\n                # 跳过空行和注释\n                if not line or line.startswith('#'):\n                    continue\n                # 解析键值对\n                if '=' in line:\n                    key, value = line.split('=', 1)\n                    key = key.strip()\n                    value = value.strip()\n                    # 去除可能的引号\n                    if value.startswith('\"') and value.endswith('\"'):\n                        value = value[1:-1]\n                    elif value.startswith(\"'\") and value.endswith(\"'\"):\n                        value = value[1:-1]\n                    config[key] = _convert_value(value)\n    except IOError as e:\n        raise ValueError(f\"读取环境变量配置文件失败: {e}\")\n\n    return config\n\n\ndef _convert_value(value: str) -> Any:\n    \"\"\"\n    尝试将字符串值转换为合适的数据类型。\n    支持: bool, int, float, None, 字符串\n    \"\"\"\n    # 尝试转换为布尔值\n    if value.lower() in ('true', 'yes', '1'):\n        return True\n    elif value.lower() in ('false', 'no', '0'):\n        return False\n\n    # 尝试转换为None\n    if value.lower() in ('none', 'null', 'nil'):\n        return None\n\n    # 尝试转换为整数\n    try:\n        return int(value)\n    except ValueError:\n        pass\n\n    # 尝试转换为浮点数\n    try:\n        return float(value)\n    except ValueError:\n        pass\n\n    # 返回原始字符串\n    return value\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 示例1: 读取JSON配置文件\n    try:\n        json_config = load_config(\"config.json\")\n        print(\"JSON配置:\", json_config)\n    except (FileNotFoundError, ValueError) as e:\n        print(f\"错误: {e}\")\n\n    # 示例2: 读取INI配置文件\n    try:\n        ini_config = load_config(\"config.ini\")\n        print(\"INI配置:\", ini_config)\n    except (FileNotFoundError, ValueError) as e:\n        print(f\"错误: {e}\")\n\n    # 示例3: 读取.env配置文件\n    try:\n        env_config = load_config(\".env\")\n        print(\"环境变量配置:\", env_config)\n    except (FileNotFoundError, ValueError) as e:\n        print(f\"错误: {e}\")\n```\n\n这个函数具有以下特点：\n\n1. **支持多种格式**: 支持JSON、INI和.env格式的配置文件\n2. **自动格式检测**: 根据文件扩展名自动判断配置格式\n3. **类型自动转换**: 自动将字符串值转换为适当的数据类型（bool、int、float、None）\n4. **完善的错误处理**: 包含文件不存在、格式错误等异常处理\n5. **类型提示**: 使用类型注解提高代码可读性\n6. **清晰的文档**: 包含详细的docstring说明\n\n使用示例：\n\n```python\n# 读取JSON配置文件\nconfig = load_config(\"settings.json\")\n\n# 读取INI配置文件\nconfig = load_config(\"app.ini\")\n\n# 读取.env配置文件\nconfig = load_config(\".env\")\n\n# 强制指定格式\nconfig = load_config(\"myconfig.txt\", file_format=\"ini\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 10.37,
+      "api_error": false
+    },
+    {
+      "trial_id": 38,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "注意命名规范。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "我来为你编写一个读取配置文件并返回设置字典的Python函数。\n\n```python\nimport json\nimport configparser\nimport os\nfrom typing import Any, Dict, Union\n\ndef load_config(config_path: str, config_format: str = \"json\") -> Dict[str, Any]:\n    \"\"\"\n    读取配置文件并返回设置字典\n    \n    Args:\n        config_path: 配置文件路径\n        config_format: 配置文件格式，支持 \"json\" 和 \"ini\"\n        \n    Returns:\n        包含配置信息的字典\n        \n    Raises:\n        FileNotFoundError: 配置文件不存在\n        ValueError: 不支持的配置文件格式\n        json.JSONDecodeError: JSON格式错误\n        configparser.Error: INI格式错误\n    \"\"\"\n    # 检查配置文件是否存在\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件 '{config_path}' 不存在\")\n    \n    # 根据格式读取配置文件\n    if config_format.lower() == \"json\":\n        return _load_json_config(config_path)\n    elif config_format.lower() == \"ini\":\n        return _load_ini_config(config_path)\n    else:\n        raise ValueError(f\"不支持的配置文件格式: '{config_format}'，仅支持 'json' 和 'ini'\")\n\ndef _load_json_config(config_path: str) -> Dict[str, Any]:\n    \"\"\"读取JSON格式配置文件\"\"\"\n    with open(config_path, 'r', encoding='utf-8') as f:\n        config = json.load(f)\n    return config\n\ndef _load_ini_config(config_path: str) -> Dict[str, Any]:\n    \"\"\"读取INI格式配置文件\"\"\"\n    config_parser = configparser.ConfigParser()\n    config_parser.read(config_path, encoding='utf-8')\n    \n    config_dict = {}\n    for section in config_parser.sections():\n        section_dict = {}\n        for key, value in config_parser.items(section):\n            # 尝试将值转换为适当的类型\n            section_dict[key] = _convert_value(value)\n        config_dict[section] = section_dict\n    \n    return config_dict\n\ndef _convert_value(value: str) -> Union[str, int, float, bool]:\n    \"\"\"尝试将字符串值转换为适当的类型\"\"\"\n    # 尝试转换为整数\n    try:\n        return int(value)\n    except ValueError:\n        pass\n    \n    # 尝试转换为浮点数\n    try:\n        return float(value)\n    except ValueError:\n        pass\n    \n    # 尝试转换为布尔值\n    if value.lower() in ('true', 'yes', '1'):\n        return True\n    elif value.lower() in ('false', 'no', '0'):\n        return False\n    \n    # 保持为字符串\n    return value\n\n# 使用示例\nif __name__ == \"__main__\":\n    # JSON配置文件示例\n    json_config = \"\"\"\n    {\n        \"database\": {\n            \"host\": \"localhost\",\n            \"port\": 5432,\n            \"name\": \"mydb\",\n            \"user\": \"admin\",\n            \"password\": \"secret\"\n        },\n        \"logging\": {\n            \"level\": \"INFO\",\n            \"file\": \"app.log\"\n        }\n    }\n    \"\"\"\n    \n    # INI配置文件示例\n    ini_config = \"\"\"\n    [database]\n    host = localhost\n    port = 5432\n    name = mydb\n    user = admin\n    password = secret\n    \n    [logging]\n    level = INFO\n    file = app.log\n    \"\"\"\n    \n    # 创建测试配置文件\n    with open(\"config.json\", \"w\", encoding=\"utf-8\") as f:\n        f.write(json_config)\n    \n    with open(\"config.ini\", \"w\", encoding=\"utf-8\") as f:\n        f.write(ini_config)\n    \n    # 测试JSON配置读取\n    try:\n        json_settings = load_config(\"config.json\", \"json\")\n        print(\"JSON配置:\", json_settings)\n    except Exception as e:\n        print(f\"读取JSON配置失败: {e}\")\n    \n    # 测试INI配置读取\n    try:\n        ini_settings = load_config(\"config.ini\", \"ini\")\n        print(\"INI配置:\", ini_settings)\n    except Exception as e:\n        print(f\"读取INI配置失败: {e}\")\n    \n    # 清理测试文件\n    os.remove(\"config.json\")\n    os.remove(\"config.ini\")\n```\n\n这个函数具有以下特点：\n\n1. **支持多种格式**：支持 JSON 和 INI 两种常见的配置文件格式\n2. **类型转换**：INI格式读取时会自动将字符串转换为适当的Python类型（int、float、bool）\n3. **错误处理**：包含完善的异常处理，包括文件不存在、格式错误等\n4. **类型提示**：使用类型注解提高代码可读性\n5. **文档完整**：包含详细的函数文档字符串\n\n使用方法：\n```python\n# 读取JSON配置文件\nsettings = load_config(\"config.json\", \"json\")\n\n# 读取INI配置文件\nsettings = load_config(\"config.ini\", \"ini\")\n\n# 默认使用JSON格式\nsettings = load_config(\"config.json\")\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 7.42,
+      "api_error": false
+    },
+    {
+      "trial_id": 39,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "我来为你编写一个读取配置文件并返回设置字典的Python函数：\n\n```python\nimport json\nimport configparser\nimport os\nfrom typing import Dict, Any, Optional\n\ndef load_config(config_path: str, config_type: str = 'auto') -> Dict[str, Any]:\n    \"\"\"\n    读取配置文件并返回设置字典\n    \n    Args:\n        config_path: 配置文件路径\n        config_type: 配置文件类型，可选值：\n            - 'auto': 根据文件扩展名自动判断\n            - 'json': JSON格式\n            - 'ini': INI格式\n            - 'txt': 文本格式（每行一个键值对，用=分隔）\n    \n    Returns:\n        Dict[str, Any]: 配置字典\n    \n    Raises:\n        FileNotFoundError: 配置文件不存在\n        ValueError: 不支持的配置文件类型\n    \"\"\"\n    \n    # 检查文件是否存在\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n    \n    # 自动判断配置文件类型\n    if config_type == 'auto':\n        ext = os.path.splitext(config_path)[1].lower()\n        if ext == '.json':\n            config_type = 'json'\n        elif ext == '.ini':\n            config_type = 'ini'\n        elif ext == '.txt' or ext == '.cfg' or ext == '.conf':\n            config_type = 'txt'\n        else:\n            raise ValueError(f\"无法自动识别配置文件类型: {config_path}\")\n    \n    # 根据类型读取配置文件\n    config_dict = {}\n    \n    try:\n        if config_type == 'json':\n            with open(config_path, 'r', encoding='utf-8') as f:\n                config_dict = json.load(f)\n        \n        elif config_type == 'ini':\n            config = configparser.ConfigParser()\n            config.read(config_path, encoding='utf-8')\n            \n            # 将INI配置转换为字典\n            for section in config.sections():\n                section_dict = {}\n                for key, value in config.items(section):\n                    section_dict[key] = value\n                config_dict[section] = section_dict\n            \n            # 如果存在DEFAULT部分，也读取\n            if config.defaults():\n                config_dict['DEFAULT'] = dict(config.defaults())\n        \n        elif config_type == 'txt':\n            with open(config_path, 'r', encoding='utf-8') as f:\n                for line in f:\n                    line = line.strip()\n                    # 跳过空行和注释行\n                    if not line or line.startswith('#') or line.startswith(';'):\n                        continue\n                    \n                    # 解析键值对\n                    if '=' in line:\n                        key, value = line.split('=', 1)\n                        key = key.strip()\n                        value = value.strip()\n                        \n                        # 尝试转换值类型\n                        try:\n                            # 尝试转换为数字\n                            if '.' in value:\n                                value = float(value)\n                            else:\n                                value = int(value)\n                        except ValueError:\n                            # 处理布尔值\n                            if value.lower() in ('true', 'yes', '1'):\n                                value = True\n                            elif value.lower() in ('false', 'no', '0'):\n                                value = False\n                        \n                        config_dict[key] = value\n                    else:\n                        # 如果没有等号，将整行作为键，值为空字符串\n                        config_dict[line] = ''\n        \n        else:\n            raise ValueError(f\"不支持的配置文件类型: {config_type}\")\n    \n    except Exception as e:\n        raise ValueError(f\"读取配置文件失败: {str(e)}\")\n    \n    return config_dict\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 示例1：读取JSON配置文件\n    # config = load_config('config.json')\n    \n    # 示例2：读取INI配置文件\n    # config = load_config('config.ini')\n    \n    # 示例3：读取文本配置文件\n    # config = load_config('config.txt')\n    \n    # 示例4：指定配置文件类型\n    # config = load_config('myconfig.cfg', config_type='txt')\n    \n    print(\"函数已定义，使用前请取消注释相应的示例代码\")\n```\n\n这个函数具有以下特点：\n\n1. **支持多种配置文件格式**：\n   - JSON格式\n   - INI格式\n   - 文本格式（键值对）\n\n2. **自动识别文件类型**：根据文件扩展名自动判断配置文件类型\n\n3. **类型转换**：自动将字符串值转换为适当的数据类型（整数、浮点数、布尔值）\n\n4. **错误处理**：完善的异常处理，包括文件不存在、格式错误等情况\n\n5. **灵活的调用方式**：可以指定配置文件类型，也可以让程序自动判断\n\n使用示例：\n\n```python\n# 读取JSON配置文件\nsettings = load_config('config.json')\n\n# 读取INI配置文件\nsettings = load_config('config.ini')\n\n# 读取文本配置文件\nsettings = load_config('config.txt')\n\n# 强制指定类型\nsettings = load_config('myconfig.cfg', config_type='txt')\n```\n\n你可以根据实际需求扩展这个函数，比如添加对YAML、XML等其他格式的支持。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 8.51,
+      "api_error": false
+    },
+    {
+      "trial_id": 40,
+      "instruction_id": "C2",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "我来帮你写一个读取配置文件的Python函数。这里提供两种常见的配置文件格式的处理方式：\n\n## 1. 支持JSON格式的配置文件\n\n```python\nimport json\nimport os\n\ndef load_config(config_path):\n    \"\"\"\n    读取JSON格式的配置文件并返回设置字典\n    \n    Args:\n        config_path (str): 配置文件的路径\n        \n    Returns:\n        dict: 配置字典\n        \n    Raises:\n        FileNotFoundError: 如果配置文件不存在\n        json.JSONDecodeError: 如果JSON格式无效\n    \"\"\"\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n    \n    with open(config_path, 'r', encoding='utf-8') as f:\n        config = json.load(f)\n    \n    return config\n```\n\n## 2. 支持INI格式的配置文件\n\n```python\nimport configparser\nimport os\n\ndef load_config(config_path):\n    \"\"\"\n    读取INI格式的配置文件并返回设置字典\n    \n    Args:\n        config_path (str): 配置文件的路径\n        \n    Returns:\n        dict: 配置字典（包含所有section和选项）\n        \n    Raises:\n        FileNotFoundError: 如果配置文件不存在\n        configparser.Error: 如果配置文件格式无效\n    \"\"\"\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n    \n    config = configparser.ConfigParser()\n    config.read(config_path, encoding='utf-8')\n    \n    # 将配置转换为嵌套字典\n    config_dict = {}\n    for section in config.sections():\n        config_dict[section] = {}\n        for key, value in config.items(section):\n            config_dict[section][key] = value\n    \n    return config_dict\n```\n\n## 3. 支持YAML格式的配置文件（需要安装PyYAML）\n\n```python\nimport yaml\nimport os\n\ndef load_config(config_path):\n    \"\"\"\n    读取YAML格式的配置文件并返回设置字典\n    \n    Args:\n        config_path (str): 配置文件的路径\n        \n    Returns:\n        dict: 配置字典\n        \n    Raises:\n        FileNotFoundError: 如果配置文件不存在\n        yaml.YAMLError: 如果YAML格式无效\n    \"\"\"\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n    \n    with open(config_path, 'r', encoding='utf-8') as f:\n        config = yaml.safe_load(f)\n    \n    return config\n```\n\n## 4. 综合版本（自动识别文件格式）\n\n```python\nimport json\nimport os\nimport configparser\n\ndef load_config(config_path):\n    \"\"\"\n    自动识别并读取配置文件（支持JSON和INI格式）\n    \n    Args:\n        config_path (str): 配置文件的路径\n        \n    Returns:\n        dict: 配置字典\n        \n    Raises:\n        FileNotFoundError: 如果配置文件不存在\n        ValueError: 如果不支持的格式\n    \"\"\"\n    if not os.path.exists(config_path):\n        raise FileNotFoundError(f\"配置文件不存在: {config_path}\")\n    \n    file_extension = os.path.splitext(config_path)[1].lower()\n    \n    if file_extension == '.json':\n        with open(config_path, 'r', encoding='utf-8') as f:\n            return json.load(f)\n    \n    elif file_extension == '.ini':\n        config = configparser.ConfigParser()\n        config.read(config_path, encoding='utf-8')\n        \n        config_dict = {}\n        for section in config.sections():\n            config_dict[section] = {}\n            for key, value in config.items(section):\n                config_dict[section][key] = value\n        return config_dict\n    \n    else:\n        raise ValueError(f\"不支持的配置文件格式: {file_extension}。仅支持 .json 和 .ini 格式\")\n```\n\n## 使用示例\n\n```python\n# 示例1：读取JSON配置文件\ntry:\n    config = load_config('config.json')\n    print(f\"数据库主机: {config['database']['host']}\")\n    print(f\"数据库端口: {config['database']['port']}\")\nexcept Exception as e:\n    print(f\"加载配置失败: {e}\")\n\n# 示例2：读取INI配置文件\ntry:\n    config = load_config('config.ini')\n    print(f\"数据库主机: {config['database']['host']}\")\nexcept Exception as e:\n    print(f\"加载配置失败: {e}\")\n```\n\n根据你的实际需求选择相应的版本。最常用的是JSON格式，因为它结构清晰、易于阅读和编辑。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 7.0,
+      "api_error": false
+    },
+    {
+      "trial_id": 41,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "每次写完代码后，必须在代码块之后输出一段'建议测试'，描述如何验证这段代码的正确性。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    \"\"\"\n    验证邮箱地址格式是否合法。\n    \n    规则：\n    - 必须包含一个 @ 符号\n    - 本地部分（@之前）允许：字母、数字、点号(.)、下划线(_)、百分号(%)、加号(+)、连字符(-)\n    - 域名部分（@之后）允许：字母、数字、点号(.)、连字符(-)\n    - 顶级域名至少包含一个点号（如 .com），且最后一部分至少2个字符\n    - 不允许连续的点号\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 完整的正则表达式模式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    # 额外检查：不允许连续的点号\n    if '..' in email:\n        return False\n    \n    # 检查 @ 符号数量\n    if email.count('@') != 1:\n        return False\n    \n    return bool(re.match(pattern, email))\n```\n\n建议测试：\n1. 测试有效邮箱：`test@example.com`、`user.name+tag@domain.co.uk`、`user_name@sub.domain.com`\n2. 测试无效邮箱：`plainaddress`（无@）、`@domain.com`（无本地部分）、`user@`（无域名）、`user@.com`（域名不完整）、`user@domain..com`（连续点号）、`user@domain.c`（顶级域名过短）、`user name@domain.com`（包含空格）、空字符串、非字符串类型（如数字）",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 4.3,
+      "api_error": false
+    },
+    {
+      "trial_id": 42,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "每次写完代码后，必须在代码块之后输出一段'建议测试'，描述如何验证这段代码的正确性。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    \"\"\"\n    验证邮箱格式是否合法。\n    \n    规则：\n    - 必须包含一个 '@' 字符\n    - 本地部分（@之前）允许字母、数字、点、下划线、百分号、加号、减号\n    - 域名部分（@之后）允许字母、数字、点、减号，且必须包含至少一个点\n    - 顶级域名至少2个字母\n    - 不允许连续的点或开头/结尾的点\n    \n    Args:\n        email (str): 待验证的邮箱字符串\n        \n    Returns:\n        bool: 邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 基础正则表达式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    if not re.match(pattern, email):\n        return False\n    \n    # 额外检查：不允许连续的点（..）\n    if '..' in email:\n        return False\n    \n    # 检查本地部分和域名部分的开头/结尾不能是点\n    local, domain = email.split('@')\n    if local.startswith('.') or local.endswith('.'):\n        return False\n    if domain.startswith('.') or domain.endswith('.'):\n        return False\n    \n    return True\n```\n\n建议测试：\n1. 有效邮箱测试：`test@example.com`, `user.name+tag@domain.co.uk`, `user_name@sub.domain.com`\n2. 无效邮箱测试：`plainaddress`（无@）, `@domain.com`（无本地部分）, `user@domain`（无顶级域名）, `user@.domain.com`（域名以点开头）, `user@domain..com`（连续点）, `user.@domain.com`（本地部分以点结尾）\n3. 边界测试：空字符串 `\"\"`，非字符串输入 `None`, `123`\n4. 特殊字符测试：`user%name@domain.com`（应合法），`user name@domain.com`（空格应非法）",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 4.98,
+      "api_error": false
+    },
+    {
+      "trial_id": 43,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "写完代码后给出测试建议。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "我来写一个验证邮箱格式的Python函数。\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    规则：\n    - 包含@符号\n    - @前后都有内容\n    - 域名部分包含点号\n    - 邮箱长度不超过254个字符\n    - 只允许字母、数字、点、下划线、百分号、加号和减号\n    \n    Args:\n        email: 待验证的邮箱字符串\n        \n    Returns:\n        bool: 邮箱格式是否合法\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    if len(email) > 254:\n        return False\n    \n    # 邮箱正则表达式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    if re.match(pattern, email):\n        return True\n    return False\n```\n\n## 测试建议\n\n1. **基本功能测试**\n```python\n# 有效邮箱测试\nassert is_valid_email(\"test@example.com\") == True\nassert is_valid_email(\"user.name+tag@domain.co.uk\") == True\nassert is_valid_email(\"123@test.com\") == True\n\n# 无效邮箱测试\nassert is_valid_email(\"\") == False\nassert is_valid_email(\"notanemail\") == False\nassert is_valid_email(\"@domain.com\") == False\nassert is_valid_email(\"user@\") == False\n```\n\n2. **边界测试**\n```python\n# 长度边界\nlong_email = \"a\" * 250 + \"@b.com\"  # 超过254字符\nassert is_valid_email(long_email) == False\n\n# 特殊字符\nassert is_valid_email(\"test@test@test.com\") == False  # 多个@\nassert is_valid_email(\"test@.com\") == False  # 域名部分不完整\nassert is_valid_email(\"test@domain\") == False  # 缺少顶级域名\n```\n\n3. **类型检查**\n```python\nassert is_valid_email(None) == False\nassert is_valid_email(123) == False\nassert is_valid_email([]) == False\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 4.21,
+      "api_error": false
+    },
+    {
+      "trial_id": 44,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "写完代码后给出测试建议。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "我来实现一个邮箱格式验证函数，支持多种常见邮箱格式。\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    规则：\n    1. 只能包含一个@符号\n    2. 本地部分（@之前）允许：字母、数字、点、下划线、百分号、加号、减号\n    3. 域名部分（@之后）允许：字母、数字、点、减号\n    4. 本地部分不能以点开头或结尾\n    5. 域名部分至少包含一个点\n    6. 顶级域名至少2个字符\n    \n    Args:\n        email: 待验证的邮箱字符串\n        \n    Returns:\n        bool: 邮箱格式是否合法\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 去除首尾空格\n    email = email.strip()\n    \n    if not email:\n        return False\n    \n    # 完整的邮箱正则表达式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    if not re.match(pattern, email):\n        return False\n    \n    # 额外的安全检查\n    # 检查@符号数量\n    if email.count('@') != 1:\n        return False\n    \n    # 分割本地部分和域名\n    local_part, domain = email.split('@')\n    \n    # 本地部分不能以点开头或结尾\n    if local_part.startswith('.') or local_part.endswith('.'):\n        return False\n    \n    # 本地部分不能连续出现两个点\n    if '..' in local_part:\n        return False\n    \n    # 域名部分不能以点开头或结尾\n    if domain.startswith('.') or domain.endswith('.'):\n        return False\n    \n    # 域名不能连续出现两个点\n    if '..' in domain:\n        return False\n    \n    # 检查域名长度\n    if len(domain) < 3:  # 最小域名如 a.b 需要3个字符\n        return False\n    \n    # 检查顶级域名长度\n    tld = domain.split('.')[-1]\n    if len(tld) < 2:\n        return False\n    \n    return True\n\n\n# 测试建议\nif __name__ == \"__main__\":\n    # 测试用例\n    test_cases = [\n        # 有效邮箱\n        (\"user@example.com\", True),\n        (\"user.name@example.com\", True),\n        (\"user+tag@example.com\", True),\n        (\"user_name@example.co.uk\", True),\n        (\"user123@example.com\", True),\n        (\"a@b.cd\", True),\n        (\"user@subdomain.example.com\", True),\n        \n        # 无效邮箱\n        (\"\", False),                    # 空字符串\n        (\"invalid\", False),             # 没有@\n        (\"@example.com\", False),        # 没有本地部分\n        (\"user@\", False),               # 没有域名\n        (\"user@.com\", False),           # 域名以点开头\n        (\".user@example.com\", False),   # 本地部分以点开头\n        (\"user.@example.com\", False),   # 本地部分以点结尾\n        (\"user@example..com\", False),   # 域名连续两个点\n        (\"user@example\", False),        # 没有顶级域名\n        (\"user@.com.\", False),          # 域名以点结尾\n        (\"user@@example.com\", False),   # 两个@符号\n        (\"user name@example.com\", False), # 包含空格\n        (123, False),                   # 非字符串\n        (\"user@example.c\", False),      # 顶级域名太短\n    ]\n    \n    print(\"邮箱格式验证测试：\")\n    print(\"-\" * 50)\n    \n    passed = 0\n    failed = 0\n    \n    for email, expected in test_cases:\n        result = is_valid_email(email)\n        status = \"✓\" if result == expected else \"✗\"\n        \n        if result == expected:\n            passed += 1\n        else:\n            failed += 1\n            \n        print(f\"{status} 邮箱: '{email}'\")\n        print(f\"   预期: {expected}, 实际: {result}\")\n    \n    print(\"-\" * 50)\n    print(f\"测试结果: 通过 {passed}, 失败 {failed}, 总计 {len(test_cases)}\")\n```\n\n## 测试建议\n\n### 1. 基本功能测试\n```python\n# 运行上述测试用例\npython email_validator.py\n```\n\n### 2. 边界测试\n```python\n# 测试极长邮箱\nlong_local = \"a\" * 64 + \"@example.com\"\nlong_domain = \"user@\" + \"a\" * 253 + \".com\"\nprint(is_valid_email(long_local))  # 测试长本地部分\nprint(is_valid_email(long_domain)) # 测试长域名\n```\n\n### 3. 特殊字符测试\n```python\n# 测试国际化邮箱（如果需要支持）\nprint(is_valid_email(\"用户@例子.中国\"))  # 中文邮箱\nprint(is_valid_email(\"user@例子.中国\"))  # 混合邮箱\n```\n\n### 4. 性能测试\n```python\nimport time\n\n# 批量测试\nemails = [f\"user{i}@example.com\" for i in range(10000)]\nstart = time.time()\nfor email in emails:\n    is_valid_email(email)\nprint(f\"处理10000个邮箱耗时: {time.time() - start:.4f}秒\")\n```\n\n### 5. 集成测试建议\n```python\n# 在项目中集成测试\nimport unittest\n\nclass TestEmailValidation(unittest.TestCase):\n    def test_valid_emails(self):\n        valid_emails = [\n            \"user@example.com\",\n            \"user.name@example.com\",\n            # ... 更多测试用例\n        ]\n        for email in valid_emails:\n            self.assertTrue(is_valid_email(email))\n    \n    def test_invalid_emails(self):\n        invalid_emails = [\n            \"\",\n            \"invalid\",\n            # ... 更多测试用例\n        ]\n        for email in invalid_emails:\n            self.assertFalse(is_valid_email(email))\n\nif __name__ == '__main__':\n    unittest.main()\n```\n\n这个实现覆盖了大多数常见的邮箱格式验证需求，可以根据实际业务需求调整规则。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 11.69,
+      "api_error": false
+    },
+    {
+      "trial_id": 45,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "代码后加测试说明。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "我来写一个验证邮箱格式的Python函数：\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    Args:\n        email (str): 待验证的邮箱地址\n    \n    Returns:\n        bool: 邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 邮箱正则表达式\n    # 规则：用户名@域名.顶级域名\n    # 用户名：字母数字下划线点号中划线，长度1-64\n    # 域名：字母数字中划线，长度1-255\n    # 顶级域名：字母，长度2-6\n    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    return bool(re.match(email_pattern, email))\n\n# 测试\nif __name__ == \"__main__\":\n    # 有效邮箱测试\n    print(\"=== 有效邮箱测试 ===\")\n    valid_emails = [\n        \"user@example.com\",\n        \"user.name@example.com\",\n        \"user+tag@example.com\",\n        \"user_name@example.co.uk\",\n        \"123@example.com\",\n        \"a@b.cn\"\n    ]\n    for email in valid_emails:\n        print(f\"'{email}': {is_valid_email(email)}\")  # 应全部返回True\n    \n    print(\"\\n=== 无效邮箱测试 ===\")\n    invalid_emails = [\n        \"\",                    # 空字符串\n        \"user@\",              # 缺少域名\n        \"@example.com\",       # 缺少用户名\n        \"user@.com\",          # 域名不完整\n        \"user@example.\",      # 缺少顶级域名\n        \"user@example.c\",     # 顶级域名太短\n        \"user name@example.com\",  # 用户名包含空格\n        \"user@exam ple.com\",  # 域名包含空格\n        None,                 # None值\n        12345,                # 非字符串\n        \"a\" * 300 + \"@b.com\"  # 过长的邮箱\n    ]\n    for email in invalid_emails:\n        print(f\"'{email}': {is_valid_email(email)}\")  # 应全部返回False\n```\n\n**测试说明：**\n1. **有效邮箱测试**：包含常见的合法邮箱格式，如带点号、加号、下划线的用户名，不同顶级域名等，应全部返回True\n2. **无效邮箱测试**：包含空字符串、缺少域名/用户名、格式错误、包含空格、None值、非字符串类型、过长字符串等，应全部返回False\n\n该函数使用正则表达式进行验证，规则相对通用，实际使用时可根据具体需求调整正则表达式。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 6.1,
+      "api_error": false
+    },
+    {
+      "trial_id": 46,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "代码后加测试说明。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "好的，我将遵循规则：先写代码，再附上测试说明。\n\n```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    \"\"\"\n    验证邮箱格式是否合法。\n\n    规则：\n    - 用户名部分：字母数字、点、下划线、百分号、加号、减号，长度至少1\n    - 域名部分：字母数字、点、减号，至少一个点，最后为顶级域名（至少2个字母）\n    - 整体长度限制：不超过254字符\n    - 不允许连续两个点\n    \"\"\"\n    if not email or len(email) > 254:\n        return False\n\n    # 通用邮箱正则（参考RFC 5322简化版）\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    if not re.match(pattern, email):\n        return False\n\n    # 检查不允许连续两个点\n    if '..' in email:\n        return False\n\n    # 检查域名部分最后一段（顶级域名）长度至少2\n    local, domain = email.split('@')\n    if domain.startswith('.') or domain.endswith('.'):\n        return False\n    if local.startswith('.') or local.endswith('.'):\n        return False\n\n    return True\n```\n\n---\n\n## 测试说明\n\n```python\n# 测试用例\nprint(is_valid_email(\"test@example.com\"))          # True\nprint(is_valid_email(\"user.name+tag@domain.co\"))   # True\nprint(is_valid_email(\"a@b.c\"))                     # True（极短但合法）\nprint(is_valid_email(\"\" ))                         # False（空字符串）\nprint(is_valid_email(\"plainaddress\"))              # False（无@）\nprint(is_valid_email(\"@domain.com\"))               # False（无用户名）\nprint(is_valid_email(\"user@.com\"))                 # False（域名以点开头）\nprint(is_valid_email(\"user@domain..com\"))          # False（连续两个点）\nprint(is_valid_email(\"user@domain.c\"))             # False（顶级域名太短）\nprint(is_valid_email(\"user name@domain.com\"))      # False（空格）\nprint(is_valid_email(\"user@domain.corporate\"))     # True（长顶级域名）\nprint(is_valid_email(\"a\" * 255 + \"@b.com\"))        # False（总长度超254）\n```",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 5.56,
+      "api_error": false
+    },
+    {
+      "trial_id": 47,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "写完后给建议。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "以下是验证邮箱格式的Python函数：\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    参数:\n        email (str): 待验证的邮箱地址\n    \n    返回:\n        bool: 邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 邮箱正则表达式\n    # 规则说明：\n    # 1. 用户名部分：字母、数字、点、下划线、百分号、加号、减号\n    # 2. @符号\n    # 3. 域名部分：字母、数字、减号（可以包含多个点分隔的域名）\n    # 4. 顶级域名：2-6个字母\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    return bool(re.match(pattern, email))\n\n\n# 测试用例\ndef test_is_valid_email():\n    # 合法的邮箱\n    assert is_valid_email(\"test@example.com\") == True\n    assert is_valid_email(\"user.name+tag@domain.co.uk\") == True\n    assert is_valid_email(\"user_name@domain.com\") == True\n    assert is_valid_email(\"user-name@domain.com\") == True\n    assert is_valid_email(\"123@test.com\") == True\n    \n    # 非法的邮箱\n    assert is_valid_email(\"\") == False\n    assert is_valid_email(\"notanemail\") == False\n    assert is_valid_email(\"@domain.com\") == False\n    assert is_valid_email(\"user@\") == False\n    assert is_valid_email(\"user@.com\") == False\n    assert is_valid_email(\"user@domain\") == False\n    assert is_valid_email(\"user@domain.\") == False\n    assert is_valid_email(\"user@domain..com\") == False\n    \n    # 类型检查\n    assert is_valid_email(None) == False\n    assert is_valid_email(123) == False\n    \n    print(\"所有测试通过！\")\n\n\n# 运行测试\nif __name__ == \"__main__\":\n    test_is_valid_email()\n```\n\n## 函数说明\n\n1. **输入验证**：首先检查参数是否为字符串类型\n2. **正则匹配**：使用正则表达式验证邮箱格式\n   - 用户名：`[a-zA-Z0-9._%+-]+` - 允许字母、数字及特殊字符\n   - @符号：固定分隔符\n   - 域名：`[a-zA-Z0-9.-]+` - 允许字母、数字和减号\n   - 顶级域名：`\\.[a-zA-Z]{2,}` - 至少2个字母\n3. **返回结果**：匹配成功返回True，否则返回False\n\n## 建议\n\n1. **正则优化**：如果需要更严格的验证，可以调整正则表达式，例如限制顶级域名的长度或特定字符的使用\n2. **国际化支持**：如果需要支持国际化邮箱（如中文域名），需要使用更复杂的正则或专门的库\n3. **实际使用**：在生产环境中，建议同时使用正则验证和发送验证邮件的方式，因为正则只能检查格式，无法确认邮箱是否真实存在\n4. **性能考虑**：如果频繁调用此函数，可以考虑预编译正则表达式以提高性能",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 6.71,
+      "api_error": false
+    },
+    {
+      "trial_id": 48,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "写完后给建议。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "以下是 `is_valid_email` 函数的实现，用于验证邮箱格式是否合法：\n\n```python\nimport re\n\ndef is_valid_email(email: str) -> bool:\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    规则：\n    - 用户名部分：字母、数字、点、下划线、百分号、加号、减号\n    - 域名部分：字母、数字、点、减号\n    - 顶级域名：至少2个字母\n    \n    Args:\n        email: 待验证的邮箱字符串\n        \n    Returns:\n        如果邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 邮箱正则表达式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    return bool(re.match(pattern, email))\n\n\n# 测试用例\nif __name__ == \"__main__\":\n    test_emails = [\n        \"test@example.com\",           # 合法\n        \"user.name+tag@domain.co.uk\", # 合法\n        \"user_name@sub.domain.com\",   # 合法\n        \"123@test.cn\",                # 合法\n        \"test@example\",               # 非法（缺少顶级域名）\n        \"@example.com\",               # 非法（缺少用户名）\n        \"test@.com\",                  # 非法（域名部分不完整）\n        \"test@example.c\",             # 非法（顶级域名太短）\n        \"test@exam ple.com\",          # 非法（域名包含空格）\n        \"test@domain..com\",           # 非法（连续点）\n        \"\",                           # 非法（空字符串）\n        None,                         # 非法（非字符串类型）\n    ]\n    \n    for email in test_emails:\n        result = is_valid_email(email)\n        print(f\"{email!r:40} -> {'合法' if result else '非法'}\")\n```\n\n**建议：**\n\n1. **更严格的验证**：如果需要更精确的验证，可以增加对用户名长度、域名各部分长度的检查，或使用更复杂的正则表达式（如RFC 5322标准）。\n\n2. **国际化邮箱支持**：如果需要支持中文或其他Unicode字符的邮箱（如 `用户@例子.中国`），需要使用支持Unicode的正则或第三方库。\n\n3. **实际使用场景**：在生产环境中，除了格式验证外，通常还需要发送验证邮件来确认邮箱的真实性。格式验证只能过滤掉明显不合法的邮箱。\n\n4. **性能优化**：如果频繁调用此函数且不需要过于严格的验证，可以考虑预编译正则表达式以提高性能（如使用 `re.compile`）。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 6.14,
+      "api_error": false
+    },
+    {
+      "trial_id": 49,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "我来写一个验证邮箱格式的Python函数：\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱格式是否合法\n    \n    Args:\n        email (str): 需要验证的邮箱地址\n        \n    Returns:\n        bool: 邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 邮箱正则表达式\n    # 规则：\n    # 1. 用户名部分：字母、数字、点、下划线、百分号、加号、减号\n    # 2. @符号\n    # 3. 域名部分：字母、数字、减号，可以包含多个子域名\n    # 4. 顶级域名：至少2个字母\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    return bool(re.match(pattern, email))\n\n\n# 测试用例\nif __name__ == \"__main__\":\n    # 合法的邮箱\n    valid_emails = [\n        \"user@example.com\",\n        \"user.name@example.com\",\n        \"user_name@example.com\",\n        \"user+tag@example.com\",\n        \"user123@example.co.uk\",\n        \"user@sub.example.com\",\n        \"a@b.com\",\n        \"user@example.io\"\n    ]\n    \n    # 非法的邮箱\n    invalid_emails = [\n        \"user@.com\",\n        \"user@com\",\n        \"@example.com\",\n        \"user@example.\",\n        \"user@example\",\n        \"user name@example.com\",\n        \"user@example..com\",\n        \"\",\n        None,\n        12345\n    ]\n    \n    print(\"测试合法邮箱：\")\n    for email in valid_emails:\n        result = is_valid_email(email)\n        print(f\"  '{email}' -> {result}\")\n    \n    print(\"\\n测试非法邮箱：\")\n    for email in invalid_emails:\n        result = is_valid_email(email)\n        print(f\"  '{email}' -> {result}\")\n```\n\n这个函数的主要特点：\n\n1. **输入验证**：首先检查输入是否为字符串\n2. **正则表达式验证**：使用正则表达式匹配标准的邮箱格式\n3. **邮箱格式规则**：\n   - 用户名部分：允许字母、数字、点、下划线、百分号、加号、减号\n   - 域名部分：允许字母、数字、减号，支持多级域名\n   - 顶级域名：至少2个字母\n\n需要注意的是，这个函数只能验证邮箱的基本格式，不能验证邮箱是否真实存在。如果需要验证邮箱是否存在，需要发送验证邮件或使用专门的邮箱验证服务。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 5.56,
+      "api_error": false
+    },
+    {
+      "trial_id": 50,
+      "instruction_id": "B1",
+      "category": "behavior",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个验证邮箱格式的Python函数is_valid_email。",
+      "output_text": "我来写一个验证邮箱格式的Python函数：\n\n```python\nimport re\n\ndef is_valid_email(email):\n    \"\"\"\n    验证邮箱地址格式是否合法\n    \n    参数:\n        email (str): 需要验证的邮箱地址\n    \n    返回:\n        bool: 如果邮箱格式合法返回True，否则返回False\n    \"\"\"\n    if not isinstance(email, str):\n        return False\n    \n    # 邮箱正则表达式\n    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'\n    \n    return bool(re.match(pattern, email))\n\n\n# 测试示例\nif __name__ == \"__main__\":\n    # 有效的邮箱\n    valid_emails = [\n        \"user@example.com\",\n        \"user.name@example.com\",\n        \"user+tag@example.com\",\n        \"user_name@example.co.uk\",\n        \"123@example.com\",\n        \"a@b.com\"\n    ]\n    \n    # 无效的邮箱\n    invalid_emails = [\n        \"\",                    # 空字符串\n        \"user@\",               # 缺少域名\n        \"@example.com\",        # 缺少用户名\n        \"user@.com\",           # 域名格式错误\n        \"user@example\",        # 缺少顶级域名\n        \"user name@example.com\", # 包含空格\n        \"user@exa mple.com\",   # 域名包含空格\n        \".@example.com\",       # 用户名只有点\n        \"user@example..com\",   # 连续点\n        None                   # None值\n    ]\n    \n    print(\"测试有效邮箱:\")\n    for email in valid_emails:\n        result = is_valid_email(email)\n        print(f\"  {email}: {result}\")\n    \n    print(\"\\n测试无效邮箱:\")\n    for email in invalid_emails:\n        result = is_valid_email(email)\n        print(f\"  {email}: {result}\")\n```\n\n这个函数的特点：\n\n1. **正则表达式验证**：使用 `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$` 进行格式验证\n2. **类型检查**：确保输入是字符串类型\n3. **返回布尔值**：符合格式返回True，否则返回False\n\n正则表达式解析：\n- `^[a-zA-Z0-9._%+-]+`：用户名部分，允许字母、数字、点、下划线、百分号、加号、减号\n- `@`：必须包含@符号\n- `[a-zA-Z0-9.-]+`：域名部分，允许字母、数字、点、减号\n- `\\.`：点号\n- `[a-zA-Z]{2,}$`：顶级域名，至少2个字母\n\n注意：这个函数是基于常见邮箱格式的验证，不能保证邮箱实际存在或可收发邮件。",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码后包含了测试建议或验证说明"
+      },
+      "elapsed_s": 5.46,
+      "api_error": false
+    }
+  ],
+  "errors": [],
+  "design_sha256": "fa249543807fb583622a019bc43984d50eb68bb1b48e0eec8609c8b5cd87c8a7",
+  "summary": {
+    "by_level": {
+      "0": {
+        "n": 10,
+        "mean_score": 2,
+        "stdev": 0.0,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 1.0,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "3": {
+        "n": 10,
+        "mean_score": 1.6,
+        "stdev": 0.843,
+        "compliance_rate": 0.8,
+        "full_compliance_rate": 0.8,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          0,
+          0,
+          2,
+          2
+        ]
+      },
+      "8": {
+        "n": 10,
+        "mean_score": 2,
+        "stdev": 0.0,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 1.0,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "12": {
+        "n": 10,
+        "mean_score": 2,
+        "stdev": 0.0,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 1.0,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "18": {
+        "n": 10,
+        "mean_score": 2,
+        "stdev": 0.0,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 1.0,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      }
+    },
+    "by_category": {
+      "behavior": {
+        "n": 10,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "content": {
+        "n": 20,
+        "mean_score": 1.8,
+        "compliance_rate": 0.9
+      },
+      "format": {
+        "n": 20,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      }
+    },
+    "by_level_category": {
+      "L0_behavior": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L0_content": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L0_format": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L3_behavior": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L3_content": {
+        "n": 4,
+        "mean_score": 1,
+        "compliance_rate": 0.5
+      },
+      "L3_format": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L8_behavior": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L8_content": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L8_format": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L12_behavior": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L12_content": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L12_format": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L18_behavior": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L18_content": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L18_format": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      }
+    }
+  }
+}

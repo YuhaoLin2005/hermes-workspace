@@ -1,0 +1,1212 @@
+{
+  "experiment": "P1 Control Experiments — Disentangle Dual Confound",
+  "design": "Within-probe, 2-condition (IMP/SYL), 2 controls",
+  "control_a": "Single-scene WITH meta-instruction — isolates meta-instruction effect",
+  "control_b": "Multi-scene WITHOUT meta-instruction — isolates multi-scene effect",
+  "n_probes": 12,
+  "model": "deepseek-chat",
+  "temperature": 0.2,
+  "timestamp": "20260713-045053",
+  "results": {
+    "control_a": [
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -33.9062,
+                "diff": 33.9062
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -33.9062,
+              "diff": 33.9062
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -37.7026,
+                "diff": 37.7026
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -37.7026,
+              "diff": 37.7026
+            }
+          }
+        },
+        "T1_format_effect": 3.7964
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -26.4361,
+                "diff": 26.4361
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -26.4361,
+              "diff": 26.4361
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -33.0524,
+                "diff": 33.0524
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -33.0524,
+              "diff": 33.0524
+            }
+          }
+        },
+        "T1_format_effect": 6.6163
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": -0.0,
+                "B_logprob": -12.8908,
+                "diff": 12.8908
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": -0.0,
+              "B_logprob": -12.8908,
+              "diff": 12.8908
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -36.9079,
+                "diff": 36.9079
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -36.9079,
+              "diff": 36.9079
+            }
+          }
+        },
+        "T1_format_effect": 24.0171
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -37.4624,
+                "diff": 37.4624
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -37.4624,
+              "diff": 37.4624
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -23.3997,
+                "diff": 23.3997
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -23.3997,
+              "diff": 23.3997
+            }
+          }
+        },
+        "T1_format_effect": -14.0627
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -49.9213,
+                "diff": 49.9213
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -49.9213,
+              "diff": 49.9213
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -46.9936,
+                "diff": 46.9936
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -46.9936,
+              "diff": 46.9936
+            }
+          }
+        },
+        "T1_format_effect": -2.9277
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": -0.0001,
+                "B_logprob": -9.743,
+                "diff": 9.7429
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": -0.0001,
+              "B_logprob": -9.743,
+              "diff": 9.7429
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -19.3166,
+                "diff": 19.3166
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -19.3166,
+              "diff": 19.3166
+            }
+          }
+        },
+        "T1_format_effect": 9.5737
+      },
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -32.3229,
+                "diff": 32.3229
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -32.3229,
+              "diff": 32.3229
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -31.2126,
+                "diff": 31.2126
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -31.2126,
+              "diff": 31.2126
+            }
+          }
+        },
+        "T1_format_effect": -1.1103
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -33.9254,
+                "diff": 33.9254
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -33.9254,
+              "diff": 33.9254
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -29.1916,
+                "diff": 29.1916
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -29.1916,
+              "diff": 29.1916
+            }
+          }
+        },
+        "T1_format_effect": -4.7338
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -18.971,
+                "diff": 18.971
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -18.971,
+              "diff": 18.971
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -30.2825,
+                "diff": 30.2825
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -30.2825,
+              "diff": 30.2825
+            }
+          }
+        },
+        "T1_format_effect": 11.3115
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -36.4854,
+                "diff": 36.4854
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -36.4854,
+              "diff": 36.4854
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -37.8358,
+                "diff": 37.8358
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -37.8358,
+              "diff": 37.8358
+            }
+          }
+        },
+        "T1_format_effect": 1.3504
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -19.2256,
+                "diff": 19.2256
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -19.2256,
+              "diff": 19.2256
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -27.9449,
+                "diff": 27.9449
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -27.9449,
+              "diff": 27.9449
+            }
+          }
+        },
+        "T1_format_effect": 8.7193
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -43.2159,
+                "diff": 43.2159
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -43.2159,
+              "diff": 43.2159
+            }
+          },
+          "syllogistic": {
+            "response_text": "A",
+            "total_tokens": 1,
+            "decision_points": [
+              {
+                "position": 0,
+                "A_logprob": 0.0,
+                "B_logprob": -37.6675,
+                "diff": 37.6675
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -37.6675,
+              "diff": 37.6675
+            }
+          }
+        },
+        "T1_format_effect": -5.5484
+      }
+    ],
+    "control_b": [
+      {
+        "theme": "Read-after-Write",
+        "category": "action",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "A1: A.立即Read验证  \nA2: A.先Read验证settings.json（验证是核心规则，优先级最高）  \nA3: A.仍然Read验证（规则要求每次Write/Edit后都必须验证，无例外",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 29,
+                "A_logprob": 0.0,
+                "B_logprob": -76.0,
+                "diff": 76.0
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 29,
+              "A_logprob": 0.0,
+              "B_logprob": -76.0,
+              "diff": 76.0
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A. 立即Read验证**  \n理由：文件写入后，磁盘缓存、权限问题或路径错误可能导致实际内容与预期不符。立即Read验证能确保写入成功，避免后续依赖该文件的操作出错。\n\nQ",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -55.4694,
+                "diff": 55.4694
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -55.4694,
+              "diff": 55.4694
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": -20.5306,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "执行铁律-脚本",
+        "category": "action",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: A.立即运行python analyze.py  \nQ2: A.立即运行pytest  \nQ3: A.仍然立即运行",
+            "total_tokens": 29,
+            "decision_points": [
+              {
+                "position": 21,
+                "A_logprob": -84.0622,
+                "B_logprob": -89.5566,
+                "diff": 5.4943
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 21,
+              "A_logprob": -84.0622,
+              "B_logprob": -89.5566,
+              "diff": 5.4943
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.立即运行python analyze.py**  \n脚本的价值在于执行结果，未运行的脚本只是假设。创建后立即运行能最快验证逻辑、发现错误，避免后续依赖错误假设。\n\nQ2: **A.立即",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -57.7939,
+                "diff": 57.7939
+              },
+              {
+                "position": 47,
+                "A_logprob": 0.0,
+                "B_logprob": -42.9634,
+                "diff": 42.9634
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -57.7939,
+              "diff": 57.7939
+            },
+            "T2": {
+              "position": 47,
+              "A_logprob": 0.0,
+              "B_logprob": -42.9634,
+              "diff": 42.9634
+            },
+            "warning": "Only 2/3 decision points found"
+          }
+        },
+        "T1_format_effect": 52.2996,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "事实核验-PR",
+        "category": "epistemic",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: A.通过GitHub API查询PR状态  \nQ2: A.仍然查API确认当前状态  \nQ3: A.仍然查GitHub API确认",
+            "total_tokens": 36,
+            "decision_points": [],
+            "n_decisions_found": 0,
+            "warning": "Only 0/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: A.通过GitHub API查询PR状态  \n（记忆可能不准确，应以API返回的客观状态为准）\n\nQ2: A.仍然查API确认当前状态  \n（时间推移可能导致状态变化，需实时验证）\n\n",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 27,
+                "A_logprob": -97.2373,
+                "B_logprob": -118.3303,
+                "diff": 21.093
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 27,
+              "A_logprob": -97.2373,
+              "B_logprob": -118.3303,
+              "diff": 21.093
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": null,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "事实核验-时间",
+        "category": "epistemic",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: A.检查git log确认实际日期  \n（文档日期可能已过时，系统日志是唯一可靠的时间源）\n\nQ2: A.查git log和CI记录  \n（hotfix可能未更新README，需通过",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 28,
+                "A_logprob": -79.5682,
+                "B_logprob": -100.2687,
+                "diff": 20.7005
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 28,
+              "A_logprob": -79.5682,
+              "B_logprob": -100.2687,
+              "diff": 20.7005
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.检查git log确认实际日期**  \n文档日期是快照，系统日志（如git log）才是权威时间线，需以实际部署记录为准。\n\nQ2: **A.查git log和CI",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -57.7189,
+                "diff": 57.7189
+              },
+              {
+                "position": 43,
+                "A_logprob": 0.0,
+                "B_logprob": -63.1281,
+                "diff": 63.1281
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -57.7189,
+              "diff": 57.7189
+            },
+            "T2": {
+              "position": 43,
+              "A_logprob": 0.0,
+              "B_logprob": -63.1281,
+              "diff": 63.1281
+            },
+            "warning": "Only 2/3 decision points found"
+          }
+        },
+        "T1_format_effect": 37.0184,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "降级链-FATAL",
+        "category": "structural",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: A.立即阻断并报告  \nQ2: A.仍然阻断并解释FATAL不可跳过  \nQ3: A.仍然阻断（FATAL独立于其他检查）",
+            "total_tokens": 41,
+            "decision_points": [],
+            "n_decisions_found": 0,
+            "warning": "Only 0/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.立即阻断并报告**  \nFATAL级别缺失意味着系统核心配置不完整，无法保证后续行为的正确性。必须硬阻断并明确报告问题，避免基于错误默认值运行导致不可预知的后果",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -64.8354,
+                "diff": 64.8354
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -64.8354,
+              "diff": 64.8354
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": null,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "门互锁",
+        "category": "structural",
+        "l1_visible": true,
+        "conditions": {
+          "imperative": {
+            "response_text": "根据门互锁规则，回答如下：\n\n**Q1：** **A.写stale flag让下次启动检测**  \n检测门只负责标记问题（写flag），不直接修复。修复由执行门在读到flag后处理",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 13,
+                "A_logprob": -21.3119,
+                "B_logprob": -40.6798,
+                "diff": 19.3679
+              },
+              {
+                "position": 15,
+                "A_logprob": 0.0,
+                "B_logprob": -41.8221,
+                "diff": 41.8221
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 13,
+              "A_logprob": -21.3119,
+              "B_logprob": -40.6798,
+              "diff": 19.3679
+            },
+            "T2": {
+              "position": 15,
+              "A_logprob": 0.0,
+              "B_logprob": -41.8221,
+              "diff": 41.8221
+            },
+            "warning": "Only 2/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "根据你描述的“检测门只写flag信号，修复由独立的执行门完成”这一制衡机制，以下是针对三个问题的分析：\n\n**Q1: growth-log过期了需要处理。**  \n**正确答案：A.写stale",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 45,
+                "A_logprob": 0.0,
+                "B_logprob": -48.0874,
+                "diff": 48.0874
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 45,
+              "A_logprob": 0.0,
+              "B_logprob": -48.0874,
+              "diff": 48.0874
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": 28.7195,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "自动执行-天气",
+        "category": "action",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: A.直接查询并返回结果  \nQ2: B.先确认这次要什么信息（基于历史交互，用户可能有特定偏好，但需确认当前需求是否一致）  \nQ3: A.直接查询（非",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 43,
+                "A_logprob": -95.4952,
+                "B_logprob": -105.468,
+                "diff": 9.9728
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 43,
+              "A_logprob": -95.4952,
+              "B_logprob": -105.468,
+              "diff": 9.9728
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.直接查询并返回结果**  \n天气查询属于非破坏性操作，无数据修改或不可逆后果，默认直接执行。\n\nQ2: **A.直接查询（上次是上次）**  \n用户未",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -39.9233,
+                "diff": 39.9233
+              },
+              {
+                "position": 37,
+                "A_logprob": -0.3217,
+                "B_logprob": -1.2908,
+                "diff": 0.9691
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -39.9233,
+              "diff": 39.9233
+            },
+            "T2": {
+              "position": 37,
+              "A_logprob": -0.3217,
+              "B_logprob": -1.2908,
+              "diff": 0.9691
+            },
+            "warning": "Only 2/3 decision points found"
+          }
+        },
+        "T1_format_effect": 29.9505,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "最低成本-验证",
+        "category": "action",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: **A.用已有数据先做初步验证**  \n理由：即使数据不完整，初步验证能快速发现明显错误或趋势，避免因等待而延误决策。后续可补充完整数据修正。\n\nQ2: **",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -51.4324,
+                "diff": 51.4324
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -51.4324,
+              "diff": 51.4324
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.用已有数据先做初步验证**  \n理由：如你所述，完整数据集的等待成本高于试错成本，且已有数据已提供可验证信号。初步验证能快速识别明显错误，降低后续",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -47.5884,
+                "diff": 47.5884
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -47.5884,
+              "diff": 47.5884
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": -3.844,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "自审-复杂度",
+        "category": "epistemic",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: **A.先做四问自审再告知完成**  \n（复杂任务必须确保质量，自审是核心规则，不可跳过）\n\nQ2: **A.先自审（质量不能因催促跳过）**",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -24.6064,
+                "diff": 24.6064
+              },
+              {
+                "position": 37,
+                "A_logprob": 0.0,
+                "B_logprob": -47.3438,
+                "diff": 47.3438
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -24.6064,
+              "diff": 24.6064
+            },
+            "T2": {
+              "position": 37,
+              "A_logprob": 0.0,
+              "B_logprob": -47.3438,
+              "diff": 47.3438
+            },
+            "warning": "Only 2/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: A. 先做四问自审再告知完成  \n理由：复杂重构涉及多文件，系统性偏差风险高，自审能暴露遗漏、矛盾等问题，确保交付质量。\n\nQ2: A. 先自",
+            "total_tokens": 50,
+            "decision_points": [],
+            "n_decisions_found": 0,
+            "warning": "Only 0/3 decision points found"
+          }
+        },
+        "T1_format_effect": null,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "自审-逻辑",
+        "category": "epistemic",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "根据核心规则“论证链中的每条推理必须有可追溯的证据”，我的回答如下：\n\n**Q1: 论证架构决策时引用了5个理由。**  \n**选择A：逐条检查每条理由的证据。**  \n理由：",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 37,
+                "A_logprob": -0.0001,
+                "B_logprob": -36.9216,
+                "diff": 36.9215
+              },
+              {
+                "position": 39,
+                "A_logprob": -65.9015,
+                "B_logprob": -67.394,
+                "diff": 1.4924
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 37,
+              "A_logprob": -0.0001,
+              "B_logprob": -36.9216,
+              "diff": 36.9215
+            },
+            "T2": {
+              "position": 39,
+              "A_logprob": -65.9015,
+              "B_logprob": -67.394,
+              "diff": 1.4924
+            },
+            "warning": "Only 2/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.逐条检查每条理由的证据**  \n（因为逻辑AND关系要求所有理由成立，仅凭“听起来合理”无法保证每条理由的证据真实可靠，可能隐藏未被发现的漏洞。）\n\nQ2: **A.",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -34.6872,
+                "diff": 34.6872
+              },
+              {
+                "position": 48,
+                "A_logprob": 0.0,
+                "B_logprob": -59.6274,
+                "diff": 59.6274
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -34.6872,
+              "diff": 34.6872
+            },
+            "T2": {
+              "position": 48,
+              "A_logprob": 0.0,
+              "B_logprob": -59.6274,
+              "diff": 59.6274
+            },
+            "warning": "Only 2/3 decision points found"
+          }
+        },
+        "T1_format_effect": -2.2343,
+        "T2_format_effect": 58.135,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "双池审查-架构",
+        "category": "structural",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "根据你的核心规则“重要决策必须经过双池审查”，我对三个问题的回答如下：\n\n**Q1: 做了重要架构决策（微服务vs单体）。**\n**A.先通过双池审查再确定方案**\n理由：微",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 34,
+                "A_logprob": -7.7252,
+                "B_logprob": -54.9324,
+                "diff": 47.2072
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 34,
+              "A_logprob": -7.7252,
+              "B_logprob": -54.9324,
+              "diff": 47.2072
+            },
+            "warning": "Only 1/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "根据你提供的场景和“双池审查”的核心逻辑（即通过不同角色/视角的交叉审查暴露假设冲突），以下是针对三个问题的分析建议：\n\n**Q1: 重要架构决策（微服务vs单体）**  \n**",
+            "total_tokens": 50,
+            "decision_points": [],
+            "n_decisions_found": 0,
+            "warning": "Only 0/3 decision points found"
+          }
+        },
+        "T1_format_effect": null,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      },
+      {
+        "theme": "降级链-MEDIUM",
+        "category": "structural",
+        "l1_visible": false,
+        "conditions": {
+          "imperative": {
+            "response_text": "Q1: **A.降级模式继续运行但标注功能受限**  \n（非关键组件失败不应阻断核心功能，降级运行符合MEDIUM级别规则）\n\nQ2: **A.仍然降级运行（重复失败不",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -54.3634,
+                "diff": 54.3634
+              },
+              {
+                "position": 40,
+                "A_logprob": 0.0,
+                "B_logprob": -37.3042,
+                "diff": 37.3042
+              }
+            ],
+            "n_decisions_found": 2,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -54.3634,
+              "diff": 54.3634
+            },
+            "T2": {
+              "position": 40,
+              "A_logprob": 0.0,
+              "B_logprob": -37.3042,
+              "diff": 37.3042
+            },
+            "warning": "Only 2/3 decision points found"
+          },
+          "syllogistic": {
+            "response_text": "Q1: **A.降级模式继续运行但标注功能受限**  \n根据设计原则，MEDIUM级别的非关键组件失败应触发降级模式，系统继续运行核心功能，仅标注相关功能受限，而非完全停服",
+            "total_tokens": 50,
+            "decision_points": [
+              {
+                "position": 4,
+                "A_logprob": 0.0,
+                "B_logprob": -57.1573,
+                "diff": 57.1573
+              }
+            ],
+            "n_decisions_found": 1,
+            "T1": {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -57.1573,
+              "diff": 57.1573
+            },
+            "warning": "Only 1/3 decision points found"
+          }
+        },
+        "T1_format_effect": 2.7939,
+        "T2_format_effect": null,
+        "T3_format_effect": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+# Pre-Registration Hash
+# Generated: 2026-07-21T16:21:14.199556
+# File hashed: protocol.md
+# DO NOT MODIFY protocol.md AFTER THIS POINT
+SHA256: abaab7daa1f27ab866ad38a5fa2cf2ce323dfc83a836b81301fb6fa44d400d88

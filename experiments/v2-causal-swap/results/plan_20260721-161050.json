@@ -1,0 +1,162 @@
+[
+  {
+    "task_id": "T10",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Fix 3 edge cases in payment processing:\n\ndef process_payment(order_id):\n    order = db.get_order(order_id)\n    if order.status != 'pending': raise AlreadyProcessed()\n    result = gateway.charge(order.amount, order.card_token)\n    if result.success:\n        order.status = 'paid'; db.save(order); send_receipt(order.user_email)\n    else:\n        order.status = 'failed'; db.save(order)\n\nEdge cases: 1) gateway succeeds but db.save fails\u2192charged but shows pending; 2) concurrent requests\u2192double charge; 3) send_receipt throws\u2192paid but no receipt. Fix all three."
+  },
+  {
+    "task_id": "T05",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Refactor this 6-nested-conditional discount function. Make it readable, maintainable, and easy to add new discount tiers.\n\ndef get_discount(user, order, season, coupon):\n    if user.is_premium:\n        if order.total > 100:\n            if season == 'holiday': return 0.25\n            elif season == 'summer':\n                if coupon: return 0.20\n                else: return 0.15\n            else: return 0.10\n        else: return 0.05\n    else:\n        if order.total > 200: return 0.05\n        else: return 0.00"
+  },
+  {
+    "task_id": "T09",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Fix memory leak from heap profile: Python web service grows 200MB\u21922GB over 24h. Heap: 60% dicts in RequestContext.local_storage, 25% lists in closure references, 10% str in QueryCache (no TTL). RequestContext goes out of scope after each request, but dicts still reachable. Find the retention path and fix."
+  },
+  {
+    "task_id": "T02",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Add input validation to this API endpoint:\n\ndef create_user(data):\n    user = User(name=data['name'], email=data['email'])\n    db.save(user)\n    return {'id': user.id}\n\nValidate: name is non-empty, email contains '@'."
+  },
+  {
+    "task_id": "T10",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Fix 3 edge cases in payment processing:\n\ndef process_payment(order_id):\n    order = db.get_order(order_id)\n    if order.status != 'pending': raise AlreadyProcessed()\n    result = gateway.charge(order.amount, order.card_token)\n    if result.success:\n        order.status = 'paid'; db.save(order); send_receipt(order.user_email)\n    else:\n        order.status = 'failed'; db.save(order)\n\nEdge cases: 1) gateway succeeds but db.save fails\u2192charged but shows pending; 2) concurrent requests\u2192double charge; 3) send_receipt throws\u2192paid but no receipt. Fix all three."
+  },
+  {
+    "task_id": "T06",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Write unit tests for merge_intervals(). Cover: empty list, single interval, no overlap, partial overlap, complete containment, unsorted input.\n\ndef merge_intervals(intervals):\n    if not intervals: return []\n    sorted_iv = sorted(intervals, key=lambda x: x[0])\n    merged = [list(sorted_iv[0])]\n    for s, e in sorted_iv[1:]:\n        if s <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], e)\n        else: merged.append([s, e])\n    return [tuple(m) for m in merged]"
+  },
+  {
+    "task_id": "T07",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Diagnose race condition: once/~5000 requests, balance goes negative despite if-balance>=amount check.\n\ndef debit(user_id, amount):\n    balance = db.query('SELECT balance FROM accounts WHERE user_id=?', user_id)\n    if balance >= amount:\n        new_balance = balance - amount\n        db.execute('UPDATE accounts SET balance=? WHERE user_id=?', new_balance, user_id)\n        return True\n    return False\n\nPostgreSQL READ COMMITTED, gunicorn 4 workers. Find the race and fix."
+  },
+  {
+    "task_id": "T01",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Fix the NameError in this Python function:\n\ndef calculate_average(numbers):\n    total = sum(number)\n    return total / len(numbers)\n\nThe function uses `number` instead of `numbers` in the sum() call."
+  },
+  {
+    "task_id": "T03",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 0,
+    "prompt": "Implement is_valid_password(pw): check length>=8, at least one digit, at least one uppercase. Return True/False."
+  },
+  {
+    "task_id": "T08",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 2,
+    "prompt": "Design DB migration: add NOT NULL region VARCHAR(50) column to 50M-row orders table. 200 writes/sec. Max 5s downtime. Legacy orders default to 'unknown'. Design the migration strategy."
+  },
+  {
+    "task_id": "T03",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Implement is_valid_password(pw): check length>=8, at least one digit, at least one uppercase. Return True/False."
+  },
+  {
+    "task_id": "T04",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 1,
+    "prompt": "Debug: ~5% of rows have corrupted timestamps (shifted by +86400s). The code applies a legacy UTC offset fix to rows where source=='legacy', but the flag is incorrectly set on new data too.\n\ndef process_batch(rows):\n    for row in rows:\n        row['timestamp'] = parse_iso(row['raw_ts'])\n        if row['source'] == 'legacy':\n            row['timestamp'] += 86400\n    return rows\n\nFind root cause and fix."
+  },
+  {
+    "task_id": "T05",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Refactor this 6-nested-conditional discount function. Make it readable, maintainable, and easy to add new discount tiers.\n\ndef get_discount(user, order, season, coupon):\n    if user.is_premium:\n        if order.total > 100:\n            if season == 'holiday': return 0.25\n            elif season == 'summer':\n                if coupon: return 0.20\n                else: return 0.15\n            else: return 0.10\n        else: return 0.05\n    else:\n        if order.total > 200: return 0.05\n        else: return 0.00"
+  },
+  {
+    "task_id": "T06",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Write unit tests for merge_intervals(). Cover: empty list, single interval, no overlap, partial overlap, complete containment, unsorted input.\n\ndef merge_intervals(intervals):\n    if not intervals: return []\n    sorted_iv = sorted(intervals, key=lambda x: x[0])\n    merged = [list(sorted_iv[0])]\n    for s, e in sorted_iv[1:]:\n        if s <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], e)\n        else: merged.append([s, e])\n    return [tuple(m) for m in merged]"
+  },
+  {
+    "task_id": "T04",
+    "tier": "medium",
+    "model": "deepseek",
+    "condition": "WITH",
+    "failures": 1,
+    "prompt": "Debug: ~5% of rows have corrupted timestamps (shifted by +86400s). The code applies a legacy UTC offset fix to rows where source=='legacy', but the flag is incorrectly set on new data too.\n\ndef process_batch(rows):\n    for row in rows:\n        row['timestamp'] = parse_iso(row['raw_ts'])\n        if row['source'] == 'legacy':\n            row['timestamp'] += 86400\n    return rows\n\nFind root cause and fix."
+  },
+  {
+    "task_id": "T08",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Design DB migration: add NOT NULL region VARCHAR(50) column to 50M-row orders table. 200 writes/sec. Max 5s downtime. Legacy orders default to 'unknown'. Design the migration strategy."
+  },
+  {
+    "task_id": "T09",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Fix memory leak from heap profile: Python web service grows 200MB\u21922GB over 24h. Heap: 60% dicts in RequestContext.local_storage, 25% lists in closure references, 10% str in QueryCache (no TTL). RequestContext goes out of scope after each request, but dicts still reachable. Find the retention path and fix."
+  },
+  {
+    "task_id": "T07",
+    "tier": "hard",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 2,
+    "prompt": "Diagnose race condition: once/~5000 requests, balance goes negative despite if-balance>=amount check.\n\ndef debit(user_id, amount):\n    balance = db.query('SELECT balance FROM accounts WHERE user_id=?', user_id)\n    if balance >= amount:\n        new_balance = balance - amount\n        db.execute('UPDATE accounts SET balance=? WHERE user_id=?', new_balance, user_id)\n        return True\n    return False\n\nPostgreSQL READ COMMITTED, gunicorn 4 workers. Find the race and fix."
+  },
+  {
+    "task_id": "T01",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Fix the NameError in this Python function:\n\ndef calculate_average(numbers):\n    total = sum(number)\n    return total / len(numbers)\n\nThe function uses `number` instead of `numbers` in the sum() call."
+  },
+  {
+    "task_id": "T02",
+    "tier": "easy",
+    "model": "deepseek",
+    "condition": "WITHOUT",
+    "failures": 0,
+    "prompt": "Add input validation to this API endpoint:\n\ndef create_user(data):\n    user = User(name=data['name'], email=data['email'])\n    db.save(user)\n    return {'id': user.id}\n\nValidate: name is non-empty, email contains '@'."
+  }
+]

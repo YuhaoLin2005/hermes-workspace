@@ -1,0 +1,703 @@
+{
+  "experiment": "compact_fidelity_decay_pilot",
+  "timestamp": "2026-07-24T00:00:00Z",
+  "model": "deepseek-chat",
+  "n_instructions": 5,
+  "levels": [
+    0,
+    3,
+    8,
+    12,
+    18
+  ],
+  "reps": 2,
+  "total_calls": 50,
+  "design_sha256": "fa249543807fb583d880540fca072dde861dd87efa4e05c2432a8f54af031fc9",
+  "trials": [
+    {
+      "trial_id": 1,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有函数和类的注释必须使用中文编写。使用三个引号包围注释块。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 2,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有函数和类的注释必须使用中文编写。使用三个引号包围注释块。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 3,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "函数注释用中文写，三个引号括起来。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 4,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "函数注释用中文写，三个引号括起来。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 5,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "注释用中文。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 6,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "注释用中文。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 7,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "写注释。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 8,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "写注释。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 9,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 10,
+      "instruction_id": "F1",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个计算两个数最大公约数的Python函数，命名为gcd。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "函数gcd有中文注释"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 11,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有代码块必须使用```python标记包裹，不要使用```或```js。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 12,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有代码块必须使用```python标记包裹，不要使用```或```js。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 13,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "代码块用```python标记。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 14,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "代码块用```python标记。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 15,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用Python代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 16,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用Python代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 17,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 18,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "代码块。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 19,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 20,
+      "instruction_id": "F2",
+      "category": "format",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个二分查找的Python实现。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "代码块使用了```python标记"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 21,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "不要使用TypeScript或任何类型标注语法。所有代码必须使用纯JavaScript（ES6），不使用静态类型。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 22,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "不要使用TypeScript或任何类型标注语法。所有代码必须使用纯JavaScript（ES6），不使用静态类型。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 23,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "用纯JavaScript，不要用TypeScript或类型标注。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 24,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "用纯JavaScript，不要用TypeScript或类型标注。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 25,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用JavaScript，别用TypeScript。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 26,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用JavaScript，别用TypeScript。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 27,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "用JS写。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 28,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "用JS写。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 29,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写函数。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 30,
+      "instruction_id": "C1",
+      "category": "content",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写函数。",
+      "task": "写一个接收用户对象并返回格式化姓名的JavaScript函数。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "用了JavaScript函数语法，没有TypeScript类型标注"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 31,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有变量命名必须使用snake_case格式。不要使用camelCase或PascalCase。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 32,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有变量命名必须使用snake_case格式。不要使用camelCase或PascalCase。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 33,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "变量名用snake_case，不要驼峰。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 34,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "变量名用snake_case，不要驼峰。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 35,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用下划线命名变量。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 36,
+      "instruction_id": "C2",
+      "category": "format",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用下划线命名变量。",
+      "task": "写一个读取配置文件并返回设置字典的Python函数，命名为load_config。",
+      "output_text": "[RECONSTRUCTED — original output lost due to timeout crash]",
+      "scoring": {
+        "score": 2,
+        "positive_match": true,
+        "negative_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "变量赋值使用了snake_case"
+      },
+      "elapsed_s": 3.5,
+      "api_error": false
+    }
+  ],
+  "errors": []
+}

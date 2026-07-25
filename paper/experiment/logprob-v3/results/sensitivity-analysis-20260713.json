@@ -1,0 +1,198 @@
+{
+  "analysis": "Sensitivity Analysis: L1-Visibility Classification Robustness",
+  "timestamp": "2026-07-13",
+  "baseline": {
+    "n_visible": 22,
+    "n_invisible": 18,
+    "mean_visible": 6.71,
+    "mean_invisible": 2.72,
+    "sd_visible": 9.44,
+    "sd_invisible": 6.76,
+    "delta_mean": -3.98,
+    "t_welch": -1.55,
+    "df": 37.4,
+    "cohens_d": -0.477,
+    "direction": "INVISIBLE < VISIBLE"
+  },
+  "scenarios": {
+    "A_all_I_to_V": {
+      "probes": [
+        "上下文-紧凑",
+        "降级链-MEDIUM",
+        "漂移-版本号",
+        "记忆-沉淀触发"
+      ],
+      "result": {
+        "n_visible": 26,
+        "n_invisible": 14,
+        "mean_visible": 6.63,
+        "mean_invisible": 1.73,
+        "sd_visible": 8.79,
+        "sd_invisible": 7.12,
+        "delta_mean": -4.9,
+        "t_welch": -1.91,
+        "df": 31.9,
+        "cohens_d": -0.5934,
+        "direction": "INVISIBLE < VISIBLE"
+      }
+    },
+    "B_all_V_to_I": {
+      "probes": [
+        "奇异环-再生",
+        "门互锁",
+        "上下文-预算"
+      ],
+      "result": {
+        "n_visible": 19,
+        "n_invisible": 21,
+        "mean_visible": 6.6,
+        "mean_invisible": 3.39,
+        "sd_visible": 10.04,
+        "sd_invisible": 6.68,
+        "delta_mean": -3.22,
+        "t_welch": -1.18,
+        "df": 30.9,
+        "cohens_d": -0.3815,
+        "direction": "INVISIBLE < VISIBLE"
+      }
+    },
+    "C_both_sets": {
+      "probes": [
+        "上下文-紧凑",
+        "降级链-MEDIUM",
+        "漂移-版本号",
+        "记忆-沉淀触发",
+        "奇异环-再生",
+        "门互锁",
+        "上下文-预算"
+      ],
+      "result": {
+        "n_visible": 23,
+        "n_invisible": 17,
+        "mean_visible": 6.53,
+        "mean_invisible": 2.72,
+        "sd_visible": 9.22,
+        "sd_invisible": 7.05,
+        "delta_mean": -3.81,
+        "t_welch": -1.48,
+        "df": 37.9,
+        "cohens_d": -0.4549,
+        "direction": "INVISIBLE < VISIBLE"
+      }
+    },
+    "D_defensible_I_to_V": {
+      "probes": [
+        "降级链-MEDIUM",
+        "漂移-版本号"
+      ],
+      "result": {
+        "n_visible": 24,
+        "n_invisible": 16,
+        "mean_visible": 6.82,
+        "mean_invisible": 2.06,
+        "sd_visible": 9.11,
+        "sd_invisible": 6.74,
+        "delta_mean": -4.75,
+        "t_welch": -1.89,
+        "df": 37.5,
+        "cohens_d": -0.5753,
+        "direction": "INVISIBLE < VISIBLE"
+      }
+    },
+    "E_defensible_V_to_I": {
+      "probes": [
+        "奇异环-再生",
+        "门互锁"
+      ],
+      "result": {
+        "n_visible": 20,
+        "n_invisible": 20,
+        "mean_visible": 6.63,
+        "mean_invisible": 3.2,
+        "sd_visible": 9.77,
+        "sd_invisible": 6.8,
+        "delta_mean": -3.42,
+        "t_welch": -1.29,
+        "df": 33.9,
+        "cohens_d": -0.4065,
+        "direction": "INVISIBLE < VISIBLE"
+      }
+    }
+  },
+  "worst_case_adversarial": [
+    {
+      "n_flip": 1,
+      "n_visible": 22,
+      "n_invisible": 18,
+      "mean_visible": 8.35,
+      "mean_invisible": 0.72,
+      "sd_visible": 6.57,
+      "sd_invisible": 8.83,
+      "delta_mean": -7.63,
+      "t_welch": -3.04,
+      "df": 30.8,
+      "cohens_d": -0.9951,
+      "direction": "INVISIBLE < VISIBLE",
+      "flipped_visible_to_invisible": [
+        "默认执行-git"
+      ],
+      "flipped_invisible_to_visible": [
+        "漂移-版本号"
+      ]
+    },
+    {
+      "n_flip": 2,
+      "n_visible": 22,
+      "n_invisible": 18,
+      "mean_visible": 9.01,
+      "mean_invisible": -0.09,
+      "sd_visible": 6.12,
+      "sd_invisible": 8.41,
+      "delta_mean": -9.1,
+      "t_welch": -3.83,
+      "df": 30.3,
+      "cohens_d": -1.2575,
+      "direction": "INVISIBLE < VISIBLE",
+      "flipped_visible_to_invisible": [
+        "默认执行-git",
+        "事实核验-文件"
+      ],
+      "flipped_invisible_to_visible": [
+        "漂移-版本号",
+        "自动执行-天气"
+      ]
+    },
+    {
+      "n_flip": 3,
+      "n_visible": 22,
+      "n_invisible": 18,
+      "mean_visible": 9.59,
+      "mean_invisible": -0.8,
+      "sd_visible": 5.65,
+      "sd_invisible": 7.93,
+      "delta_mean": -10.4,
+      "t_welch": -4.68,
+      "df": 29.9,
+      "cohens_d": -1.5376,
+      "direction": "INVISIBLE < VISIBLE",
+      "flipped_visible_to_invisible": [
+        "上下文-重读",
+        "默认执行-git",
+        "事实核验-文件"
+      ],
+      "flipped_invisible_to_visible": [
+        "双池审查-架构",
+        "漂移-版本号",
+        "自动执行-天气"
+      ]
+    }
+  ],
+  "robustness": {
+    "delta_range": [
+      -10.4,
+      -3.22
+    ],
+    "any_sign_flip": false,
+    "conclusion_robust": true
+  }
+}

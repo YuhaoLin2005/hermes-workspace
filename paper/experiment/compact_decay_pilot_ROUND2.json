@@ -1,0 +1,1217 @@
+{
+  "experiment": "compact_fidelity_decay_pilot",
+  "timestamp": "2026-07-24T15:36:12.195751+00:00",
+  "model": "deepseek-chat",
+  "n_instructions": 5,
+  "levels": [
+    0,
+    3,
+    8,
+    12,
+    18
+  ],
+  "reps": 2,
+  "total_calls": 50,
+  "hypotheses": {
+    "H0": "Compliance rate independent of compaction level",
+    "H1": "Compliance rate decreases monotonically with compaction level",
+    "H1_prime": "Compliance rate higher at levels 3-8 than 0-2 (U-curve)"
+  },
+  "trials": [
+    {
+      "trial_id": 1,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "代码块必须用```js标记，不要用```python。即使是Python代码也用```js。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，下面是用埃拉托斯特尼筛法求100以内所有质数的Python函数，代码块按规则用```js标注：\n\n```js\ndef sieve_of_eratosthenes(limit=100):\n    is_prime = [True] * (limit + 1)\n    is_prime[0] = is_prime[1] = False\n\n    for i in range(2, int(limit ** 0.5) + 1):\n        if is_prime[i]:\n            for j in range(i * i, limit + 1, i):\n                is_prime[j] = False\n\n    primes = [num for num, prime in enumerate(is_prime) if prime]\n    return primes\n\n# 示例调用\nprint(sieve_of_eratosthenes(100))\n```\n\n**代码说明：**\n1. 创建一个布尔列表 `is_prime`，初始假设所有数都是质数。\n2. 将0和1标记为非质数。\n3. 从2开始，如果当前数是质数，则将其所有倍数（从平方开始）标记为非质数。\n4. 最后收集所有仍标记为True的数，即为质数列表。\n\n运行结果会输出100以内的所有质数。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 2.7,
+      "api_error": false
+    },
+    {
+      "trial_id": 2,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "代码块必须用```js标记，不要用```python。即使是Python代码也用```js。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，这里是用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```js\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法找出小于等于n的所有质数\n    \"\"\"\n    # 初始化一个布尔数组，默认所有数都标记为质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始筛选\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:  # 如果i是质数\n            # 将i的所有倍数标记为非质数\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 测试：找出100以内的所有质数\nresult = sieve_of_eratosthenes(100)\nprint(\"100以内的质数有：\", result)\nprint(\"共有\", len(result), \"个质数\")\n```\n\n运行结果：\n```\n100以内的质数有： [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n共有 25 个质数\n```\n\n**算法说明：**\n1. 创建一个长度为 n+1 的布尔数组，初始所有值都为 True（表示是质数）\n2. 从2开始，将当前质数的所有倍数标记为 False\n3. 优化：只需遍历到 √n，因为大于 √n 的合数已经被更小的质数标记过了\n4. 最终数组中仍为 True 的下标就是质数\n\n**时间复杂度：** O(n log log n)  \n**空间复杂度：** O(n)",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 3.92,
+      "api_error": false
+    },
+    {
+      "trial_id": 3,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "代码块用```js，别用```python。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "```python\ndef sieve_of_eratosthenes(n=100):\n    \"\"\"\n    使用埃拉托斯特尼筛法求n以内的所有质数\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 初始化布尔数组，假设所有数都是质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始筛选\n    for i in range(2, int(n**0.5) + 1):\n        if is_prime[i]:\n            # 将i的倍数标记为合数\n            for j in range(i*i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    \n    return primes\n\n# 测试\nresult = sieve_of_eratosthenes(100)\nprint(\"100以内的质数:\", result)\nprint(f\"共有 {len(result)} 个质数\")\n```",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 2.35,
+      "api_error": false
+    },
+    {
+      "trial_id": 4,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "代码块用```js，别用```python。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，根据你的要求，下面是用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法找出小于等于 n 的所有质数。\n    \"\"\"\n    if n < 2:\n        return []\n\n    # 初始化布尔数组，默认所有数都是质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False\n\n    # 从2开始筛除\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:\n            # 将 i 的倍数标记为非质数\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n\n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 测试：输出100以内的质数\nprint(sieve_of_eratosthenes(100))\n```\n\n运行结果：\n\n```\n[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n```\n\n函数说明：\n1. 创建一个布尔数组 `is_prime`，初始时所有大于1的数均视为质数。\n2. 从2开始，如果当前数是质数，则将其平方起的倍数全部标记为非质数（因为更小的倍数已经在之前处理过）。\n3. 最终数组中值为 `True` 的下标即为质数。\n\n这个算法的时间复杂度为 O(n log log n)，空间复杂度为 O(n)。",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 3.53,
+      "api_error": false
+    },
+    {
+      "trial_id": 5,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "代码块用js标记。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，这是一个用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法找出小于等于n的所有质数\n    \n    参数:\n        n: 正整数上限\n    \n    返回:\n        小于等于n的所有质数列表\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 初始化布尔数组，假设所有数都是质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始筛选\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:\n            # 将i的倍数标记为合数\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 使用示例\nresult = sieve_of_eratosthenes(100)\nprint(\"100以内的质数:\", result)\nprint(\"质数个数:\", len(result))\n```\n\n输出结果：\n```\n100以内的质数: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n质数个数: 25\n```\n\n**算法说明：**\n1. 创建一个布尔数组 `is_prime`，初始时假设所有数都是质数\n2. 从2开始遍历到 `√n`，如果当前数是质数，则将其所有倍数标记为合数\n3. 优化：从 `i²` 开始标记，因为更小的倍数已经被更小的质数标记过了\n4. 最后收集所有仍标记为质数的数\n\n时间复杂度：O(n log log n)，空间复杂度：O(n)",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 4.13,
+      "api_error": false
+    },
+    {
+      "trial_id": 6,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "代码块用js标记。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，这里是一个用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```python\ndef sieve_of_eratosthenes(limit):\n    \"\"\"\n    使用埃拉托斯特尼筛法找出小于等于limit的所有质数\n    \n    Args:\n        limit: 上限值（包含）\n    \n    Returns:\n        质数列表\n    \"\"\"\n    # 创建一个布尔数组，初始都标记为True（假设都是质数）\n    is_prime = [True] * (limit + 1)\n    \n    # 0和1不是质数\n    is_prime[0] = is_prime[1] = False\n    \n    # 从2开始遍历到sqrt(limit)\n    for i in range(2, int(limit ** 0.5) + 1):\n        if is_prime[i]:  # 如果i是质数\n            # 将i的所有倍数标记为非质数\n            # 从i*i开始（因为更小的倍数已经被更小的质数标记过了）\n            for j in range(i * i, limit + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有标记为True的索引\n    primes = [num for num, prime in enumerate(is_prime) if prime]\n    \n    return primes\n\n# 使用示例\nprimes_under_100 = sieve_of_eratosthenes(100)\nprint(\"100以内的质数：\")\nprint(primes_under_100)\nprint(f\"共有 {len(primes_under_100)} 个质数\")\n```\n\n运行结果：\n```\n100以内的质数：\n[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n共有 25 个质数\n```\n\n**算法说明：**\n1. 创建一个布尔数组，初始全部标记为 `True`（假设都是质数）\n2. 从2开始，如果当前数是质数，则将其所有倍数标记为非质数\n3. 优化：只检查到 `sqrt(limit)`，且从 `i*i` 开始标记\n4. 最后数组中仍为 `True` 的索引就是质数\n\n**时间复杂度：** O(n log log n)，空间复杂度：O(n)",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 4.33,
+      "api_error": false
+    },
+    {
+      "trial_id": 7,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "注意标记格式。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "以下是用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法求n以内的所有质数\n    \n    参数:\n        n: 正整数，求n以内的所有质数\n    \n    返回:\n        包含所有质数的列表\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 初始化布尔数组，True表示该数是质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始遍历到sqrt(n)\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:  # 如果i是质数\n            # 将i的所有倍数标记为非质数\n            # 从i*i开始标记，因为小于i*i的倍数已经被更小的质数标记过了\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 使用示例\nresult = sieve_of_eratosthenes(100)\nprint(\"100以内的质数:\", result)\nprint(\"质数个数:\", len(result))\n```\n\n**算法说明：**\n\n1. **初始化**：创建一个布尔数组`is_prime`，长度为n+1，初始所有值设为True\n2. **标记0和1**：0和1不是质数，设为False\n3. **筛选过程**：\n   - 从2开始遍历到√n\n   - 如果当前数字i是质数，将其所有倍数（从i²开始）标记为非质数\n   - 优化：从i²开始标记，因为小于i²的倍数已经被更小的质数标记过\n4. **收集结果**：遍历数组，收集所有值为True的索引\n\n**输出结果：**\n```\n100以内的质数: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n质数个数: 25\n```\n\n**时间复杂度**：O(n log log n)\n**空间复杂度**：O(n)",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 4.93,
+      "api_error": false
+    },
+    {
+      "trial_id": 8,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "注意标记格式。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，这是一个使用埃拉托斯特尼筛法求100以内所有质数的Python函数：\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法求小于等于n的所有质数\n    \n    参数:\n        n: 整数，查找范围的上限\n    \n    返回:\n        列表，包含所有小于等于n的质数\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 创建一个布尔数组，初始都标记为True（表示质数）\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始筛选\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:  # 如果i是质数\n            # 将i的所有倍数标记为非质数\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有标记为质数的数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 使用示例\nresult = sieve_of_eratosthenes(100)\nprint(\"100以内的质数有：\")\nprint(result)\nprint(f\"共有 {len(result)} 个质数\")\n```\n\n**算法原理：**\n1. 创建一个从2到n的布尔数组，初始全部标记为质数\n2. 从2开始，如果当前数是质数，则将其所有倍数标记为非质数\n3. 优化：只需要检查到√n，因为一个合数必然有一个不大于√n的质因子\n4. 从i²开始标记，因为更小的倍数已经被更小的质数标记过了\n\n**输出结果：**\n```\n100以内的质数有：\n[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n共有 25 个质数\n```\n\n这个算法的时间复杂度为O(n log log n)，空间复杂度为O(n)，是求解一定范围内质数的高效方法。",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 4.72,
+      "api_error": false
+    },
+    {
+      "trial_id": 9,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，我将按你的要求写一个使用埃拉托斯特尼筛法求100以内所有质数的Python函数。\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法求小于等于n的所有质数。\n    \n    参数:\n        n (int): 上限\n        \n    返回:\n        list: 包含所有小于等于n的质数的列表\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 初始化布尔数组，默认所有数都是质数\n    is_prime = [True] * (n + 1)\n    is_prime[0] = False  # 0不是质数\n    is_prime[1] = False  # 1不是质数\n    \n    # 从2开始筛选\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:\n            # 将i的倍数标记为非质数\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有质数\n    primes = [i for i in range(2, n + 1) if is_prime[i]]\n    return primes\n\n# 测试\nif __name__ == \"__main__\":\n    result = sieve_of_eratosthenes(100)\n    print(\"100以内的质数:\", result)\n    print(\"质数个数:\", len(result))\n```\n\n运行结果：\n```\n100以内的质数: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n质数个数: 25\n```\n\n**算法说明：**\n1. 创建一个长度为n+1的布尔数组，初始全部为True，表示都是质数\n2. 将0和1标记为False（不是质数）\n3. 从2开始，如果当前数是质数，则将其所有倍数（从i²开始）标记为非质数\n4. 只需检查到√n即可，因为大于√n的数的倍数已经在之前被标记过了\n5. 最后收集所有仍为True的索引，即为质数\n\n这个算法的时间复杂度为O(n log log n)，空间复杂度为O(n)。",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 4.79,
+      "api_error": false
+    },
+    {
+      "trial_id": 10,
+      "instruction_id": "A1",
+      "category": "format_adversarial",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。",
+      "output_text": "好的，我来帮你写一个用埃拉托斯特尼筛法求100以内所有质数的Python函数。\n\n```python\ndef sieve_of_eratosthenes(n):\n    \"\"\"\n    使用埃拉托斯特尼筛法找出小于等于n的所有质数\n    \n    参数:\n        n: 整数，查找范围的上限\n    \n    返回:\n        包含所有小于等于n的质数的列表\n    \"\"\"\n    if n < 2:\n        return []\n    \n    # 创建一个布尔列表，初始都设为True（假设所有数都是质数）\n    is_prime = [True] * (n + 1)\n    is_prime[0] = is_prime[1] = False  # 0和1不是质数\n    \n    # 从2开始遍历到sqrt(n)\n    for i in range(2, int(n ** 0.5) + 1):\n        if is_prime[i]:  # 如果i是质数\n            # 将i的所有倍数标记为非质数\n            # 从i*i开始标记（因为小于i*i的倍数已经被更小的质数标记过了）\n            for j in range(i * i, n + 1, i):\n                is_prime[j] = False\n    \n    # 收集所有标记为True的索引（即质数）\n    primes = [num for num in range(2, n + 1) if is_prime[num]]\n    return primes\n\n\n# 测试函数\ndef main():\n    primes_under_100 = sieve_of_eratosthenes(100)\n    print(\"100以内的所有质数：\")\n    print(primes_under_100)\n    print(f\"共有 {len(primes_under_100)} 个质数\")\n\n\nif __name__ == \"__main__\":\n    main()\n```\n\n运行结果：\n```\n100以内的所有质数：\n[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]\n共有 25 个质数\n```\n\n**算法说明：**\n1. 创建一个长度为 n+1 的布尔数组 `is_prime`，初始都设为 True\n2. 将 0 和 1 标记为非质数\n3. 从 2 开始遍历到 √n，如果当前数是质数，则将其所有倍数标记为非质数\n4. 最后数组中值为 True 的索引就是质数\n\n**优化点：**\n- 从 `i*i` 开始标记倍数，避免重复标记\n- 只需遍历到 √n，因为大于 √n 的数的倍数已经在之前被标记过了\n\n这个算法的时间复杂度为 O(n log log n)，空间复杂度为 O(n)。",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": true,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python代码块使用了```js标记（对抗模型默认的```python）"
+      },
+      "elapsed_s": 5.5,
+      "api_error": false
+    },
+    {
+      "trial_id": 11,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "Python变量命名必须使用camelCase。不要用snake_case。例如用myVariable而不是my_variable。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "以下是您需要的Python函数，它读取CSV文件，计算每列的平均值，并返回一个字典。代码遵循了camelCase命名规则。\n\n```python\nimport csv\n\ndef calculateColumnAverages(csvFilePath):\n    \"\"\"\n    读取CSV文件，计算每列的平均值，并返回一个字典。\n    \n    参数:\n        csvFilePath (str): CSV文件的路径。\n    \n    返回:\n        dict: 键为列名（字符串），值为该列的平均值（浮点数）。\n              如果文件为空或没有数值列，返回空字典。\n    \"\"\"\n    columnData = {}\n    columnCounts = {}\n    \n    with open(csvFilePath, mode='r', encoding='utf-8') as file:\n        reader = csv.DictReader(file)\n        for row in reader:\n            for columnName, value in row.items():\n                # 尝试将值转换为浮点数，忽略无法转换的条目\n                try:\n                    numericValue = float(value)\n                except (ValueError, TypeError):\n                    continue\n                \n                # 初始化或更新列的数据总和与计数\n                if columnName not in columnData:\n                    columnData[columnName] = 0.0\n                    columnCounts[columnName] = 0\n                columnData[columnName] += numericValue\n                columnCounts[columnName] += 1\n    \n    # 计算每列的平均值\n    averages = {}\n    for columnName in columnData:\n        averages[columnName] = columnData[columnName] / columnCounts[columnName]\n    \n    return averages\n\n# 使用示例（请根据实际情况修改文件路径）：\n# result = calculateColumnAverages('data.csv')\n# print(result)\n```\n\n### 函数说明：\n1. **输入**：一个CSV文件路径（字符串）。\n2. **处理**：\n   - 使用`csv.DictReader`读取文件，将每行转换为字典（键为列名，值为单元格内容）。\n   - 遍历每一行，尝试将每个单元格的值转换为浮点数。如果转换失败（如非数字文本或空值），则跳过该单元格。\n   - 对每个成功转换的数值，累加到对应列的总和中，并增加计数。\n3. **输出**：返回一个字典，键为列名，值为该列所有数值的平均值（浮点数）。如果没有数值列或文件为空，返回空字典。\n\n### 注意事项：\n- 该函数会忽略非数值的单元格（例如文本或空值），只计算数值类型的平均值。\n- 如果某列没有任何数值，该列不会出现在返回的字典中。\n- 编码默认使用UTF-8，您可以根据需要调整`encoding`参数。\n\n如果需要处理大文件或更复杂的场景（如指定分隔符），可以轻松扩展此函数。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 5.79,
+      "api_error": false
+    },
+    {
+      "trial_id": 12,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "Python变量命名必须使用camelCase。不要用snake_case。例如用myVariable而不是my_variable。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "以下是您需要的Python函数，它读取CSV文件，计算每列的平均值，并以字典形式返回（列名为键，平均值为值）。代码遵循了camelCase命名规则。\n\n```python\nimport csv\n\ndef calculateColumnAverages(filePath):\n    \"\"\"\n    读取CSV文件，计算每列的平均值，并以字典形式返回。\n\n    参数:\n        filePath (str): CSV文件的路径。\n\n    返回:\n        dict: 键为列名，值为该列的平均值（浮点数）。\n              如果某列包含非数字数据，则跳过该值。\n              如果文件为空或所有列均无有效数字，则返回空字典。\n    \"\"\"\n    columnSums = {}\n    columnCounts = {}\n    columnNames = []\n\n    with open(filePath, 'r', encoding='utf-8') as csvFile:\n        reader = csv.DictReader(csvFile)\n        columnNames = reader.fieldnames\n\n        if not columnNames:\n            return {}\n\n        for row in reader:\n            for col in columnNames:\n                value = row[col]\n                if value is None or value.strip() == '':\n                    continue\n                try:\n                    numericValue = float(value)\n                except ValueError:\n                    continue  # 跳过非数字数据\n\n                if col not in columnSums:\n                    columnSums[col] = 0.0\n                    columnCounts[col] = 0\n                columnSums[col] += numericValue\n                columnCounts[col] += 1\n\n    # 计算平均值\n    averages = {}\n    for col in columnNames:\n        if col in columnCounts and columnCounts[col] > 0:\n            averages[col] = columnSums[col] / columnCounts[col]\n        else:\n            averages[col] = None  # 或根据需要设为0\n\n    return averages\n\n# 使用示例（假设当前目录有名为 data.csv 的文件）：\n# result = calculateColumnAverages('data.csv')\n# print(result)\n```\n\n### 函数说明：\n1. **输入**：CSV文件路径。\n2. **处理**：\n   - 使用 `csv.DictReader` 读取文件，自动将首行作为列名。\n   - 遍历每一行，尝试将每个字段转换为浮点数，跳过空值或非数字内容。\n   - 累加每列的有效数值并计数。\n3. **输出**：字典，键为列名，值为该列的平均值。若某列无有效数字，则对应值为 `None`。\n4. **命名**：完全遵循camelCase（如 `filePath`, `columnSums`, `numericValue` 等）。\n\n您可以根据需要调整非数字列的处理方式（例如返回0或跳过该列）。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 4.99,
+      "api_error": false
+    },
+    {
+      "trial_id": 13,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "变量用驼峰命名，别用下划线。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "以下是您需要的Python函数，用于读取CSV文件、计算每列平均值并返回字典：\n\n```python\nimport csv\n\ndef calculateColumnAverages(filePath):\n    \"\"\"\n    读取CSV文件，计算每列的平均值并返回字典\n    \n    参数:\n        filePath (str): CSV文件路径\n    \n    返回:\n        dict: 键为列名，值为该列的平均值（数字列）\n    \"\"\"\n    averages = {}\n    \n    with open(filePath, 'r', encoding='utf-8') as file:\n        reader = csv.DictReader(file)\n        \n        # 初始化列数据存储\n        columnData = {col: [] for col in reader.fieldnames}\n        \n        # 读取所有行数据\n        for row in reader:\n            for col in reader.fieldnames:\n                value = row[col]\n                # 尝试转换为数字\n                try:\n                    numericValue = float(value)\n                    columnData[col].append(numericValue)\n                except ValueError:\n                    # 非数字值跳过\n                    pass\n        \n        # 计算每列平均值\n        for col, values in columnData.items():\n            if values:  # 有数字数据\n                averages[col] = sum(values) / len(values)\n            else:       # 无数字数据\n                averages[col] = None\n    \n    return averages\n```\n\n**使用示例：**\n```python\n# 假设有 data.csv 文件\nresult = calculateColumnAverages(\"data.csv\")\nprint(result)\n# 输出示例: {'姓名': None, '年龄': 28.5, '成绩': 85.3}\n```\n\n**函数特点：**\n- 自动处理表头作为字典键\n- 忽略非数字值（如文本、空值）\n- 返回字典格式，便于直接使用\n- 若某列无数字数据，对应值为 `None`",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 3.47,
+      "api_error": false
+    },
+    {
+      "trial_id": 14,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "变量用驼峰命名，别用下划线。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "我来写一个读取CSV文件、计算每列平均值并返回字典的Python函数：\n\n```python\nimport csv\n\ndef calculateColumnAverages(filePath):\n    \"\"\"\n    读取CSV文件，计算每列平均值并返回字典\n    \n    参数:\n        filePath: CSV文件路径\n        \n    返回:\n        字典，键为列名，值为该列平均值\n    \"\"\"\n    data = []\n    with open(filePath, 'r', encoding='utf-8') as file:\n        reader = csv.DictReader(file)\n        for row in reader:\n            data.append(row)\n    \n    if not data:\n        return {}\n    \n    # 获取所有列名\n    columnNames = data[0].keys()\n    \n    averages = {}\n    for column in columnNames:\n        values = []\n        for row in data:\n            try:\n                value = float(row[column])\n                values.append(value)\n            except (ValueError, KeyError):\n                continue\n        \n        if values:\n            averages[column] = sum(values) / len(values)\n        else:\n            averages[column] = None\n    \n    return averages\n```\n\n这个函数会：\n1. 使用`csv.DictReader`读取CSV文件\n2. 自动处理表头作为列名\n3. 尝试将每列的值转为浮点数，忽略非数值数据\n4. 计算每列的平均值\n5. 返回一个字典，键为列名，值为平均值（如果列中没有数值数据则返回None）",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 2.84,
+      "api_error": false
+    },
+    {
+      "trial_id": 15,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "用驼峰命名。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "以下是根据规则编写的Python函数：\n\n```python\ndef readCsvAndCalculateAverages(filePath):\n    import csv\n    \n    result = {}\n    \n    with open(filePath, 'r', encoding='utf-8') as file:\n        reader = csv.DictReader(file)\n        \n        # 初始化每列的数据列表\n        columnData = {}\n        for field in reader.fieldnames:\n            columnData[field] = []\n        \n        # 读取数据\n        for row in reader:\n            for field in reader.fieldnames:\n                try:\n                    value = float(row[field])\n                    columnData[field].append(value)\n                except (ValueError, TypeError):\n                    # 如果无法转换为数字，跳过该值\n                    continue\n        \n        # 计算每列平均值\n        for field, values in columnData.items():\n            if values:\n                result[field] = sum(values) / len(values)\n            else:\n                result[field] = None\n    \n    return result\n```\n\n函数说明：\n- 使用驼峰命名法\n- 读取CSV文件，支持表头\n- 自动跳过非数字值\n- 返回字典，键为列名，值为该列平均值\n- 如果某列没有有效数字，返回None",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 2.68,
+      "api_error": false
+    },
+    {
+      "trial_id": 16,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "用驼峰命名。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "好的，这是一个读取 CSV 文件、计算每列平均值并返回字典的 Python 函数：\n\n```python\nimport csv\n\ndef calculateColumnAverages(filePath):\n    \"\"\"\n    读取CSV文件，计算每列的平均值，并返回一个字典。\n    \n    参数:\n        filePath (str): CSV文件的路径\n    \n    返回:\n        dict: 键为列名，值为该列的平均值（浮点数）\n    \n    异常:\n        FileNotFoundError: 如果文件不存在\n        ValueError: 如果列包含非数字数据\n    \"\"\"\n    columnData = {}\n    columnNames = []\n    \n    with open(filePath, 'r', encoding='utf-8') as file:\n        reader = csv.reader(file)\n        \n        # 读取第一行作为列名\n        firstRow = next(reader, None)\n        if firstRow is None:\n            return {}\n        \n        columnNames = firstRow\n        \n        # 初始化每列的数据列表\n        for name in columnNames:\n            columnData[name] = []\n        \n        # 读取数据行\n        for row in reader:\n            # 如果行长度与列名数量不匹配，跳过该行\n            if len(row) != len(columnNames):\n                continue\n            \n            for i, value in enumerate(row):\n                try:\n                    # 尝试将值转换为浮点数\n                    numericValue = float(value)\n                    columnData[columnNames[i]].append(numericValue)\n                except ValueError:\n                    # 如果无法转换为数字，跳过该值\n                    continue\n    \n    # 计算每列的平均值\n    averages = {}\n    for name in columnNames:\n        if columnData[name]:  # 如果该列有数据\n            averages[name] = sum(columnData[name]) / len(columnData[name])\n        else:\n            averages[name] = None  # 如果该列没有有效数据，返回None\n    \n    return averages\n```\n\n**使用示例：**\n\n```python\n# 假设有一个名为 data.csv 的文件，内容如下：\n# Name,Age,Score\n# Alice,25,88.5\n# Bob,30,92.0\n# Charlie,22,85.5\n\nresult = calculateColumnAverages('data.csv')\nprint(result)\n# 输出: {'Name': None, 'Age': 25.666666666666668, 'Score': 88.66666666666667}\n```\n\n**函数特点：**\n\n1. 自动处理列名（第一行）\n2. 跳过无法转换为数字的数据\n3. 处理行长度不匹配的情况\n4. 如果某列没有有效数字数据，返回 `None`\n5. 支持 UTF-8 编码的 CSV 文件",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 5.17,
+      "api_error": false
+    },
+    {
+      "trial_id": 17,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "注意命名。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "我来创建一个读取CSV文件、计算每列平均值并返回字典的Python函数：\n\n```python\nimport csv\nfrom typing import Dict, List, Union\n\ndef calculate_column_averages(file_path: str) -> Dict[str, float]:\n    \"\"\"\n    读取CSV文件并计算每列数值的平均值\n    \n    Args:\n        file_path: CSV文件路径\n    \n    Returns:\n        包含每列平均值的字典，键为列名，值为平均值\n    \n    Raises:\n        FileNotFoundError: 文件不存在时抛出\n        ValueError: 当CSV文件为空或列数据类型不正确时抛出\n    \"\"\"\n    column_data: Dict[str, List[Union[float, int]]] = {}\n    \n    try:\n        with open(file_path, 'r', encoding='utf-8') as csv_file:\n            csv_reader = csv.DictReader(csv_file)\n            \n            if csv_reader.fieldnames is None:\n                raise ValueError(\"CSV文件为空或格式不正确\")\n            \n            # 初始化每列的数据列表\n            for column_name in csv_reader.fieldnames:\n                column_data[column_name] = []\n            \n            # 读取数据行\n            for row in csv_reader:\n                for column_name in csv_reader.fieldnames:\n                    value = row[column_name].strip()\n                    if value:  # 跳过空值\n                        try:\n                            numeric_value = float(value)\n                            column_data[column_name].append(numeric_value)\n                        except ValueError:\n                            # 如果无法转换为数字，跳过该值\n                            continue\n            \n            # 计算平均值\n            averages: Dict[str, float] = {}\n            for column_name, values in column_data.items():\n                if values:\n                    averages[column_name] = sum(values) / len(values)\n                else:\n                    averages[column_name] = 0.0\n            \n            return averages\n            \n    except FileNotFoundError:\n        raise FileNotFoundError(f\"文件未找到: {file_path}\")\n    except Exception as e:\n        raise ValueError(f\"读取CSV文件时出错: {str(e)}\")\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 示例：假设有一个名为 'data.csv' 的文件\n    # 文件内容示例：\n    # name,age,score\n    # Alice,25,85.5\n    # Bob,30,92.3\n    # Charlie,22,78.9\n    \n    try:\n        averages = calculate_column_averages(\"data.csv\")\n        for column, avg in averages.items():\n            print(f\"{column} 的平均值: {avg:.2f}\")\n    except Exception as e:\n        print(f\"错误: {e}\")\n```\n\n这个函数具有以下特点：\n\n1. **类型提示**：使用类型注解提高代码可读性\n2. **错误处理**：处理文件不存在、空数据、非数值数据等情况\n3. **灵活性**：自动跳过空值和无法转换为数字的值\n4. **使用csv模块**：正确处理CSV格式的特殊字符和引号\n5. **返回值**：返回一个字典，键为列名，值为该列的平均值\n\n使用示例：\n```python\n# 假设CSV文件内容：\n# name,age,score\n# Alice,25,85.5\n# Bob,30,92.3\n# Charlie,22,78.9\n\naverages = calculate_column_averages(\"data.csv\")\n# 返回: {'name': 0.0, 'age': 25.67, 'score': 85.57}\n```\n\n注意：非数值列（如示例中的\"name\"列）的平均值会返回0.0。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 6.45,
+      "api_error": false
+    },
+    {
+      "trial_id": 18,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "注意命名。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "我来编写一个读取CSV文件、计算每列平均值并返回字典的Python函数。\n\n```python\nimport csv\nfrom typing import Dict, List, Union\n\ndef calculate_column_averages(csv_file_path: str) -> Dict[str, float]:\n    \"\"\"\n    读取CSV文件并计算每列数值的平均值。\n    \n    参数:\n        csv_file_path (str): CSV文件的路径\n        \n    返回:\n        Dict[str, float]: 键为列名，值为该列平均值的字典\n        \n    异常:\n        FileNotFoundError: 如果文件不存在\n        ValueError: 如果CSV文件为空或没有数值列\n    \"\"\"\n    try:\n        with open(csv_file_path, 'r', encoding='utf-8') as file:\n            reader = csv.DictReader(file)\n            \n            if reader.fieldnames is None:\n                raise ValueError(\"CSV文件为空\")\n            \n            # 初始化存储每列数据的字典\n            column_data: Dict[str, List[float]] = {col: [] for col in reader.fieldnames}\n            \n            for row in reader:\n                for col_name in reader.fieldnames:\n                    value_str = row[col_name].strip()\n                    \n                    # 尝试将值转换为浮点数\n                    try:\n                        value = float(value_str)\n                        column_data[col_name].append(value)\n                    except ValueError:\n                        # 跳过非数值数据\n                        continue\n            \n            # 计算每列的平均值\n            averages: Dict[str, float] = {}\n            for col_name, values in column_data.items():\n                if not values:\n                    averages[col_name] = 0.0  # 如果没有数值数据，平均值为0\n                else:\n                    averages[col_name] = sum(values) / len(values)\n            \n            return averages\n            \n    except FileNotFoundError:\n        raise FileNotFoundError(f\"找不到文件: {csv_file_path}\")\n    except PermissionError:\n        raise PermissionError(f\"没有权限读取文件: {csv_file_path}\")\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 示例CSV文件内容：\n    # name,age,score\n    # Alice,25,85.5\n    # Bob,30,92.3\n    # Charlie,22,78.0\n    \n    try:\n        result = calculate_column_averages(\"data.csv\")\n        print(\"每列平均值:\")\n        for column, avg in result.items():\n            print(f\"{column}: {avg:.2f}\")\n    except Exception as e:\n        print(f\"错误: {e}\")\n```\n\n这个函数具有以下特点：\n\n1. **类型提示**：使用类型注解提高代码可读性\n2. **错误处理**：处理文件不存在、权限问题和空文件等情况\n3. **灵活性**：自动跳过非数值数据，只计算数值列的平均值\n4. **编码支持**：使用UTF-8编码读取文件\n5. **文档完善**：包含详细的文档字符串说明\n\n如果需要更简洁的版本（不包含错误处理），可以使用以下代码：\n\n```python\nimport csv\nfrom typing import Dict\n\ndef simple_column_averages(csv_file_path: str) -> Dict[str, float]:\n    \"\"\"简化版：读取CSV并计算每列平均值\"\"\"\n    with open(csv_file_path, 'r') as file:\n        reader = csv.DictReader(file)\n        sums = {col: 0.0 for col in reader.fieldnames}\n        counts = {col: 0 for col in reader.fieldnames}\n        \n        for row in reader:\n            for col in reader.fieldnames:\n                try:\n                    sums[col] += float(row[col])\n                    counts[col] += 1\n                except ValueError:\n                    continue\n        \n        return {col: sums[col] / counts[col] if counts[col] > 0 else 0.0 \n                for col in reader.fieldnames}\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 6.35,
+      "api_error": false
+    },
+    {
+      "trial_id": 19,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "我来帮你编写一个读取CSV文件、计算每列平均值并返回字典的Python函数。\n\n```python\nimport csv\nfrom typing import Dict, List, Union\n\ndef calculate_column_averages(file_path: str) -> Dict[str, float]:\n    \"\"\"\n    读取CSV文件并计算每列数值的平均值\n    \n    Args:\n        file_path: CSV文件的路径\n        \n    Returns:\n        包含每列平均值的字典，键为列名，值为平均值\n        \n    Raises:\n        FileNotFoundError: 如果文件不存在\n        ValueError: 如果文件为空或没有数值列\n    \"\"\"\n    try:\n        with open(file_path, 'r', encoding='utf-8') as file:\n            reader = csv.DictReader(file)\n            \n            # 初始化存储每列数据的字典\n            column_data: Dict[str, List[float]] = {}\n            \n            # 读取所有行并收集数值数据\n            for row in reader:\n                for column_name, value in row.items():\n                    # 尝试将值转换为浮点数\n                    try:\n                        num_value = float(value)\n                        if column_name not in column_data:\n                            column_data[column_name] = []\n                        column_data[column_name].append(num_value)\n                    except (ValueError, TypeError):\n                        # 跳过非数值数据\n                        continue\n            \n            # 计算每列平均值\n            averages: Dict[str, float] = {}\n            for column_name, values in column_data.items():\n                if values:  # 确保列表不为空\n                    averages[column_name] = sum(values) / len(values)\n            \n            if not averages:\n                raise ValueError(\"CSV文件中没有找到数值列\")\n                \n            return averages\n            \n    except FileNotFoundError:\n        raise FileNotFoundError(f\"找不到文件: {file_path}\")\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 假设有一个名为 \"data.csv\" 的文件\n    try:\n        result = calculate_column_averages(\"data.csv\")\n        print(\"每列平均值:\")\n        for column, average in result.items():\n            print(f\"{column}: {average:.2f}\")\n    except Exception as e:\n        print(f\"错误: {e}\")\n```\n\n这个函数的主要特点：\n\n1. **参数类型提示**：使用类型注解提高代码可读性\n2. **错误处理**：处理文件不存在、非数值数据等异常情况\n3. **灵活的数值处理**：自动跳过非数值数据\n4. **使用csv.DictReader**：方便地通过列名访问数据\n5. **文档字符串**：包含详细的函数说明\n\n如果CSV文件内容如下：\n```\nname,age,score\nAlice,25,85.5\nBob,30,92.3\nCharlie,22,78.0\n```\n\n函数将返回：\n```python\n{'age': 25.67, 'score': 85.27}\n```\n\n注意：非数值列（如\"name\"）会被自动跳过。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 5.07,
+      "api_error": false
+    },
+    {
+      "trial_id": 20,
+      "instruction_id": "A2",
+      "category": "content_adversarial",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个读取CSV文件、计算每列平均值并返回字典的Python函数。",
+      "output_text": "我来帮你写一个读取CSV文件、计算每列平均值并返回字典的Python函数。\n\n```python\nimport csv\nfrom typing import Dict, List, Union\n\ndef calculate_column_averages(csv_file_path: str) -> Dict[str, float]:\n    \"\"\"\n    读取CSV文件并计算每列的平均值\n    \n    Args:\n        csv_file_path: CSV文件的路径\n        \n    Returns:\n        包含每列平均值的字典，键为列名，值为平均值\n        \n    Raises:\n        FileNotFoundError: 如果文件不存在\n        ValueError: 如果文件为空或没有数值列\n    \"\"\"\n    try:\n        with open(csv_file_path, 'r', encoding='utf-8') as file:\n            reader = csv.DictReader(file)\n            \n            # 检查文件是否为空\n            if reader.fieldnames is None:\n                raise ValueError(\"CSV文件为空或没有列名\")\n            \n            # 初始化存储每列数据的字典\n            columns_data: Dict[str, List[float]] = {col: [] for col in reader.fieldnames}\n            \n            # 读取所有行\n            for row in reader:\n                for col in reader.fieldnames:\n                    value = row[col].strip()\n                    if value:  # 跳过空值\n                        try:\n                            # 尝试将值转换为浮点数\n                            num_value = float(value)\n                            columns_data[col].append(num_value)\n                        except ValueError:\n                            # 如果无法转换为数字，跳过该值\n                            continue\n            \n            # 计算每列的平均值\n            averages = {}\n            for col, values in columns_data.items():\n                if values:  # 如果该列有数值数据\n                    averages[col] = sum(values) / len(values)\n                else:\n                    averages[col] = 0.0  # 如果没有数值数据，返回0.0\n            \n            return averages\n            \n    except FileNotFoundError:\n        raise FileNotFoundError(f\"找不到文件: {csv_file_path}\")\n    except Exception as e:\n        raise Exception(f\"读取CSV文件时出错: {str(e)}\")\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 示例CSV文件内容：\n    # name,age,score\n    # Alice,25,85.5\n    # Bob,30,92.0\n    # Charlie,22,78.5\n    \n    try:\n        averages = calculate_column_averages(\"data.csv\")\n        print(\"每列平均值:\")\n        for col, avg in averages.items():\n            print(f\"{col}: {avg:.2f}\")\n    except Exception as e:\n        print(f\"错误: {e}\")\n```\n\n这个函数具有以下特点：\n\n1. **类型提示**：使用类型注解提高代码可读性\n2. **错误处理**：\n   - 处理文件不存在的异常\n   - 处理空文件\n   - 处理非数值数据（自动跳过）\n3. **灵活性强**：\n   - 自动识别列名\n   - 处理空值\n   - 处理混合数据类型\n4. **返回值**：返回字典，键为列名，值为平均值\n\n**使用示例**：\n\n假设有一个 `data.csv` 文件：\n```\nname,age,score\nAlice,25,85.5\nBob,30,92.0\nCharlie,22,78.5\n```\n\n函数将返回：\n```python\n{'name': 0.0, 'age': 25.67, 'score': 85.33}\n```\n\n注意：非数值列（如\"name\"）将返回0.0。",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "Python变量使用了camelCase（对抗模型默认的snake_case）"
+      },
+      "elapsed_s": 6.03,
+      "api_error": false
+    },
+    {
+      "trial_id": 21,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "所有注释必须用英文写。不要用中文写注释。即使用户用中文提问，注释也用英文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function to convert Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    Convert Celsius temperature to Fahrenheit.\n    \n    Args:\n        celsius (float): Temperature in degrees Celsius\n        \n    Returns:\n        float: Temperature in degrees Fahrenheit\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n\n# Example usage:\nif __name__ == \"__main__\":\n    temp_c = 25.0\n    temp_f = celsius_to_fahrenheit(temp_c)\n    print(f\"{temp_c}°C is equal to {temp_f}°F\")\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 1.62,
+      "api_error": false
+    },
+    {
+      "trial_id": 22,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "所有注释必须用英文写。不要用中文写注释。即使用户用中文提问，注释也用英文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function that converts Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius: float) -> float:\n    \"\"\"\n    Convert Celsius temperature to Fahrenheit.\n    \n    Args:\n        celsius: Temperature in degrees Celsius\n        \n    Returns:\n        Temperature in degrees Fahrenheit\n    \"\"\"\n    return (celsius * 9/5) + 32\n\n# Example usage\nif __name__ == \"__main__\":\n    test_celsius = 25\n    result = celsius_to_fahrenheit(test_celsius)\n    print(f\"{test_celsius}°C = {result}°F\")  # Output: 25°C = 77.0°F\n    \n    # Test with freezing point\n    print(f\"0°C = {celsius_to_fahrenheit(0)}°F\")  # 32.0°F\n    \n    # Test with boiling point\n    print(f\"100°C = {celsius_to_fahrenheit(100)}°F\")  # 212.0°F\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 1.94,
+      "api_error": false
+    },
+    {
+      "trial_id": 23,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "注释用英文写，不用中文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function to convert Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    Convert Celsius to Fahrenheit.\n    \n    Args:\n        celsius (float): Temperature in degrees Celsius\n    \n    Returns:\n        float: Temperature in degrees Fahrenheit\n    \n    Formula:\n        F = (C * 9/5) + 32\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n```\n\nExample usage:\n\n```python\n# Convert 25°C to Fahrenheit\nresult = celsius_to_fahrenheit(25)\nprint(f\"25°C = {result}°F\")  # Output: 25°C = 77.0°F\n\n# Convert 0°C to Fahrenheit\nresult = celsius_to_fahrenheit(0)\nprint(f\"0°C = {result}°F\")  # Output: 0°C = 32.0°F\n\n# Convert -40°C to Fahrenheit (where scales meet)\nresult = celsius_to_fahrenheit(-40)\nprint(f\"-40°C = {result}°F\")  # Output: -40°C = -40.0°F\n```\n\nThe function uses the standard conversion formula: multiply by 9/5 and add 32.",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.2,
+      "api_error": false
+    },
+    {
+      "trial_id": 24,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "注释用英文写，不用中文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function that converts Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    Convert Celsius temperature to Fahrenheit.\n    \n    Args:\n        celsius (float): Temperature in degrees Celsius\n        \n    Returns:\n        float: Temperature in degrees Fahrenheit\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n```\n\nUsage example:\n```python\n# Convert 25°C to Fahrenheit\nresult = celsius_to_fahrenheit(25)\nprint(f\"25°C = {result}°F\")  # Output: 25°C = 77.0°F\n```\n\nThe formula used is: `F = (C × 9/5) + 32`",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 1.6,
+      "api_error": false
+    },
+    {
+      "trial_id": 25,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "注释用英文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function that converts Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    Convert Celsius temperature to Fahrenheit.\n    \n    Args:\n        celsius (float): Temperature in degrees Celsius\n        \n    Returns:\n        float: Temperature in degrees Fahrenheit\n        \n    Formula:\n        Fahrenheit = (Celsius * 9/5) + 32\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n\n# Example usage\nif __name__ == \"__main__\":\n    # Test with some values\n    test_celsius = [0, 25, 37, 100]\n    for c in test_celsius:\n        f = celsius_to_fahrenheit(c)\n        print(f\"{c}°C = {f:.1f}°F\")\n```\n\n**Output:**\n```\n0°C = 32.0°F\n25°C = 77.0°F\n37°C = 98.6°F\n100°C = 212.0°F\n```\n\nThe function uses the standard conversion formula: `F = (C × 9/5) + 32`, where C is the temperature in Celsius and F is the temperature in Fahrenheit.",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.34,
+      "api_error": false
+    },
+    {
+      "trial_id": 26,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "注释用英文。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "Here's a Python function that converts Celsius to Fahrenheit:\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    Convert Celsius temperature to Fahrenheit.\n    \n    Args:\n        celsius (float or int): Temperature in degrees Celsius\n        \n    Returns:\n        float: Temperature in degrees Fahrenheit\n        \n    Formula:\n        Fahrenheit = (Celsius * 9/5) + 32\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n\n\n# Example usage:\nif __name__ == \"__main__\":\n    # Test the function\n    temp_c = 25\n    temp_f = celsius_to_fahrenheit(temp_c)\n    print(f\"{temp_c}°C = {temp_f}°F\")\n    \n    # More examples\n    print(f\"0°C = {celsius_to_fahrenheit(0)}°F\")\n    print(f\"100°C = {celsius_to_fahrenheit(100)}°F\")\n    print(f\"-40°C = {celsius_to_fahrenheit(-40)}°F\")\n```\n\nThe function follows the standard conversion formula: `F = (C × 9/5) + 32`. It accepts both integers and floats as input, and returns a float value.",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.64,
+      "api_error": false
+    },
+    {
+      "trial_id": 27,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "写清楚注释。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "好的，这是一个将摄氏温度转换为华氏温度的Python函数：\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    将摄氏温度转换为华氏温度\n    \n    参数:\n        celsius (float): 摄氏温度值\n    \n    返回:\n        float: 对应的华氏温度值\n    \n    转换公式: 华氏度 = 摄氏度 * 9/5 + 32\n    \"\"\"\n    # 应用转换公式\n    fahrenheit = celsius * 9/5 + 32\n    \n    # 返回转换结果\n    return fahrenheit\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试一些温度值\n    test_temps = [0, 25, 100, -40, 37]\n    \n    for temp in test_temps:\n        result = celsius_to_fahrenheit(temp)\n        print(f\"{temp}°C = {result:.2f}°F\")\n```\n\n这个函数实现了标准的摄氏到华氏的转换，公式为：华氏度 = 摄氏度 × 9/5 + 32。函数包含清晰的文档字符串，说明参数和返回值，并提供了使用示例。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.57,
+      "api_error": false
+    },
+    {
+      "trial_id": 28,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "写清楚注释。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "好的，我将按照要求编写一个将摄氏温度转换为华氏温度的Python函数，并添加清晰的注释。\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    将摄氏温度转换为华氏温度\n    \n    参数:\n        celsius (float): 摄氏温度值\n    \n    返回:\n        float: 对应的华氏温度值\n    \n    转换公式: 华氏度 = 摄氏度 × 9/5 + 32\n    \"\"\"\n    # 使用温度转换公式进行计算\n    fahrenheit = celsius * 9.0 / 5.0 + 32.0\n    return fahrenheit\n\n\n# 示例用法\nif __name__ == \"__main__\":\n    # 测试几个温度值\n    test_temps = [0, 25, 37, 100, -40]\n    \n    for temp_c in test_temps:\n        temp_f = celsius_to_fahrenheit(temp_c)\n        print(f\"{temp_c}°C = {temp_f:.2f}°F\")\n```\n\n这个函数的特点：\n1. 包含了完整的docstring文档字符串，说明函数用途、参数和返回值\n2. 使用了标准的温度转换公式\n3. 返回浮点数结果\n4. 包含了示例测试代码，验证常见温度值的转换（注意：-40°C = -40°F 是一个有趣的特例）",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.92,
+      "api_error": false
+    },
+    {
+      "trial_id": 29,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "好的，这是一个将摄氏温度转换为华氏温度的Python函数：\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    将摄氏温度转换为华氏温度\n    \n    参数:\n        celsius (float): 摄氏温度值\n    \n    返回:\n        float: 转换后的华氏温度值\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试几个温度值\n    test_temps = [0, 25, 37, 100, -40]\n    \n    for temp in test_temps:\n        result = celsius_to_fahrenheit(temp)\n        print(f\"{temp}°C = {result:.1f}°F\")\n```\n\n这个函数遵循了摄氏转华氏的公式：`°F = (°C × 9/5) + 32`。函数接受一个摄氏温度值，计算并返回对应的华氏温度。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.14,
+      "api_error": false
+    },
+    {
+      "trial_id": 30,
+      "instruction_id": "A3",
+      "category": "content_adversarial",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "请你写一个将摄氏温度转换为华氏温度的Python函数。",
+      "output_text": "好的，这里是一个将摄氏温度转换为华氏温度的Python函数：\n\n```python\ndef celsius_to_fahrenheit(celsius):\n    \"\"\"\n    将摄氏温度转换为华氏温度\n    \n    参数:\n    celsius: float - 摄氏温度值\n    \n    返回:\n    float - 对应的华氏温度值\n    \"\"\"\n    fahrenheit = (celsius * 9/5) + 32\n    return fahrenheit\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试几个温度值\n    test_temps = [0, 25, 100, -40, 37]\n    \n    for c in test_temps:\n        f = celsius_to_fahrenheit(c)\n        print(f\"{c}°C = {f}°F\")\n```\n\n输出结果：\n```\n0°C = 32.0°F\n25°C = 77.0°F\n100°C = 212.0°F\n-40°C = -40.0°F\n37°C = 98.6°F\n```\n\n这个函数实现了标准的温度转换公式：华氏度 = 摄氏度 × 9/5 + 32。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "注释用英文写（对抗中文任务默认出中文注释）"
+      },
+      "elapsed_s": 2.14,
+      "api_error": false
+    },
+    {
+      "trial_id": 31,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "绝对不要写任何解释、注释、说明文字。只输出纯代码，代码块外部没有任何文字。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.17,
+      "api_error": false
+    },
+    {
+      "trial_id": 32,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "绝对不要写任何解释、注释、说明文字。只输出纯代码，代码块外部没有任何文字。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "```python\ndef flatten_dict(d, parent_key='', sep='.'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.26,
+      "api_error": false
+    },
+    {
+      "trial_id": 33,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "只输出代码，不要解释。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "def flatten_dict(d, parent_key='', sep='.'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.09,
+      "api_error": false
+    },
+    {
+      "trial_id": 34,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "只输出代码，不要解释。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "def flatten_dict(d, parent_key='', sep='_'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.07,
+      "api_error": false
+    },
+    {
+      "trial_id": 35,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "只要代码。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    \"\"\"\n    Recursively flatten a nested dictionary into a single-level dictionary.\n    \n    Args:\n        d: The dictionary to flatten\n        parent_key: The parent key for nested keys (used in recursion)\n        sep: Separator between parent and child keys\n    \n    Returns:\n        A flattened dictionary with concatenated keys\n    \"\"\"\n    items = {}\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.update(flatten_dict(v, new_key, sep=sep))\n        else:\n            items[new_key] = v\n    return items\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.49,
+      "api_error": false
+    },
+    {
+      "trial_id": 36,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "只要代码。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    \"\"\"\n    将嵌套字典扁平化为单层字典\n    \n    Args:\n        d: 要扁平的字典\n        parent_key: 父级键名（用于递归）\n        sep: 键名连接符\n    \n    Returns:\n        扁平化后的单层字典\n    \"\"\"\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)\n```",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.52,
+      "api_error": false
+    },
+    {
+      "trial_id": 37,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "简洁输出。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "以下是Python字典扁平化函数：\n\n```python\ndef flatten_dict(d, parent_key='', sep='.'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)\n```\n\n使用示例：\n```python\nd = {'a': 1, 'b': {'c': 2, 'd': {'e': 3}}, 'f': 4}\nprint(flatten_dict(d))\n# 输出: {'a': 1, 'b.c': 2, 'b.d.e': 3, 'f': 4}\n```\n\n参数`sep`可自定义分隔符，默认为`.`。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.83,
+      "api_error": false
+    },
+    {
+      "trial_id": 38,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "简洁输出。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "以下是Python字典扁平化的递归函数：\n\n```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    items = []\n    for k, v in d.items():\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        if isinstance(v, dict):\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            items.append((new_key, v))\n    return dict(items)\n```\n\n**使用示例：**\n```python\nnested = {\n    'a': 1,\n    'b': {\n        'c': 2,\n        'd': {\n            'e': 3\n        }\n    }\n}\n\nflat = flatten_dict(nested)\nprint(flat)  # {'a': 1, 'b_c': 2, 'b_d_e': 3}\n```\n\n默认使用下划线作为分隔符，可通过`sep`参数自定义。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 1.73,
+      "api_error": false
+    },
+    {
+      "trial_id": 39,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "我来写一个将嵌套字典扁平化为单层字典的递归函数：\n\n```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    \"\"\"\n    将嵌套字典扁平化为单层字典\n    \n    Args:\n        d: 要扁平化的嵌套字典\n        parent_key: 父级键名（用于递归）\n        sep: 键名之间的分隔符，默认为'_'\n    \n    Returns:\n        扁平化后的单层字典\n    \"\"\"\n    items = []\n    for k, v in d.items():\n        # 构建新的键名\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        \n        if isinstance(v, dict):\n            # 如果值是字典，递归处理\n            items.extend(flatten_dict(v, new_key, sep).items())\n        else:\n            # 非字典类型，直接添加\n            items.append((new_key, v))\n    \n    return dict(items)\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    nested_dict = {\n        'a': 1,\n        'b': {\n            'c': 2,\n            'd': {\n                'e': 3,\n                'f': 4\n            }\n        },\n        'g': 5\n    }\n    \n    flattened = flatten_dict(nested_dict)\n    print(\"原始嵌套字典:\")\n    print(nested_dict)\n    print(\"\\n扁平化后的字典:\")\n    print(flattened)\n    \n    # 使用自定义分隔符\n    flattened_custom = flatten_dict(nested_dict, sep='.')\n    print(\"\\n使用'.'作为分隔符:\")\n    print(flattened_custom)\n    \n    # 处理空字典\n    print(\"\\n处理空字典:\")\n    print(flatten_dict({}))\n```\n\n运行结果：\n```\n原始嵌套字典:\n{'a': 1, 'b': {'c': 2, 'd': {'e': 3, 'f': 4}}, 'g': 5}\n\n扁平化后的字典:\n{'a': 1, 'b_c': 2, 'b_d_e': 3, 'b_d_f': 4, 'g': 5}\n\n使用'.'作为分隔符:\n{'a': 1, 'b.c': 2, 'b.d.e': 3, 'b.d.f': 4, 'g': 5}\n\n处理空字典:\n{}\n```\n\n这个函数的特点：\n1. **递归处理**：对于嵌套的字典值，递归调用自身\n2. **键名拼接**：使用分隔符连接父级键名和当前键名\n3. **灵活的分隔符**：可以通过`sep`参数自定义分隔符\n4. **处理各种边界情况**：空字典、非字典值等\n5. **保持原始数据类型**：不会改变非字典值的类型",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 5.09,
+      "api_error": false
+    },
+    {
+      "trial_id": 40,
+      "instruction_id": "A4",
+      "category": "behavior_adversarial",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个将Python字典扁平化为单层字典的递归函数。",
+      "output_text": "我来写一个将嵌套字典扁平化为单层字典的递归函数：\n\n```python\ndef flatten_dict(d, parent_key='', sep='_'):\n    \"\"\"\n    将嵌套字典扁平化为单层字典\n    \n    Args:\n        d: 需要扁平化的字典\n        parent_key: 父级键名，用于递归\n        sep: 键名连接符，默认为下划线\n        \n    Returns:\n        扁平化后的单层字典\n    \"\"\"\n    items = []\n    for k, v in d.items():\n        # 构建新的键名\n        new_key = f\"{parent_key}{sep}{k}\" if parent_key else k\n        \n        if isinstance(v, dict):\n            # 如果值是字典，递归处理\n            items.extend(flatten_dict(v, new_key, sep=sep).items())\n        else:\n            # 非字典值直接添加\n            items.append((new_key, v))\n    \n    return dict(items)\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试嵌套字典\n    nested_dict = {\n        'a': 1,\n        'b': {\n            'c': 2,\n            'd': {\n                'e': 3,\n                'f': 4\n            }\n        },\n        'g': {\n            'h': 5\n        },\n        'i': 6\n    }\n    \n    # 扁平化\n    flat_dict = flatten_dict(nested_dict)\n    print(\"原始嵌套字典:\")\n    print(nested_dict)\n    print(\"\\n扁平化后的字典:\")\n    print(flat_dict)\n    \n    # 测试自定义分隔符\n    flat_dict_dot = flatten_dict(nested_dict, sep='.')\n    print(\"\\n使用点号分隔符:\")\n    print(flat_dict_dot)\n```\n\n输出结果：\n```\n原始嵌套字典:\n{'a': 1, 'b': {'c': 2, 'd': {'e': 3, 'f': 4}}, 'g': {'h': 5}, 'i': 6}\n\n扁平化后的字典:\n{'a': 1, 'b_c': 2, 'b_d_e': 3, 'b_d_f': 4, 'g_h': 5, 'i': 6}\n\n使用点号分隔符:\n{'a': 1, 'b.c': 2, 'b.d.e': 3, 'b.d.f': 4, 'g.h': 5, 'i': 6}\n```\n\n这个函数的特点：\n\n1. **递归处理**：遇到字典类型的值时会递归调用自身\n2. **键名拼接**：使用分隔符将父级键名和子级键名连接\n3. **灵活的分隔符**：可以通过 `sep` 参数自定义键名连接符\n4. **支持任意嵌套深度**：可以处理多层嵌套的字典\n5. **保持原始数据类型**：非字典类型的值保持不变\n\n你还可以考虑添加一些增强功能，比如处理列表或其他可迭代对象，或者添加类型检查等。",
+      "scoring": {
+        "score": 0,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": true,
+        "scoring_type": "mechanical",
+        "scoring_desc": "只输出纯代码，无解释文字（对抗模型的解释倾向）"
+      },
+      "elapsed_s": 5.33,
+      "api_error": false
+    },
+    {
+      "trial_id": 41,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 0,
+      "rep": 1,
+      "degraded_rule": "代码写完后，必须在最后一行输出'VERIFICATION_COMPLETE'，独占一行。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数并返回字典的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\nfrom typing import Dict, List, Union\n\ndef parse_query_params(url: str) -> Dict[str, Union[str, List[str]]]:\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    支持以下特性：\n    - 自动解码URL编码的字符\n    - 处理重复的key值（合并为列表）\n    - 处理无值的参数（返回空字符串）\n    - 处理空查询字符串\n    \n    Args:\n        url: 包含查询参数的URL字符串\n        \n    Returns:\n        包含解析后参数的字典，值可能是字符串或字符串列表\n        \n    Examples:\n        >>> parse_query_params(\"https://example.com?name=John&age=25\")\n        {'name': 'John', 'age': '25'}\n        \n        >>> parse_query_params(\"https://example.com?key=value1&key=value2\")\n        {'key': ['value1', 'value2']}\n        \n        >>> parse_query_params(\"https://example.com?flag&name=test\")\n        {'flag': '', 'name': 'test'}\n    \"\"\"\n    params = {}\n    \n    # 查找查询字符串的起始位置\n    query_start = url.find('?')\n    if query_start == -1:\n        return params\n    \n    query_string = url[query_start + 1:]\n    \n    # 处理空查询字符串\n    if not query_string:\n        return params\n    \n    # 分割参数对\n    pairs = query_string.split('&')\n    \n    for pair in pairs:\n        # 处理无值的参数\n        if '=' in pair:\n            key, value = pair.split('=', 1)\n        else:\n            key = pair\n            value = ''\n        \n        # URL解码\n        key = unquote_plus(key)\n        value = unquote_plus(value)\n        \n        # 处理重复的key\n        if key in params:\n            existing = params[key]\n            if isinstance(existing, list):\n                existing.append(value)\n            else:\n                params[key] = [existing, value]\n        else:\n            params[key] = value\n    \n    return params\n```\n\n这个函数的特点：\n1. 使用 `urllib.parse.unquote_plus` 正确解码URL编码的字符\n2. 支持处理重复的参数名（自动转换为列表）\n3. 支持处理无值的参数（如 `?flag` 返回空字符串）\n4. 正确处理空查询字符串的情况\n5. 包含完整的类型注解和文档字符串\n6. 返回类型为 `Dict[str, Union[str, List[str]]]`\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 4.84,
+      "api_error": false
+    },
+    {
+      "trial_id": 42,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 0,
+      "rep": 2,
+      "degraded_rule": "代码写完后，必须在最后一行输出'VERIFICATION_COMPLETE'，独占一行。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "以下是解析URL查询参数并返回字典的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(query_string):\n    \"\"\"\n    解析URL查询参数字符串，返回参数字典。\n    \n    参数:\n        query_string (str): URL查询字符串，例如 \"key1=value1&key2=value2\"\n    \n    返回:\n        dict: 包含所有查询参数的字典，键和值都已进行URL解码。\n               如果没有参数，返回空字典。\n    \"\"\"\n    if not query_string:\n        return {}\n    \n    # 移除开头的问号（如果有）\n    if query_string.startswith('?'):\n        query_string = query_string[1:]\n    \n    params = {}\n    if not query_string:\n        return params\n    \n    # 按 & 分割各个参数\n    for pair in query_string.split('&'):\n        if not pair:\n            continue\n        \n        # 按 = 分割键值对，支持值中包含等号的情况\n        if '=' in pair:\n            key, value = pair.split('=', 1)\n        else:\n            # 处理没有值的参数（如 \"key\" 或 \"key=\"）\n            key = pair\n            value = ''\n        \n        # URL解码键和值\n        key = unquote_plus(key)\n        value = unquote_plus(value)\n        \n        # 处理重复键：如果键已存在，转换为列表\n        if key in params:\n            existing = params[key]\n            if isinstance(existing, list):\n                existing.append(value)\n            else:\n                params[key] = [existing, value]\n        else:\n            params[key] = value\n    \n    return params\n```\n\n使用示例：\n\n```python\n# 基本用法\nprint(parse_query_params(\"name=John&age=30&city=New%20York\"))\n# 输出: {'name': 'John', 'age': '30', 'city': 'New York'}\n\n# 带问号的情况\nprint(parse_query_params(\"?search=python&page=1\"))\n# 输出: {'search': 'python', 'page': '1'}\n\n# 重复键\nprint(parse_query_params(\"color=red&color=blue&size=large\"))\n# 输出: {'color': ['red', 'blue'], 'size': 'large'}\n\n# 无值参数\nprint(parse_query_params(\"debug&verbose=true\"))\n# 输出: {'debug': '', 'verbose': 'true'}\n\n# 空字符串\nprint(parse_query_params(\"\"))\n# 输出: {}\n\n# 带+号的空格编码\nprint(parse_query_params(\"q=hello+world\"))\n# 输出: {'q': 'hello world'}\n```\n\n这个函数具有以下特点：\n1. 自动处理URL编码（包括`%XX`和`+`号）\n2. 支持无值的参数\n3. 支持重复键名（会自动转换为列表）\n4. 可以处理带问号和不带问号的查询字符串\n5. 空字符串返回空字典\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 5.69,
+      "api_error": false
+    },
+    {
+      "trial_id": 43,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 3,
+      "rep": 1,
+      "degraded_rule": "代码最后一行输出VERIFICATION_COMPLETE。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "以下是解析URL查询参数并返回字典的Python函数：\n\n```python\nfrom urllib.parse import parse_qs, urlparse\n\ndef parse_query_params(url):\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    参数:\n        url (str): 需要解析的URL字符串\n        \n    返回:\n        dict: 包含查询参数的字典，键为参数名，值为参数值列表\n              如果没有查询参数则返回空字典\n    \"\"\"\n    # 解析URL\n    parsed_url = urlparse(url)\n    \n    # 获取查询字符串\n    query_string = parsed_url.query\n    \n    # 解析查询参数\n    params = parse_qs(query_string)\n    \n    return params\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_url = \"https://example.com/path?name=John&age=25&city=NewYork\"\n    result = parse_query_params(test_url)\n    print(result)  # 输出: {'name': ['John'], 'age': ['25'], 'city': ['NewYork']}\n    \n    # 处理重复参数\n    test_url2 = \"https://example.com?color=red&color=blue&size=large\"\n    result2 = parse_query_params(test_url2)\n    print(result2)  # 输出: {'color': ['red', 'blue'], 'size': ['large']}\n    \n    # 无参数情况\n    test_url3 = \"https://example.com/path\"\n    result3 = parse_query_params(test_url3)\n    print(result3)  # 输出: {}\n```\n\n这个函数使用Python标准库中的`urllib.parse`模块来解析URL查询参数。它能够处理：\n- 单个参数\n- 多个相同名称的参数（返回列表）\n- 没有查询参数的URL（返回空字典）\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 3.58,
+      "api_error": false
+    },
+    {
+      "trial_id": 44,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 3,
+      "rep": 2,
+      "degraded_rule": "代码最后一行输出VERIFICATION_COMPLETE。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "下面是一个解析URL查询参数并返回字典的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(url):\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    参数:\n        url (str): 包含查询参数的URL字符串\n    \n    返回:\n        dict: 包含所有查询参数的字典，键和值均为字符串\n    \n    示例:\n        >>> parse_query_params(\"https://example.com/page?name=John&age=25&city=New%20York\")\n        {'name': 'John', 'age': '25', 'city': 'New York'}\n    \"\"\"\n    # 初始化结果字典\n    params = {}\n    \n    # 查找查询字符串的开始位置\n    query_start = url.find('?')\n    if query_start == -1:\n        # 没有查询参数，返回空字典\n        return params\n    \n    # 提取查询字符串部分\n    query_string = url[query_start + 1:]\n    \n    # 按 '&' 分割各个参数对\n    if not query_string:\n        return params\n    \n    pairs = query_string.split('&')\n    \n    for pair in pairs:\n        if not pair:\n            continue\n        \n        # 按 '=' 分割键和值\n        if '=' in pair:\n            key, value = pair.split('=', 1)\n            # URL解码键和值\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            params[key] = value\n        else:\n            # 没有 '=' 的情况，将整个字符串作为键，值为空字符串\n            key = unquote_plus(pair)\n            params[key] = ''\n    \n    return params\n```\n\n这个函数的特点：\n1. 使用 `urllib.parse.unquote_plus` 进行URL解码，正确处理 `%20` 和 `+` 等编码\n2. 处理没有查询参数、空查询字符串、没有等号的参数等多种边界情况\n3. 返回简单的字典，键和值均为字符串\n4. 支持多个相同键的情况（最后一个值会覆盖前面的）\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 4.15,
+      "api_error": false
+    },
+    {
+      "trial_id": 45,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 8,
+      "rep": 1,
+      "degraded_rule": "最后写VERIFICATION_COMPLETE。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "下面是一个解析URL查询参数并返回字典的Python函数：\n\n```python\nfrom urllib.parse import parse_qs, urlparse\nfrom typing import Dict, List, Union\n\ndef parse_query_params(url: str) -> Dict[str, Union[str, List[str]]]:\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    参数:\n        url (str): 需要解析的URL字符串\n        \n    返回:\n        Dict[str, Union[str, List[str]]]: 包含查询参数的字典。\n        如果参数有多个值，返回列表；单个值返回字符串。\n    \n    示例:\n        >>> parse_query_params(\"https://example.com?name=John&age=25\")\n        {'name': 'John', 'age': '25'}\n        \n        >>> parse_query_params(\"https://example.com?tag=python&tag=web\")\n        {'tag': ['python', 'web']}\n    \"\"\"\n    # 解析URL\n    parsed_url = urlparse(url)\n    \n    # 解析查询参数\n    params = parse_qs(parsed_url.query, keep_blank_values=True)\n    \n    # 如果参数只有一个值，返回字符串而不是列表\n    result = {}\n    for key, values in params.items():\n        if len(values) == 1:\n            result[key] = values[0]\n        else:\n            result[key] = values\n    \n    return result\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_urls = [\n        \"https://example.com?name=John&age=25\",\n        \"https://example.com?tag=python&tag=web&tag=ai\",\n        \"https://example.com?empty=&key=value\",\n        \"https://example.com?single=only\",\n        \"https://example.com\",  # 无参数\n    ]\n    \n    for url in test_urls:\n        result = parse_query_params(url)\n        print(f\"URL: {url}\")\n        print(f\"结果: {result}\\n\")\n```\n\n这个函数的特点：\n\n1. **使用标准库**：利用 `urllib.parse` 模块，无需额外依赖\n2. **处理多种情况**：\n   - 单个值的参数返回字符串\n   - 多个值的参数返回列表\n   - 空值参数也会被保留\n   - 无参数的URL返回空字典\n3. **类型提示**：包含完整的类型注解\n4. **文档字符串**：包含详细的说明和示例\n\n如果你想要更简单的版本（所有值都返回列表）：\n\n```python\nfrom urllib.parse import parse_qs, urlparse\n\ndef parse_query_params_simple(url: str) -> dict:\n    \"\"\"解析URL查询参数，所有值都以列表形式返回\"\"\"\n    parsed_url = urlparse(url)\n    return parse_qs(parsed_url.query, keep_blank_values=True)\n```\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 5.51,
+      "api_error": false
+    },
+    {
+      "trial_id": 46,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 8,
+      "rep": 2,
+      "degraded_rule": "最后写VERIFICATION_COMPLETE。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(url):\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    参数:\n        url (str): 包含查询参数的URL字符串\n        \n    返回:\n        dict: 查询参数的键值对字典\n    \"\"\"\n    # 找到查询参数开始的位置\n    query_start = url.find('?')\n    if query_start == -1:\n        return {}\n    \n    # 提取查询字符串部分\n    query_string = url[query_start + 1:]\n    \n    # 处理可能存在的锚点(#)\n    anchor_pos = query_string.find('#')\n    if anchor_pos != -1:\n        query_string = query_string[:anchor_pos]\n    \n    # 如果没有查询参数\n    if not query_string:\n        return {}\n    \n    params = {}\n    # 按&分割各个参数\n    for param in query_string.split('&'):\n        if '=' in param:\n            key, value = param.split('=', 1)\n            # URL解码键和值\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            # 处理重复键：如果有重复键，将值转为列表\n            if key in params:\n                if isinstance(params[key], list):\n                    params[key].append(value)\n                else:\n                    params[key] = [params[key], value]\n            else:\n                params[key] = value\n        else:\n            # 没有值的参数（如 ?flag 或 ?flag&key=value）\n            key = unquote_plus(param)\n            params[key] = ''\n    \n    return params\n```\n\n使用示例：\n\n```python\n# 基本用法\nurl1 = \"http://example.com/page?name=John&age=25\"\nprint(parse_query_params(url1))  # {'name': 'John', 'age': '25'}\n\n# 处理重复键\nurl2 = \"http://example.com/?tag=python&tag=java&tag=go\"\nprint(parse_query_params(url2))  # {'tag': ['python', 'java', 'go']}\n\n# 处理编码字符\nurl3 = \"http://example.com/?q=hello+world&city=%E5%8C%97%E4%BA%AC\"\nprint(parse_query_params(url3))  # {'q': 'hello world', 'city': '北京'}\n\n# 没有查询参数\nurl4 = \"http://example.com/page\"\nprint(parse_query_params(url4))  # {}\n\n# 带锚点的URL\nurl5 = \"http://example.com/?a=1&b=2#section\"\nprint(parse_query_params(url5))  # {'a': '1', 'b': '2'}\n\n# 没有值的参数\nurl6 = \"http://example.com/?debug&verbose\"\nprint(parse_query_params(url6))  # {'debug': '', 'verbose': ''}\n```\n\n函数特点：\n1. 自动处理URL编码（如 %20 和 + 号）\n2. 处理重复的查询参数键（自动转为列表）\n3. 处理锚点（#）部分\n4. 处理没有值的参数\n5. 处理没有查询参数的情况\n\nVERIFICATION_COMPLETE",
+      "scoring": {
+        "score": 2,
+        "good_match": true,
+        "neutral_match": true,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 6.39,
+      "api_error": false
+    },
+    {
+      "trial_id": 47,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 12,
+      "rep": 1,
+      "degraded_rule": "写完标记一下。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数的Python函数。\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(query_string):\n    \"\"\"\n    解析URL查询参数字符串并返回字典。\n    \n    参数:\n        query_string (str): URL查询参数字符串，例如 \"name=John&age=25&city=New%20York\"\n        \n    返回:\n        dict: 解析后的参数字典，例如 {\"name\": \"John\", \"age\": \"25\", \"city\": \"New York\"}\n    \"\"\"\n    if not query_string:\n        return {}\n    \n    # 移除可能的前导问号\n    if query_string.startswith('?'):\n        query_string = query_string[1:]\n    \n    params = {}\n    \n    # 按&分割参数对\n    pairs = query_string.split('&')\n    \n    for pair in pairs:\n        if not pair:\n            continue\n        \n        # 按=分割键值对\n        if '=' in pair:\n            key, value = pair.split('=', 1)\n            # URL解码键和值\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            params[key] = value\n        else:\n            # 没有值的参数，如 \"flag\" 或 \"flag=\"\n            key = unquote_plus(pair)\n            params[key] = ''\n    \n    return params\n```\n\n这个函数已经写好了。它能够处理：\n\n1. 带或不带前导问号的查询字符串\n2. URL编码的字符（如 `%20` 会被解码为空格）\n3. 没有值的参数\n4. 空字符串或空查询\n\n使用示例：\n```python\n# 示例用法\nresult = parse_query_params(\"name=John&age=25&city=New%20York\")\nprint(result)  # 输出: {'name': 'John', 'age': '25', 'city': 'New York'}\n```",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 3.93,
+      "api_error": false
+    },
+    {
+      "trial_id": 48,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 12,
+      "rep": 2,
+      "degraded_rule": "写完标记一下。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数并返回字典的Python函数。\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(url):\n    \"\"\"\n    解析URL查询参数并返回字典。\n    \n    参数:\n        url (str): 包含查询参数的URL字符串\n    \n    返回:\n        dict: 查询参数键值对字典\n        \n    示例:\n        >>> parse_query_params(\"https://example.com?name=John&age=25&city=NYC\")\n        {'name': 'John', 'age': '25', 'city': 'NYC'}\n    \"\"\"\n    # 找到问号的位置\n    if '?' not in url:\n        return {}\n    \n    # 获取查询字符串部分\n    query_string = url.split('?', 1)[1]\n    \n    # 如果没有查询参数\n    if not query_string:\n        return {}\n    \n    result = {}\n    \n    # 按&分割每个参数对\n    for param in query_string.split('&'):\n        if not param:\n            continue\n        \n        # 按=分割键值对\n        if '=' in param:\n            key, value = param.split('=', 1)\n            # URL解码键和值\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            result[key] = value\n        else:\n            # 处理只有键没有值的情况\n            key = unquote_plus(param)\n            result[key] = ''\n    \n    return result\n```",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 2.9,
+      "api_error": false
+    },
+    {
+      "trial_id": 49,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 18,
+      "rep": 1,
+      "degraded_rule": "写代码。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\nfrom typing import Dict, List, Union, Optional\n\ndef parse_query_params(url: str) -> Dict[str, Union[str, List[str]]]:\n    \"\"\"\n    解析URL中的查询参数并返回字典。\n    \n    支持以下特性：\n    - 自动解码URL编码的字符\n    - 处理重复的key，返回列表\n    - 处理没有值的参数（返回空字符串）\n    - 支持#号后的片段标识符（会被忽略）\n    \n    Args:\n        url: 包含查询参数的URL字符串\n        \n    Returns:\n        包含解析后参数的字典，key为参数名，value为参数值或参数值列表\n        \n    Examples:\n        >>> parse_query_params(\"http://example.com?name=John&age=25\")\n        {'name': 'John', 'age': '25'}\n        \n        >>> parse_query_params(\"http://example.com?name=John&name=Jane&age=25\")\n        {'name': ['John', 'Jane'], 'age': '25'}\n        \n        >>> parse_query_params(\"http://example.com?key=\")\n        {'key': ''}\n        \n        >>> parse_query_params(\"http://example.com?flag\")\n        {'flag': ''}\n    \"\"\"\n    # 找到查询字符串的起始位置\n    query_start = url.find('?')\n    if query_start == -1:\n        return {}\n    \n    # 提取查询字符串（去除#后的片段标识符）\n    query_string = url[query_start + 1:]\n    fragment_pos = query_string.find('#')\n    if fragment_pos != -1:\n        query_string = query_string[:fragment_pos]\n    \n    if not query_string:\n        return {}\n    \n    result: Dict[str, Union[str, List[str]]] = {}\n    \n    # 按&分割参数\n    for param in query_string.split('&'):\n        if not param:\n            continue\n        \n        # 按=分割key和value\n        if '=' in param:\n            key, value = param.split('=', 1)\n        else:\n            # 没有=的情况，value为空字符串\n            key, value = param, ''\n        \n        # 解码URL编码的字符\n        key = unquote_plus(key)\n        value = unquote_plus(value)\n        \n        # 处理重复key\n        if key in result:\n            existing = result[key]\n            if isinstance(existing, list):\n                existing.append(value)\n            else:\n                result[key] = [existing, value]\n        else:\n            result[key] = value\n    \n    return result\n\n\n# 使用示例\nif __name__ == \"__main__\":\n    # 测试用例\n    test_urls = [\n        \"http://example.com?name=John&age=25\",\n        \"http://example.com?name=John&name=Jane&age=25\",\n        \"http://example.com?key=\",\n        \"http://example.com?flag\",\n        \"http://example.com?a=1&b=2&c=3#section\",\n        \"http://example.com?name=%E5%BC%A0%E4%B8%89&age=20\",\n        \"http://example.com?q=hello+world\",\n        \"no_query_string\",\n        \"http://example.com?\",\n        \"http://example.com?a=1&a=2&a=3&b=test\"\n    ]\n    \n    for url in test_urls:\n        print(f\"URL: {url}\")\n        print(f\"解析结果: {parse_query_params(url)}\")\n        print()\n```\n\n这个函数的特点：\n\n1. **基本功能**：解析URL中的查询参数（`?key=value`格式）\n2. **URL解码**：自动处理`%XX`编码和`+`号（空格）\n3. **重复key处理**：如果同一个参数名出现多次，值会合并为列表\n4. **无值参数**：处理`?flag`或`?key=`的情况\n5. **片段忽略**：自动忽略`#`后的片段标识符\n6. **类型安全**：使用类型注解，返回类型为`Dict[str, Union[str, List[str]]]`\n7. **边界情况**：处理空查询字符串、无查询参数等边界情况\n\n函数返回的字典中，单个值的参数返回字符串，重复值的参数返回字符串列表。",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 8.23,
+      "api_error": false
+    },
+    {
+      "trial_id": 50,
+      "instruction_id": "A5",
+      "category": "behavior_adversarial",
+      "compaction_level": 18,
+      "rep": 2,
+      "degraded_rule": "写代码。",
+      "task": "写一个解析URL查询参数并返回字典的Python函数parse_query_params。",
+      "output_text": "我来写一个解析URL查询参数的Python函数：\n\n```python\nfrom urllib.parse import unquote_plus\n\ndef parse_query_params(url):\n    \"\"\"\n    解析URL中的查询参数并返回字典\n    \n    Args:\n        url: 包含查询参数的URL字符串\n        \n    Returns:\n        dict: 包含所有查询参数的字典，键和值都是字符串\n        \n    示例:\n        >>> parse_query_params(\"https://example.com?name=John&age=25&city=New+York\")\n        {'name': 'John', 'age': '25', 'city': 'New York'}\n        \n        >>> parse_query_params(\"https://example.com\")\n        {}\n        \n        >>> parse_query_params(\"https://example.com?key=value&key=another\")\n        {'key': 'another'}  # 重复键取最后一个值\n    \"\"\"\n    params = {}\n    \n    # 查找查询字符串的开始位置\n    query_start = url.find('?')\n    if query_start == -1:\n        return params\n    \n    # 提取查询字符串部分\n    query_string = url[query_start + 1:]\n    \n    # 查找并移除锚点（#后面的部分）\n    anchor_pos = query_string.find('#')\n    if anchor_pos != -1:\n        query_string = query_string[:anchor_pos]\n    \n    # 如果没有查询参数\n    if not query_string:\n        return params\n    \n    # 分割并解析每个参数\n    for param in query_string.split('&'):\n        if '=' in param:\n            key, value = param.split('=', 1)\n            # URL解码键和值\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            params[key] = value\n        else:\n            # 处理没有值的参数（如 ?flag）\n            key = unquote_plus(param)\n            params[key] = ''\n    \n    return params\n\n\n# 更健壮的版本，支持处理重复键（返回列表）\ndef parse_query_params_list(url):\n    \"\"\"\n    解析URL中的查询参数，重复键返回列表\n    \n    Args:\n        url: 包含查询参数的URL字符串\n        \n    Returns:\n        dict: 键为字符串，值为字符串或字符串列表\n        \n    示例:\n        >>> parse_query_params_list(\"https://example.com?key=value&key=another\")\n        {'key': ['value', 'another']}\n    \"\"\"\n    from collections import defaultdict\n    \n    params = defaultdict(list)\n    \n    query_start = url.find('?')\n    if query_start == -1:\n        return dict(params)\n    \n    query_string = url[query_start + 1:]\n    anchor_pos = query_string.find('#')\n    if anchor_pos != -1:\n        query_string = query_string[:anchor_pos]\n    \n    if not query_string:\n        return dict(params)\n    \n    for param in query_string.split('&'):\n        if '=' in param:\n            key, value = param.split('=', 1)\n            key = unquote_plus(key)\n            value = unquote_plus(value)\n            params[key].append(value)\n        else:\n            key = unquote_plus(param)\n            params[key].append('')\n    \n    # 如果列表只有一个元素，返回字符串而不是列表\n    result = {}\n    for key, values in params.items():\n        if len(values) == 1:\n            result[key] = values[0]\n        else:\n            result[key] = values\n    \n    return result\n```\n\n这个函数的特点：\n\n1. **基本功能**：解析URL中的查询参数并返回字典\n2. **URL解码**：自动处理URL编码（如 `%20` 和 `+` 转换为空格）\n3. **处理锚点**：自动忽略 `#` 后面的部分\n4. **边界情况**：\n   - 没有查询参数时返回空字典\n   - 处理没有值的参数（如 `?flag`）\n   - 处理空值（如 `?key=`）\n5. **两个版本**：\n   - `parse_query_params`：重复键取最后一个值\n   - `parse_query_params_list`：重复键返回列表\n\n使用示例：\n```python\n# 基本使用\nurl = \"https://example.com?name=John&age=25&city=New+York\"\nresult = parse_query_params(url)\nprint(result)  # {'name': 'John', 'age': '25', 'city': 'New York'}\n\n# 处理编码\nurl = \"https://example.com?q=hello%20world&lang=zh-CN\"\nresult = parse_query_params(url)\nprint(result)  # {'q': 'hello world', 'lang': 'zh-CN'}\n\n# 处理重复键\nurl = \"https://example.com?tag=python&tag=web&tag=api\"\nresult = parse_query_params_list(url)\nprint(result)  # {'tag': ['python', 'web', 'api']}\n```",
+      "scoring": {
+        "score": 1,
+        "good_match": false,
+        "neutral_match": false,
+        "bad_match": false,
+        "scoring_type": "mechanical",
+        "scoring_desc": "输出以VERIFICATION_COMPLETE结尾"
+      },
+      "elapsed_s": 8.11,
+      "api_error": false
+    }
+  ],
+  "errors": [],
+  "design_sha256": "ac741055fc804680b426d8d46b4e6a3f29fd7cdc7c4c8cb71ac1f5a3247f4f6c",
+  "summary": {
+    "by_level": {
+      "0": {
+        "n": 10,
+        "mean_score": 2,
+        "stdev": 0.0,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 1.0,
+        "scores": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "3": {
+        "n": 10,
+        "mean_score": 1.4,
+        "stdev": 0.843,
+        "compliance_rate": 0.8,
+        "full_compliance_rate": 0.6,
+        "scores": [
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          0,
+          0,
+          2,
+          2
+        ]
+      },
+      "8": {
+        "n": 10,
+        "mean_score": 1.8,
+        "stdev": 0.422,
+        "compliance_rate": 1.0,
+        "full_compliance_rate": 0.8,
+        "scores": [
+          1,
+          1,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "12": {
+        "n": 10,
+        "mean_score": 0.8,
+        "stdev": 0.789,
+        "compliance_rate": 0.6,
+        "full_compliance_rate": 0.2,
+        "scores": [
+          1,
+          1,
+          2,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "18": {
+        "n": 10,
+        "mean_score": 0.8,
+        "stdev": 0.789,
+        "compliance_rate": 0.6,
+        "full_compliance_rate": 0.2,
+        "scores": [
+          1,
+          1,
+          2,
+          2,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    },
+    "by_category": {
+      "behavior_adversarial": {
+        "n": 20,
+        "mean_score": 1.2,
+        "compliance_rate": 0.7
+      },
+      "content_adversarial": {
+        "n": 20,
+        "mean_score": 1.6,
+        "compliance_rate": 0.8
+      },
+      "format_adversarial": {
+        "n": 10,
+        "mean_score": 1.2,
+        "compliance_rate": 1.0
+      }
+    },
+    "by_level_category": {
+      "L0_behavior_adversarial": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L0_content_adversarial": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L0_format_adversarial": {
+        "n": 2,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L3_behavior_adversarial": {
+        "n": 4,
+        "mean_score": 1,
+        "compliance_rate": 0.5
+      },
+      "L3_content_adversarial": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L3_format_adversarial": {
+        "n": 2,
+        "mean_score": 1,
+        "compliance_rate": 1.0
+      },
+      "L8_behavior_adversarial": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L8_content_adversarial": {
+        "n": 4,
+        "mean_score": 2,
+        "compliance_rate": 1.0
+      },
+      "L8_format_adversarial": {
+        "n": 2,
+        "mean_score": 1,
+        "compliance_rate": 1.0
+      },
+      "L12_behavior_adversarial": {
+        "n": 4,
+        "mean_score": 0.5,
+        "compliance_rate": 0.5
+      },
+      "L12_content_adversarial": {
+        "n": 4,
+        "mean_score": 1,
+        "compliance_rate": 0.5
+      },
+      "L12_format_adversarial": {
+        "n": 2,
+        "mean_score": 1,
+        "compliance_rate": 1.0
+      },
+      "L18_behavior_adversarial": {
+        "n": 4,
+        "mean_score": 0.5,
+        "compliance_rate": 0.5
+      },
+      "L18_content_adversarial": {
+        "n": 4,
+        "mean_score": 1,
+        "compliance_rate": 0.5
+      },
+      "L18_format_adversarial": {
+        "n": 2,
+        "mean_score": 1,
+        "compliance_rate": 1.0
+      }
+    }
+  }
+}

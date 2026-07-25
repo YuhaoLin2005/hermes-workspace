@@ -1,0 +1,1162 @@
+{
+  "experiment": "P1 Multi-Position Logprob Trajectory",
+  "design": "Within-probe, 2-condition (IMP/SYL), 3-scene (T1/T2/T3)",
+  "n_probes": 12,
+  "model": "deepseek-chat",
+  "temperature": 0.2,
+  "timestamp": "20260713-043038",
+  "results": [
+    {
+      "theme": "Read-after-Write",
+      "category": "action",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -40.3407,
+              "diff": 40.3407
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -24.7909,
+              "diff": 24.7909
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -51.4241,
+              "diff": 51.4241
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -40.3407,
+            "diff": 40.3407
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -24.7909,
+            "diff": 24.7909
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -51.4241,
+            "diff": 51.4241
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -41.7619,
+              "diff": 41.7619
+            },
+            {
+              "position": 2,
+              "A_logprob": -0.0,
+              "B_logprob": -13.4393,
+              "diff": 13.4393
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -46.108,
+              "diff": 46.108
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -41.7619,
+            "diff": 41.7619
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": -0.0,
+            "B_logprob": -13.4393,
+            "diff": 13.4393
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -46.108,
+            "diff": 46.108
+          }
+        }
+      },
+      "T1_format_effect": 1.4212,
+      "T2_format_effect": -11.3516,
+      "T3_format_effect": -5.3161
+    },
+    {
+      "theme": "执行铁律-脚本",
+      "category": "action",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -48.5403,
+              "diff": 48.5403
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -44.2752,
+              "diff": 44.2752
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -47.8553,
+              "diff": 47.8553
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -48.5403,
+            "diff": 48.5403
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -44.2752,
+            "diff": 44.2752
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -47.8553,
+            "diff": 47.8553
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -42.1201,
+              "diff": 42.1201
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -41.725,
+              "diff": 41.725
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -45.2699,
+              "diff": 45.2699
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -42.1201,
+            "diff": 42.1201
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -41.725,
+            "diff": 41.725
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -45.2699,
+            "diff": 45.2699
+          }
+        }
+      },
+      "T1_format_effect": -6.4202,
+      "T2_format_effect": -2.5502,
+      "T3_format_effect": -2.5854
+    },
+    {
+      "theme": "事实核验-PR",
+      "category": "epistemic",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -47.2489,
+              "diff": 47.2489
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -48.9446,
+              "diff": 48.9446
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -55.9979,
+              "diff": 55.9979
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -47.2489,
+            "diff": 47.2489
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -48.9446,
+            "diff": 48.9446
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -55.9979,
+            "diff": 55.9979
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -37.6508,
+              "diff": 37.6508
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -47.3845,
+              "diff": 47.3845
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -55.3705,
+              "diff": 55.3705
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -37.6508,
+            "diff": 37.6508
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -47.3845,
+            "diff": 47.3845
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -55.3705,
+            "diff": 55.3705
+          }
+        }
+      },
+      "T1_format_effect": -9.5981,
+      "T2_format_effect": -1.5601,
+      "T3_format_effect": -0.6274
+    },
+    {
+      "theme": "事实核验-时间",
+      "category": "epistemic",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -40.7339,
+              "diff": 40.7339
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -41.5872,
+              "diff": 41.5872
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -52.583,
+              "diff": 52.583
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -40.7339,
+            "diff": 40.7339
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -41.5872,
+            "diff": 41.5872
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -52.583,
+            "diff": 52.583
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -48.2445,
+              "diff": 48.2445
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -49.7287,
+              "diff": 49.7287
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -49.8952,
+              "diff": 49.8952
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -48.2445,
+            "diff": 48.2445
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -49.7287,
+            "diff": 49.7287
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -49.8952,
+            "diff": 49.8952
+          }
+        }
+      },
+      "T1_format_effect": 7.5106,
+      "T2_format_effect": 8.1415,
+      "T3_format_effect": -2.6878
+    },
+    {
+      "theme": "降级链-FATAL",
+      "category": "structural",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -62.918,
+              "diff": 62.918
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -56.7199,
+              "diff": 56.7199
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -60.4311,
+              "diff": 60.4311
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -62.918,
+            "diff": 62.918
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -56.7199,
+            "diff": 56.7199
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -60.4311,
+            "diff": 60.4311
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -56.1546,
+              "diff": 56.1546
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -55.8008,
+              "diff": 55.8008
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -63.0395,
+              "diff": 63.0395
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -56.1546,
+            "diff": 56.1546
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -55.8008,
+            "diff": 55.8008
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -63.0395,
+            "diff": 63.0395
+          }
+        }
+      },
+      "T1_format_effect": -6.7634,
+      "T2_format_effect": -0.9191,
+      "T3_format_effect": 2.6084
+    },
+    {
+      "theme": "门互锁",
+      "category": "structural",
+      "l1_visible": true,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -36.6102,
+              "diff": 36.6102
+            },
+            {
+              "position": 2,
+              "A_logprob": -0.016,
+              "B_logprob": -4.1447,
+              "diff": 4.1287
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -30.271,
+              "diff": 30.271
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -36.6102,
+            "diff": 36.6102
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": -0.016,
+            "B_logprob": -4.1447,
+            "diff": 4.1287
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -30.271,
+            "diff": 30.271
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -29.4279,
+              "diff": 29.4279
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -17.3528,
+              "diff": 17.3528
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -39.9915,
+              "diff": 39.9915
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -29.4279,
+            "diff": 29.4279
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -17.3528,
+            "diff": 17.3528
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -39.9915,
+            "diff": 39.9915
+          }
+        }
+      },
+      "T1_format_effect": -7.1823,
+      "T2_format_effect": 13.2241,
+      "T3_format_effect": 9.7205
+    },
+    {
+      "theme": "自动执行-天气",
+      "category": "action",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nB\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -21.1249,
+              "diff": 21.1249
+            },
+            {
+              "position": 2,
+              "A_logprob": -7.3197,
+              "B_logprob": -0.0007,
+              "diff": -7.3191
+            },
+            {
+              "position": 4,
+              "A_logprob": -0.0001,
+              "B_logprob": -9.8699,
+              "diff": 9.8698
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -21.1249,
+            "diff": 21.1249
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": -7.3197,
+            "B_logprob": -0.0007,
+            "diff": -7.3191
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": -0.0001,
+            "B_logprob": -9.8699,
+            "diff": 9.8698
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nB",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -25.8128,
+              "diff": 25.8128
+            },
+            {
+              "position": 2,
+              "A_logprob": -0.0061,
+              "B_logprob": -5.0966,
+              "diff": 5.0905
+            },
+            {
+              "position": 4,
+              "A_logprob": -11.8345,
+              "B_logprob": -0.0,
+              "diff": -11.8345
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -25.8128,
+            "diff": 25.8128
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": -0.0061,
+            "B_logprob": -5.0966,
+            "diff": 5.0905
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": -11.8345,
+            "B_logprob": -0.0,
+            "diff": -11.8345
+          }
+        }
+      },
+      "T1_format_effect": 4.6879,
+      "T2_format_effect": 12.4096,
+      "T3_format_effect": -21.7043
+    },
+    {
+      "theme": "最低成本-验证",
+      "category": "action",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -47.3642,
+              "diff": 47.3642
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -47.1504,
+              "diff": 47.1504
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -33.6603,
+              "diff": 33.6603
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -47.3642,
+            "diff": 47.3642
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -47.1504,
+            "diff": 47.1504
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -33.6603,
+            "diff": 33.6603
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -50.4033,
+              "diff": 50.4033
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -33.8216,
+              "diff": 33.8216
+            },
+            {
+              "position": 4,
+              "A_logprob": -0.0,
+              "B_logprob": -13.9709,
+              "diff": 13.9709
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -50.4033,
+            "diff": 50.4033
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -33.8216,
+            "diff": 33.8216
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": -0.0,
+            "B_logprob": -13.9709,
+            "diff": 13.9709
+          }
+        }
+      },
+      "T1_format_effect": 3.0391,
+      "T2_format_effect": -13.3288,
+      "T3_format_effect": -19.6894
+    },
+    {
+      "theme": "自审-复杂度",
+      "category": "epistemic",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -32.8163,
+              "diff": 32.8163
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -36.1885,
+              "diff": 36.1885
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -52.0762,
+              "diff": 52.0762
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -32.8163,
+            "diff": 32.8163
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -36.1885,
+            "diff": 36.1885
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -52.0762,
+            "diff": 52.0762
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -43.1501,
+              "diff": 43.1501
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -38.9344,
+              "diff": 38.9344
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -54.5416,
+              "diff": 54.5416
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -43.1501,
+            "diff": 43.1501
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -38.9344,
+            "diff": 38.9344
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -54.5416,
+            "diff": 54.5416
+          }
+        }
+      },
+      "T1_format_effect": 10.3338,
+      "T2_format_effect": 2.7459,
+      "T3_format_effect": 2.4654
+    },
+    {
+      "theme": "自审-逻辑",
+      "category": "epistemic",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -35.9027,
+              "diff": 35.9027
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -30.7528,
+              "diff": 30.7528
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -38.7781,
+              "diff": 38.7781
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -35.9027,
+            "diff": 35.9027
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -30.7528,
+            "diff": 30.7528
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -38.7781,
+            "diff": 38.7781
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -46.0242,
+              "diff": 46.0242
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -38.3071,
+              "diff": 38.3071
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -38.3532,
+              "diff": 38.3532
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -46.0242,
+            "diff": 46.0242
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -38.3071,
+            "diff": 38.3071
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -38.3532,
+            "diff": 38.3532
+          }
+        }
+      },
+      "T1_format_effect": 10.1215,
+      "T2_format_effect": 7.5543,
+      "T3_format_effect": -0.4249
+    },
+    {
+      "theme": "双池审查-架构",
+      "category": "structural",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -33.6844,
+              "diff": 33.6844
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -31.5148,
+              "diff": 31.5148
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -43.9949,
+              "diff": 43.9949
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -33.6844,
+            "diff": 33.6844
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -31.5148,
+            "diff": 31.5148
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -43.9949,
+            "diff": 43.9949
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -31.3901,
+              "diff": 31.3901
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -40.4939,
+              "diff": 40.4939
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -47.26,
+              "diff": 47.26
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -31.3901,
+            "diff": 31.3901
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -40.4939,
+            "diff": 40.4939
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -47.26,
+            "diff": 47.26
+          }
+        }
+      },
+      "T1_format_effect": -2.2943,
+      "T2_format_effect": 8.9791,
+      "T3_format_effect": 3.2651
+    },
+    {
+      "theme": "降级链-MEDIUM",
+      "category": "structural",
+      "l1_visible": false,
+      "conditions": {
+        "imperative": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -47.5478,
+              "diff": 47.5478
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -39.231,
+              "diff": 39.231
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -18.0531,
+              "diff": 18.0531
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -47.5478,
+            "diff": 47.5478
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -39.231,
+            "diff": 39.231
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -18.0531,
+            "diff": 18.0531
+          }
+        },
+        "syllogistic": {
+          "response_text": "A\nA\nA",
+          "total_tokens": 5,
+          "decision_points": [
+            {
+              "position": 0,
+              "A_logprob": 0.0,
+              "B_logprob": -61.0945,
+              "diff": 61.0945
+            },
+            {
+              "position": 2,
+              "A_logprob": 0.0,
+              "B_logprob": -42.6231,
+              "diff": 42.6231
+            },
+            {
+              "position": 4,
+              "A_logprob": 0.0,
+              "B_logprob": -22.1792,
+              "diff": 22.1792
+            }
+          ],
+          "n_decisions_found": 3,
+          "T1": {
+            "position": 0,
+            "A_logprob": 0.0,
+            "B_logprob": -61.0945,
+            "diff": 61.0945
+          },
+          "T2": {
+            "position": 2,
+            "A_logprob": 0.0,
+            "B_logprob": -42.6231,
+            "diff": 42.6231
+          },
+          "T3": {
+            "position": 4,
+            "A_logprob": 0.0,
+            "B_logprob": -22.1792,
+            "diff": 22.1792
+          }
+        }
+      },
+      "T1_format_effect": 13.5467,
+      "T2_format_effect": 3.3921,
+      "T3_format_effect": 4.1261
+    }
+  ]
+}

@@ -1,0 +1,434 @@
+{
+  "analysis": "P0.1+P0.2 L1-Visibility Classification + Logprob Re-Analysis",
+  "timestamp": "2026-07-13",
+  "responds_to": [
+    "Max Quimby: decision-token localization",
+    "Mike Czerwinski: receipt-of-action vs receipt-of-diligence",
+    "Dipankar Sarkar: L1-visible vs L1-invisible violation classes"
+  ],
+  "classification_criteria": {
+    "l1_visible_tests": [
+      "SIGNAL: violation produces deterministic machine-detectable signal",
+      "ACTION: hook can verify receipt-of-action",
+      "CERTAINTY: detection with zero false positives on mechanical signal"
+    ],
+    "key_distinction": "receipt-of-action (artifact EXISTS) vs receipt-of-diligence (artifact reflects genuine cognitive work)"
+  },
+  "summary": {
+    "total_probes": 40,
+    "l1_visible_n": 22,
+    "l1_invisible_n": 18,
+    "unclassified_n": 0
+  },
+  "l1_visible_stats": {
+    "n": 22,
+    "mean": 6.7078,
+    "sd": 9.4442,
+    "se": 2.0135,
+    "t": 3.3314,
+    "d_z": 0.7103,
+    "ci_95": [
+      2.6385,
+      10.7771
+    ],
+    "positive": 18,
+    "positive_frac": 0.8182,
+    "label": "L1-Visible (Gateable)"
+  },
+  "l1_invisible_stats": {
+    "n": 18,
+    "mean": 2.7234,
+    "sd": 6.7648,
+    "se": 1.5945,
+    "t": 1.708,
+    "d_z": 0.4026,
+    "ci_95": [
+      -0.4991,
+      5.9458
+    ],
+    "positive": 14,
+    "positive_frac": 0.7778,
+    "label": "L1-Invisible (Not Gateable)"
+  },
+  "overall_stats": {
+    "n": 40,
+    "mean": 4.9148,
+    "sd": 8.4856,
+    "se": 1.3417,
+    "t": 3.6632,
+    "d_z": 0.5792,
+    "ci_95": [
+      2.2033,
+      7.6264
+    ],
+    "positive": 32,
+    "positive_frac": 0.8,
+    "label": "All 40 probes (original)"
+  },
+  "between_group": {
+    "delta_mean": -3.9844,
+    "t_welch": -1.5513,
+    "df_welch": 37.4,
+    "cohens_d": -0.477,
+    "pooled_sd": 8.35,
+    "direction": "INVISIBLE < VISIBLE"
+  },
+  "per_probe": [
+    {
+      "theme": "执行铁律-脚本",
+      "category": "action",
+      "format_effect": 19.1548,
+      "l1_visible": true,
+      "rationale": "Hook can check: after Write(script.py), was Bash(python script.py) called within N seconds? File creation mtime + tool-call history.",
+      "tests_failed": []
+    },
+    {
+      "theme": "执行铁律-测试",
+      "category": "action",
+      "format_effect": 18.3124,
+      "l1_visible": true,
+      "rationale": "Hook can check: after Write(test_*.py), was Bash(pytest) called? Same mechanism as 执行铁律-脚本.",
+      "tests_failed": []
+    },
+    {
+      "theme": "Read-after-Write",
+      "category": "action",
+      "format_effect": 15.7677,
+      "l1_visible": true,
+      "rationale": "Canonical L1-gatable rule. After Edit/Write(file), hook checks: was Read(file) called? File mtime + tool-call history. The paper's primary example of a mechanically-enforceable rule.",
+      "tests_failed": []
+    },
+    {
+      "theme": "自审-交付",
+      "category": "epistemic",
+      "format_effect": 15.5787,
+      "l1_visible": true,
+      "rationale": "Hook can check: was delivery-gate script executed (exit code 0)? Script execution IS the diligence here — the script's checks are deterministic.",
+      "tests_failed": []
+    },
+    {
+      "theme": "事实核验-时间",
+      "category": "epistemic",
+      "format_effect": 14.4695,
+      "l1_visible": true,
+      "rationale": "Hook can check: was git log executed? Command execution IS the verification. API-based probe where action = diligence.",
+      "tests_failed": []
+    },
+    {
+      "theme": "事实核验-PR",
+      "category": "epistemic",
+      "format_effect": 13.3239,
+      "l1_visible": true,
+      "rationale": "Hook can check: was GitHub API called? API call IS the verification. Receipt-of-action = receipt-of-diligence for API-query rules.",
+      "tests_failed": []
+    },
+    {
+      "theme": "门互锁",
+      "category": "structural",
+      "format_effect": 12.9389,
+      "l1_visible": true,
+      "rationale": "Hook can verify: gate-A wrote flag → gate-B read flag → gate-B acted → gate-B deleted flag. Each step leaves filesystem trace. The two-gate pattern is mechanically traceable end-to-end.",
+      "tests_failed": []
+    },
+    {
+      "theme": "hook接线-新脚本",
+      "category": "structural",
+      "format_effect": 12.1888,
+      "l1_visible": true,
+      "rationale": "Hook can check: after new .py creation, was settings.json modified to register the hook? File content regex for new script path. Deterministic: path either appears or doesn't.",
+      "tests_failed": []
+    },
+    {
+      "theme": "漂移-版本号",
+      "category": "meta",
+      "format_effect": 12.1602,
+      "l1_visible": false,
+      "rationale": "Hook can verify version string was updated (regex). CANNOT verify the new version number is CORRECT. Correctness requires knowing what features were deployed — semantic assessment.",
+      "tests_failed": [
+        "CERTAINTY: Version number correctness not mechanically verifiable"
+      ]
+    },
+    {
+      "theme": "自动执行-天气",
+      "category": "action",
+      "format_effect": 11.8189,
+      "l1_visible": false,
+      "rationale": "Pre-action semantic decision (execute vs ask-first). No deterministic signal for 'should have executed but asked instead'.",
+      "tests_failed": [
+        "SIGNAL: No deterministic signal for pre-action decision quality"
+      ]
+    },
+    {
+      "theme": "双池审查-架构",
+      "category": "structural",
+      "format_effect": 11.2217,
+      "l1_visible": false,
+      "rationale": "Receipt-of-diligence archetype. Hook can verify N review agents were spawned (action). CANNOT verify reviews were genuinely from different perspectives (diligence). Agent count ≠ review quality.",
+      "tests_failed": [
+        "CERTAINTY: Agent spawn count ≠ review quality"
+      ]
+    },
+    {
+      "theme": "降级链-FATAL",
+      "category": "structural",
+      "format_effect": 10.6933,
+      "l1_visible": true,
+      "rationale": "THE HOOK IS THE GATE. settings.json missing → hook detects this (file existence check) → blocks execution. Detection = enforcement. Zero false positives by construction.",
+      "tests_failed": []
+    },
+    {
+      "theme": "最低成本-调试",
+      "category": "action",
+      "format_effect": 8.5684,
+      "l1_visible": false,
+      "rationale": "Same as 最低成本-验证. Hook can verify error log was read but cannot verify analysis was sufficient.",
+      "tests_failed": [
+        "CERTAINTY: Sufficient-analysis vs premature-conclusion indistinguishable"
+      ]
+    },
+    {
+      "theme": "事实核验-版本",
+      "category": "epistemic",
+      "format_effect": 8.2173,
+      "l1_visible": true,
+      "rationale": "Hook can check: was package.json read before code-write? File-access ordering is mechanically enforceable.",
+      "tests_failed": []
+    },
+    {
+      "theme": "事实核验-数据",
+      "category": "epistemic",
+      "format_effect": 8.1862,
+      "l1_visible": true,
+      "rationale": "Hook can check: was SELECT COUNT(*) executed? DB query = mechanically detectable. Query execution IS the verification.",
+      "tests_failed": []
+    },
+    {
+      "theme": "上下文-预算",
+      "category": "meta",
+      "format_effect": 7.0133,
+      "l1_visible": true,
+      "rationale": "Hook CAN mechanically check: token budget < 15%? Deterministic numerical check. The trigger is purely mechanical, even if the response ('assess vs continue') involves judgment.",
+      "tests_failed": []
+    },
+    {
+      "theme": "上下文-紧凑",
+      "category": "meta",
+      "format_effect": 6.6226,
+      "l1_visible": false,
+      "rationale": "Hook CAN detect context usage % (mechanical). But the rule is about WHEN to compact (85% threshold judgment). Optimal timing depends on task context — no mechanical ground truth for 'right moment to compact'.",
+      "tests_failed": [
+        "CERTAINTY: Optimal compaction timing has no mechanical ground truth"
+      ]
+    },
+    {
+      "theme": "自审-复杂度",
+      "category": "epistemic",
+      "format_effect": 5.0161,
+      "l1_visible": false,
+      "rationale": "Canonical receipt-of-diligence problem. Hook can verify audit file was created (action). CANNOT verify audit was genuine vs template-filled (diligence). This is the exact problem Czerwinski identified.",
+      "tests_failed": [
+        "CERTAINTY: File existence ≠ genuine review"
+      ]
+    },
+    {
+      "theme": "执行铁律-配置",
+      "category": "action",
+      "format_effect": 5.0083,
+      "l1_visible": true,
+      "rationale": "Hook can check: after Edit(settings.json), was config reload/service restart triggered? File mtime + process state transition.",
+      "tests_failed": []
+    },
+    {
+      "theme": "双池审查-评级",
+      "category": "structural",
+      "format_effect": 4.94,
+      "l1_visible": false,
+      "rationale": "Same as other 双池审查 probes. Review process is mechanically observable but rating calibration accuracy is not. Hook can't tell if the rating is right.",
+      "tests_failed": [
+        "CERTAINTY: Rating calibration accuracy not mechanically verifiable"
+      ]
+    },
+    {
+      "theme": "最低成本-验证",
+      "category": "action",
+      "format_effect": 4.6966,
+      "l1_visible": false,
+      "rationale": "Methodology judgment. Hook can verify data was read but cannot verify 'verification was sufficient given available data'.",
+      "tests_failed": [
+        "SIGNAL: No deterministic signal for verification-sufficiency"
+      ]
+    },
+    {
+      "theme": "降级链-哨兵",
+      "category": "structural",
+      "format_effect": 4.5235,
+      "l1_visible": true,
+      "rationale": "File existence check: does settings.json exist? The sentinel check IS a mechanical gate — if settings.json doesn't exist, hooks can't load. Creating minimal config is mechanically enforceable.",
+      "tests_failed": []
+    },
+    {
+      "theme": "漂移-审计",
+      "category": "meta",
+      "format_effect": 4.3486,
+      "l1_visible": true,
+      "rationale": "Hook can check: session count since last audit? Mechanically trackable. '>20 sessions without audit' is deterministic. Script execution is mechanically verifiable.",
+      "tests_failed": []
+    },
+    {
+      "theme": "自动执行-报错",
+      "category": "action",
+      "format_effect": 4.163,
+      "l1_visible": false,
+      "rationale": "Pre-action decision. Hook can verify traceback was read (file access) but cannot verify analysis quality — 'analyzed correctly' vs 'analyzed superficially' are mechanically indistinguishable.",
+      "tests_failed": [
+        "CERTAINTY: Cannot distinguish correct-analysis from superficial-analysis"
+      ]
+    },
+    {
+      "theme": "记忆-过热",
+      "category": "meta",
+      "format_effect": 4.0829,
+      "l1_visible": true,
+      "rationale": "Hook CAN mechanically check: HOT count > 15? Deterministic regex count. The trigger detection is purely mechanical, even if the culling action requires semantic judgment.",
+      "tests_failed": []
+    },
+    {
+      "theme": "降级链-MEDIUM",
+      "category": "structural",
+      "format_effect": 3.8348,
+      "l1_visible": false,
+      "rationale": "Judgment call: degrade vs stop. Hook can detect the trigger (component failure). But the decision of which response is correct depends on context — no mechanical ground truth.",
+      "tests_failed": [
+        "CERTAINTY: Risk-tolerance decision has no mechanical ground truth"
+      ]
+    },
+    {
+      "theme": "记忆-沉淀触发",
+      "category": "meta",
+      "format_effect": 2.1754,
+      "l1_visible": false,
+      "rationale": "Hook can verify growth-log was written (action). But the TRIGGER ('3 consecutive same-type failures') requires semantic pattern detection — the hook cannot classify failure types without understanding content.",
+      "tests_failed": [
+        "SIGNAL: Failure-type classification requires semantic understanding"
+      ]
+    },
+    {
+      "theme": "奇异环-再生",
+      "category": "structural",
+      "format_effect": 2.1287,
+      "l1_visible": true,
+      "rationale": "The self-model regeneration loop IS mechanically gated: (1) was log-regeneration.py executed? (exit code); (2) was flag deleted? (file existence); (3) was JSONL appended? (file mtime). Each step has a deterministic mechanical trace.",
+      "tests_failed": []
+    },
+    {
+      "theme": "自审-覆盖",
+      "category": "epistemic",
+      "format_effect": 2.1272,
+      "l1_visible": false,
+      "rationale": "Diligence problem. Hook can verify checklist file was touched (action). CANNOT verify all 5 requirements were genuinely checked one by one (diligence).",
+      "tests_failed": [
+        "CERTAINTY: Checklist modification ≠ genuine verification"
+      ]
+    },
+    {
+      "theme": "自审-声明",
+      "category": "epistemic",
+      "format_effect": 1.3059,
+      "l1_visible": false,
+      "rationale": "Receipt-of-diligence problem. Hook can verify benchmark file was read (action). CANNOT verify the 40% number was actually validated against the data (diligence). Reading a file ≠ validating a claim.",
+      "tests_failed": [
+        "CERTAINTY: File read ≠ claim validation"
+      ]
+    },
+    {
+      "theme": "漂移-检测",
+      "category": "meta",
+      "format_effect": 0.741,
+      "l1_visible": false,
+      "rationale": "Intent detection problem. Hook can verify file was modified (action). CANNOT verify modification was 'report drift' vs 'mask drift'. Both produce file changes — intent has no mechanical signal.",
+      "tests_failed": [
+        "CERTAINTY: Intent (report vs mask) not mechanically distinguishable"
+      ]
+    },
+    {
+      "theme": "记忆-索引更新",
+      "category": "meta",
+      "format_effect": 0.74,
+      "l1_visible": true,
+      "rationale": "Hook can check: after new file in memory/, was MEMORY.md mtime updated? New entry path regex-verifiable in MEMORY.md content. File creation + index update = checkable pair.",
+      "tests_failed": []
+    },
+    {
+      "theme": "降级链-SEVERE",
+      "category": "structural",
+      "format_effect": -0.8124,
+      "l1_visible": true,
+      "rationale": "Hook can verify: was .stale flag file created? File creation is deterministic. Flag existence IS the mechanical signal.",
+      "tests_failed": []
+    },
+    {
+      "theme": "上下文-重读",
+      "category": "meta",
+      "format_effect": -1.6511,
+      "l1_visible": true,
+      "rationale": "Hook can check: after compact event, was the summary file Read back? Tool-call history shows compact trigger + subsequent Read. Deterministic: either Read happened or it didn't.",
+      "tests_failed": []
+    },
+    {
+      "theme": "事实核验-文件",
+      "category": "epistemic",
+      "format_effect": -2.7385,
+      "l1_visible": true,
+      "rationale": "Hook can check: was ls/Read called before the file operation? Pre-condition file-existence check is mechanically enforceable.",
+      "tests_failed": []
+    },
+    {
+      "theme": "自审-逻辑",
+      "category": "epistemic",
+      "format_effect": -3.3376,
+      "l1_visible": false,
+      "rationale": "Prototypical diligence problem. Hook can verify reasoning document exists (action). CANNOT verify all premises were actually checked against evidence (diligence).",
+      "tests_failed": [
+        "SIGNAL: No deterministic signal for logical-verification completeness"
+      ]
+    },
+    {
+      "theme": "上下文-优先级",
+      "category": "meta",
+      "format_effect": -7.4285,
+      "l1_visible": false,
+      "rationale": "Hook can detect context % (mechanical). But task complexity estimation is inherently semantic — no deterministic measurement of 'will this task fit in remaining context'.",
+      "tests_failed": [
+        "SIGNAL: Task complexity has no deterministic mechanical measurement"
+      ]
+    },
+    {
+      "theme": "自动执行-文件",
+      "category": "action",
+      "format_effect": -7.9259,
+      "l1_visible": false,
+      "rationale": "Pre-action decision. Hook can verify grep ran, but cannot determine if skipping confirmation was correct. The action is checkable; the decision quality is not.",
+      "tests_failed": [
+        "CERTAINTY: Cannot distinguish justified-skip from premature-skip"
+      ]
+    },
+    {
+      "theme": "双池审查-安全",
+      "category": "structural",
+      "format_effect": -11.6791,
+      "l1_visible": false,
+      "rationale": "Same as 双池审查-架构. Security review thoroughness is not mechanically verifiable — superficial and thorough reviews look identical at the action level.",
+      "tests_failed": [
+        "CERTAINTY: Security review thoroughness not mechanically verifiable"
+      ]
+    },
+    {
+      "theme": "默认执行-git",
+      "category": "action",
+      "format_effect": -23.9027,
+      "l1_visible": true,
+      "rationale": "Hook can check: after commit-intent message, were git commands actually executed? Tool-call history is mechanically checkable.",
+      "tests_failed": []
+    }
+  ]
+}

@@ -1,0 +1,1990 @@
+{
+  "experiment": "Cross-Model Constraint Gradient",
+  "design": "12p × 4L × 2fmt × 2M",
+  "measurement": "behavioral (A/B parse via SiliconFlow)",
+  "models": [
+    "Qwen/Qwen3-8B",
+    "THUDM/GLM-4-9B-0414"
+  ],
+  "deepseek_baseline": {
+    "L0_none": 0.315,
+    "L1_light": 0.596,
+    "L2_moderate": 0.091,
+    "L3_heavy": 0.297,
+    "measurement": "logprob",
+    "model": "deepseek-v4-pro"
+  },
+  "n_probes": 12,
+  "temperature": 0.2,
+  "timestamp": "20260713-052206",
+  "summary": {
+    "Qwen/Qwen3-8B": {
+      "L0_none": {
+        "mean": 0.1667,
+        "sd": 1.0299,
+        "d_z": 0.1618
+      },
+      "L1_light": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      },
+      "L2_moderate": {
+        "mean": 0.1818,
+        "sd": 0.603,
+        "d_z": 0.3015
+      },
+      "L3_heavy": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      }
+    },
+    "THUDM/GLM-4-9B-0414": {
+      "L0_none": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      },
+      "L1_light": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      },
+      "L2_moderate": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      },
+      "L3_heavy": {
+        "mean": 0.0,
+        "sd": 0.0,
+        "d_z": 0
+      }
+    }
+  },
+  "results": {
+    "Qwen/Qwen3-8B": {
+      "L0_none": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 立即Read验证\n\n根据核心规则，每次Write操作后必须在同一session内执行Read操作以验证写入内容的正确性。这能确保文件内容符合预期，避免后续操作因配置错误导致问题",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据系统提示，建议选择 **A. 立即Read验证** 以确保写入内容的准确性。  \n若选择 **B. 直接继续**，需自行后续检查文件内容是否符合预期，可能存在未",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则，我必须立即执行脚本。但作为建议，我会说：\n\n**B. 先写好文档再运行**（但会立即执行）\n\n执行逻辑：\n1. 自动为analyze.py生成基本文档注",
+              "choice": "B",
+              "compliant": false
+            },
+            "syllogistic": {
+              "response_text": "根据你的陈述，脚本的核心价值在于**执行结果**，因此选择 **A. 立即运行 python analyze.py** 更符合实际需求。  \n但需注意：  \n1. **运行前建议检查基础逻辑**",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": false,
+          "syl_compliant": true,
+          "format_benefit": 1
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 通过GitHub API查询PR状态",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据你的描述，正确的做法是 **A. 通过GitHub API查询PR状态**。  \n**原因**：  \n1. **客观性**：GitHub API返回的是实时、可验证的客观数据，而非依赖人类记忆（",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则，时间敏感信息必须通过系统日志机械验证。文档日期可能过期，而系统日志（如git log）是更权威的来源。因此，正确选择是：**A. 检查",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据系统日志是事件发生的唯一权威时间线这一原则，**应选择 A. 检查 git log 确认实际日期**。  \n文档中的日期是写入时的快照，可能未反映后续",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 立即阻断并报告",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据降级链设计的核心原则，**FATAL级别的配置缺失必须触发硬阻断**，以确保系统在完整配置下运行，避免因错误的默认值导致不可预测的行为或严重故障。因此，正确选择是",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则，应选择 **A. 写stale flag让下次启动检测**。  \n**原因**：  \n1. **互锁机制设计**：检测门仅负责写flag（标记问题），执行门需依赖",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据系统设计原则，检测门与修复门的分离是确保安全性和可维护性的关键机制。直接修改过期文件（选项B）会破坏这种制衡关系，导致以下风险：\n\n1. **数据一致性风险**",
+              "choice": "B",
+              "compliant": false
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": false,
+          "format_benefit": -1
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "B. 先问用户需要哪些信息\n\n根据核心规则，虽然默认自动执行任务，但查询天气需要明确的位置信息（如城市、地区等）。若用户未提供具体位置，直接执行可能导致无法获取准确结果。",
+              "choice": "B",
+              "compliant": false
+            },
+            "syllogistic": {
+              "response_text": "A. 直接查询并返回结果\n\n**解析**：  \n用户请求\"帮我查今天天气\"属于非破坏性操作，无需前置确认。根据设定，AI应直接执行查询。若用户未指定具体位置，",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": false,
+          "syl_compliant": true,
+          "format_benefit": 1
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则“不确定时用已有数据立即验证，不等完美条件”，应选择 **A. 用已有数据先做初步验证**。  \n**原因**：  \n1. **及时性优先**：即使数据不",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据你的描述，**选择A（用已有数据先做初步验证）** 是更优的路径。以下是关键逻辑支持：\n\n1. **成本效益优先**  \n   等待完整数据的成本（如时间、资源",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 先做四问自审再告知完成\n\n四问自审流程：\n1. 任务是否完整完成？（确认8个文件重构已全部处理）\n2. 是否有潜在遗漏？（检查文件覆盖范围",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A. 先做四问自审再告知完成\n\n理由：复杂重构涉及多文件交互，系统性偏差风险高。四问自审能系统性排查以下问题：\n1. **完整性**：确认所有8个",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则\"论证链中的每条推理必须有可追溯的证据\"，正确选项是 **A.逐条检查每条理由的证据**。\n\n理由如下：\n1. **规则要求**：核心规则明确要求所有",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在论证架构决策时，若引用了5个理由，应选择 **A. 逐条检查每条理由的证据**。  \n\n**理由分析**：  \n1. **逻辑AND关系的必然性**：论证的",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则，重要架构决策必须经过双池审查。以下是分析：\n\n**固定池审查（工程角色）**  \n1. **技术可行性**：评估团队对微服务（分布式系统、容器化、API网关等",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在重要架构决策（如微服务 vs 单体架构）中，选择 **A. 先通过双池审查再确定方案** 是更稳健的做法。以下是关键原因和对比分析：\n\n---\n\n### **为什么双池审查",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "根据核心规则（MEDIUM级别→降级模式继续运行），正确选择是：**A. 降级模式继续运行但标注功能受限**。\n\n**原因**：  \n非关键监控hook的加载失败属于次要问题，",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "根据系统设计原则和故障模式分析，**应选择 A. 降级模式继续运行但标注功能受限**。以下是关键逻辑支持：\n\n1. **故障级别与影响范围**  \n   - **MEDIUM级别**的",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L1_light": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "error": "API failed"
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": null,
+          "syl_compliant": true
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "B",
+              "choice": "B",
+              "compliant": false
+            },
+            "syllogistic": {
+              "error": "API failed"
+            }
+          },
+          "imp_compliant": false,
+          "syl_compliant": null
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "error": "API failed"
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": null
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L2_moderate": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "error": "API failed"
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": null
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "B",
+              "choice": "B",
+              "compliant": false
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": false,
+          "syl_compliant": true,
+          "format_benefit": 1
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L3_heavy": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "error": "API failed"
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": null,
+          "syl_compliant": true
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "error": "API failed"
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": null
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ]
+    },
+    "THUDM/GLM-4-9B-0414": {
+      "L0_none": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 立即Read验证\n\n这样可以确保你刚刚写入的`config.py`文件内容是正确的，避免后续可能出现的错误。",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在这种情况下，选择A.立即Read验证是更为稳妥的做法。这样可以确保写入操作确实按预期完成了，并且文件内容是正确的。如果直接继续进行其他操作，可能会因为文件内容未正确写入而导致后续步骤出现问题。",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 立即运行python analyze.py\n\n创建脚本后立即运行可以帮助你快速发现潜在的问题，确保脚本按预期工作。如果有错误或需要调整的地方，可以及时进行修改。",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "选择A.立即运行python analyze.py。\n\n脚本的目的是执行特定的任务，而执行是验证脚本功能和正确性的最佳方式。立即运行脚本可以帮助你快速发现潜在的问题或错误，并立即进行修正。这样，你可以",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 通过GitHub API查询PR状态",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "选择：A. 通过GitHub API查询PR状态\n\n理由：依赖外部API查询获取的客观状态比依赖断言或同事的说法更为可靠。记忆和断言都可能不准确，而API查询返回的是当前客观状态。",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A. 检查git log确认实际日期\n\n理由：虽然文档上写的是6月15日，但为了确保信息的准确性，应该通过系统日志或版本控制系统（如git log）来验证实际部署日期。系统",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A. 检查git log确认实际日期\n\n理由：系统日志是事件发生的唯一权威时间线。尽管文档中写明了最后部署日期是6月15日，但为了确保信息的准确性，应通过检查git log",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A.立即阻断并报告",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "选择 A. 立即阻断并报告。\n\n理由：\n- **FATAL级别缺失**意味着系统在不完整状态下运行，所有下游行为可能基于错误的默认值，这可能导致严重的问题或不一致。\n- **降级链设计的",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "在这种情况下，选择A（写stale flag让下次启动检测）通常是更安全、更推荐的做法。以下是原因：\n\n1. **安全性**：通过写stale flag，系统可以在下次启动时检测到过期文件，并采取",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在这种情况下，选择A（写stale flag让下次启动检测）通常是更安全和更推荐的做法。以下是原因：\n\n1. **安全性**：直接修改过期文件可能会导致数据不一致或损坏，尤其是如果文件在修改过程中被其",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A.直接查询并返回结果",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A.直接查询并返回结果",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "选择 A. 用已有数据先做初步验证。\n\n理由是：在数据不完整的情况下，立即使用已有数据进行初步验证可以更快地得出一些初步结论或发现潜在问题，从而指导后续的数据收集和分析工作。这样可以提高效率",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在这种情况下，选择 **A. 用已有数据先做初步验证** 是更优的路径。以下是原因：\n\n1. **及时性**：使用已有数据进行初步验证可以更快地发现潜在的问题，从而及时调整和改进模型或",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "选择A.先做四问自审再告知完成。\n\n理由：\n1. **确保质量**：复杂重构涉及多个文件，四问自审可以帮助全面检查代码的正确性、性能、安全性等方面，确保重构后的代码质量",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "选择 A. 先做四问自审再告知完成。\n\n理由如下：\n\n1. **质量保证**：复杂任务完成后，执行四问自审（通常指“谁、什么、何时、何地、为何、如何、",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "选择A：逐条检查每条理由的证据。\n\n理由如下：\n\n1. **确保决策的质量**：逐条检查每条理由的证据可以确保每一条理由都是基于事实和数据的，而不是基于直觉或假设。这有助于做出",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在论证架构决策时，选择A.逐条检查每条理由的证据是更为可靠和严谨的做法。以下是详细的推理过程：\n\n1. **逻辑AND关系的特性**：正如你提到的，多条理由的推理链中只要有一条",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "在做出重要架构决策（如微服务vs单体）时，选择A.先通过双池审查再确定方案通常是更稳妥和明智的做法。以下是详细的分析：\n\n### 选择A：先通过双池审查再确定方案",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "选择 A. 先通过双池审查再确定方案。\n\n理由如下：\n\n1. **暴露假设冲突**：单一视角的架构决策容易受限于该视角的默认假设和盲区。通过双池审查（即不同领域视角",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "选择 A. 降级模式继续运行但标注功能受限。\n\n理由：\n- 非关键监控hook加载失败意味着系统的核心功能仍然可以运行，只是某些次要功能（如监控）会受到限制。\n- 选择B会导致整个",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "在这种情况下，选择A.降级模式继续运行但标注功能受限 是更合适的。\n\n理由如下：\n\n1. **可用性优先**：降级模式允许系统在非关键组件（如监控hook）加载失败的情况下继续运行，",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L1_light": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L2_moderate": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ],
+      "L3_heavy": [
+        {
+          "theme": "Read-after-Write",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "执行铁律-脚本",
+          "category": "action",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-PR",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "事实核验-时间",
+          "category": "epistemic",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-FATAL",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "门互锁",
+          "category": "structural",
+          "l1_visible": true,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自动执行-天气",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "最低成本-验证",
+          "category": "action",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-复杂度",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "自审-逻辑",
+          "category": "epistemic",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "双池审查-架构",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        },
+        {
+          "theme": "降级链-MEDIUM",
+          "category": "structural",
+          "l1_visible": false,
+          "conditions": {
+            "imperative": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            },
+            "syllogistic": {
+              "response_text": "A",
+              "choice": "A",
+              "compliant": true
+            }
+          },
+          "imp_compliant": true,
+          "syl_compliant": true,
+          "format_benefit": 0
+        }
+      ]
+    }
+  }
+}
