@@ -56,7 +56,7 @@ AI coding agent 长对话中遗忘规则、产出物缺验证、自我认知漂�
 | Format A/B | **150 tasks** | Between-subjects, 75+75, 6 sessions | 99.3% 合规率, 天花板效应 | [experiment-results](https://github.com/YuhaoLin2005/hermes-workspace/blob/main/paper/experiment/experiment-results-2026-07-11.md) |
 | Syllogism 交叉验证 | 4 sessions | 5规则全触发, 零违规+涌现主动审计 | 格式→推理深度因果链初步 | [PAPER.md §6-7](https://github.com/YuhaoLin2005/hermes-workspace/blob/main/PAPER.md) |
 
-> ⚠️ 诚实标注：所有定量结果由作者单人评分、非盲法。盲审信度检查 κ=-0.14 (n=8, 未通过)。已在论文和所有对外材料中明确标注。
+> ⚠️ 诚实标注：所有定量结果由作者单人评分、非盲法。盲审信度检查 κ=0.00 (n=8, 零方差——协议从未被验证)。已在论文和所有对外材料中明确标注。
 
 ### 论文
 
@@ -173,7 +173,7 @@ AI coding agent 长对话中遗忘规则、产出物缺验证、自我认知漂�
 | Between-subjects 设计 | ★★★★☆ | 30 task Causal Swap + 150 task Format A/B |
 | 纵向编码 | ★★★★☆ | 34 growth-log session 系统性编码 |
 | Fisher Exact Test | ★★★☆☆ | p=0.0092, OR=11.0 计算与解释 |
-| Cohen's κ | ★★★☆☆ | 评分信度检查, κ=-0.14 诚实报告 |
+| Cohen's κ | ★★★☆☆ | 评分信度检查, κ=0.00 (零方差定理) 诚实报告 |
 | 评分量表设计 | ★★★★☆ | Cat 1-5 五级评分 + 操作定义手册 |
 | 实验文档化 | ★★★★★ | 任务规格 / 评分模板 / 操作定义 / 配置快照 全套 |
 
@@ -271,7 +271,7 @@ Named-Persona Adversarial Review — 补偿单模态 LLM 盲区：
 | 局限 | 影响 | 改进方向 |
 |------|------|------|
 | 无导师/无实验室 | 缺方法论训练、文献覆盖不系统 | 寻求教授指导 (已发邮件) |
-| 独立评分 (κ=-0.14) | 实验结论需外部验证 | 找第二评分者 + 安慰剂对照 |
+| 独立评分 (κ=0.00) | 实验结论需外部验证 | 找第二评分者 + 安慰剂对照 |
 | RTX 3060 6GB | 无法多模型消融、v3 探针受限于 1.5B | 升级硬件或使用云 GPU |
 | 文献盲区 | 漏引 Self-consistency / Reflexion / DSPy 等基础文献 | 系统文献综述 |
 | 英文学术写作 | 论文当前是 markdown 碎片，非 LaTeX 单文件 | 撰写完整 LaTeX 稿件 |

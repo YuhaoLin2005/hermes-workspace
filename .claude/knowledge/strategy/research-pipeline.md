@@ -6,7 +6,7 @@
 pipeline:
   - id: blind-scoring
     claim: claim-8
-    description: "P1-2 双人盲评分——解决论文最大方法学局限（无第二评分者 kappa=-0.14）"
+    description: "P1-2 双人盲评分——解决论文最大方法学局限（无第二评分者 κ=0.00, zero-variance）"
     priority: 1
     impact: "论文实验严谨性 3→7/10；直接堵最弱环节"
     effort: "2-3h × 2人"
@@ -67,9 +67,22 @@ pipeline:
     blocked_by: []
     status: not_started
 
+  - id: sart
+    claim: claim-11
+    description: "SART: Safety Attention Routing Tomography — 测量安全/情感 token 的 attention 路由作为安全训练诊断工具。3家族×3训练深度 token→layer→head routing map + habituation curve + causal ablation validation"
+    priority: 5
+    impact: "L2神经门细粒度扩展；安全训练解剖刀（非安全评估器）；可独立发表为 workshop/short paper"
+    effort: "~2-3天（本地推理，$0成本），RTX 3060 6GB 可跑"
+    blocks: []
+    blocked_by: [arxiv-preprint, hf-pr-778]
+    status: planned
+    spec: "paper/experiments/sart-safety-attention-routing-tomography.md"
+    gate_condition: "arXiv preprint 提交 AND HuggingFace PR #778 merge → 通知林宇浩启动"
+    next_action: "等待 blocking 条件解除"
+
 critical_path: [blind-scoring → paper-draft-complete → paper-submission]
 current_blocker: "盲评分未做——阻塞论文投稿（最大瓶颈）"
-total_estimated_effort: "~47h"
+total_estimated_effort: "~50h"
 ```
 
 ## 优先级逻辑（三维加权）

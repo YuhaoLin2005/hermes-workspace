@@ -128,7 +128,7 @@
 
 ## 诚实局限（论文公开承认）
 
-- 无第二评分者(kappa=-0.14 for single rater)
+- 无第二评分者(κ=0.00 for single rater — zero-variance, see §5.2)
 - 无跨模型logprob复现(API限制)
 - 无预注册(除P1-2)
 - 单模型logprob实验(仅DeepSeek V4 Pro)

@@ -100,7 +100,7 @@ I'm an undergrad at FAFU (福建农林大学). Building this in public:
 
 Every behavioral number in my paper — the 55.9%, the 0.7% — was scored by me. I designed the experiments. I ran them. I rated the results.
 
-**κ = −0.14.** That's inter-rater reliability *worse than random chance.* Not a code problem. A "single biased rater" problem. The architecture's answer: verification lives outside the system. In humans.
+**κ = 0.00.** That's inter-rater reliability *exactly at chance.* Not because the raters disagreed — they agreed 87.5% of the time. But when one rater (me) scores every agent the same way, Cohen's kappa is mathematically constrained to zero regardless of actual consistency. This is the "kappa paradox" — high raw agreement, zero kappa. It means the scoring protocol was never actually tested. The architecture's answer: verification lives outside the system. In independent human raters.
 
 **→ [Click here: Blind Scoring Package](https://github.com/YuhaoLin2005/hermes-workspace/tree/main/paper/blind-scoring)**
 

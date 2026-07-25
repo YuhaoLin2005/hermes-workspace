@@ -64,4 +64,14 @@
 | Hash 能证明什么？ | SHA256: tamper ✓, third-party ✗ |
 | Format 真的有用？ | P1-2: code_OFF 2.67 below gate-ON |
 
-*最后更新: 2026-07-18*
+## SART: Safety Attention Routing Tomography
+
+- **Status**: PLANNED — spec written, blocked by arxiv + HF PR #778
+- **Spec**: `paper/experiments/sart-safety-attention-routing-tomography.md`
+- **设计**: 3家族×3训练深度, attention routing topographic map + habituation curve + causal ablation
+- **核心假说**: 安全训练越深, 情感/安全 token attention 路由越强、越稳定、越抗疲劳
+- **定位**: 安全训练解剖刀（不是安全评估器）；L2神经门细粒度扩展
+- **资源**: RTX 3060 6GB 可跑, ~2-3天, $0
+- **文章**: 待 -- 完成后可写为 workshop/short paper
+
+*最后更新: 2026-07-26*

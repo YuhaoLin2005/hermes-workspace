@@ -43,20 +43,30 @@ L1 is the load-bearing layer. `exit 2` cannot be argued with. L4 feeds compactio
 
 ## Experiment index
 
-16 experiments completed. Each with pre-registered hypothesis, deterministic regex scoring, public data.
+**16 experiments completed.** All with deterministic regex scoring and public data. Pre-registered: P1-1, P1-2, R1/R2, E1/E1b. Full list in [PAPER.md Experiment Overview](PAPER.md).
 
 | # | Experiment | Design | Key result | Where |
 |---|-----------|--------|------------|-------|
-| P1-1 | Format × Gate | 150 tasks, GateGuard ON/OFF, syllogism vs imperative | 99.3% compliance, format effect→0 with gate | [PAPER.md §6.5] |
-| P1-2 | Pre-Registered | 600 calls, 2×2 factorial, SHA256 pre-reg | Hypothesis KILLED. Gate improves reasoning (+0.32 d) | [PAPER.md §6.16] |
-| R1 | Adversarial Rules | 50 calls, 5 rules × 5 degradation levels | Null result — default-aligned rules immune to compaction | [compact_fidelity_decay.py](paper/experiment/compact_fidelity_decay.py) |
-| R2 | Reverse Instructions | 50 calls, 5 adversarial rules × 5 levels | L8→L12 cliff: 80%→20% full compliance | same script, round 2 |
-| Causal Swap | Rule Removal | 30 tasks, between-subjects | OR=11.0, p=0.0092 | [PAPER.md §6.6] |
-| Logprob V3 | Constraint Gradient | 12 probes × 2 formats × 4 constraint levels | Syllogistic format advantage peaks at moderate constraint | [paper/experiment/logprob-v3/](paper/experiment/logprob-v3/) |
-| Cross-Model | Scanner Calibration | 3 models, same gate rules | Gateability = rule_structure × model_capability | [paper-validator results](https://github.com/YuhaoLin2005/paper-validator) |
-| E1a/b | Expert Board | 30→112 trials, cross-model | Persona diversity is model-dependent; Fleiss' κ=0.049 | [community-experiments](paper/supplementary/community-experiments-2026-07-17.md) |
+| 1 | L0 Safety Prompt | 40 probes, within-probe, logprob DV | Accuracy preserved; gains robust (r=+0.949) | [PAPER.md §3.5] |
+| 2 | Growth-log Retrospective | 34 sessions, longitudinal coding | 55.9%→0.7% with mechanical gate | [PAPER.md §6.2] |
+| 3 | Causal Swap | 30 tasks, between-subjects | OR=11.0, p=0.0092 | [PAPER.md §4] |
+| 4 | Logprob Probe V3 | 40 probes, within-probe, API logprob DV | d=+0.578, BF=282k | [PAPER.md §6.11] |
+| 5 | Format A/B | 150 tasks, between-subjects, 6 sessions | 99.3% compliance (ceiling effect) | [PAPER.md §6.5] |
+| 6 | GateGuard-OFF | 21 probes × 3 conditions | Rules work (+0.38); IMP≈SYL | [PAPER.md §6.12] |
+| 7 | Cross-Model Behavioral | 12 probes × 3 models | SYL−IMP ≤ |0.025| across 3 architectures | [PAPER.md §6.13] |
+| 8 | Decision-Token L1-Visibility | 40 probes re-analysis (0 API calls) | Format-L1 synergy: d_z=+0.71 vs +0.40 | [PAPER.md §6.14] |
+| 9 | P1 Multi-Scene Resilience | 48 calls, multi-scene + controls | Format effects collapse; meta-instruction ~80% driver | [PAPER.md §6.15] |
+| 10 | Constraint Gradient | 96 calls, 4 output-constraint levels | Non-monotonic: L1(0.596)>L3(0.297)>L0(0.315)>L2(0.091) | [PAPER.md §6.15] |
+| 11 | Cross-Model Constraint Gradient | 192 calls, 2 models | No format effect on 8B/9B; model capacity boundary | [PAPER.md §6.13] |
+| 12 | Syllogism Blind CV | 4 sessions | 5/5 rules triggered, zero violations + emergent auditing | [PAPER.md §6.4] |
+| 13 | Compaction Decay R1 | 50 calls, 5 rules × 5 compaction levels | Null: default-aligned rules immune to compaction (96%) | [PAPER.md §6.17] |
+| 14 | Compaction Decay R2 | 50 calls, 5 adversarial rules × 5 levels | L8→L12 cliff: compliance 80%→20% | [PAPER.md §6.17] |
+| 15 | P1-1 Residual Cluster | 200 trials, 5 task types × 40 | L1 100% compliant; violations cluster where gate can't reach | [PAPER.md §6.16] |
+| 16 | P1-2 Format×Gate | 240 trials, 2×2 factorial, pre-registered | H1 NOT CONFIRMED; prose→better reasoning regardless of gate | [PAPER.md §6.16] |
 
-Full experiment list and detailed results: [PAPER.md appendix](PAPER.md) and [paper/experiment/](paper/experiment/).
+Also completed (not in main paper overview): E1a/E1b Persona Decorrelation (30→112 trials, cross-model, Fleiss' κ=0.049) — [paper/experiments/e1-persona-decorrelation.md](paper/experiments/e1-persona-decorrelation.md).
+
+Consistency check: `python scripts/check_experiment_count.py` — verifies PAPER.md, README.md, and dashboard.md agree on experiment count.
 
 ## Reproduce
 
@@ -79,7 +89,7 @@ python -m paper_validator claim --claim all --trials 30
 
 ## Honest limitations
 
-- **Single rater.** Author-scored. Blind check: κ=-0.14 (n=8, failed). Critical weakness.
+- **Single rater.** Author-scored. Blind check: κ=0.00 (n=8, zero-variance — protocol never tested). Critical weakness.
 - **Single model.** Most experiments on DeepSeek V4 Pro. Cross-model validation in progress.
 - **Per-rule breakdowns are exploratory.** Only overall effects are pre-registered.
 - **API ceiling.** Reproducibility bounded by provider retention. Hash proves report↔records consistency, not records↔reality.

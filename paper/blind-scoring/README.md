@@ -35,6 +35,6 @@ T# | R1 | R2 | R3 | R4 | R5 | Notes
 
 ## Why
 
-Every number in my thesis was scored by me. κ = −0.14. Need 2+ independent raters → κ > 0.7.
+Every number in my thesis was scored by me. κ = 0.00 — not because the raters disagreed, but because one rater (me) scored all agents identically (zero-variance theorem). Need 2+ independent raters → κ > 0.7.
 
 [GitHub issues](https://github.com/YuhaoLin2005/hermes-workspace/issues) for questions.
