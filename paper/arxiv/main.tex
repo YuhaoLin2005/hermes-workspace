@@ -131,6 +131,23 @@ I advance three claims:
   evidence that syllogistic rule format alters internal constraint representations.
 \end{enumerate}
 
+\textbf{On the status of the Prose Barrier claim.} This paper uses the Prose
+Barrier as its central explanatory framework, but it is important to distinguish
+two levels of support. The \textit{architectural argument}---that a shared
+decoder makes independent self-verification structurally impossible---is a
+logical consequence of the autoregressive transformer architecture.
+\citet{startari2025tloc} provide formal theorem support for this claim (TLOC:
+Transformers cannot structurally verify internal rule compliance). The
+\textit{empirical evidence in this paper}---the 55.9\%$\to$0.7\% behavioral
+shift, the logprob gradient ($d_z=+0.578$), the L2/L3 dissociation---does not
+\textit{prove} the Prose Barrier; rather, it demonstrates behavioral and
+representational effects that are \textit{best explained} by it. The Prose
+Barrier is the hypothesis that accounts for the observed pattern; the empirical
+results are consistent with it but do not constitute a formal proof. Where
+evidence is strongest (L1 mechanical gates, n=150, 99.3\% compliance) the
+mechanism operates outside the Barrier entirely---a design choice that follows
+from, but does not directly test, the Barrier hypothesis.
+
 \section{The Prose Barrier}
 \label{sec:barrier}
 
@@ -504,14 +521,59 @@ without logprob probes; SCF addresses multi-agent consensus without single-agent
 barrier analysis. The Prose Barrier framework provides the missing integrative
 lens.
 
-\subsection{Practical Implications}
+\subsection{Design Implications}
+\label{sec:design-implications}
 
-(1) Mechanically verifiable rules are fundamentally more enforceable. The
-mechanizability scanner scores any candidate rule 0.0--1.0. (2) The $+0.38$
-baseline compliance gain from having rules dwarfs format engineering effects---
-invest in L1 first. (3) Light output constraints (C1) preserve the reasoning
-channel; heavy suppression (C2) destroys it. The Prose Barrier of Measurement
-is a structural constraint on LLM evaluation methodology.
+The five-layer architecture is not all-or-nothing. Different deployment scenarios
+need different layers, and the ordering by position relative to the Prose Barrier
+provides a natural priority ranking.
+
+\textbf{Personal AI-Assisted Development (the author's use case).}
+A single developer using an AI coding agent needs L1 mechanical gates above all.
+Five regex rules checking file writes, hook registrations, and output integrity
+reduced violations from 55.9\% to 0.7\%---a gain that dwarfs all format
+engineering effects combined. The mechanizability scanner
+(Section~\ref{sec:scanner}) can classify any candidate rule; rules scoring
+$>$0.7 are mechanically verifiable with standard filesystem tools. The core
+insight is that \textit{most configuration rules can be checked without natural
+language at all}: file written $\to$ read it back and diff; hook registered
+$\to$ check the registry; deliverable produced $\to$ verify file existence.
+L1 is the highest-leverage, lowest-cost entry point.
+
+\textbf{Team Deployments.} When multiple developers share AI agent
+configurations, L4 drift prediction becomes valuable. The 12 mechanical features
+tracked by the drift predictor (mtime deltas, rule freshness, gate failure
+rates, feature count evolution) operate outside the Prose Barrier and flag
+degradation before it causes failures. Teams should monitor L4 as a dashboard
+metric alongside CI pipeline health. L1+L4 together provide deterministic
+compliance monitoring with no model dependency.
+
+\textbf{Research and Training Pipelines.} Researchers building agent harnesses
+or training governance-aware models need the full stack. L2 neural gates
+(logprob probes) provide objective measurement of constraint penetration depth
+without behavioral scoring; L3 causal encoding (syllogistic rule format)
+optimizes internal routing; the DPO pipeline (Section~\ref{sec:dpo}) partially
+internalizes causal reasoning preferences. These layers require API access
+(logprobs) and/or GPU resources (QLoRA training) but provide measurement
+precision that L1 alone cannot offer---the L2/L3 dissociation
+($d_z{=}+0.578$ vs $\text{IMP}{\approx}\text{SYL}$) would be invisible to
+purely behavioral evaluation.
+
+\textbf{Why not all five layers everywhere?} (1) Cost: L2 requires logprob API
+access, which not all providers offer. (2) Complexity: L3 format optimization
+yields modest gains ($\sim$10\% logprob shift) compared to L1's orders-of-magnitude
+improvement---invest in L1 first. (3) The Prose Barrier of Measurement: behavioral
+evaluation remains the bottleneck for L2/L3 claims; without independent blind
+scoring ($\kappa > 0.7$), the dissociation between logprob and behavior remains
+provocative but unconfirmed. The five layers are a \textit{menu}, not a
+\textit{prescription}.
+
+\textbf{The single most important design rule:} where a constraint can be
+verified mechanically, it should be. Natural language is for what remains after
+mechanization---preferences, priorities, reasoning frameworks---but never for
+what a regex, a file comparison, or a timestamp check can handle deterministically.
+This follows directly from the Prose Barrier: external verification (L1) is the
+only layer that provides genuine independence from the generation process.
 
 \section{Limitations}
 \label{sec:limitations}

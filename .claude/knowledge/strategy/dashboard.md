@@ -5,26 +5,31 @@
 
 ```yaml
 dashboard:
-  synced_at: 2026-07-24T07:36:19Z
+  synced_at: 2026-07-25T03:30:00Z  # browser-verified via 掘金 creator center + DEV.to profile
 
   devto:
-    articles: 31
+    articles: 31                  # browser-verified: 31 unique article URLs on dev.to/yuhaolin2005
     comments_written: 4
-    followers: ?
-    total_reactions: ?  # manual: needs API
+    followers: ?                  # DEV.to profile page doesn't show follower count
+    total_reactions: ?            # needs DEV.to API
     notable_commenters: ['Dipankar Sarkar', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
-    unread_comments: ?  # manual: needs notification check
+    unread_comments: ?            # needs notification check
 
   juejin:
-    articles: 20
-    total_reads: 74
-    total_likes: 8
-    most_popular: 34_reads
+    articles: 20                  # 已发布 20 / 审核中 0 / 未通过 1 / 全部 21 (browser-verified: 2026-07-25)
+    total_reads: 3862             # browser-verified: 创作者中心 数据概览 "文章阅读数"
+    total_likes: 28               # browser-verified: 创作者中心 数据概览 "文章点赞数"
+    total_comments: 11            # browser-verified: 创作者中心 数据概览 "文章评论数"
+    total_collects: 22            # browser-verified: 创作者中心 数据概览 "文章收藏数"
+    total_impressions: 38207      # browser-verified: 创作者中心 数据概览 "文章展现数"
+    followers: 16                 # browser-verified: 创作者中心
+    jue_value: 287                # browser-verified: 掘力值
+    most_popular: "七月德国开发者 — 2685阅读 17赞 12收藏"
 
   github:
-    paper_validator_stars: ?  # manual: gh api
-    paper_validator_forks: ?  # manual: gh api
-    hermes_workspace_stars: ?  # manual: gh api
+    paper_validator_stars: ?      # manual: gh api
+    paper_validator_forks: ?      # manual: gh api
+    hermes_workspace_stars: ?     # manual: gh api
     total_commits_since_july1: ?  # manual: git log
     prs_merged: 0
     prs_open: ?
@@ -47,8 +52,8 @@ dashboard:
     completed: 16
     in_progress: 0
     planned: 0
-    total_api_calls_used: ?  # manual: sum from experiment logs
-    latest:  # preserved from manual updates
+    total_api_calls_used: ?       # manual: sum from experiment logs
+    latest:
       # (see dashboard.md git history for latest experiment details)
 
   self:
@@ -62,7 +67,7 @@ dashboard:
   community_milestones:
     # (manually maintained — preserved across sync runs)
 
-  last_updated: 2026-07-24
+  last_updated: 2026-07-25
 ```
 
 
