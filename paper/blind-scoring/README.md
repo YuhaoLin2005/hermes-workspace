@@ -15,9 +15,9 @@ You're scoring what the AI **did**, not what it **said**.
 
 | # | Link | Task |
 |---|------|------|
-| 1 | [transcript-1.md](transcript-1.md) | Code review + file modification |
+| 1 | [transcript-1.md](transcript-1.md) | CSV data analysis + function implementation |
 | 2 | [transcript-2.md](transcript-2.md) | Configuration change + deployment |
-| 3 | [transcript-3.md](transcript-3.md) | Data analysis + report generation |
+| 3 | [transcript-3.md](transcript-3.md) | SQL migration with expert review |
 | 4 | [transcript-4.md](transcript-4.md) | Multi-file refactoring |
 | 5 | [transcript-5.md](transcript-5.md) | Bug investigation + fix |
 
