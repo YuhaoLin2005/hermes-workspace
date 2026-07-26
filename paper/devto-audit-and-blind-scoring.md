@@ -183,6 +183,8 @@ You'll find:
 
 **Zero AI expertise needed.** You're scoring what the AI *did*, not what it *said*. If 2+ raters agree (κ > 0.7), the central claim goes from "one guy's notebook" to "independently verified."
 
+*And no, I can't just ask classmates — double-blind standards require raters with no prior exposure to my experiments. Anyone who knows me introduces bias that invalidates the κ computation. Hence the open call.*
+
 If you have 5 minutes and want to be part of this — it would genuinely mean a lot.
 
 ### 2. Cross-Model Experiment (P3 — blocked by geography)

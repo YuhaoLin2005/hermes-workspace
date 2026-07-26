@@ -1,9 +1,18 @@
 # DEV.to Article Index
 
-> 31 posts published (as of 2026-07-26). 每发新文章后更新。
+> 32 posts published (as of 2026-07-26). 每发新文章后更新。
 > `[key]` = /devto-copilot 命令参数。论文实验系列有完整索引，平台工程系列简洁索引。
 
-## 论文实验系列（8篇——有详细索引）
+## 论文实验系列（9篇——有详细索引）
+
+### [audit-ctbv] I Discovered AI Agents Can't Self-Verify. The Real Problem Is Much Bigger.
+- **URL**: https://dev.to/yuhaolin2005/i-discovered-ai-agents-cant-self-verify-the-real-problem-is-much-bigger-2jb6
+- **Published**: 2026-07-26
+- **Tags**: ai, machinelearning, programming, python
+- **论文章节**: Full thesis synthesis — Prose Barrier + Three Paths + Gate Audit + CTBV Theory
+- **关键数字**: 38 gates, 9 sessions, 339 entries, 87% noise; κ = 0.00; DPO 150 pairs
+- **核心发现**: Gate audit revealed 87% noise; working gates check things LLMs physically can't fake; CTBV (Cross-Type Bidirectional Verification) — orthogonal blind spots → joint error = 0
+- **关联评论者**: Mike Czerwinski, Dipankar Sarkar, Max Quimby, René Zander
 
 ### [cross-model] Your AI Gate Works Perfectly — Until You Switch Models
 - **URL**: https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0

@@ -409,7 +409,26 @@ This is stronger than the conventional "defense in depth" principle. Defense in 
 
 4. **Bidirectional maintenance.** The LLM's role in CTBV is not just "being verified" but actively verifying the gate logic — checking whether SENSITIVE_PATTERNS has become stale, whether thresholds reflect current usage, whether new risk vectors have emerged. This closes the loop that same-type architectures leave open.
 
-### 7.2 Limitations
+### 7.2 Generalization to Human-AI Verification
+
+The CTBV framework extends beyond the original \(V_D \times V_P\) architecture to human-AI collaboration, addressing a parallel structural problem: cognitive debt in AI-assisted development.
+
+**The parallel.** Storey (2024) and Willison (2025) document "cognitive debt" in vibe coding — developers accumulate understanding deficits that compound until they can no longer participate meaningfully in the development loop. The mechanism mirrors the LLM self-verification problem: humans cannot reliably self-assess whether they *actually* understand AI-generated output. "I read the diff" and "I understood the diff" are produced from the same cognitive substrate — the human, like the LLM, cannot step outside its own cognition to audit it. Subjective confidence is not verification.
+
+**Quiz-based verification as CTBV.** A quiz gate operates as a type-D verifier on a human subject: it presents objective questions about AI-generated content, and answers are mechanically evaluated against ground truth. The quiz inspects features \(\Phi_Q\) = {actual recall, conceptual mapping, edge-case detection} that are orthogonal to the features self-assessment operates on, \(\Phi_H\) = {subjective fluency, familiarity, confidence}. By Lemma 1, \(\Phi_Q \cap \Phi_H = \emptyset\) implies \(E(V_Q) \cap E(V_H) = \emptyset\) — a quiz cannot be bypassed by *claiming* understanding any more than a regex can be bypassed by *claiming* file safety.
+
+**Structural homology.** The three theorems apply without modification:
+
+| | Theorem 1 (CTBV) | Theorem 2 (Same-type) | Theorem 3 (Trust decay) |
+|---|---|---|---|
+| **Original** | \(V_D \times V_P\) → \(\alpha_{\text{CTBV}} = 0\) | LLM self-critique → \(\alpha_{\text{HOM}} = \alpha\) | Gate bypass \(b \to 1\) → trust collapse |
+| **Human extension** | Quiz × self-assessment → error orthogonal | Human self-review → same blind spot as original | Ignored quiz failures → cognitive debt accumulation |
+
+**Empirical precedent.** Roediger & Karpicke (2006) and Nielsen & Matuschak (2018) independently implemented quiz-gate mechanisms for reading comprehension, finding that interactive quizzes expose gaps that subjective confidence masks. Their "you cannot proceed until you pass" mechanism is structurally a type-D verifier with \(b = 0\) — no amount of confidence-reporting bypasses a failed quiz.
+
+**Design principle.** For any system where a subject \(S\) (human or LLM) must verify its own internal state (compliance or understanding), pair \(S\) with a verifier \(V\) whose feature set \(\Phi_V\) is disjoint from the features \(S\) uses for self-assessment. For LLMs: mechanical gates on filesystem and command features. For humans: objective tests on recall and application — not self-reported confidence. CTBV is not a domain-specific AI governance trick but a general verification architecture for any domain where self-assessment has structural blind spots.
+
+### 7.3 Limitations
 
 1. **Orthogonality proof is causal-argument, not formal-verification.** Lemma 1 requires \(\Phi_D \cap \Phi_P = \emptyset\), which we verify through feature-level inspection. A full formal proof would require a unified state-space model — future work.
 
@@ -421,7 +440,7 @@ This is stronger than the conventional "defense in depth" principle. Defense in 
 
 5. **Human arbiter dependency.** The CTBV architecture requires a human \(H\) to resolve \(V_D \neq V_P\) disagreements and audit the verification architecture. Automating the meta-audit would require a third verifier type — potentially formal Lipschitz-ball verifiers (Scrivens, 2026).
 
-### 7.3 Reproducibility
+### 7.4 Reproducibility
 
 The mechanical gate hooks, audit scripts, and gate log data are available at:
 - Gate source: `~/.claude/scripts/write-guard.py`, `cleanup-hooks.py`, `hook-audit.py`
@@ -431,7 +450,7 @@ The mechanical gate hooks, audit scripts, and gate log data are available at:
 
 All scripts are self-contained Python 3.11+ with standard library only. No API keys, no network access, no GPU required.
 
-### 7.4 Broader Impact
+### 7.5 Broader Impact
 
 CTBV is a governance architecture — it makes AI systems more accountable. The primary risk is *misplaced trust*: if operators believe CTBV guarantees safety, they may reduce human oversight below the level needed for the meta-audit function \(H\). CTBV reduces but does not eliminate the need for human judgment. The architecture is a tool for making human oversight more effective, not a replacement for it.
 
@@ -461,6 +480,10 @@ We introduced Cross-Type Bidirectional Verification, a formal framework where de
 14. Hoare, C. A. R. (1969). "An Axiomatic Basis for Computer Programming." Communications of the ACM.
 15. Clarke, E. M., Emerson, E. A., & Sistla, A. P. (1986). "Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications." ACM TOPLAS.
 16. Leucker, M. & Schallhart, C. (2009). "A Brief Account of Runtime Verification." Journal of Logic and Algebraic Programming.
+17. Storey, M.-A. (2024). "Cognitive Debt in AI-Assisted Software Development." IEEE Software.
+18. Willison, S. (2025). "Vibe Coding and the Accumulation of Understanding Debt." simonwillison.net.
+19. Nielsen, M. & Matuschak, A. (2018). "Augmenting Long-term Memory." augmentingcognition.com.
+20. Roediger, H. L. & Karpicke, J. D. (2006). "Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention." Psychological Science.
 
 ---
 
