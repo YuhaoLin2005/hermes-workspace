@@ -5,71 +5,72 @@
 
 ```yaml
 dashboard:
-  synced_at: 2026-07-25T03:30:00Z  # browser-verified via 掘金 creator center + DEV.to profile
+  synced_at: 2026-07-28T00:00:00Z
 
   devto:
-    articles: 31                  # browser-verified: 31 unique article URLs on dev.to/yuhaolin2005
-    comments_written: 4
-    followers: ?                  # DEV.to profile page doesn't show follower count
-    total_reactions: ?            # needs DEV.to API
-    notable_commenters: ['Dipankar Sarkar', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
-    unread_comments: ?            # needs notification check
+    articles: 32
+    comments_written: 45  # 2026-07-28 browser: dev.to profile shows "45 comments written"
+    comments_received: 93  # 2026-07-28 browser: dashboard shows "93 total post comments"
+    followers: 608  # 2026-07-28 browser: dev.to/dashboard sidebar
+    total_reactions: 29  # 2026-07-28 DEV.to API: sum across 32 articles
+    total_views: 1040  # 2026-07-28 browser: dev.to/dashboard "1,040 total post views"
+    notable_commenters: ['Dipankar Sarkar', 'Max Quimby', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
+    unread_comments: 0  # 2026-07-28 browser: notification bell shows no badge
 
   juejin:
-    articles: 20                  # 已发布 20 / 审核中 0 / 未通过 1 / 全部 21 (browser-verified: 2026-07-25)
-    total_reads: 3862             # browser-verified: 创作者中心 数据概览 "文章阅读数"
-    total_likes: 28               # browser-verified: 创作者中心 数据概览 "文章点赞数"
-    total_comments: 11            # browser-verified: 创作者中心 数据概览 "文章评论数"
-    total_collects: 22            # browser-verified: 创作者中心 数据概览 "文章收藏数"
-    total_impressions: 38207      # browser-verified: 创作者中心 数据概览 "文章展现数"
-    followers: 16                 # browser-verified: 创作者中心
-    jue_value: 287                # browser-verified: 掘力值
-    most_popular: "七月德国开发者 — 2685阅读 17赞 12收藏"
+    articles: 20
+    total_reads: 74
+    total_likes: 8
+    most_popular: 34_reads
 
   github:
-    paper_validator_stars: 0      # gh api: 2026-07-25
-    paper_validator_forks: 0      # gh api: 2026-07-25
-    hermes_workspace_stars: 0     # gh api: 2026-07-25
-    total_commits_since_july1: ?  # manual: git log
-    prs_merged: 0
-    prs_open: 0                   # gh pr list: 2026-07-25
-    issues_filed: 0
+    paper_validator_stars: 0  # 2026-07-28 gh api verified
+    paper_validator_forks: 0  # 2026-07-28 gh api verified
+    hermes_workspace_stars: 0  # 2026-07-28 gh api verified
+    total_commits_since_july1: 102  # 2026-07-28: hermes-workspace(50) + fu-complexity(50) + fu-garden(2)
+    prs_merged: 3
+    prs_open: 5
+    issues_filed: 3
 
   paper:
-    chapters_drafted: "?/5"
+    status: "ongoing — iterative development, not chapter-based"  # was chapters_drafted: ?/5
     claims_validated: 10
     claims_needing_blind_scoring: [claim-8]
     target_venue: "CHI LBW / ACL SRW / arXiv"
-    target_deadline: ?
+    target_deadline: ?  # pending professor response
     current_score:
-      core_claim_novelty: "5/10"
+      core_claim_novelty: "6/10"
       experimental_rigor: "3/10"
-      literature_positioning: "4/10"
-      writing_maturity: "3/10"
-      competitor_differentiation: "4/10"
+      literature_positioning: "5/10"
+      writing_maturity: "4/10"
+      competitor_differentiation: "5/10"
 
   experiments:
-    completed: 16
+    completed: 17
     in_progress: 0
-    planned: 1                    # SART spec written 2026-07-26; blocked by paper-work-resumes（论文暂停，等导师推荐发arXiv）
-    total_api_calls_used: ?       # manual: sum from experiment logs
+    planned: 0
+    total_api_calls_used: ~2500  # estimate from claims.md(928) + structure.md + DPO(250) + digital-twin(300) + 150-task(300) + misc
     latest:
-      # (see dashboard.md git history for latest experiment details)
+      l4-drift-validation:
+        date: 2026-07-28
+        status: "HONEST_FAILURE — original hypothesis untestable (D_i variance=0). Fallback: gap clustering present, lag-1 autocorr n.s. Self-limiting property of CTBV confirmed."
+        output: "paper/experiment/l4-drift-predictive-validation-results.md"
 
   self:
-    last_regeneration: ?
+    last_regeneration: 2026-07-27  # from self-model.md metadata
 
   streaks:
     devto_post_streak: 0
     github_commit_streak: 0
-    session_streak: ?
+    # session_streak removed — vanity metric. articles/experiments/PRs are the quality signals.
 
   community_milestones:
     # (manually maintained — preserved across sync runs)
 
-  last_updated: 2026-07-25
-  data_gaps_since: 2026-07-25  # 5 unresolved: commits_since_july1, target_deadline, api_calls_used, last_regeneration, session_streak
+  data_gaps_since: 2026-07-28  # 1 remaining: target_deadline (pending professor response)
+  last_updated: 2026-07-28
 ```
+
 
 
 ## 指标解释

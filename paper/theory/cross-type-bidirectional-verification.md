@@ -39,15 +39,17 @@ The three-questions gate had collapsed into *security theater* — 295 consecuti
 
 ### 1.3 Contributions
 
-We make four contributions:
+We make five contributions:
 
-1. **Formal framework**: We define verifier types (deterministic vs. probabilistic), error space orthogonality, and the CTBV architecture (§2).
+1. **Formal framework**: We define verifier types (deterministic vs. probabilistic), error space orthogonality, and the CTBV architecture (§3.1).
 
-2. **Three theorems**: We prove (a) CTBV achieves zero false negatives under strict orthogonality, impossible under same-type verification; (b) homogeneous verification's error bound degrades linearly with error correlation \(\rho\); (c) verifier trust follows exponential decay with bypass rate \(b\) (§3).
+2. **Three theorems**: We prove (a) CTBV achieves zero false negatives under strict orthogonality, impossible under same-type verification; (b) homogeneous verification's error bound degrades linearly with error correlation \(\rho\); (c) verifier trust follows exponential decay with bypass rate \(b\) (§4).
 
-3. **Empirical validation**: We conduct an ablation study on a 38-hook production system, demonstrating that removing a collapsed gate (87% noise rate) has zero impact on remaining gate detection rates, and that the surviving type-D gates' error spaces are orthogonal to the type-P verifier's (§4).
+3. **Dynamical system formulation**: We formalize CTBV as a **Coupled Dual-Graph Dynamical System** — an inner complete graph (transformer attention as message passing on \(K_n\)) bidirectionally coupled to an outer functional graph (mechanical verification nodes) at discrete event times, with adaptive coupling strength \(\lambda(t)\) governed by a Liquid Time-Constant ODE (§3.3). This formulation connects CTBV to graph-of-thought reasoning (Besta et al., 2024), attention-as-GNN (Joshi et al., 2025), and liquid neural architectures (Hasani et al., 2021).
 
-4. **Unified theory**: We position CTBV as the constructive counterpart to the Prose Barrier impossibility result — together forming a complete theory of AI verification (§5).
+4. **Empirical validation**: We conduct an ablation study on a 38-hook production system, demonstrating that removing a collapsed gate (87% noise rate) has zero impact on remaining gate detection rates (§5). We also test the adaptive coupling hypothesis in a 12-day drift prediction experiment, discovering a self-limiting property of CTBV (§3.3.4).
+
+5. **Unified theory**: We position CTBV as the constructive counterpart to the Prose Barrier impossibility result — together forming a complete theory of AI verification (§6).
 
 ---
 
@@ -73,9 +75,21 @@ We make four contributions:
 
 **Scrivens gates.** Scrivens (2026) empirically validates classification-verification dichotomies for AI safety gates, analyzing Lipschitz ball verifiers as a formal verification layer. Our framework generalizes this to the bidirectional case and provides the theoretical error bounds that Scrivens' empirical work motivates.
 
-### 2.4 Positioning
+### 2.4 Graph-Theoretic and Dynamical Perspectives
 
-To our knowledge, **no prior work proposes or analyzes a bidirectional verification architecture between deterministic (type-D) and probabilistic (type-P) verifiers.** All existing verification architectures operate within the same type (neural↔neural or formal↔formal). CTBV is the first to exploit *structural* (not just statistical) orthogonality of error spaces across computational substrates.
+Three additional lines of work provide mathematical tools for analyzing CTBV, though none proposes the coupled dual-graph architecture:
+
+**Graph of Thoughts (Besta et al., 2024).** GoT models LLM reasoning as graph operations on a directed graph \(G = (V, E)\), extending chain/tree topologies to arbitrary graph structures. CTBV extends GoT's inner graph with an external verification graph — GoT models the reasoning, CTBV models the reasoning *plus its verification*.
+
+**Attention as GNN (Joshi et al., 2025; El et al., 2025).** Recent work reformulates self-attention as message passing on a complete graph \(K_n\). This provides the mathematical bridge between transformer internals and graph theory that CTBV uses in its inner graph model (§3.3). The key insight — that the attention matrix *is* a weighted adjacency matrix — makes the dual-graph formalism possible.
+
+**Liquid Time-Constant Networks (Hasani et al., 2021; Cantini et al., 2024).** LTCs introduce adaptive time constants \(\tau(t)\) governed by an ODE, enabling neurons to modulate their response speed based on input. CTBV borrows this adaptive mechanism for its coupling strength \(\lambda(t)\) (§3.3, Definition 10), but applies it at the architectural level (coupling between graphs) rather than the neuronal level.
+
+**ShieldAgent (Chen et al., ICLR 2025).** ShieldAgent pairs LTL rules with policy models for safety-constrained action selection. It is the closest prior work to CTBV's outer graph, but its verification is unidirectional (rules constrain agent; agent does not audit rules).
+
+### 2.5 Positioning
+
+To our knowledge, **no prior work proposes or analyzes a bidirectional verification architecture between deterministic (type-D) and probabilistic (type-P) verifiers.** All existing verification architectures operate within the same type (neural↔neural or formal↔formal). CTBV is the first to exploit *structural* (not just statistical) orthogonality of error spaces across computational substrates, and the first to formalize verification as a coupled dual-graph dynamical system with adaptive coupling strength.
 
 ---
 
@@ -154,6 +168,138 @@ When the causal mechanisms are disjoint and operate on disjoint features, their 
 **Lemma 1 (Feature Disjointness implies Error Orthogonality).** Let \(V_D\) inspect only features \(\Phi_D \subset \mathcal{F}\) and \(V_P\) inspect only features \(\Phi_P \subset \mathcal{F}\). If (i) \(\Phi_D \cap \Phi_P = \emptyset\), (ii) \(E(V_D)\) depends only on \(\Phi_D\), and (iii) \(E(V_P)\) depends only on \(\Phi_P\), then \(E(V_D) \cap E(V_P) = \emptyset\).
 
 *Proof.* Suppose \(s \in E(V_D) \cap E(V_P)\). Then \(s\) must simultaneously exhibit a staleness condition (depending on \(\Phi_D\)) and a self-reference failure (depending on \(\Phi_P\)). But since \(\Phi_D \cap \Phi_P = \emptyset\), the features that would make \(s \in E(V_D)\) are disjoint from the features that would make \(s \in E(V_P)\). For any state \(s\), the projection of \(s\) onto \(\Phi_D\) determines membership in \(E(V_D)\), and the projection onto \(\Phi_P\) determines membership in \(E(V_P)\). With \(\Phi_D \cap \Phi_P = \emptyset\), no state can have both. \(\square\)
+
+### 3.3 Dynamical System Formulation: Coupled Dual-Graph Architecture
+
+The static CTBV definitions (§3.1) establish *what* the architecture is. We now formalize *how* it operates over time as a coupled dynamical system, connecting CTBV to three active research frontiers: graph-of-thought reasoning (Besta et al., 2024), attention as complete-graph message passing (Joshi et al., 2025), and liquid neural architectures with adaptive time constants (Hasani et al., 2021; Cantini et al., 2024).
+
+#### 3.3.1 Motivation: Why a Dynamical Perspective?
+
+The five-layer CTBV architecture (L0-L4) is not a static pipeline. It is a **coupled system** where:
+
+- **L1-L2 (inner graph):** The transformer's self-attention operates as message passing on a complete directed graph \(K_n\) over \(n\) context tokens. Every token attends to every other token — the attention matrix *is* the weighted adjacency matrix (Joshi et al., 2025).
+- **L3-L4 (outer graph):** Mechanical gates and drift predictors form a sparse functional graph whose nodes inspect disjoint feature sets \(\Phi_D\). These nodes activate at discrete event times (when hooks fire), not continuously.
+- **Coupling:** The inner graph (continuous-time self-attention over tokens) and outer graph (discrete-event gate firings) interact at hook execution points. At each coupling event, the outer graph's verdict modifies the inner graph's subsequent behavior — blocking a write, modifying a prompt, recording a drift signal.
+
+This is structurally distinct from both pure attention-only architectures (which lack external verification nodes) and pure rule-based systems (which lack neural adaptation). Understanding it requires a coupled-graph dynamical formalism.
+
+#### 3.3.2 Related Formalisms
+
+Three existing formalisms each capture a piece of the CTBV architecture, but none capture the whole:
+
+**Graph of Thoughts (GoT, Besta et al., 2024).** GoT models LLM reasoning as operations on a directed graph \(G = (V, E)\), where vertices are thought-units and edges are dependency relations. Reasoning transformations (aggregation, refinement, generation) map subgraphs to new vertices. GoT formalizes *what happens inside* the transformer's reasoning trace — it is a model of the **inner graph**. However, GoT has no concept of *external verification* — all operations are self-contained within the LLM's thought generation. There is no type-D verifier that can reject a thought based on features outside the token vocabulary.
+
+**Attention as Complete-Graph Message Passing (Joshi et al., 2025; El et al., 2025).** Self-attention can be reformulated as message passing on a complete directed graph \(K_n\): each token is a node, attention weights are edge weights, and the multi-head projection is a learned message function. This reveals that the transformer's "reasoning" is structurally equivalent to one round of GNN message passing on a fully connected graph — powerful but also brittle, since every node influences every other node. The complete graph has no *topological protection* — no structural barrier prevents a spurious compliance claim from propagating to all nodes.
+
+**ShieldAgent (Chen et al., ICLR 2025).** ShieldAgent introduces external verification via Linear Temporal Logic (LTL) rules organized into probabilistic rule circuits. An Action-based Safety Policy Model (ASPM) maps state-action pairs to rule-circuit activations. ShieldAgent is the closest prior work to CTBV's outer graph — it recognizes that external, non-neural rules are necessary. However, ShieldAgent's rules are *unidirectional*: they constrain the agent but the agent does not verify the rules. There is no bidirectional coupling.
+
+**Liquid Time-Constant Networks (LTC, Hasani et al., 2021).** LTCs introduce neurons with adaptive time constants \(\tau(t)\) governed by the ODE:
+
+\[
+\frac{dx}{dt} = -\frac{1}{\tau(t)} \cdot x + f(x, I, \theta)
+\]
+
+where \(\tau(t)\) is itself a function of the neuron's state — the neuron "decides" how fast to respond based on its current input. Cantini et al. (2024) derived the exact closed-form solution, enabling stable numerical integration. The key insight for CTBV: the **coupling strength** between the inner and outer graphs should be adaptive, not fixed. When drift risk is low, gates should be lightweight (low coupling). When drift risk is elevated, gates should intensify (high coupling). This is structurally analogous to LTC's adaptive time constant — a mechanism whose responsiveness scales with need.
+
+**What's missing.** GoT models the inner graph. ShieldAgent models a unidirectional outer graph. LTC provides adaptive dynamics but for single neurons, not coupled verification systems. No existing formalism combines: (a) an inner complete graph (transformer), (b) an outer functional graph (verification nodes), (c) discrete-event coupling between them, and (d) adaptive coupling strength governed by a learnable ODE. CTBV requires all four.
+
+#### 3.3.3 Formal Definition: Coupled Dual-Graph Dynamical System
+
+**Definition 7 (Inner Graph — Transformer as Complete Graph).** Let \(\mathcal{G}_{\text{in}}(t) = (V_T, E_T, W_T(t))\) be the inner graph at time \(t\), where:
+
+- \(V_T = \{v_1, \ldots, v_n\}\) are the \(n\) tokens in the context window.
+- \(E_T = V_T \times V_T\) is the complete directed edge set — every token attends to every token.
+- \(W_T(t) = [w_{ij}(t)]_{n \times n}\) is the attention weight matrix, where \(w_{ij}(t)\) is the attention weight from token \(i\) to token \(j\), aggregated across the transformer stack.
+
+The inner graph evolves continuously as the model autoregressively generates tokens: each new token adds a node and \(2n+1\) edges (in + out + self-loop), and the attention matrix is recomputed. The inner graph's dynamics are:
+
+\[
+\mathcal{G}_{\text{in}}(t+1) = \text{TransformerStep}(\mathcal{G}_{\text{in}}(t), x_{t+1}; \theta)
+\]
+
+where \(x_{t+1}\) is the newly generated token and \(\theta\) are the frozen model parameters.
+
+**Definition 8 (Outer Graph — Verification Nodes).** Let \(\mathcal{G}_{\text{out}} = (V_G, E_G)\) be the outer verification graph, where:
+
+- \(V_G = \{g_1, \ldots, g_k\}\) are the \(k\) mechanical gate hooks (type-D verifiers). Each \(g_i\) is a function \(g_i: \mathcal{S} \to \{0, 1\}\) operating on feature set \(\Phi_i \subset \mathcal{F}\).
+- \(E_G \subset V_G \times V_G\) are directed edges between gates representing execution dependencies — \(g_i \to g_j\) if \(g_j\) is only invoked after \(g_i\) completes (e.g., PreToolUse hooks execute before PostToolUse hooks).
+- The outer graph is **sparse**: \(|E_G| \ll k(k-1)\), reflecting the sequential hook execution model. Most gate pairs are independent.
+- The outer graph is **discrete-event**: gates fire only at hook execution points (tool calls, session state transitions), not continuously.
+
+**Definition 9 (Coupling Events).** The two graphs are coupled at discrete event times \(\{t_1, t_2, \ldots\}\), where each \(t_e\) is a hook execution moment. At coupling event \(t_e\):
+
+1. **Downward coupling (outer to inner):** The outer graph's verdict modifies the inner graph's subsequent trajectory. If \(g_i(s) = 0\) (gate blocks), the inner graph's generation is interrupted — the token that would have been generated is replaced, and \(\mathcal{G}_{\text{in}}(t_e^+)\) differs from what \(\mathcal{G}_{\text{in}}(t_e^-)\) would have produced.
+
+2. **Upward coupling (inner to outer):** The inner graph's behavior provides the state \(s\) that triggers the next gate evaluation. The content generated by \(\mathcal{G}_{\text{in}}\) determines which gates fire and with what verdict.
+
+Formally, at coupling event \(t_e\):
+
+\[
+\begin{aligned}
+\mathcal{G}_{\text{out}} \times \mathcal{G}_{\text{in}}(t_e^-) &\to \mathcal{G}_{\text{in}}(t_e^+) \\
+\mathcal{G}_{\text{in}}(t_e^-) &\to \text{trigger}(t_{e+1})
+\end{aligned}
+\]
+
+The coupling is **bidirectional** — each graph constrains the other. This distinguishes CTBV from both ShieldAgent (unidirectional outer to inner) and GoT (no outer graph at all).
+
+**Definition 10 (Adaptive Coupling Strength).** The intensity of the downward coupling (outer to inner) is governed by an adaptive coupling strength \(\lambda(t) \in [0, 1]\):
+
+\[
+\lambda(t) = \lambda_{\text{base}} + \Delta\lambda \cdot \tanh\left(\frac{D(t) - \theta_D}{\tau_D}\right)
+\]
+
+where:
+- \(\lambda_{\text{base}} \in [0, 1]\) is the minimum coupling strength (always-active essential gates, e.g., sensitive-path check).
+- \(\Delta\lambda = 1 - \lambda_{\text{base}}\) is the adaptive range.
+- \(D(t) \in [0, 100]\) is the L4 drift risk score, computed from 8 features via `drift_predictor.py` (see §5.5 and Lin, 2026, Experiment 13).
+- \(\theta_D\) is the drift threshold — when \(D(t) > \theta_D\), coupling strength increases.
+- \(\tau_D\) controls the transition smoothness — large \(\tau_D\) gives gradual escalation; small \(\tau_D\) gives sharp switching.
+
+When \(D(t) \ll \theta_D\) (low drift risk): \(\lambda(t) \approx \lambda_{\text{base}}\) — minimal gates active, low overhead.
+When \(D(t) \gg \theta_D\) (high drift risk): \(\lambda(t) \approx \lambda_{\text{base}} + \Delta\lambda = 1\) — full gate coverage, maximum protection.
+When \(D(t) \approx \theta_D\): \(\lambda(t)\) transitions smoothly via the \(\tanh\) sigmoid.
+
+This formulation follows the **Liquid Time-Constant (LTC)** formalism (Hasani et al., 2021), where the neuron's time constant \(\tau(t)\) adapts based on input. Here, the coupling strength \(\lambda(t)\) adapts based on drift risk — the architecture "decides" how tightly to couple based on how much drift it detects. Cantini et al. (2024) proved that LTC ODEs admit exact closed-form solutions, enabling stable and efficient numerical integration. Our \(\tanh\) parameterization inherits this stability — \(\lambda(t)\) is bounded in \([\lambda_{\text{base}}, 1]\) and varies smoothly, preventing oscillation.
+
+#### 3.3.4 Empirical Instantiation: L4 Drift Score as Coupling Controller
+
+The adaptive coupling mechanism was empirically tested in a 12-day retrospective analysis (Lin, 2026, Experiment 13). The L4 drift score \(D(t)\) is computed from 8 features with calibrated weights derived from 34-session retrospective coding (55.9% violation rate baseline):
+
+\[
+D(t) = 100 \cdot \sum_{i=1}^{8} w_i \cdot f_i(t)
+\]
+
+where the features and weights are:
+
+| Feature \(f_i\) | Weight \(w_i\) | Type |
+|----------------|---------------|------|
+| \(f_1\): rule_count | +0.10 | Risk (more rules = more complexity) |
+| \(f_2\): unhooked_rules | +0.20 | Risk (no mechanical protection) |
+| \(f_3\): session_age_turns | +0.08 | Risk (long sessions = drift accumulation) |
+| \(f_4\): compact_count | +0.12 | Risk (compaction rewrites context) |
+| \(f_5\): tool_diversity | +0.05 | Risk (more tools = more switch cost) |
+| \(f_6\): days_since_audit | +0.15 | Risk (stale audit = undetected drift) |
+| \(f_7\): gate_coverage | -0.20 | Protective (more hooks = less risk) |
+| \(f_8\): pre_check_compliance | +0.10 | Risk (skip history = habitual bypass) |
+
+**Empirical finding (2026-07-28):** Under full CTBV deployment (gate_coverage = 1.0, unhooked_rules = 0), \(D(t) \equiv 0\) for all observed sessions. The drift score has zero variance in the available data — the mechanical gates suppress drift so effectively that the predictor receives no signal. This is a **self-limiting property** of CTBV: the architecture prevents the very variance the adaptive coupling mechanism needs to demonstrate its utility.
+
+The practical implication: \(\lambda(t)\) adaptive scheduling is a **theoretically sound safety net** that activates when gate coverage degrades (e.g., during maintenance, hook removal, or partial deployment), but is empirically silent under full protection. The mechanism is analogous to an emergency brake — it must be present and testable, even if normal operation never triggers it.
+
+#### 3.3.5 Comparison of Dynamical Formalisms
+
+| Property | GoT (Besta 2024) | ShieldAgent (Chen 2025) | LTC (Hasani 2021) | **CTBV (this work)** |
+|----------|------------------|------------------------|-------------------|---------------------|
+| Inner graph model | Directed graph \(G=(V,E)\) | — (no inner graph formalism) | — (single neuron ODE) | Complete graph \(K_n\) (attention) |
+| Outer verifier | — (self-contained) | LTL rules + ASPM | — (no verification) | Type-D gates on \(\Phi_D\) |
+| Coupling direction | — (no coupling) | Unidirectional (rule to agent) | — (no coupling) | **Bidirectional** (inner to outer) |
+| Event model | Continuous (reasoning steps) | Discrete (action triggers) | Continuous (ODE) | **Hybrid** (continuous inner + discrete-event outer) |
+| Adaptive mechanism | — (fixed topology) | Probabilistic rule circuits | \(\tau(t)\) via ODE | \(\lambda(t) = \lambda_{\text{base}} + \Delta\lambda \cdot \tanh(\frac{D(t)-\theta_D}{\tau_D})\) |
+| Bidirectional verification | No | No | No | **Yes** |
+| Self-limiting property | — | — | — | \(D(t) \equiv 0\) under full coverage |
+
+**Key structural difference.** GoT, ShieldAgent, and LTC each model one subsystem. CTBV models the *interaction between subsystems* — the bidirectional coupling between a complete inner graph (attention over tokens) and a sparse outer graph (verification over features). The novelty is not in any single component but in the **coupled architecture** and its **adaptive coupling strength**.
 
 ---
 
@@ -484,6 +630,14 @@ We introduced Cross-Type Bidirectional Verification, a formal framework where de
 18. Willison, S. (2025). "Vibe Coding and the Accumulation of Understanding Debt." simonwillison.net.
 19. Nielsen, M. & Matuschak, A. (2018). "Augmenting Long-term Memory." augmentingcognition.com.
 20. Roediger, H. L. & Karpicke, J. D. (2006). "Test-Enhanced Learning: Taking Memory Tests Improves Long-Term Retention." Psychological Science.
+21. Besta, M., Blach, N., Kubicek, A., et al. (2024). "Graph of Thoughts: Solving Elaborate Problems with Large Language Models." AAAI 2024.
+22. Joshi, C., El, M., et al. (2025). "Attention is a Message Passing Layer on a Complete Graph." Preprint.
+23. El, M., Joshi, C., et al. (2025). "Understanding Attention via Graph Neural Networks." Preprint.
+24. Chen, Z., Wang, P., et al. (2025). "ShieldAgent: Shielding Action-Based Agents via Verifiable Safety Policy in Dynamic Environments." ICLR 2025.
+25. Hasani, R., Lechner, M., Amini, A., Rus, D., & Grosu, R. (2021). "Liquid Time-Constant Networks." AAAI 2021.
+26. Cantini, R., Bargi, A., Saracco, F., & Panella, M. (2024). "On the Dynamics Underlying Liquid Time-Constant Networks." Neural Networks.
+27. Cousot, P. & Cousot, R. (1977). "Abstract Interpretation: A Unified Lattice Model for Static Analysis of Programs by Construction or Approximation of Fixpoints." POPL 1977.
+28. Lin, Y. (2026). "L4 Drift Predictive Validation Experiment." hermes-workspace, paper/experiment/l4-drift-predictive-validation-results.md.
 
 ---
 

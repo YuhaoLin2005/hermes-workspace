@@ -36,6 +36,34 @@ pipeline:
     blocked_by: [cross-model-gpt]
     status: not_started
 
+  - id: l4-drift-validation
+    claim: claim-5
+    description: "L4 漂移预测验证实验——检验 8 特征 drift score 是否预测后续 session 违规"
+    priority: 4
+    impact: "CTBV 自限性特性发现：机械门覆盖率压制预测器方差——可发表"
+    effort: "~1h 数据分析"
+    blocks: [academic-architecture-insertion]
+    blocked_by: []
+    status: completed
+    completed_at: 2026-07-28
+    finding: "HONEST_FAILURE — D_i variance=0 (gate_coverage=1.0) → original hypothesis untestable. Fallback: gap clustering present, lag-1 autocorr n.s. Self-limiting property of CTBV confirmed."
+    output: "paper/experiment/l4-drift-predictive-validation-results.md"
+    sha256: "5c9e4aef20389de23ed97a532554ccf17f11e5b3f779fc424e40b239bef7b5a4"
+
+  - id: academic-architecture-insertion
+    claim: claim-1
+    description: "将 Coupled Dual-Graph Dynamical System 形式化 + LNN ODE lambda(t) 自适应调度插入 CTBV 论文"
+    priority: 3
+    impact: "论文理论深度 5→7/10；GoT/ShieldAgent/Complete-Graph Message Passing 学术定位"
+    effort: "~1h writing"
+    blocks: [paper-draft-complete]
+    blocked_by: [l4-drift-validation]
+    status: completed
+    completed_at: 2026-07-28
+    output: "paper/theory/cross-type-bidirectional-verification.md §3.3 (4 definitions + 5 formalisms compared + LNN ODE)"
+    paper_lines: "530 → 684 (+154 lines)"
+    sections_added: ["§3.3 Dynamical System Formulation", "§2.4 Graph-Theoretic and Dynamical Perspectives", "References 21-28"]
+
   - id: paper-draft-complete
     description: "完成论文五章完整草稿"
     priority: 4
@@ -94,5 +122,5 @@ total_estimated_effort: "~50h"
 双池专家团参与新增实验或重排优先级的评分。
 
 ---
-*最后更新: 2026-07-19*
+*最后更新: 2026-07-28*
 *交叉引用: [[../dashboard]] [[content-pipeline]] [[../paper/claims]]*
