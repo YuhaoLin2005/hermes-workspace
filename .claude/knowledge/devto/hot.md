@@ -9,10 +9,11 @@ articles:
     date: 2026-07-26
     domain: experiment
     claims: [claim-1, claim-2, claim-3, claim-4, claim-5, claim-8, claim-9]
-    commenters: [mike, dipankar, max, rene]
+    commenters: [mike, dipankar, max, rene, yunetzi]
     numbers: "38 gates, 9 sessions, 339 entries, 87% noise; κ = 0.00; DPO 150 pairs"
     finding: "CTBV: orthogonal blind spots → joint error = 0; working gates check what LLMs can't fake"
     status: active
+    reply_status: "浏览器验证 2026-08-14: mike 7-29 (shared-cause + cheapest-bypass) + yunetzi 7-26 (external audit) 未回 — Draft 3/5 已备"
 
   - slug: cross-model
     title: "Your AI Gate Works Perfectly — Until You Switch Models"
@@ -20,10 +21,11 @@ articles:
     date: 2026-07-18
     domain: experiment
     claims: [claim-9]
-    commenters: [mike]
+    commenters: [mike, james-sanderson]
     numbers: "DS Pro 5/5→2/5; DS Flash 100% hollow; Qwen T1=40% T5=0%"
     finding: "Gateability = rule_structure × model_capability (2D space)"
     status: active
+    reply_status: "浏览器验证 2026-08-14: 线程已全部回复 (7-23 E1a+E1b+decomposition)"
 
   - slug: pre-reg
     title: "I Pre-Registered a Hypothesis. 600 API Calls Later, the Data Killed It."
@@ -46,6 +48,7 @@ articles:
     numbers: "33 persona独立幻觉; 跨模型decorrelation测试"
     finding: "33个persona同意≠33个独立判断；命名原则锚定→去关联前提→真独立性需跨模型验证"
     status: active
+    reply_status: "浏览器验证 2026-08-14: 7-22 已回 (E1b), 但 mike 7-27 follow-up (premise-decorrelation 是否独立存活) 未回 — Draft 4 已备"
 
   - slug: dpo-causal
     title: "I DPO-Trained a Model to Prefer Causal Reasoning. The Base Model Already Did — It Just Couldn't Act On It."
@@ -60,4 +63,4 @@ articles:
 
 ```
 
-*tier: hot | count: 5 | updated: 2026-08-14 | expert-board/cross-model 回复草稿已备（reply-drafts-2026-08-14.md），待 voice gate*
+*tier: hot | count: 5 | updated: 2026-08-14 (浏览器验证回复状态) | 真实未回 4 条草稿已备（reply-drafts-2026-08-14.md D3/D4/D5/D6），待 voice gate*

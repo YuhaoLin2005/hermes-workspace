@@ -12,7 +12,8 @@
 - **论文章节**: Full thesis synthesis — Prose Barrier + Three Paths + Gate Audit + CTBV Theory
 - **关键数字**: 38 gates, 9 sessions, 339 entries, 87% noise; κ = 0.00; DPO 150 pairs
 - **核心发现**: Gate audit revealed 87% noise; working gates check things LLMs physically can't fake; CTBV (Cross-Type Bidirectional Verification) — orthogonal blind spots → joint error = 0
-- **关联评论者**: Mike Czerwinski, Dipankar Sarkar, Max Quimby, René Zander
+- **关联评论者**: Mike Czerwinski, Dipankar Sarkar, Max Quimby, René Zander, Yunetzi
+- **回复状态**: 浏览器验证 2026-08-14 — mike 7-29 (shared-cause + cheapest-bypass companion metric) + yunetzi 7-26 (external audit/governance) 未回 → reply-drafts-2026-08-14.md Draft 3/5 已备，待 voice gate
 
 ### [cross-model] Your AI Gate Works Perfectly — Until You Switch Models
 - **URL**: https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0
@@ -22,8 +23,8 @@
 - **关键实验**: P1-1 cross-model (200 API calls, 3 models)
 - **关键数字**: DS Pro alignment 5/5→2/5; DS Flash 100% checklist=空心合规
 - **核心发现**: Gateability = rule_structure × model_capability; compliance=f(mechanizability) for DS Pro
-- **关联评论者**: Mike Czerwinski
-- **回复状态**: James Sanderson 7-21 问跨模型梯度是否洗牌 → 草稿已备 (reply-drafts-2026-08-14.md Draft 2)，待 voice gate
+- **关联评论者**: Mike Czerwinski, James Sanderson
+- **回复状态**: 浏览器验证 2026-08-14 — 线程已全部回复 (7-23 E1a+E1b+decomposition)。James 7-21 已回
 
 ### [search] Search Didn't Make Your LLM Dumber. Unweighted Context Did.
 - **URL**: https://dev.to/yuhaolin2005/your-web-search-is-making-the-model-dumber-4dj9
@@ -37,7 +38,8 @@
 - **Published**: 2026-07-11
 - **关键实验**: GateGuard on/off; syllogism vs imperative; 55.9%→0.7%
 - **核心发现**: Mechanical gate eliminates format effect; ceiling effect IS the finding
-- **关联评论者**: Mike Czerwinski, Dipankar Sarkar, René Zander, Alex Shevchenko, CodeKitHub
+- **关联评论者**: Mike Czerwinski, Dipankar Sarkar, René Zander, Alex Shevchenko, CodeKitHub, Reliable AI Delivery
+- **回复状态**: 浏览器验证 2026-08-14 — Reliable AI Delivery 7-18 (evidence provenance: enforcement vs provenance 双契约 + receipt 绑定 revision) 未回 → reply-drafts-2026-08-14.md Draft 6 已备，待 voice gate
 
 ### [pre-reg] I Pre-Registered a Hypothesis. 600 API Calls Later, the Data Killed It.
 - **URL**: https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec
@@ -134,7 +136,7 @@
 - **主题**: 命名原则锚定→去关联前提→33 persona独立幻觉
 - **核心发现**: 33个persona同意≠33个独立判断；跨模型decorrelation测试才能验证专家团是否真独立
 - **关联评论者**: Mike Czerwinski
-- **回复状态**: Mike 7-22 说跨模型 Carmack 才是真独立性指标 → E1b-v2 探针确认 costumes → 草稿已备 (reply-drafts-2026-08-14.md Draft 1)，待 voice gate
+- **回复状态**: 浏览器验证 2026-08-14 — 7-22 已回 (E1b costumes)，但 Mike 7-27 follow-up (premise-decorrelation/source-checkable citation 是否独立于 board 隐喻存活) 未回 → reply-drafts-2026-08-14.md Draft 4 已备，待 voice gate
 
 
 ### [zero-output] Your AI Agent's Best Work Produces Zero Output — And That's the Point
@@ -232,4 +234,4 @@
 
 ---
 
-*最后更新: 2026-08-14 — 31/31**
+*最后更新: 2026-08-14 (浏览器验证回复状态: cross-model/expert-board 已回, audit-ctbv/150-tasks 未回草稿已备) — 31/31**

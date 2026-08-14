@@ -15,7 +15,7 @@ dashboard:
     total_reactions: 29  # 2026-08-12 browser-verified (analytics 32 posts · 45 comments · 54 reactions)
     total_views: 1235  # 2026-08-12 browser-verified (was 1040)
     notable_commenters: ['Dipankar Sarkar', 'Max Quimby', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
-    unread_comments: 0  # 2026-08-12 browser-verified (5 unread notifications all new-post, 0 unread comments). ⚠️ replies.md 本地日志仍标 2 条 unread (mike/expert-board 7-22 + james/cross-model 7-21) — 口径差异待发前在 dev.to 复验 (可能已读过但未本地同步, 或通知已清但未回复)
+    unread_comments: 4  # 2026-08-14 browser-verified (dev.to 通知中心无未读通知, 但文章页确认 4 条真实未回复: mike/audit-ctbv 7-29, yunetzi/audit-ctbv 7-26, mike/expert-board 7-27, RAD/150-tasks 7-18). ⚠️ 原 2 条 unread 已过期 — 实际 7-23 已回复 (浏览器确认), 已更正 replies.md
 
   juejin:
     articles: 20
@@ -74,7 +74,7 @@ dashboard:
     # (manually maintained — preserved across sync runs)
 
   data_gaps_since: 2026-08-12  # remaining gap: target_deadline (pending professor response). All platform metrics browser-verified 2026-08-12
-  last_updated: 2026-08-14  # E1b-v2 drift probe experiment +18, devto reply drafts (voice gate pending)
+  last_updated: 2026-08-14  # E1b-v2 drift probe experiment +18, devto reply drafts browser-verified (voice gate pending); unread_comments 0→4 (真实未回复)
 ```
 
 

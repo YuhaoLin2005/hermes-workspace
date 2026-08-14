@@ -12,24 +12,60 @@ replies:
     date: 2026-07-18
     status: replied
     reply_
-  # === expert-board (NEW article) ===
+  # === expert-board (browser-verified 2026-08-14) ===
   - article: expert-board
     commenter: mike
     thread: "named-principle-anchor"
     date: 2026-07-22
-    status: unread
+    status: replied  # 7-23 已回 (E1a+E1b costumes 数据); 浏览器验证 2026-08-14
     reply_summary: "Named-principle decorelates premise but not inference. 33 personas agreeing = one engine in 33 mirrors. Cross-model Carmack test is the real independence metric."
-    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 1 (E1b costumes + v2 drift probe)
+    voice_checked: yes
+
+  - article: expert-board
+    commenter: mike
+    thread: "premise-decorrelation-survival"  # follow-up: 前提去关联/可核验引用是否独立于 board 隐喻存活
+    date: 2026-07-27
+    status: unread
+    reply_summary: "premise-decorrelation + source-checkable citation 是否在 reframe 后独立存活 (不依赖 33-minds framing)。"
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 4
     voice_checked: no
 
-  # === cross-model (NEW) ===
+  # === cross-model (browser-verified 2026-08-14) ===
   - article: cross-model
     commenter: james-sanderson
     thread: "scanner-vs-compliance"
     date: 2026-07-21
-    status: unread
+    status: replied  # 7-23 已回 (P1-1 + L2a/L2b + reshuffle); 浏览器验证 2026-08-14
     reply_summary: "Scanner scores checkability but compliance is model property. DS Pro compliance=f(mechanizability). Did cross-model gradient reshuffle?"
-    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 2 (two-axis reshuffle answer)
+    voice_checked: yes
+
+  # === audit-ctbv (NEW — 文章晚于 last_sync, 浏览器验证 2026-08-14) ===
+  - article: audit-ctbv
+    commenter: mike
+    thread: "shared-cause-failure"  # Theorem 1 stress test: 运行时正交≠起源独立; cheapest-bypass companion metric
+    date: 2026-07-29
+    status: unread
+    reply_summary: "Orthogonal at runtime ≠ independent in origin. Shared-cause failure (designer's imagination). Companion metric: cheapest bypass per surviving gate."
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 3 (重写, 基于真实评论)
+    voice_checked: no
+
+  - article: audit-ctbv
+    commenter: yunetzi
+    thread: "external-audit-governance"  # self-verification mirage → 独立审计/防篡改日志/治理激励
+    date: 2026-07-26
+    status: unread
+    reply_summary: "Self-verification is a mirage. Need external audits, tamper-evident logs, governance/incentives. Independent AI auditors + public decision logs?"
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 5
+    voice_checked: no
+
+  # === 150-tasks (NEW — 浏览器验证 2026-08-14) ===
+  - article: 150-tasks
+    commenter: reliable-ai-delivery
+    thread: "evidence-provenance"  # 两条: enforcement vs provenance 双契约; receipt 绑定 revision/command/output
+    date: 2026-07-18
+    status: unread
+    reply_summary: "Two contracts: enforcement coverage vs evidence provenance. Gate must bind receipt to revision/command/output/coverage boundary."
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 6
     voice_checked: no
 
   # === pre-reg (NEW) ===
@@ -181,11 +217,13 @@ summary: "DS Pro compliance=f(mechanizability). Flash hollow, Qwen low. Confirme
     voice_checked: yes
 
 summary:
-  total_tracked: 20
-  unreplied: 2
-  drafts_ready: 2   # 2026-08-14 草稿已备 (reply-drafts-2026-08-14.md)，待用户把关
-  untracked_since: audit-ctbv (7-26) 评论未入库 — 文章晚于 last_sync, 需人工导入
-  last_sync: 2026-07-22
+  total_tracked: 24
+  unreplied: 4
+  drafts_ready: 4   # 2026-08-14 浏览器验证后重写 (reply-drafts-2026-08-14.md D3/D4/D5/D6)，待用户把关
+  voice_checked: no
+  # ⚠️ 2026-08-14 浏览器验证结论: 原 2 条 unread (mike/expert-board 7-22 + james/cross-model 7-21) 实际已回复 (7-23) → 改为 replied。
+  # 真实未回复 4 条: mike/audit-ctbv 7-29 (shared-cause) · yunetzi/audit-ctbv 7-26 · mike/expert-board 7-27 (follow-up) · RAD/150-tasks 7-18 (evidence provenance)
+  last_sync: 2026-08-14
 ```
 
 ## 机制
