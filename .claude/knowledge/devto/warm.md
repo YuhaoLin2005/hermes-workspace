@@ -60,6 +60,16 @@ articles:
     finding: "自验证规则→L1 gate前身"
     status: active
 
+  - slug: search
+    title: "Search Didn't Make Your LLM Dumber. Unweighted Context Did."
+    url: https://dev.to/yuhaolin2005/your-web-search-is-making-the-model-dumber-4dj9
+    date: 2026-07-03
+    domain: experiment
+    claims: []
+    commenters: [alice, mike]
+    finding: "Search quality drop源于未加权上下文，非检索本身"
+    status: active
+
   - slug: dual-pool
     title: "I Built a Dual-Pool Adversarial Review System for AI Agents — And It Actually Works"
     url: https://dev.to/yuhaolin2005/i-built-a-dual-pool-adversarial-review-system-for-ai-agents-and-it-actually-works-595j
@@ -107,5 +117,82 @@ articles:
     domain: tutorial
     finding: "个人脚本→开源PR的工作流方法论"
     status: active
+
+  - slug: 150-tasks
+    title: "I Ran 150 Tasks to Test If AI Agents Follow Rules — The Answer Surprised Me"
+    url: https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670
+    date: 2026-07-11
+    domain: experiment
+    claims: [claim-2, claim-7]
+    commenters: [mike, dipankar, rene, alex, codekithub]
+    numbers: "55.9%→0.7%; 19/19 behavioral tests; 150 tasks × 2 formats"
+    finding: "Mechanical gate eliminates format effect; ceiling effect IS the finding"
+    status: active
+
+  - slug: neural-gate
+    title: "I Built a Neural Gate for My AI Agent — Layer 2 of Self-Verification"
+    url: https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2
+    date: 2026-07-10
+    domain: experiment
+    claims: [claim-3, claim-5, claim-7]
+    commenters: [mike, rene]
+    numbers: "d=+0.578 BF=282k; 32/40 probes favoring syllogistic"
+    finding: "Logprob-based L2 gate; decision-token targeting; L1-visibility synergy"
+    status: active
+
+  - slug: self-verify
+    title: "AI Agents Can't Self-Verify — And That's a Structural Constraint, Not a Bug"
+    url: https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l
+    date: 2026-07-10
+    domain: architecture
+    claims: [claim-1]
+    commenters: [rene]
+    numbers: "Prose Barrier identified; 平行发明(René Zander/skillgate)"
+    finding: "Self-verification is structurally unreliable — shares generation distribution"
+    status: active
+
+  - slug: meta-cognition
+    title: "Meta-Cognition Is the Future of AI Personalization — A 4-Quadrant Framework to Build It"
+    url: https://dev.to/yuhaolin2005/meta-cognition-is-the-future-of-ai-personalization-a-4-quadrant-framework-to-build-it-5fki
+    date: 2026-07-09
+    domain: architecture
+    claims: []
+    commenters: []
+    numbers: "4-quadrant framework"
+    finding: "元认知框架——self-model的理论基础"
+    status: active
+
+  - slug: self-referential
+    title: "I Built a Self-Referential AI System. Then Anthropic Discovered the Same Architecture in Claude."
+    url: https://dev.to/yuhaolin2005/i-built-a-self-referential-ai-system-then-anthropic-discovered-the-same-architecture-in-claude-3m73
+    date: 2026-07-07
+    domain: architecture
+    claims: []
+    commenters: []
+    numbers: "Strange Loop; 平行发现 Anthropic J-Space"
+    finding: "自指环架构——独立发现后被Anthropic论文验证"
+    status: active
+
+  - slug: feedback
+    title: "Your Feedback Made This Better — Here's What Changed"
+    url: https://dev.to/yuhaolin2005/your-feedback-made-this-better-heres-what-changed-4ol2
+    date: 2026-07-13
+    domain: experiment
+    claims: [claim-2, claim-3, claim-4]
+    commenters: [mike, dipankar, alice]
+    numbers: "5 community-driven improvements"
+    finding: "Community feedback→paper improvements documented"
+    status: active
+
+  - slug: follow-up
+    title: "Follow-Up: Decision-Token Measurement, Format-as-Fallback, and What Changed"
+    url: https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo
+    date: 2026-07-13
+    domain: experiment
+    claims: [claim-8]
+    commenters: [dipankar, codekithub]
+    numbers: "code+gate mech=5.0 reason=4.2; prose+gate reason=4.42"
+    finding: "Format×Gate interaction; prose format consistently better for reasoning"
+    status: active
 ```
-*tier: warm | count: 12 | 2026-07-24*
+*tier: warm | count: 20 | 2026-08-14*

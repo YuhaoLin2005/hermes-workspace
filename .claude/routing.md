@@ -39,6 +39,7 @@
 每次 session 做了任何事后，收尾序列：
 1. 更新 `dashboard.md` 对应数字
 2. 回复了评论 → 更新 `replies.md`
+2b. GitHub 新通知 → 分类录入 `github/notifications.md`（真人→要回复 / bot→信息）；合并/状态变化 → 真打开核对后更新 `github-strategy.md` + dashboard，再标 done
 3. 实验完成 → 更新 `research-pipeline.md` → 检查 `content-pipeline.md` depends_on
 4. 新文章 → 更新 KB hot/warm/cold + dashboard
 5. 新 PR/issue → 更新 `github-strategy.md` + dashboard
@@ -89,6 +90,7 @@ routes:
 | kb-strategy | `.claude/knowledge/strategy/` | dashboard+pipeline×3+github | 2026-07-19 |
 | kb-devto | `.claude/knowledge/devto/` | hot(12)+warm(12)+cold(7)+commenters+experiments+replies | 2026-07-24 |
 | kb-juejin | `.claude/knowledge/juejin/` | hot(7)+warm(11)+cold(2) | 2026-07-24 |
+| kb-github | `.claude/knowledge/github/` | notifications（收件箱待办分类管线，镜像 devto/replies） | 2026-08-12 |
 | kb-paper | `.claude/knowledge/paper/` | claims+structure | 2026-07-19 |
 | kb-code | `.claude/knowledge/code/` | overview+scripts | 2026-07-19 |
 | persona-principles | `~/.claude/.../memory/persona-principles.md` | 全场景人物原则+来源+置信度 | 2026-07-11 |
@@ -105,6 +107,7 @@ routes:
 | paper/ (论文/补充) | kb-paper | 论文结构或声明变更 |
 | paper-validator/ (代码) | kb-code | 新脚本/新实验/目录变化 |
 | strategy/ (策略) | kb-strategy | dashboard >7d 未更新 |
+| GitHub 通知 | kb-github | 新通知到达后未分类 > 7d |
 | paper/experiment/ | kb-code, kb-strategy | 新原始实验 → pipeline + dashboard 均需更新 |
 | persona-principles.md | persona-principles KB | 新增人物或原则变更 |
 | persona-pool.md | persona-pool KB | 管理员/工人/角色/随机池规则变更 |
@@ -122,7 +125,7 @@ routes:
 
 ---
 
-*最后更新: 2026-07-24*
+*最后更新: 2026-08-12*
 *这就是数字分身——一张表。不需要 agent，不需要新架构。*
 
 ## Session 启动序列

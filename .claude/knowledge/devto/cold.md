@@ -59,4 +59,4 @@ articles:
     finding: "第一篇DEV.to; compaction quality degradation"
     status: historical
 ```
-*tier: cold | count: 7 | 2026-07-24*
+*tier: cold | count: 7 | 2026-08-14*

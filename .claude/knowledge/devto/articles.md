@@ -23,6 +23,7 @@
 - **关键数字**: DS Pro alignment 5/5→2/5; DS Flash 100% checklist=空心合规
 - **核心发现**: Gateability = rule_structure × model_capability; compliance=f(mechanizability) for DS Pro
 - **关联评论者**: Mike Czerwinski
+- **回复状态**: James Sanderson 7-21 问跨模型梯度是否洗牌 → 草稿已备 (reply-drafts-2026-08-14.md Draft 2)，待 voice gate
 
 ### [search] Search Didn't Make Your LLM Dumber. Unweighted Context Did.
 - **URL**: https://dev.to/yuhaolin2005/your-web-search-is-making-the-model-dumber-4dj9
@@ -133,6 +134,7 @@
 - **主题**: 命名原则锚定→去关联前提→33 persona独立幻觉
 - **核心发现**: 33个persona同意≠33个独立判断；跨模型decorrelation测试才能验证专家团是否真独立
 - **关联评论者**: Mike Czerwinski
+- **回复状态**: Mike 7-22 说跨模型 Carmack 才是真独立性指标 → E1b-v2 探针确认 costumes → 草稿已备 (reply-drafts-2026-08-14.md Draft 1)，待 voice gate
 
 
 ### [zero-output] Your AI Agent's Best Work Produces Zero Output — And That's the Point
@@ -230,4 +232,4 @@
 
 ---
 
-*最后更新: 2026-07-24 — 31/31**
+*最后更新: 2026-08-14 — 31/31**

@@ -358,6 +358,7 @@ entirely mediates format effects.}
 
 \subsection{P1-1 Cross-Model: Scanner Calibration}
 \label{sec:p1-1-cross}
+\label{sec:scanner}
 
 \textbf{Design.} 5 tasks $\times$ 20 trials $\times$ 2 models = 200 calls.
 \textbf{Results.} DS Flash: 100\%/95\%/100\%/95\%/25\% (hollow compliance).
@@ -369,12 +370,29 @@ Qwen3.6-35B: 40\%/70\%/10\%/40\%/0\%. Scanner alignment: 3/5 tasks agree.
 
 \textbf{Design.} 3 personas (Carmack, Torvalds, Knuth) $\times$ 2 models (DS V4
 Pro, Kimi K2.7) $\times$ 5 snippets = 30 calls. Blind LLM-as-judge scoring.
+All E1/E1b calls were collected 2026-07-23 on the provider snapshots
+\texttt{deepseek-ai/DeepSeek-V4-Pro} and \texttt{moonshotai/Kimi-K2.7-Code}
+(\texttt{pre\_reg\_hash} 9c80bad7). Model providers may have updated these
+snapshots since; reported values are snapshot-specific.
 
-\textbf{Results.} Cross-model same-persona agreement: \textbf{1.000} ($n=15$).
-Within-model diff-persona: \textbf{0.867} ($n=30$). Persona drives judgment---
-genuine independence, not costume diversity. \textbf{Caveat:} ceiling effect
-(4/5 unanimous). \textbf{E1b Replication:} 14 discriminating snippets $\times$ 3
-personas $\times$ 2 models $+$ control = 112 calls. Fleiss' $\kappa$ pending.
+\textbf{E1 results (exploratory).} Cross-model same-persona agreement:
+\textbf{1.000} ($n=15$). Within-model diff-persona: \textbf{0.867} ($n=30$).
+On the original 5 snippets, persona appeared to drive judgment---genuine
+independence, not costume diversity. \textbf{Caveat:} ceiling effect (4/5
+snippets unanimous), so the rates sat at the measurement maximum.
+
+\textbf{E1b replication (falsifies the naive reading).} To remove the ceiling,
+14 discriminating snippets were selected and the design was extended to 3
+personas $\times$ 2 models $+$ control = 112 calls (pre-registered hash
+9c80bad7). The result reverses the E1 conclusion. Fleiss' $\kappa$ across all
+six persona-rater conditions: \textbf{0.049} (95\% CI $[-0.05, +0.11]$)---no
+agreement beyond chance. Same persona across models (the test of whether
+persona drives judgment): carmack 0.36, torvalds 0.57, knuth 0.29.
+Within-model, different personas: DS 0.40, Kimi 0.64. Control (no persona,
+both models): $\kappa=-0.29$. Agreement does not track the persona across
+models, so the E1 ``independence'' was a ceiling artifact: the board reads as a
+multi-model ensemble with persona-guided attention, not as independent expert
+perspectives.
 
 \subsection{DPO Training: Behavioral Internalization}
 \label{sec:dpo}
@@ -412,10 +430,15 @@ expert combinations without manual selection.
 
 \subsection{The Core Limitation}
 
-E1 (Section~\ref{sec:e1}) directly tests the central claim: named-persona
-review provides genuine independence, not costume diversity. Initial results
-promising but ceiling-limited. System explicitly acknowledges: 33 personas on
-same model = same inference engine in 33 costumes.
+E1b (Section~\ref{sec:e1}) directly tests the central claim: named-persona
+review provides genuine independence, not costume diversity. It does not.
+With ceiling effects removed, agreement across the same persona on different
+models is low (0.29--0.57) and overall Fleiss' $\kappa$ is 0.049---consensus
+at the snippet level does not exceed chance. The honest description is the one
+the system already printed: 33 personas on the same model is one inference
+engine in 33 costumes. Independence is a measured property, not a design
+choice; the dual-pool system's value is as a multi-model ensemble, and its
+reliability rests on base-model diversity rather than on named personas.
 
 \section{Discussion}
 
@@ -585,6 +608,13 @@ only layer that provides genuine independence from the generation process.
 
 \item \textbf{Single-model logprob evidence.} Logprob V3 and constraint gradient
   conducted on DeepSeek V4 Pro only.
+
+\item \textbf{Model-snapshot specificity.} Every reported value is pinned to
+  the provider model snapshot available at collection time (E1/E1b:
+  2026-07-23, \texttt{DeepSeek-V4-Pro} + \texttt{Kimi-K2.7-Code}). Provider
+  updates since (e.g.\ the official DeepSeek V4 release) may shift exact point
+  estimates, though not the structural conclusions, which rest on experimental
+  architecture rather than on specific weights.
 
 \item \textbf{Small samples.} Constraint gradient $n=12$/level. L0 Safety
   $n=5$ non-ceiling probes. Cross-model behavioral $n=12$, underpowered.

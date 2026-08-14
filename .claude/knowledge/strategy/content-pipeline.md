@@ -51,6 +51,20 @@ content_queue:
     priority: 4
     status: recurring
     note: "中文改编——不同平台不同声音。掘金加更多技术细节，DEV.to 重叙事"
+
+  - slug: memory-benchmark
+    trigger: "O5 baseline 跑出后(M1-M5 评分卡)"
+    platform: devto
+    angle_candidates:
+      - "我给我的记忆系统测了个基准——触发表覆盖率八成，但自指环闭环率才是真问题"
+      - "腾讯开源 15k star 记忆框架，我对比后最该修的原来不是记忆，是信号消费"
+      - "平行发明 x2：行业验证了我的方向，但暴露了我没测整体"
+    claims: []
+    priority: 1
+    status: waiting_for_benchmark
+    depends_on:
+      experiment: memory-benchmark        # O5 协议 v1 (2026-08-13)
+    dual_pool_design: [Jobs, Traynor, Cagan]
 ```
 
 ## 触发规则

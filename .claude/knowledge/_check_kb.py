@@ -147,8 +147,9 @@ def check_all():
 
         persistent_unknowns = []
         for field in unknown_fields:
-            # Skip fields that are inherently manual (followers, stars)
-            if field in ('followers', 'total_reactions', 'unread_comments'):
+            # Skip fields that are inherently manual (no API/automation)
+            if field in ('followers', 'total_reactions', 'unread_comments',
+                         'target_deadline', 'total_api_calls_used', 'session_streak'):
                 continue
             persistent_unknowns.append(field)
 
@@ -217,18 +218,30 @@ def check_all():
 
 
 if __name__ == '__main__':
-    import io
+    import io, json
+    # Write ALL output to stderr so Stop hook mechanism surfaces it visibly
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    out = sys.stderr  # redirect to stderr for hook visibility
+    # stop_hook_active: harness contract — repeated activation must return 0
+    # (prevents warnings-only from locking the turn in an infinite loop)
+    stop_hook_active = False
+    try:
+        stop_hook_active = bool(json.load(sys.stdin).get("stop_hook_active", False))
+    except Exception:
+        pass
     errors, warnings = check_all()
-    print(f"KB Check: {len(errors)} errors, {len(warnings)} warnings")
+    out.write(f"KB Check: {len(errors)} errors, {len(warnings)} warnings\n")
     for e in errors:
-        print(f"  [ERR] {e}")
+        out.write(f"  [ERR] {e}\n")
     for w in warnings:
-        print(f"  [WARN] {w}")
+        out.write(f"  [WARN] {w}\n")
     if errors:
-        print("RESULT: FAIL")
+        out.write("RESULT: FAIL\n")
         sys.exit(1)
     if warnings:
-        print("RESULT: WARNINGS (exit 2)")
-        sys.exit(2)
-    print("RESULT: PASS")
+        if stop_hook_active:
+            out.write("RESULT: WARNINGS (informational, not re-blocking)\n")
+        else:
+            out.write("RESULT: WARNINGS (exit 2)\n")
+            sys.exit(2)
+    out.write("RESULT: PASS\n")

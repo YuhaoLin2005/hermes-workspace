@@ -19,6 +19,7 @@ replies:
     date: 2026-07-22
     status: unread
     reply_summary: "Named-principle decorelates premise but not inference. 33 personas agreeing = one engine in 33 mirrors. Cross-model Carmack test is the real independence metric."
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 1 (E1b costumes + v2 drift probe)
     voice_checked: no
 
   # === cross-model (NEW) ===
@@ -28,6 +29,7 @@ replies:
     date: 2026-07-21
     status: unread
     reply_summary: "Scanner scores checkability but compliance is model property. DS Pro compliance=f(mechanizability). Did cross-model gradient reshuffle?"
+    drafts_ready: 2026-08-14  # reply-drafts-2026-08-14.md Draft 2 (two-axis reshuffle answer)
     voice_checked: no
 
   # === pre-reg (NEW) ===
@@ -181,6 +183,8 @@ summary: "DS Pro compliance=f(mechanizability). Flash hollow, Qwen low. Confirme
 summary:
   total_tracked: 20
   unreplied: 2
+  drafts_ready: 2   # 2026-08-14 草稿已备 (reply-drafts-2026-08-14.md)，待用户把关
+  untracked_since: audit-ctbv (7-26) 评论未入库 — 文章晚于 last_sync, 需人工导入
   last_sync: 2026-07-22
 ```
 

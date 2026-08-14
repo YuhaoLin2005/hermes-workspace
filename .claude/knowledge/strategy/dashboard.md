@@ -5,32 +5,34 @@
 
 ```yaml
 dashboard:
-  synced_at: 2026-07-28T00:00:00Z
+  synced_at: 2026-08-12T22:35:00Z  # 2026-08-12 browser-verified (dev.to dashboard/analytics/notifications + juejin creator center); logged-in metrics refreshed
 
   devto:
-    articles: 32
-    comments_written: 45  # 2026-07-28 browser: dev.to profile shows "45 comments written"
-    comments_received: 93  # 2026-07-28 browser: dashboard shows "93 total post comments"
-    followers: 608  # 2026-07-28 browser: dev.to/dashboard sidebar
-    total_reactions: 29  # 2026-07-28 DEV.to API: sum across 32 articles
-    total_views: 1040  # 2026-07-28 browser: dev.to/dashboard "1,040 total post views"
+    articles: 32  # 2026-08-12 browser-verified (dashboard nav Posts 32)
+    comments_written: 45  # 2026-08-12 browser-verified (analytics 32 posts · 45 comments · 54 reactions)
+    comments_received: 94  # 2026-08-12 browser-verified (analytics 32 posts · 45 comments · 54 reactions)
+    followers: 621  # 2026-08-12 browser-verified (dashboard nav; was 608. analytics "0 of 690" 不同口径, 以 nav 621 为准)
+    total_reactions: 29  # 2026-08-12 browser-verified (analytics 32 posts · 45 comments · 54 reactions)
+    total_views: 1235  # 2026-08-12 browser-verified (was 1040)
     notable_commenters: ['Dipankar Sarkar', 'Max Quimby', 'René Zander', 'Alex Shevchenko', 'CodeKitHub']
-    unread_comments: 0  # 2026-07-28 browser: notification bell shows no badge
+    unread_comments: 0  # 2026-08-12 browser-verified (5 unread notifications all new-post, 0 unread comments). ⚠️ replies.md 本地日志仍标 2 条 unread (mike/expert-board 7-22 + james/cross-model 7-21) — 口径差异待发前在 dev.to 复验 (可能已读过但未本地同步, 或通知已清但未回复)
 
   juejin:
     articles: 20
-    total_reads: 74
-    total_likes: 8
-    most_popular: 34_reads
+    total_reads: 4672  # 2026-08-12 browser-verified (creator center; was 3691 index sum)
+    total_likes: 38  # 2026-08-12 browser-verified (was 29 index sum)
+    total_views: 61038  # 2026-08-12 browser-verified (creator center)
+    total_bookmarks: 24  # 2026-08-12 browser-verified (creator center)
+    most_popular: juejin-rene_2685_reads  # 2026-08-01 from index (was 34_reads — stale)
 
   github:
-    paper_validator_stars: 0  # 2026-07-28 gh api verified
-    paper_validator_forks: 0  # 2026-07-28 gh api verified
-    hermes_workspace_stars: 0  # 2026-07-28 gh api verified
-    total_commits_since_july1: 102  # 2026-07-28: hermes-workspace(50) + fu-complexity(50) + fu-garden(2)
-    prs_merged: 3
-    prs_open: 5
-    issues_filed: 3
+    paper_validator_stars: 0  # 2026-08-01 gh api verified
+    paper_validator_forks: 0  # 2026-08-01 gh api verified
+    hermes_workspace_stars: 1  # 2026-08-05 gh api verified
+    total_commits_since_july1: 124  # 2026-08-01 gh api: hermes-workspace(100) + paper-validator(24). fu-complexity/fu-garden repos gone (404)
+    prs_merged: 4  # github-strategy.md #1-3 + modelscope/evalscope #1576（2026-08-14 merged，维护者 Yunnglin APPROVED——第一个国内大厂主线仓库合并 PR）。⚠️ 08-12 曾误报 4（#331 被误判 merged），撤回后现在真到 4
+    prs_open: 5  # github-strategy.md #4,#6-9 external contributions, browser-verified 2026-07-28
+    issues_filed: 3  # github-strategy.md #5,#10,#11 external contributions, browser-verified 2026-07-28
 
   paper:
     status: "ongoing — iterative development, not chapter-based"  # was chapters_drafted: ?/5
@@ -46,11 +48,15 @@ dashboard:
       competitor_differentiation: "5/10"
 
   experiments:
-    completed: 17
+    completed: 18
     in_progress: 0
     planned: 0
-    total_api_calls_used: ~2500  # estimate from claims.md(928) + structure.md + DPO(250) + digital-twin(300) + 150-task(300) + misc
+    total_api_calls_used: ~2600  # +140k tokens E1b-v2 (112 trials, 139,659 tokens)
     latest:
+      e1b-v2-drift-probe:
+        date: 2026-08-14
+        status: "PASS — costumes structural conclusion survives drift: cross-model same-persona 0.57 ≈ within-model diff-persona 0.54 (7-23 was 0.41 vs 0.52). Point estimates version-dependent (κ 0.049→0.175). Mechanism: official V4-Flash is a reasoning model."
+        output: "results/e1b_v2_current.json"
       l4-drift-validation:
         date: 2026-07-28
         status: "HONEST_FAILURE — original hypothesis untestable (D_i variance=0). Fallback: gap clustering present, lag-1 autocorr n.s. Self-limiting property of CTBV confirmed."
@@ -67,8 +73,8 @@ dashboard:
   community_milestones:
     # (manually maintained — preserved across sync runs)
 
-  data_gaps_since: 2026-07-28  # 1 remaining: target_deadline (pending professor response)
-  last_updated: 2026-07-28
+  data_gaps_since: 2026-08-12  # remaining gap: target_deadline (pending professor response). All platform metrics browser-verified 2026-08-12
+  last_updated: 2026-08-14  # E1b-v2 drift probe experiment +18, devto reply drafts (voice gate pending)
 ```
 
 
@@ -96,5 +102,5 @@ dashboard:
 | 论文章节 | paper.chapters_drafted |
 
 ---
-*最后更新: 2026-07-21*
+*最后更新: 2026-08-12*
 *交叉引用: [[../routing]] [[research-pipeline]] [[content-pipeline]] [[github-strategy]]*
