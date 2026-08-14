@@ -26,13 +26,13 @@ construction. Standard library only, no network, never raises.
 
 import sys, os, json, hashlib
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 RECEIPT_DIR = Path.home() / ".claude" / "receipts"
 RECEIPT_RETENTION_DAYS = 7
 # Mirrors ~/.claude/scripts/write-guard.py's sensitive-path patterns.
 SENSITIVE_PATTERNS = [
-    ".env", ".env.", "credentials", "secret", "token", "password",
+    ".env", ".env.", "credentials", "secret", "token", "password", "bearer",
     "~/.ssh/", ".ssh/", "~/.aws/", ".aws/credentials",
     "id_rsa", "private.key", ".pem",
 ]
