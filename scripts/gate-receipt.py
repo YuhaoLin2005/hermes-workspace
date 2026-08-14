@@ -11,7 +11,8 @@ Usage:
   python gate_receipt.py Bash "echo hello"
   python gate_receipt.py Bash "rm -rf /" --checks dangerous-cmd,disk
 
-Default: append one JSONL line to ~/.claude/receipts.jsonl.
+Default: append one JSONL line to ~/.claude/receipts/YYYY-MM-DD.jsonl (daily
+rotation, 7-day retention, target redacted against sensitive patterns).
 With --stdout: print the receipt and write nothing.
 
 Why it exists: the three-questions gate died because its evidence (a ritual)
@@ -27,12 +28,49 @@ import sys, os, json, hashlib
 from pathlib import Path
 from datetime import datetime
 
-RECEIPT_LOG = Path.home() / ".claude" / "receipts.jsonl"
+RECEIPT_DIR = Path.home() / ".claude" / "receipts"
+RECEIPT_RETENTION_DAYS = 7
+# Mirrors ~/.claude/scripts/write-guard.py's sensitive-path patterns.
+SENSITIVE_PATTERNS = [
+    ".env", ".env.", "credentials", "secret", "token", "password",
+    "~/.ssh/", ".ssh/", "~/.aws/", ".aws/credentials",
+    "id_rsa", "private.key", ".pem",
+]
+
+
+def _redact_target(target):
+    """Strip sensitive substrings before a target hits disk. Never raises."""
+    try:
+        if not target:
+            return target
+        t_lower = target.lower()
+        for p in SENSITIVE_PATTERNS:
+            if p.lower() in t_lower:
+                return "[redacted: %s]" % p
+    except Exception:
+        pass
+    return target
+
+
+def _receipt_path(now):
+    return RECEIPT_DIR / ("%s.jsonl" % now.strftime("%Y-%m-%d"))
+
+
+def _prune_receipts(now):
+    """Drop receipt files older than RETENTION_DAYS. Never raises."""
+    try:
+        cutoff = (now - timedelta(days=RECEIPT_RETENTION_DAYS)).strftime("%Y-%m-%d")
+        for f in RECEIPT_DIR.glob("*.jsonl"):
+            if f.stem < cutoff:
+                f.unlink()
+    except OSError:
+        pass
 
 
 def emit_receipt(tool, target, checks, to_stdout=False):
     """Append (or print) a provenance receipt. Never raises."""
     try:
+        now = datetime.now()
         # revision = hash of the exact state the gate checked
         if os.path.isfile(target):
             with open(target, 'rb') as fh:
@@ -40,13 +78,14 @@ def emit_receipt(tool, target, checks, to_stdout=False):
         else:
             revision = hashlib.sha256(
                 target.encode('utf-8', errors='replace')).hexdigest()[:12]
+        target = _redact_target(target)[:80]
 
         record = {
             "receipt": "prose-barrier-evidence-provenance-v1",
-            "ts": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            "ts": now.strftime("%Y-%m-%dT%H:%M:%S"),
             "hook": "write-guard",
             "tool": tool,
-            "target": target[:80],
+            "target": target,
             "revision": revision,
             "checks": sorted(checks),
             "decision": "allow",
@@ -56,9 +95,11 @@ def emit_receipt(tool, target, checks, to_stdout=False):
         if to_stdout:
             print(line)
         else:
-            RECEIPT_LOG.parent.mkdir(parents=True, exist_ok=True)
-            with open(RECEIPT_LOG, 'a', encoding='utf-8') as f:
+            receipt = _receipt_path(now)
+            receipt.parent.mkdir(parents=True, exist_ok=True)
+            with open(receipt, 'a', encoding='utf-8') as f:
                 f.write(line + '\n')
+            _prune_receipts(now)
         return record
     except OSError:
         return None
