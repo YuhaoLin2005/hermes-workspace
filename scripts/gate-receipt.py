@@ -30,12 +30,33 @@ from datetime import datetime, timedelta
 
 RECEIPT_DIR = Path.home() / ".claude" / "receipts"
 RECEIPT_RETENTION_DAYS = 7
+# Full-content revision hash up to HASH_CAP; larger files fall back to a
+# 'p:'-prefixed prefix+size fingerprint so the hook never reads unbounded data.
+HASH_CAP = 64 * 1024 * 1024
+HASH_PREFIX = 64 * 1024
 # Mirrors ~/.claude/scripts/write-guard.py's sensitive-path patterns.
 SENSITIVE_PATTERNS = [
     ".env", ".env.", "credentials", "secret", "token", "password", "bearer",
     "~/.ssh/", ".ssh/", "~/.aws/", ".aws/credentials",
     "id_rsa", "private.key", ".pem",
 ]
+
+
+def _revision_hash(file_path):
+    """Content fingerprint of the checked state. Full SHA256 up to HASH_CAP
+    (exact binding); larger files use a 'p:'-prefixed prefix+size fingerprint.
+    Never raises, never blocks."""
+    try:
+        if not file_path or not os.path.isfile(file_path):
+            return ""
+        size = os.path.getsize(file_path)
+        with open(file_path, 'rb') as fh:
+            if size <= HASH_CAP:
+                return hashlib.sha256(fh.read()).hexdigest()[:12]
+            prefix = fh.read(HASH_PREFIX)
+            return "p:" + hashlib.sha256(prefix).hexdigest()[:12] + ":" + str(size)
+    except OSError:
+        return ""
 
 
 def _redact_target(target):
@@ -71,10 +92,9 @@ def emit_receipt(tool, target, checks, to_stdout=False):
     """Append (or print) a provenance receipt. Never raises."""
     try:
         now = datetime.now()
-        # revision = hash of the exact state the gate checked
+        # revision = content fingerprint of the exact state the gate checked
         if os.path.isfile(target):
-            with open(target, 'rb') as fh:
-                revision = hashlib.sha256(fh.read()).hexdigest()[:12]
+            revision = _revision_hash(target)
         else:
             revision = hashlib.sha256(
                 target.encode('utf-8', errors='replace')).hexdigest()[:12]
