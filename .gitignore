@@ -33,3 +33,18 @@ tmp/
 scripts.retired-*/
 *.bak
 *.bak-*
+
+# --- 2026-10-13 未跟踪面收敛：Zenodo 发布包是已托管副本；构建产物/本地脚本非发布物 ---
+paper/release-zenodo-v1/
+paper/release-zenodo-v2/
+paper/arxiv/*.aux
+paper/arxiv/*.log
+paper/arxiv/*.blg
+paper/arxiv/*.out
+paper/arxiv/*.bbl
+paper/_build.sh
+paper/_rebuild_check.sh
+paper/_render_table.py
+paper/aily-cross-model-experiment-design.md
+paper/pb-benchmark-poc/
+.claude/knowledge/_platform_verify.py
