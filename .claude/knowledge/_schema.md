@@ -24,7 +24,7 @@
 ```yaml
 - slug: mike-czerwinski
   name: "Mike Czerwinski"
-  devto: "https://dev.to/jugeni"
+  devto: "https://dev.to/<commenter-handle>"
   tier: hot
   articles: [cross-model, pre-reg, 150-tasks]
   role: "方法论质疑者+框架深化者"
@@ -55,7 +55,7 @@
   name: "Prose Barrier — 自验证是结构性约束"
   tier: hot
   statement: "LLM无法独立验证自身输出"
-  numbers: "55.9%→0.7%; d=+0.578 BF=282k"
+  numbers: "55.9%→0.7% (19/34 sessions vs 1/150 gated); d=+0.578"
   articles: [self-verify, 150-tasks]
   limitations: "单模型、无第二评分者"
 ```

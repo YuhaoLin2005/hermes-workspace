@@ -9,7 +9,7 @@
 - **slug**: claim-1
 - **声明**: LLM 无法独立验证自身输出——生成与验证共享同一解码器 P(token|context; θ)，自验证在结构上不可靠
 - **支撑实验**: Logprob V3, Prose vs Code format, 34-session retrospective
-- **关键数字**: 55.9% violation rate (无gate) → 0.7% (有gate); d=+0.578 (三段论格式优势)
+- **关键数字**: rule-violation rate 55.9% (19/34 sessions, 无 gate) → 0.7% (1/150 gated tasks); d=+0.578 (三段论格式优势) — 分母不同，非单组对照
 - **数据**: `paper/experiment/logprob-v3/` (原始), `paper-validator/results/` (复现)
 - **论文章节**: §2 The Prose Barrier
 - **DEV.to**: [self-verify] [150-tasks]
@@ -17,9 +17,9 @@
 
 ### Claim 2: L1 Mechanical Gate — 近乎完美的合规
 - **slug**: claim-2
-- **声明**: 机械门(文件系统检查、正则评分)将违规率从55.9%降至0.7%
+- **声明**: 机械门(文件系统检查、正则评分)将 rule-violation rate 从 55.9%（19/34 会话）降至 0.7%（1/150 受门任务）
 - **支撑实验**: 34-session retrospective, Format A/B (150 tasks), 19 behavioral tests
-- **关键数字**: 55.9%→0.7%; 19/19 behavioral tests pass; 跨3模型均显示规则改善合规
+- **关键数字**: 55.9%→0.7% (19/34 vs 1/150，分母不同); 19/19 behavioral tests pass; 跨3模型均显示规则改善合规
 - **数据**: `paper-validator/state/store.py` (growth-log counter), P1-1 results
 - **论文章节**: §2 L1, §3.2 L1-Visibility
 - **DEV.to**: [150-tasks] [self-verify] [neural-gate]
@@ -115,7 +115,7 @@
 
 | 有人质疑... | 查声明 | 看数据 |
 |-----------|--------|--------|
-| "自验证真的不可靠?" | Claim 1 | 34-session retrospective: 55.9%→0.7% |
+| "自验证真的不可靠?" | Claim 1 | 34-session retrospective: 55.9%→0.7% (19/34 → 1/150) |
 | "机械门能覆盖所有规则?" | Claim 2 | P1-1: L1 tasks 100%, T3 0% |
 | "logprob效应是真的?" | Claim 3 | d=+0.578, BF=282k, CI不跨0 |
 | "内部变化影响行为吗?" | Claim 4 | IMP≈SYL, Δ=-0.024 |

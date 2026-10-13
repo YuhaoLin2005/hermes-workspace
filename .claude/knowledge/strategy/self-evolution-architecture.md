@@ -206,7 +206,8 @@ PreOutputCheck:
   IF evidence_strength < 0.5: → [SPECULATIVE]
 
 输出格式:
-  [CERTAIN] The mechanical gate reduced violations from 55.9% to 0.7%.
+  [CERTAIN] The mechanical gate cut rule violations from 55.9%
+            (19/34 sessions) to 0.7% (1/150 gated tasks) — 分母不同，不作单组对照。
   [REASONED] The L2/L3 dissociation likely holds across models, but we only tested DeepSeek.
   [SPECULATIVE] If DS Pro's compliance=f(mechanizability), Claude may show a different curve.
 ```
@@ -241,4 +242,4 @@ PreOutputCheck:
 
 ---
 *最后更新: 2026-07-22*
-*交叉引用: [[dashboard]] [[../paper/structure]] [[../paper/claims]] [[../training/overview]] [[../../code/overview]] [[dual-pool-review]]*
+*交叉引用: [[../paper/structure]] [[../paper/claims]] [[../../code/overview]] [[dual-pool-review]]*

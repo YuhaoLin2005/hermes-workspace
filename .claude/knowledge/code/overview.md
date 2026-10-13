@@ -5,11 +5,9 @@
 
 ## 仓库位置
 
-- **主仓库**: `C:\Users\86131\paper-validator` (GitHub: `YuhaoLin2005/paper-validator`)
-- **原始实验**: `C:\Users\86131\hermes-workspace\paper\experiment\`
-- **补充文档**: `C:\Users\86131\hermes-workspace\paper\supplementary\`
-- **数字分身训练**: `C:\Users\86131\Desktop\digital-twin-trainer` (GitHub: `YuhaoLin2005/digital-twin-trainer`) — QLoRA+DPO 4阶段训练管线
-- **全局配置**: `C:\Users\86131\.claude` (GitHub: `YuhaoLin2005/agent-self-model`) — SOUL/INTERFACE/BODY + 双池 + 五库 + 自指环
+- **主仓库**: [paper-validator](https://github.com/YuhaoLin2005/paper-validator)
+- **原始实验**: `hermes-workspace/paper/experiment/`
+- **补充文档**: `hermes-workspace/paper/supplementary/`
 
 ## 目录结构
 

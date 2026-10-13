@@ -10,3 +10,26 @@ __pycache__/
 *self-model*
 .env
 .env.local
+
+# --- 2026-10-13 公开面收敛：私有知识库内容永不公开 ---
+# 保留其中的架构/代码/schema；数据·个人策略·第三方信息一律不提交。
+.claude/routing.md
+.claude/knowledge/devto/
+.claude/knowledge/juejin/
+.claude/knowledge/training/
+.claude/knowledge/career/
+.claude/knowledge/professor-communication/
+.claude/knowledge/github/
+.claude/knowledge/strategy/dashboard.md
+.claude/knowledge/strategy/github-strategy.md
+.claude/knowledge/strategy/hci-direction.md
+.claude/knowledge/**/_scan-out/
+.claude/knowledge/_probe_*.py
+.claude/knowledge/_prove_*.py
+.claude/knowledge/_pending_*.py
+.claude/knowledge/_render_*.py
+.claude/knowledge/__pycache__/
+tmp/
+scripts.retired-*/
+*.bak
+*.bak-*
