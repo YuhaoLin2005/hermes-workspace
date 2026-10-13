@@ -82,8 +82,12 @@
 - **角色**: 独立实验复现者——实际跑代码验证你的结果
 - **贡献**:
   1. 独立复现了 stance-marker 剥离实验：去掉 "certainly""perhaps" 后 flip rate 17%→2.1%
+     ⛔ **2026-10-10 更正**：`2.1%` 已被 Tom **本人于 2026-10-06 公开撤回**（the-line 评论 `3gj62`）——
+     写论文时**找不到那次 run 的 artifact**（无 v7 脚本、无结果文件），Tom 改口为 "reported but unverified"；
+     且他指出 2.1% 与 **v6 borderline floor 0.0208 完全相同**，可能是**跨情境搬过来的数**。
+     现行数：flip rate **14.6% @ n=48**；same-input floor **2.08%**。引用时**不要再用 2.1%**。
   2. 跨 model tier + 跨 judge 提供了外部验证
-  3. 2.1% floor 可能是 measurement noise ceiling——值得深入讨论
+  3. 2.1% floor 可能是 measurement noise ceiling——（注：此判断建立在已被撤回的 2.1% 上）
 - **关心**: 实验可复现性、方法严谨性
 - **回复原则**: 鼓励独立验证——这是你最需要的外部证据。热情回应，问他是否愿意把 runs 放进 supplementary
 

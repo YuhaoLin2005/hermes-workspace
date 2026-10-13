@@ -1,66 +1,17 @@
 # DEV.to Hot Articles (≤14d + active commenters + paper claims)
 > 启动加载。格式: YAML-in-Markdown per _schema.md
+> 2026-08-27: 无 ≤30d 新文章 —— 历史条目已降级至 warm.md（reply_status 待办见 reply-drafts-2026-08-14.md + devto/articles.md）。有新文章发布后在此登记。
 
 ```yaml
 articles:
-  - slug: audit-ctbv
-    title: "I Discovered AI Agents Can't Self-Verify. The Real Problem Is Much Bigger."
-    url: https://dev.to/yuhaolin2005/i-discovered-ai-agents-cant-self-verify-the-real-problem-is-much-bigger-2jb6
-    date: 2026-07-26
-    domain: experiment
-    claims: [claim-1, claim-2, claim-3, claim-4, claim-5, claim-8, claim-9]
-    commenters: [mike, dipankar, max, rene, yunetzi]
-    numbers: "38 gates, 9 sessions, 339 entries, 87% noise; κ = 0.00; DPO 150 pairs"
-    finding: "CTBV: orthogonal blind spots → joint error = 0; working gates check what LLMs can't fake"
-    status: active
-    reply_status: "浏览器验证 2026-08-14: mike 7-29 (shared-cause + cheapest-bypass) + yunetzi 7-26 (external audit) 未回 — Draft 3/5 已备"
-
-  - slug: cross-model
-    title: "Your AI Gate Works Perfectly — Until You Switch Models"
-    url: https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0
-    date: 2026-07-18
-    domain: experiment
-    claims: [claim-9]
-    commenters: [mike, james-sanderson]
-    numbers: "DS Pro 5/5→2/5; DS Flash 100% hollow; Qwen T1=40% T5=0%"
-    finding: "Gateability = rule_structure × model_capability (2D space)"
-    status: active
-    reply_status: "浏览器验证 2026-08-14: 线程已全部回复 (7-23 E1a+E1b+decomposition)"
-
-  - slug: pre-reg
-    title: "I Pre-Registered a Hypothesis. 600 API Calls Later, the Data Killed It."
-    url: https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec
-    date: 2026-07-15
-    domain: experiment
-    claims: [claim-8]
-    commenters: [mike, dipankar, alex]
-    numbers: "d=0.605; H1 NOT_CONFIRMED; SHA256 pre-reg; tamper≠third-party"
-    finding: "Pre-reg killed hypothesis; prose+gate=best combo (4.42/5)"
-    status: active
-
-  - slug: expert-board
-    title: "Stop Using Generic AI Review. Build Your Own Board of Experts."
-    url: https://dev.to/yuhaolin2005/stop-using-generic-ai-review-build-your-own-board-of-experts-196n
-    date: 2026-07-21
+  - slug: agent-migration
+    title: "My Agent Migration Finished. Every Gate Looked Wired. None of Them Ran."
+    url: https://dev.to/yuhaolin2005/my-agent-migration-finished-every-gate-looked-wired-none-of-them-ran-k7b
+    date: 2026-10-09
     domain: architecture
     claims: []
-    commenters: [mike]
-    numbers: "33 persona独立幻觉; 跨模型decorrelation测试"
-    finding: "33个persona同意≠33个独立判断；命名原则锚定→去关联前提→真独立性需跨模型验证"
-    status: active
-    reply_status: "浏览器验证 2026-08-14: 7-22 已回 (E1b), 但 mike 7-27 follow-up (premise-decorrelation 是否独立存活) 未回 — Draft 4 已备"
-
-  - slug: dpo-causal
-    title: "I DPO-Trained a Model to Prefer Causal Reasoning. The Base Model Already Did — It Just Couldn't Act On It."
-    url: https://dev.to/yuhaolin2005/i-dpo-trained-a-model-to-prefer-causal-reasoning-the-base-model-already-did-it-just-couldnt-act-1kip
-    date: 2026-07-24
-    domain: experiment
-    claims: []
     commenters: []
-    numbers: "SYLL=0.941 IMP=0.750 TOKCTRL=0.667 COTCTRL=1.048"
-    finding: "Base model already encodes causal reasoning—DPO unlocks action, doesn't teach from scratch; format-control gap reveals DPO selects CoT over token-level"
+    finding: "Agent 迁移——拷贝 ≠ 接线；每道门都在册，没有一道能跑"
     status: active
-
 ```
-
-*tier: hot | count: 5 | updated: 2026-08-14 (浏览器验证回复状态) | 真实未回 4 条草稿已备（reply-drafts-2026-08-14.md D3/D4/D5/D6），待 voice gate*
+*tier: hot | count: 1 | 2026-08-27 (audit-ctbv 32d / expert-board 37d / dpo-causal 34d → 降级 warm) · 2026-10-11 (+agent-migration，10-09 新发)*

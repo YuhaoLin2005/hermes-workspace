@@ -3,9 +3,10 @@
 Reads all pipeline data sources, generates updated dashboard.md with
 per-field synced_at timestamps. Run at SessionStart before AI reads dashboard.
 
-Usage: python _signals.py [--check]
+Usage: python _signals.py --check
   --check  Dry-run: print what would change, exit 0 if fresh, 1 if stale.
-  (no flag) Write updated dashboard.md.
+  (no flag) ⛔ 已拒绝执行 —— 生成路径 2026-09-10 判死（会用 tier 求和覆盖
+           人工核实字段）。确要覆盖须显式 --write-override。
 
 Design (Brooks): signal layer = data flow only. Verification is _verify.py.
 Design (Carmack): every auto-derived field carries synced_at. Manual fields
@@ -15,6 +16,16 @@ Design (Carmack): every auto-derived field carries synced_at. Manual fields
 import re, sys, os, json
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Windows GBK stdout 无法输出中文 → 强制 UTF-8。
+# 2026-10-09：本脚本的 [REFUSED] 拒绝报文含中文，在 UTF-8 捕获（hook / AI 读回）下变乱码，
+# 读到的人无法知道它为什么拒绝。写法照抄本机既有样板 write-guard.py:38-43 / bloat-watcher.py:18-22（同一根因）。
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 KB = Path(__file__).parent
 STRATEGY = KB / "strategy"
@@ -273,9 +284,28 @@ def collect_self_data():
 
 
 def generate_dashboard_yaml(existing_dashboard=None):
-    """Generate the complete dashboard YAML block.
-    Merges auto-derived data with preserved manual fields from existing dashboard.
+    """生成 dashboard 的 YAML 块。
+
+    ⛔ 2026-10-09 整改：**有现 yaml 块就原样继承，一个字都不改。**
+    此前本函数对现文件做破坏性重建，实测一次生成改掉 70 行（42 行是人工浏览器核验的
+    原值 + 行尾核对注释）：
+      juejin.total_reads 5615→0、total_likes 41→0、prs_merged 4→0、issues_filed 11→0、
+      comments_written 49→4、completed 13→19、self.last_regeneration → '?'，
+      paper.status 被换成 chapters_drafted，data_gaps_since / career_lock /
+      p1_merges_recon / evalscope_next_move 四个顶层块整个丢弃，
+      早先当作 vanity 删掉的 session_streak 又被写回 '?'，synced_at 被推进成「现在」。
+    根因：collect_* 全是**文本启发式桩**（juejin 从 hot/warm/cold tier 文件求和、
+    github 数 markdown 表行数），拿不到真值就返回 0 —— 而生成器把 0 当事实写。
+    这是 `empty-result-read-as-zero` 的**生成侧异体**：拿不到 ≠ 是 0。
+    现在只有**没有现 yaml 块**时（bootstrap）才用启发式桩造骨架。
+    ⚠️ `main() --check` 的比较值**不走本函数**，走 collect_*；否则一继承就新旧恒等，
+       检查退化成永远绿的橡皮图章。
     """
+    text = read_file(DASHBOARD) or ""
+    m = re.search(r'```yaml\s*\n(.*?)\n```', text, re.DOTALL)
+    if m:
+        return '```yaml\n' + m.group(1) + '\n```'
+
     ts = now_iso()
 
     devto = collect_devto_data()
@@ -422,8 +452,41 @@ def write_dashboard(yaml_block: str):
     DASHBOARD.write_text(new_content, encoding="utf-8")
 
 
+def _leading_int(v):
+    """取 YAML 值里行内注释之前的首个整数。
+
+    ⛔ 用 `int(v) if v.isdigit() else 0` 是错的：`_simple_yaml_parse` 不剥行内注释，
+      值实际长这样 —— '32  # 2026-08-18 browser-verified (dashboard nav Posts 32)'。
+      `.isdigit()` 对整串恒为假 → 旧值被置 0 → `stale` 恒 True →
+      **每次 SessionStart 都打印假的 `STALE: devto 0→32`**。
+      该假红 2026-09-17 被记为「发现但未修，需用户裁决」，挂到 2026-09-25 才修。
+    """
+    if isinstance(v, int):
+        return v
+    m = re.match(r'\s*(-?\d+)', str(v or ''))
+    return int(m.group(1)) if m else 0
+
+
 def main():
     check_mode = "--check" in sys.argv
+
+    # ⛔ 生成路径（无 flag）闸 —— 2026-10-09 加，同日按整改**重写理由**（原病因已修）。
+    # 原病因：generate_dashboard_yaml() 对 followers / total_reactions / prs_open /
+    #       paper_validator_* / total_commits_since_july1 等**人工核实**字段无条件写死 `?`，
+    #       并会用 tier 求和覆盖本文件 ⇒ 结构性恒红环：人填对 → 下轮生成冲掉 →
+    #       _check_kb.py 报 unknown field 并计龄（「做对了反而触发告警」的形状）。
+    # 现理由（闸**继续保留**，已不再因上述病因）：① `collect_*` 仍是文本启发式桩，
+    #       平台聚合数**没有可信来源**，跑一次「同步」只给出「已同步」的假象；
+    #       ② 写入端 `write_dashboard()` 靠 `re.search(r'```\s*\n\s*##')` 猜 YAML 块边界，
+    #       文件结构一变就可能吃掉正文尾部 —— 这条风险与 YAML 内容无关，改生成器消不掉。
+    # 现状：settings.json 只接线 `--check`（走不到本闸），无人调用生成路径。
+    if not check_mode and "--write-override" not in sys.argv:
+        print("[REFUSED] _signals.py 生成路径已判死：collect_* 是文本启发式桩，"
+              "平台聚合数无可信来源，跑它只会产生「已同步」的假象。", file=sys.stderr)
+        print("          仅支持 --check。（生成器已改为对现文件逐字节继承，"
+              "--write-override 现在是恒等写回；保留该逃生口只为 bootstrap。）",
+              file=sys.stderr)
+        sys.exit(2)
 
     existing = parse_existing_dashboard()
     new_yaml = generate_dashboard_yaml(existing)
@@ -437,13 +500,15 @@ def main():
             old_devto = eb.get("devto", {}).get("articles", 0)
             old_juejin = eb.get("juejin", {}).get("articles", 0)
 
-        new_data = _simple_yaml_parse(new_yaml.split('```yaml\n')[1].split('\n```')[0])
-        nb = new_data.get("dashboard", {})
-        new_devto = nb.get("devto", {}).get("articles", 0)
-        new_juejin = nb.get("juejin", {}).get("articles", 0)
+        # ⛔ 比较值必须来自 collect_*，**不能来自 generate_dashboard_yaml() 的产物**。
+        #    2026-10-09 起该函数对现文件原样继承（防破坏性重建），拿它的产物比则新旧恒等
+        #    → 本检查退化成永远绿的橡皮图章。取「独立算出来的值」才有牙。
+        new_devto = collect_devto_data()["articles"]
+        new_juejin = collect_juejin_data()["articles"]
 
-        if isinstance(old_devto, str): old_devto = int(old_devto) if old_devto.isdigit() else 0
-        if isinstance(old_juejin, str): old_juejin = int(old_juejin) if old_juejin.isdigit() else 0
+        # 两侧都要归一 —— 旧值可能带行内注释，不归一比较就永远不等（恒 stale）。
+        old_devto, old_juejin = _leading_int(old_devto), _leading_int(old_juejin)
+        new_devto, new_juejin = _leading_int(new_devto), _leading_int(new_juejin)
 
         stale = (old_devto != new_devto) or (old_juejin != new_juejin)
         if stale:
@@ -458,5 +523,53 @@ def main():
         sys.exit(0)
 
 
+def _selftest():
+    """两向验 + 对照组。
+
+    ⛔ 为什么必须带对照组：修 `_leading_int` 之后，线上这条检查从「恒红」变成「绿」。
+       如果不证明「计数真的不等时它仍会红」，那这次修复就可能只是把一条检查
+       改成了橡皮图章 —— 永远绿的检查比没有更糟。
+       对照组 = 把**旧写法**一起跑，证明它确实算错；它若算对，说明这条自测
+       测不到原 bug，自测本身就是失效的。
+    """
+    cases = [
+        ("32  # 2026-08-18 browser-verified (dashboard nav Posts 32)", 32, "真值·英文行内注释"),
+        ("22  # 2026-09-10 平台权威口径（文章管理页…）", 22, "真值·中文行内注释"),
+        (32, 32, "int 直通"),
+        ("0", 0, "零"),
+        ("", 0, "空串"),
+        (None, 0, "None"),
+        ("  -3  # x", -3, "负号+空白"),
+        ("abc", 0, "非数字"),
+    ]
+    bad = []
+    for raw, want, why in cases:
+        got = _leading_int(raw)
+        if got != want:
+            bad.append(f"_leading_int({raw!r}) = {got}, 期望 {want}  [{why}]")
+
+    # 对照组 1：旧写法对真值取到的不是 32 —— 证明这条自测能测到原 bug
+    legacy = int(cases[0][0]) if cases[0][0].isdigit() else 0
+    if legacy == 32:
+        bad.append("对照组失效：旧写法居然算对了 → 这条自测测不到原 bug")
+    if legacy != 0:
+        bad.append(f"对照组异常：旧写法应得 0，实得 {legacy}")
+
+    # 对照组 2：stale 判据两向 —— 不等要红、相等要绿
+    o, n = _leading_int("32  # x"), _leading_int("33  # y")
+    if (o != n) is False:
+        bad.append("对照：计数不等（32 vs 33）时未判 STALE")
+    o2, n2 = _leading_int("32  # x"), _leading_int("32  # y")
+    if (o2 != n2) is True:
+        bad.append("对照：计数相等（32 vs 32）时误判 STALE")
+
+    for b in bad:
+        print(f"  FAIL {b}")
+    print(f"SELFTEST: {'PASS' if not bad else 'FAIL'} ({len(cases)} 用例 + 2 对照组)")
+    sys.exit(1 if bad else 0)
+
+
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        _selftest()
     main()

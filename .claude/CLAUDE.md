@@ -12,6 +12,12 @@
 1. 更新 `knowledge/strategy/dashboard.md` 对应数字
 2. 实验/文章/PR 完成 → 更新对应 pipeline + KB
 3. 跑 `python knowledge/_check_kb.py` → 确认 PASS
+4. **平台核验 = 一条命令，不开浏览器**（2026-10-12 用户裁决「API 为主」）——`python knowledge/_platform_verify.py`。
+   实测两个公开 API 都给计数 + 聚合数（dev.to: views/reactions/comments；掘金: view/digg/collect/comment）。
+   **唯一 API 拿不到的是 dev.to followers** —— 放弃自动核，**需要时向用户要**（他说需要时会去找）。
+   `--write` 回写两个索引的 `platform_published` / `last_verified`；`dashboard.md` 聚合块因存在
+   **同名不同物**（如 dev.to dashboard 自身 nav 621 vs analytics 0/690）**不自动改**，先 `--json` 核口径。
+   计数与索引头部对不上 = ERROR（检查 2f）。⛔ 旧流程（内容管理→文章管理 / 数据中心→内容数据 / 单篇分析，14 天一次浏览器登录）**已废弃**。
 
 ## 核心原则
 

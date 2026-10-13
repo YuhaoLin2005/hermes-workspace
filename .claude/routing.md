@@ -133,7 +133,8 @@ routes:
 每次 session 启动时，按以下顺序加载（P0 联动架构 v1.0）：
 
 1. **机械同步**（0 token，Python 脚本）：
-   - `python knowledge/_signals.py` — 5条管线→dashboard 自动更新（每字段带 synced_at）
+   - `python knowledge/_signals.py --check` — 5条管线↔dashboard 一致性**只读**校验（exit 0=fresh / 1=stale）
+     ⛔ **不要跑裸命令**：生成路径 2026-09-10 判死（会用 tier 求和覆盖 `prs_open` 等人工核实字段），现已加闸拒绝，详见 dashboard.md:115
    - `python knowledge/_verify.py` — depends_on/claim/slug 引用完整性检查
 2. **策略层**（一页纸全貌，~800 token）：
    - `knowledge/strategy/dashboard.md` — 量化数据快照（synced_at 证明新鲜度）

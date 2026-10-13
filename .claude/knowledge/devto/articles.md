@@ -1,6 +1,16 @@
 # DEV.to Article Index
 
-> 32 posts published (as of 2026-07-26). 每发新文章后更新。
+> 33 posts published (as of 2026-10-11). 每发新文章后更新。
+> platform_published: 33 | last_verified: 2026-10-11
+> 真值来源: https://dev.to/yuhaolin2005 （profile 与公开 API 一致：33）
+> 核验方式：公开 API `GET /api/articles?username=yuhaolin2005&per_page=100` → 逐条 published_at 非空计数。
+> **2026-10-11 复核**：API 返回 **33** 条（较 10-02 增 1 —— 10-09《My Agent Migration Finished…》，公开页 HTTP 200）；索引 `### [` 条目数 33 = platform_published，**无漏索引**。
+> ⚠️ 聚合数 **API 给得了**（2026-10-12 实测订正 —— 原文写「API 给不了」，**是错的**）：
+> `page_views_count` / `public_reactions_count` / `comments_count` 三项公开端点即有值。
+> **唯一真拿不到的是 followers**（`users/me`、`users/by_username` 均无该键；且 dashboard 自己
+> 内部就有两个口径 —— nav 621 vs analytics「0 of 690」）。
+> **2026-10-12 用户裁决：API 为主源**（每回开浏览器登录太麻烦）；followers 放弃自动核，
+> **需要时由用户人工给**。刷新一条命令：`python knowledge/_platform_verify.py`（`--write` 写回本头部）。
 > `[key]` = /devto-copilot 命令参数。论文实验系列有完整索引，平台工程系列简洁索引。
 
 ## 论文实验系列（9篇——有详细索引）
@@ -13,7 +23,7 @@
 - **关键数字**: 38 gates, 9 sessions, 339 entries, 87% noise; κ = 0.00; DPO 150 pairs
 - **核心发现**: Gate audit revealed 87% noise; working gates check things LLMs physically can't fake; CTBV (Cross-Type Bidirectional Verification) — orthogonal blind spots → joint error = 0
 - **关联评论者**: Mike Czerwinski, Dipankar Sarkar, Max Quimby, René Zander, Yunetzi
-- **回复状态**: 浏览器验证 2026-08-14 — mike 7-29 (shared-cause + cheapest-bypass companion metric) + yunetzi 7-26 (external audit/governance) 未回 → reply-drafts-2026-08-14.md Draft 3/5 已备，待 voice gate
+- **回复状态**: ✅ 2026-08-14 **均已发出** — mike 7-29 (shared-cause + cheapest-bypass，`replies.md` 记 comment 3d314) + yunetzi 7-26 (external audit/governance，`replies.md` 记 Draft 5)。本行原写「未回 → 待 voice gate」，**该结论作废**（stale ledger；以 `replies.md` 为准）
 
 ### [cross-model] Your AI Gate Works Perfectly — Until You Switch Models
 - **URL**: https://dev.to/yuhaolin2005/your-ai-gate-works-perfectly-until-you-switch-models-4bf0
@@ -39,7 +49,7 @@
 - **关键实验**: GateGuard on/off; syllogism vs imperative; 55.9%→0.7%
 - **核心发现**: Mechanical gate eliminates format effect; ceiling effect IS the finding
 - **关联评论者**: Mike Czerwinski, Dipankar Sarkar, René Zander, Alex Shevchenko, CodeKitHub, Reliable AI Delivery
-- **回复状态**: 浏览器验证 2026-08-14 — Reliable AI Delivery 7-18 (evidence provenance: enforcement vs provenance 双契约 + receipt 绑定 revision) 未回 → reply-drafts-2026-08-14.md Draft 6 已备，待 voice gate
+- **回复状态**: ✅ 2026-08-14 **已发出** — Reliable AI Delivery 7-18/7-24 (evidence provenance: enforcement vs provenance 双契约 + receipt 绑定 revision)，`replies.md` 记 comment 3bn8e (Draft 6)。本行原写「未回 → 待 voice gate」，**该结论作废**（stale ledger；以 `replies.md` 为准）
 
 ### [pre-reg] I Pre-Registered a Hypothesis. 600 API Calls Later, the Data Killed It.
 - **URL**: https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec
@@ -136,7 +146,7 @@
 - **主题**: 命名原则锚定→去关联前提→33 persona独立幻觉
 - **核心发现**: 33个persona同意≠33个独立判断；跨模型decorrelation测试才能验证专家团是否真独立
 - **关联评论者**: Mike Czerwinski
-- **回复状态**: 浏览器验证 2026-08-14 — 7-22 已回 (E1b costumes)，但 Mike 7-27 follow-up (premise-decorrelation/source-checkable citation 是否独立于 board 隐喻存活) 未回 → reply-drafts-2026-08-14.md Draft 4 已备，待 voice gate
+- **回复状态**: ✅ 7-22 已回 (E1b costumes)；Mike 7-27 follow-up (premise-decorrelation/source-checkable citation 是否独立于 board 隐喻存活) **亦已于 2026-08-14 发出**（`replies.md` 记 comment 3c0dd，Draft 4）。本行原写 follow-up「未回 → 待 voice gate」，**该结论作废**（stale ledger；以 `replies.md` 为准）
 
 
 ### [zero-output] Your AI Agent's Best Work Produces Zero Output — And That's the Point
@@ -214,6 +224,16 @@
 
 ---
 
+## 迁移/工程系列（1篇）
+
+### [agent-migration] My Agent Migration Finished. Every Gate Looked Wired. None of Them Ran.
+- **URL**: https://dev.to/yuhaolin2005/my-agent-migration-finished-every-gate-looked-wired-none-of-them-ran-k7b
+- **Published**: 2026-10-09
+- **Tags**: ai, agents, python, testing
+- **主题**: Agent 迁移——「拷贝 ≠ 接线」；每道门都在册，没有一道能跑
+
+---
+
 ## 论文章节→文章速查
 
 | 章节 | DEV.to 文章 |
@@ -234,4 +254,4 @@
 
 ---
 
-*最后更新: 2026-08-14 (浏览器验证回复状态: cross-model/expert-board 已回, audit-ctbv/150-tasks 未回草稿已备) — 31/31**
+*最后更新: 2026-10-11（平台计数 API 核验：`/api/articles` 返回 **33** 条已发布；新增 [agent-migration] 2026-10-09）| 评论口径见 `../devto/commenters.md` 与 job-asset-route-table*

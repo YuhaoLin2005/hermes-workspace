@@ -28,10 +28,10 @@
 | [AI Agents Can't Self-Verify](https://dev.to/yuhaolin2005/ai-agents-cant-self-verify-and-thats-a-structural-constraint-not-a-bug-1d7l) | [PAPER.md §3](PAPER.md) Prose Barrier | `prose-barrier` | [paper/A-devto-prose-barrier.md](paper/A-devto-prose-barrier.md) (原稿) |
 | [I Built a Neural Gate](https://dev.to/yuhaolin2005/i-built-a-neural-gate-for-my-ai-agent-layer-2-of-self-verification-6o2) | [PAPER.md §6.11](PAPER.md) Logprob V3 + §6.7 L2 | `logprob-probe-v3` | [paper/B-devto-neural-gate.md](paper/B-devto-neural-gate.md) (原稿) |
 | [I Ran 150 Tasks](https://dev.to/yuhaolin2005/i-ran-150-tasks-to-test-if-ai-agents-follow-rules-the-answer-surprised-me-2670) | [PAPER.md §6.5](PAPER.md) Format A/B + §6.12 GateGuard-OFF | `l1-visibility`, `gateguard-off` | [paper/C-devto-experiment.md](paper/C-devto-experiment.md) (原稿) |
-| [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) | [PAPER.md §6.11](PAPER.md) Logprob V3 (pilot→V3 story) | `logprob-probe-v3` | [experiment/logprob-v3/](experiment/logprob-v3/) |
+| [Measurement Was Broken](https://dev.to/yuhaolin2005/my-experiment-showed-zero-effect-a-statistician-told-me-my-measurement-was-broken-4g26) | [PAPER.md §6.11](PAPER.md) Logprob V3 (pilot→V3 story) | `logprob-probe-v3` | [experiment/logprob-v3/](paper/experiment/logprob-v3/) |
 | [Psychological Safety for AI](https://dev.to/yuhaolin2005/i-told-my-ai-youre-safe-to-say-i-dont-know-then-i-measured-what-changed-with-logprobs-986) | [PAPER.md §3.5](PAPER.md) L0 Safety | `l0-safety-prompt` | [devto/devto-safety-prompt-l0.md](devto/devto-safety-prompt-l0.md) |
 | [Follow-Up: Decision-Token](https://dev.to/yuhaolin2005/follow-up-decision-token-measurement-format-as-fallback-and-what-changed-18jo) | [PAPER.md §6.14](PAPER.md) L1-Visibility | `logprob-probe-v3`, `dissociation` | re-analysis of V3 data |
-| [I Pre-Registered a Hypothesis](https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec) | [PAPER.md §6.16](PAPER.md) P1-2 (600 trials) | `gateguard-off` | [experiment/experiment_mike_prose_gate.py](experiment/experiment_mike_prose_gate.py) |
+| [I Pre-Registered a Hypothesis](https://dev.to/yuhaolin2005/i-pre-registered-a-hypothesis-600-api-calls-later-the-data-killed-it-1aec) | [PAPER.md §6.16](PAPER.md) P1-2 (600 trials) | `gateguard-off` | [experiment/experiment_mike_prose_gate.py](paper/experiment/experiment_mike_prose_gate.py) |
 | [Your Feedback Made This Better](https://dev.to/yuhaolin2005/your-feedback-made-this-better-heres-what-changed-4ol2) | [PAPER.md §6.16](PAPER.md) P1-1, P1-2 | `gateguard-off`, `l1-visibility` | [supplementary/p1-followup-experiments.md](paper/supplementary/p1-followup-experiments.md) |
 | [I Built a Self-Referential AI](https://dev.to/yuhaolin2005/i-built-a-self-referential-ai-system-then-anthropic-discovered-the-same-architecture-in-claude-3m73) | [PAPER.md §3.4](PAPER.md) Strange Loop | `strange_loop` module | [layers/strange_loop.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/layers/strange_loop.py) |
 | Search Didn't Make Your LLM Dumber | [PAPER.md §3.1](PAPER.md) Context Engineering | — | — |
@@ -82,7 +82,7 @@
 | 实验 | 触发者 | 核心问题 | 数据 |
 |------|--------|---------|------|
 | **P1-1** (n=200) | Mike Czerwinski | "0.7% 残余违规聚类在门无法检测的任务上吗？" | [supplementary/p1-followup-experiments.md](paper/supplementary/p1-followup-experiments.md) |
-| **P1-2** (n=600) | Mike Czerwinski | "Prose rules + 机械门 = 两全其美？" | [data](experiment/mike_full_n30_trials.json) [script](experiment/experiment_mike_prose_gate.py) |
+| **P1-2** (n=600) | Mike Czerwinski | "Prose rules + 机械门 = 两全其美？" | [data](paper/experiment/mike_full_n30_trials.json) [script](paper/experiment/experiment_mike_prose_gate.py) |
 | **Deterministic scoring** | Dipankar Sarkar | "不用 LLM 判官——用 regex" | 所有后续实验采用 |
 | **SHA256 预注册** | Dipankar Sarkar | "SHA256 + provider timestamp 升级方案" | [pre_register.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/pre_register.py) |
 | **Mechanizability scanner** | Max Quimby | "门在哪一步从可门控变成只能轻推？" | [layers/mechanizability_scanner.py](https://github.com/YuhaoLin2005/paper-validator/blob/main/layers/mechanizability_scanner.py) |

@@ -22,6 +22,22 @@ PAPER = KB / "paper"
 CONTENT_PIPELINE = STRATEGY / "content-pipeline.md"
 CLAIMS = PAPER / "claims.md"
 RESEARCH = STRATEGY / "research-pipeline.md"
+
+# Every `depends_on:` key that may appear in content-pipeline.md, with its
+# disposition. A key NOT listed here is an ERROR — never a pass-through.
+#
+# ⛔ Why this table exists (2026-09-27): the two validators below match the
+#   LITERAL strings 'claim:' and 'experiment:'. A typo ('experimentt:') — or any
+#   new key type ('benchmark:', 'script:') — matches neither regex, produces zero
+#   errors, and main() still prints "all references intact". The exemption for
+#   'milestone:' was likewise a COMMENT, enforced by nothing: a misspelled
+#   'milestoen:' was silently as free as the real thing. A verifier that fails
+#   OPEN on input it does not recognise reports its own shape, not the world's.
+DEPENDS_ON_TYPES = {
+    'claim':      'validated',   # must exist in claims.md
+    'experiment': 'validated',   # must exist in research-pipeline.md
+    'milestone':  'exempt',      # future event, not yet a node — by design
+}
 DEVTO_ARTICLES = DEVTO / "articles.md"
 JUEJIN_ARTICLES = JUEJIN / "articles.md"
 COMMENTERS = DEVTO / "commenters.md"
@@ -74,7 +90,31 @@ def check_content_pipeline_deps():
         if eid and eid not in exp_ids:
             errors.append(f"content-pipeline: depends_on.experiment '{eid}' not found in research-pipeline.md")
 
-    # milestone-type depends_on = future event, no validation needed
+    # Key-type gate — runs BEFORE the two typed validators above so that an
+    # unrecognised key is reported even when the key it shadows would have passed.
+    # See DEPENDS_ON_TYPES for why this is an error and not a pass-through.
+    lines = text.splitlines()
+    for i, line in enumerate(lines):
+        m = re.match(r'^(\s*)depends_on:\s*$', line)
+        if not m:
+            continue
+        base_indent = len(m.group(1))
+        j = i + 1
+        while j < len(lines):
+            nxt = lines[j]
+            if not nxt.strip():
+                j += 1
+                continue
+            if len(nxt) - len(nxt.lstrip()) <= base_indent:
+                break  # dedent = end of this depends_on block
+            km = re.match(r'\s*([A-Za-z_][\w-]*)\s*:', nxt)
+            if km and km.group(1) not in DEPENDS_ON_TYPES:
+                errors.append(
+                    f"content-pipeline: depends_on key '{km.group(1)}' is not a recognized type "
+                    f"({', '.join(sorted(DEPENDS_ON_TYPES))}) — this reference is silently unvalidated"
+                )
+            j += 1
+
     # Legacy free-text depends_on (list format — deprecated)
     for dep in extract_yaml_field(text, 'depends_on'):
         if dep not in exp_ids and dep not in claim_slugs:

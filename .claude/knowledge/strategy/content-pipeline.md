@@ -61,9 +61,13 @@ content_queue:
       - "平行发明 x2：行业验证了我的方向，但暴露了我没测整体"
     claims: []
     priority: 1
-    status: waiting_for_benchmark
-    depends_on:
-      experiment: memory-benchmark        # O5 协议 v1 (2026-08-13)
+    status: ready
+    gate_met: "2026-08-13 O5 baseline 首次跑分——M1 12/12(100%) / M2 HOT 8/8 + WARM 18/19 / M3 自指环闭环 completions=23,detections=0 / M4 压缩 100% / M5 吸收 11/58(19%)。评分卡落 decisions/log.md:950，基线另写入 memory-benchmark.py 模块 docstring（decisions/log.md:960 裁决①）。"
+    # 原 depends_on.experiment: memory-benchmark 已解除（2026-09-27）。
+    # ⛔ 这不是豁免，是「门已满足」：trigger 是"O5 baseline 跑出后"，而 baseline 8/13 就跑出来了，
+    #    挂了 45 天没人发现。memory-benchmark 是记忆管线的**量表(instrument)**，不是论文实验节点，
+    #    所以它**不该**登记进 research-pipeline.md（那等于替用户声明研究方向）；
+    #    也不能改写成 milestone:（那类语义是"未来事件"，而此事已发生，且会把它移出校验范围）。
     dual_pool_design: [Jobs, Traynor, Cagan]
 ```
 
@@ -84,5 +88,5 @@ content_queue:
 4. 输出：2-3 个选题角度 + 每个角度的 hook → 用户选
 
 ---
-*最后更新: 2026-07-24*
+*最后更新: 2026-09-27*
 *交叉引用: [[../dashboard]] [[research-pipeline]] [[../devto/hot]]*

@@ -92,3 +92,5 @@ hot 条目必须通过:
 - domain: experiment|platform|config|architecture|narrative|tutorial|personal
 - claims: 每个 slug 在 paper/claims.md 中存在
 - status: active|superseded|historical
+
+**空 hot 状态（2026-08-27 补充）**: `articles: []` 表示当前无 ≤30d 文章（发布空窗期），L1 校验跳过七字段必填检查（_check_kb.py `empty_hot`）。hot 档在此状态下合法；有新文章发布后恢复登记。
