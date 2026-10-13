@@ -48,7 +48,7 @@ L1 is the load-bearing layer. `exit 2` cannot be argued with. L4 feeds compactio
 | # | Experiment | Design | Key result | Where |
 |---|-----------|--------|------------|-------|
 | 1 | L0 Safety Prompt | 40 probes, within-probe, logprob DV | Accuracy preserved; gains robust (r=+0.949) | [PAPER.md §3.5] |
-| 2 | Growth-log Retrospective | 34 sessions, longitudinal coding | 55.9%→0.7% with mechanical gate | [PAPER.md §6.2] |
+| 2 | Growth-log Retrospective | 34 sessions, longitudinal coding | Rule violations 55.9% (19/34 sessions) → 0.7% (1/150 gated tasks; different denominators) | [PAPER.md §6.2] |
 | 3 | Causal Swap | 30 tasks, between-subjects | OR=11.0, p=0.0092 | [PAPER.md §4] |
 | 4 | Logprob Probe V3 | 40 probes, within-probe, API logprob DV | d=+0.578, BF=282k | [PAPER.md §6.11] |
 | 5 | Format A/B | 150 tasks, between-subjects, 6 sessions | 99.3% compliance (ceiling effect) | [PAPER.md §6.5] |
@@ -101,11 +101,10 @@ python -m paper_validator claim --claim all --trials 30
 |---------|------|------------|
 | [paper-validator](https://github.com/YuhaoLin2005/paper-validator) | `python -m paper_validator claim --all` | Importable from hermes-workspace claims |
 | [compact-counter](https://github.com/YuhaoLin2005/compact-counter) | Compaction tracker | Found L8→L12 cliff in 459 production sessions |
-| [digital-twin-trainer](https://github.com/YuhaoLin2005/digital-twin-trainer) | QLoRA + DPO pipeline | ML approach to internalizing rules |
 | [training-gate](https://github.com/YuhaoLin2005/training-gate) | Behavioral drift detection | Companion finding: loss curves lie |
 
 ---
 
-📝 [DEV.to](https://dev.to/yuhaolin2005) (31 articles, EN) · [掘金](https://juejin.cn/user/4250072430682412) (中文) · [NAVIGATION.md](NAVIGATION.md) (article → paper → code map)
+📝 [DEV.to](https://dev.to/yuhaolin2005) (33 articles, EN) · [掘金](https://juejin.cn/user/4250072430682412) (中文) · [NAVIGATION.md](NAVIGATION.md) (article → paper → code map)
 
 MIT License

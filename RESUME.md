@@ -86,7 +86,7 @@ AI coding agent 长对话中遗忘规则、产出物缺验证、自我认知漂�
 - **技术栈**：PyTorch, QLoRA (bitsandbytes 4-bit + PEFT), Qwen2.5-1.5B, HuggingFace Transformers
 - **核心发现**：253 样本微调→loss 下降但行为质量崩塌→微调需要行为级评测指标，不能只看 loss
 - **产出**：behavioral_drift 指标（已提交 HuggingFace evaluate PR #778）
-- **仓库**：[github.com/YuhaoLin2005/digital-twin-trainer](https://github.com/YuhaoLin2005/digital-twin-trainer)
+- **公开工具**：把该发现做成 [training-gate](https://github.com/YuhaoLin2005/training-gate)——微调质量关卡 + 行为漂移检测
 
 ### compact-counter — 上下文压缩 sweet-spot 检测
 
@@ -117,14 +117,10 @@ AI coding agent 长对话中遗忘规则、产出物缺验证、自我认知漂�
 
 | 仓库 | 描述 | Stars |
 |------|------|:--:|
-| [gategrow](https://github.com/YuhaoLin2005/gategrow) | 确定性质量门禁（已合并入 ECC 228k★） | — |
+| [gategrow](https://github.com/YuhaoLin2005/gategrow) | 确定性质量门禁（已并入 ECC 开源主仓 · 277.9k★） | — |
 | [training-gate](https://github.com/YuhaoLin2005/training-gate) | 微调行为漂移检测 | — |
-| [imprint](https://github.com/YuhaoLin2005/imprint) | AI identity continuity protocol — 文件系统级会话持久化 | — |
-| [pre-pr-check](https://github.com/YuhaoLin2005/pre-pr-check) | PR 提交前质量检查工具 | — |
-| [compact-counter-concept](https://github.com/YuhaoLin2005/compact-counter-concept) | 上下文压缩理论分析 | — |
-| [open-source-flywheel](https://github.com/YuhaoLin2005/open-source-flywheel) | 个人 OSS 贡献方法论 | — |
-| [deepseek-claude-code-starter](https://github.com/YuhaoLin2005/deepseek-claude-code-starter) | DeepSeek V4 + Claude Code 脚手架 | 2 |
-| [gis-map-story](https://github.com/YuhaoLin2005/gis-map-story) | 交互式 GIS 叙事地图 (Baidu Maps WebGL API) | — |
+| [paper-validator](https://github.com/YuhaoLin2005/paper-validator) | 论文级 claim 审计运行器（Zenodo 论文的可复现入口） | — |
+| [deepseek-claude-code-starter](https://github.com/YuhaoLin2005/deepseek-claude-code-starter) | DeepSeek V4 + Claude Code 脚手架 | — |
 
 ---
 
